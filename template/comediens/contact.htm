@@ -1,0 +1,29 @@
+<!-- BEGIN ENVOYER -->
+<div align="center">
+<hr color="#CCFFCC" align="center" width="500"/>
+<font color="red" align="center"><i><b>{MESSAGE_ENVOYER}</b></i></font></div><br />
+<!-- END ENVOYER -->
+<hr color="#CCFFCC" align="center" width="500"/>
+<br /><form action="{ADMIN_NOM_PAGE}" method="post" name="form" target="_self" id="form">
+   <input type="hidden" name="submit" value="true">
+  <table width="650" valign="top" align="center" border="1" bordercolor="#339933" cellspacing="0">
+     <tr>
+      <td bgcolor="#ffffcc">Votre Mail<font color="#FF0000">*</font> :</td>
+      <td> <input name="mail" type="text" value="">
+        </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffcc">Objet<font color="#FF0000">*</font> :</td>
+      <td> <input name="objet" type="text" value="">
+        </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffcc">Votre message<font color="#FF0000">*</font> :</td>
+      <td> <textarea name="text" height="30" width="100"></textarea>
+        </td>
+    </tr>
+    <tr>
+      <td height="32" bgcolor="#ffffcc">&nbsp;</td>
+      <td><input name="submit" type="submit" value="Envoyer"></td>
+    </tr>
+  </table></form>
