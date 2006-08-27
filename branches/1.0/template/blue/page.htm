@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
+   <head>
+       <title>{TITRE}</title>
+       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	   <link href="{HOST_TEMP}2col-fixedwidth-float.css" media="screen" type="text/css" title="hautefeuille" rel="stylesheet" />
+		<script type="text/javascript"><!--//--><![CDATA[//><!--
+function titre(){
+				self.status = '{TITRE}';
+				return true;
+			}
+       setTimeout('titre()','10');
+sfUl = function () {
+	 var sfEls = document.getElementById("navigation").getElementsByTagName("UL");
+	for (var i=0; i<sfEls.length; i++) {
+		if (!sfEls[i].hasChildNodes())
+		{
+		   sfEls[i].style.display = 'none';
+		}
+	}
+}
+sfHover = function() {
+	var sfEls = document.getElementById("navigation").getElementsByTagName("LI");
+	for (var i=0; i<sfEls.length; i++) {
+		sfEls[i].onmouseover=function() {
+			this.className+=" sfhover";
+		}
+		sfEls[i].onmouseout=function() {
+			this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
+		}
+	}
+	sfUl();
+}
+if (window.attachEvent) window.attachEvent("onload", sfHover);
+else window.onload = sfUl;
+
+//--><!]]></script><!-- Menu deroulant -->
+{javascript}
+   </head>
+
+   <body>
+<div id="wrapper">
+
+<div id="imgleft">
+<div id="imgright"></div>
+
+<div id="container">
+
+<ul id="navigation">
+
+
+<!-- BEGIN MENU -->
+    <li><a href="{MENU_LIEN}" class="menu_top" title="{MENU_DESCRIPTION}"
+            OnMouseOver="window.status='{MENU_DESCRIPTION}';return true;" OnMouseOut="titre()" target="{MENU_TARGET}">{MENU_TITRE}</a>
+
+			<ul>{SOUS_MENU}</ul>
+
+    </li>
+<!-- END MENU -->
+<!-- BEGIN SUB_MENU -->
+	        <li><a href="{SUBMENU_LIEN}" title="{SUBMENU_DESCRIPTION}"
+					OnMouseOver="window.status='{SUBMENU_DESCRIPTION}';return true;" OnMouseOut="titre()" target="{SUBMENU_TARGET}">{SUBMENU_TITRE}</a>
+						<ul>{SUBMENU_SOUS}</ul>
+			</li>
+<!-- END SUB_MENU -->
+</ul>
+	</div>
+	</div>
+	</div></div>
+	<div id="content">
+
+
+		<h1>{TITRE_PAGE}</h1>
+
+		<blockquote id="blockquote">
+<p class="quoteBody">Nous sommes deux frères jumeaux.
+Nous sommes chacun dans une école d'ingénieur en informatique.</p>
+<p class="quoteCite"><a href="contact.php">Patrice et Emmanuel de Saint Steban</a></p>
+		</blockquote>
+
+           <p>{CONTENU}
+           </p>
+	</div>
+<div style="clear: both"></div>
+	<div id="footer">Copyright &copy; 2006 lesgrumels.fr</div>
+</div>
+</body>
+</html>

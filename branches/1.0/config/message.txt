@@ -1,0 +1,25 @@
+Vous pouvez mettre ici tous ce que vous voulez dire aux autres administrateurs.
+Comme les modifications, les questions, les erreures ... (ne pas oublier de sauvegarder après ;-) )
+
+
+L\'administration des Articles / Pages à été complétement refait !
+Un article peut être une catégorie (cocher la case) et ce rapporte à un autre article
+De plus on peut mettre des statuts sur les articles :
+- Redaction : On est en train de créer l\'article (ne pas le modifier, car il est pas finit
+- Correction : La redaction est finit, il faut maintenant le corriger ( Fautes, compléter)
+- Publier : l\'article est finit, il est donc visible dans le site (dans les autres cas, on ne peut pas      le voir)
+- Supprimer : On pense que l\'article devrais être supprimer (on l\'enlève donc du site, mais il n\'est pas supprimer) et on peut en parler avec les autres administrateurs sur cette article
+
+Sur chaque page, on voit l\'arborescence des articles, en cliquant dessus, on peut modifier le titre, le statut, la rubrique (il ne faut pas oublier de sauvegarder après ;-) )
+On peut aussi cliquer sur les icones habituelles : 
+- la croix rouge : Supprimer l\'article
+- l\'icone texte : Modifier l\'article
+- L\'horloge : L\'historique
+
+Une des nouveautés, est l\'historique :
+Toutes les modifications des articles sont enregistré, et mis dans un fichier différents (seulement la dernière modification  est affiché dans l\'article). En cliquant sur cette icone, on peut voir toute les modifications avec des commentaires pour chacune (qu\'il faut bien remplir quand on modifie un article) ainsi que la date. Il y a aussi plusieurs icone :
+- La croix rouge : Supprime la modification (pas l\'article complet, si la modification étais la dernière, une autre prend sa place)
+- L\'icone texte : Visionner la modification
+- La flèche vers le haut : Mettre cette modification comme la dernière (donc celle qui sera afficher)
+
+Voila merci de dire comment vous trouvez cette ammélioration ? qu\'ajouter ? que changer ? etc ...

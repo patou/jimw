@@ -1,0 +1,123 @@
+<html>
+<head>
+<title>{TITRE}</title>
+<script language='JavaScript'>
+function titre(){
+				self.status = '{TITRE}';
+				return true;
+			}
+       setTimeout('titre()','10');
+</script>
+{javascript}
+<style>
+body  {scrollbar-face-color:{COLOR1}; scrollbar-base-color: {COLOR1};
+scrollbar-shadow-color: {COLOR1}; scrollbar-highlight-color: {COLOR1};
+ scrollbar-track-color: {COLOR2};
+scrollbar-arrow-color: {COLOR2}}
+p { margin: 0px; padding: 0px; font-family : {FONT_FACE} ;color:{COLORTEXT1} ;}
+h1 { margin: 0px; padding: 0px; font-family : {FONT_FACE} ;color: {COLORTEXT1};}
+h3 { margin: 0px; padding: 0px; font-family : {FONT_FACE} ;color: {COLORTEXT1};}
+li { margin: 8px,0px; padding: 0px; font-family : {FONT_FACE} ;color: {COLORTEXT1};}
+hr { margin: 0px; padding: 0px; size: 50%;}
+#haut { cursor : n-resize ;}
+table { border-color : #FFFFFF ;}
+.titre { background-color : #CCFFCC ;font-weight:bold;color:red;padding:3px;font-size : 12pt ;}
+h2 { font-weight:bold;color:{COLORTEXT3};font-size : 15pt ;}
+.border { border-color : #CCCCCC ;}
+.menu:hover { color :{COLORTEXT3} ;margin: 12px,10px; padding: 0px; font-family : {FONT_FACE} ;text-decoration:underline;line-height: 1;}
+.menu { color : {COLORTEXT2} ;margin: 12px,10px; padding: 0px; font-family : {FONT_FACE} ; line-height: 1;text-decoration:none;font-weight:bold;}
+input.login { size: 2; }
+input { background-color:#FFFFFF;border:  groove black ; color: #FE7236; border-width:1.5px;}
+.SELECT {background-color:#FFFFFF;border: black; color: #FE7236;border-width:2px;}
+.menu2:hover { color : {COLORTEXT3} ;margin: 15px,10px; padding: 0px; font-family : {FONT_FACE} ;text-decoration:underline;line-height: 1;}
+.menu2 { color : {COLORTEXT2} ;margin: 15px,10px; padding: 1px; font-family :{FONT_FACE} ; line-height: 1;text-decoration:none;font-weight:bold;}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table id="Tableau_01" width="800" border="0" cellpadding="0" cellspacing="0" align="center">
+	<tr>
+		<td width="9" height="9">
+			<img src="{HOST_TEMP}images/template_05.gif" width="9" height="9" alt=""></td><br>
+		<td nowrap background="{HOST_TEMP}images/template_02.gif">
+			<img src="{HOST_TEMP}images/spacer.gif" width="1" height="9" alt=""></td>
+		<td width="9" height="9">
+			<img src="{HOST_TEMP}images/template_06.gif" width="9" height="9" alt=""></td>
+
+	</tr>
+	<tr>
+		<td nowrap width="9" background="{HOST_TEMP}images/template_08.gif">
+			<img src="{HOST_TEMP}images/spacer.gif" width="9" alt=""></td>
+		<td bgcolor="#5CB76D">
+<table width="751" border="0">
+            <tr>
+              <td width="651"><font face="Blackadder ITC,Arial" align="center" size="6">{TITRE}</font></td>
+              <td width="84"><img src="{HOST_TEMP}images/bischoffsheim.gif" width="103" height="82"></td>
+            </tr>
+			<tr>
+				<td colspan="2" align="left">
+					<table  border="0" cellpadding="0" cellspacing="0" id="onglets" align="right">
+	 					<tr><!-- BEGIN MENU -->
+							<td valign="top" bgcolor="#5CB76D" width="10" height="22">
+								<img src="{HOST_TEMP}images/onglets_01.gif" alt=""></td>
+							<td  rowspan="2" bgcolor="#FFCC00">			<a href="{MENU_LIEN}" class="menu" title="{MENU_DESCRIPTION}" OnMouseOver="window.status='{MENU_DESCRIPTION}';return true;" OnMouseOut="titre()">{MENU_TITRE}</a></td>
+							<td valign="top" bgcolor="#5CB76D" >
+						 		<img src="{HOST_TEMP}images/onglets_03.gif" width="10" height="22" alt=""></td>
+							<!-- END MENU -->
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+        </td>
+		<td nowrap background="{HOST_TEMP}images/template_10.gif" width="9">
+			<img src="{HOST_TEMP}images/spacer.gif" width="9" alt=""></td>
+	</tr>
+	<tr>
+		<td width="9" height="8">
+			<img src="{HOST_TEMP}images/template_11.gif" width="9" height="8" alt=""></td>
+		<td nowrap background="{HOST_TEMP}images/template_12.gif" height="8">
+			<img src="{HOST_TEMP}images/spacer.gif" width="1" height="1" alt=""></td>
+		<td width="9" height="8">
+			<img src="{HOST_TEMP}images/template_13.gif" width="9" height="8" alt=""></td>
+	</tr>
+	</table><br />
+<table width="800" border="0" cellpadding="0" cellspacing="0" align="center">
+	<tr>
+		<td height="15" width="17">
+			<img src="{HOST_TEMP}images/spacer.gif" height="15" width="17" alt=""></td>
+		<td height="15">
+			<img src="{HOST_TEMP}images/spacer.gif" height="15" width="1" alt=""></td>
+		<td height="15" width="17">
+			<img src="{HOST_TEMP}images/spacer.gif" width="17" height="15" alt=""></td>
+	</tr>
+	<tr height="17">
+		<td height="17" width="17" bgcolor="#FFFFED">
+			<img src="{HOST_TEMP}images/spacer.gif" height="15" width="17" alt=""></td>
+		<td height="17" bgcolor="#FFFFED">
+			<img src="{HOST_TEMP}images/spacer.gif" height="15" width="1" alt=""></td>
+		<td width="17" height="17">
+			<img src="{HOST_TEMP}images/template_17.gif" width="17" height="17" alt=""></td>
+	</tr>
+	<tr>
+		<td width="17" bgcolor="#FFFFED">
+			<img src="{HOST_TEMP}images/spacer.gif" height="1" width="17" alt=""></td>
+    <td  bgcolor="#FFFFED">{CONTENU}</td>
+		<td background="{HOST_TEMP}images/template_18.gif" width="17"><img src="{HOST_TEMP}images/spacer.gif" height="1"  width="9" alt="">
+	  </td>
+	</tr>
+	<tr>
+		<td width="17" height="13">
+			<img src="{HOST_TEMP}images/template_20.gif" width="17" height="13" alt=""></td>
+		<td background="{HOST_TEMP}images/template_21.gif" height="13">
+			<img src="{HOST_TEMP}images/spacer.gif" height="1" width="1" alt=""></td>
+		<td >
+			<img src="{HOST_TEMP}images/template_22.gif" width="17" height="13" alt=""></td>
+	</tr>
+	<tr>
+		<td colspan="3">
+	      <div align="center">{FOOT}</div></td>
+	</tr>
+</table>
+</body>
+</html>
