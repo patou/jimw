@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>{TITRE}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+{javascript}
+<meta name="keywords" content="{MOTSCLE}">
+<meta name="description" content="{DESCRIPTION}">
+<style type="text/css">
+<!--
+.titrepage {
+	font-size: 36px;
+	font-weight: bold;
+	color: #FF9900;
+	text-decoration: underline;
+	font-family: "Courier New", Courier, mono;
+}
+.menu, .menu:visited {
+	font-size: 14px;
+	color: #FFCC00;
+	font-family: "Courier New", Courier, mono;
+	font-weight: bold;
+	float: left;
+	clear: left;
+	height: auto;
+	width: auto;
+}
+.menu:hover {
+	font-size: 14px;
+	color: #FFCC00;
+	font-family: "Courier New", Courier, mono;
+	font-weight: bold;
+	float: left;
+	clear: left;
+	height: auto;
+	width: auto;
+	letter-spacing: 2px;
+}
+.titre {
+	color: #FF0000;
+	font-weight: bold;
+}
+.texte {color: #660000}
+hr {
+	color: #FF9900;
+	background-color: #FFCC00;
+}
+-->
+</style>
+</head>
+
+<body>
+<table width="800" border="0" align="center" cellspacing="0">
+  <tr>
+    <td width="186" height="132" bgcolor="#003300"><img src="{HOST_TEMP}images/logo.jpg" width="186" height="130"></td>
+    <td colspan="2" align="center" valign="middle" bgcolor="#003300"><span class="titrepage">{TITRE}</span></td>
+  </tr>
+  <tr>
+    <td height="22" colspan="3" bgcolor="#009900">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" bgcolor="#003300"><p>&nbsp;</p>
+	<p>
+	<!-- BEGIN MENU -->
+    <a href="{MENU_LIEN}" class="menu" title="{MENU_DESCRIPTION}" OnMouseOver="window.status='{MENU_DESCRIPTION}';return true;" OnMouseOut="titre()">&gt; {MENU_TITRE}</a><br /><br />
+	<!-- END MENU -->
+	</p>
+    <p class="menu">&nbsp;</p>
+    <p class="menu">&nbsp;</p>
+    <p class="menu">&nbsp;</p>
+    <p class="menu">&nbsp;</p></td>
+    <td width="38">&nbsp;</td>
+	<td width="650" align="left" valign="top" class="texte">
+	<div align="center">
+      <p class="titre">{TITRE_PAGE}</p> 
+	</div>
+	{CONTENU}</td>    
+  </tr>
+</table>
+<p align="center">{FOOT}<script type="text/javascript">
+<!--
+doc = document; d = new Date(); res = screen.width+"x"+screen.height; c = screen.colorDepth;
+src = 'http://campmej.webdynamit.net/stats/phpmyvisites.php?url='+escape(doc.location.pathname+doc.location.search);
+src += '&site=7&res='+res;
+src += '&siteh='+doc.location.hostname+'&c='+c+'&h='+d.getHours()+'&m='+d.getMinutes()+'&s='+d.getSeconds();
+doc.writeln('<img src="'+src+'&ref='+escape(doc.referrer)+'" alt="phpMyVisites" style="border:0" />');
+//-->
+</script></p>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<div align="center">
+<font color=red size=6 align="center">{TITRE_ALBUM}</font>
+<div align="left">
+{CHEMIN_ALBUM}</div>
+<div align="center">
+<!-- BEGIN LIST_ALBUM -->
+<a href="{NOM_PAGE}?album={ID_ALBUM}"><img src="{HOST_TEMP}/images/repertoire.gif" border=0>{NOM_ALBUM}</a>&nbsp;&nbsp;
+<!-- END LIST_ALBUM -->
+</div>
+<!-- BEGIN NO_PHOTO -->
+<hr color="#CCFFCC" align="center" width="500"/>
+<font color="red" align="center"><i><b>{PHOTOS_NOPHOTOS}</b></i></font><br />
+<!-- END NO_PHOTO -->
+<!-- BEGIN NO_PHOTO_BLOC -->
+<script language="javascript">
+
+function voir_img(chemin_img,hauteur,largeur){
+  var hauteur=hauteur ;
+  var largeur=largeur;
+  document.getElementById('photo_chargement').innerHTML = "";
+  document.getElementById('photo_image').innerHTML = "<img src=\""+chemin_img+"\" width=\""+largeur+"\" height=\""+hauteur+"\" alt=\"\" onclick=\"cacher_img();\" />";
+  document.getElementById('photo_image').style.display = 'block';
+}
+
+function cacher_img()
+{
+  document.getElementById('photo_chargement').innerHTML = "";
+  document.getElementById('photo_image').innerHTML = "";
+  document.getElementById('photo_titre').innerHTML = ""; 
+}
+
+function redim_image(url, height, width)
+{
+  var maxWidth = 600;
+  var maxHeight = 400;
+  document.getElementById('photo_chargement').innerHTML = "Chargement Terminé !";
+  var h = dH = height;
+  var w = dW = width;
+  if ((h >= maxHeight) || (w >= maxWidth)) {
+    if ((h >= maxHeight) && (w >= maxWidth)) {
+      if (h > w) {
+        dH = maxHeight;
+        dW = parseInt((w * dH) / h, 10);
+      } else {
+        dW = maxWidth;
+        dH = parseInt((h * dW) / w, 10);
+      }
+    } else if ((h > maxHeight) && (w < maxWidth)) {
+      dH = maxHeight;
+      dW = parseInt((w * dH) / h, 10);
+    } else if ((h < maxHeight) && (w > maxWidth)) {
+      dW = maxWidth;
+      dH = parseInt((h * dW) / w, 10);
+    }
+}
+voir_img(url,dH,dW);
+}
+function affi_image(url, titre)
+{
+  document.getElementById('photo_chargement').innerHTML = "Chargement de l'image ...";
+  document.getElementById('photo_image').innerHTML = "<img id=\"photo_image_id\" src=\""+url+"\" Onload=\"redim_image('"+url+"', this.height, this.width);\">";
+  if (navigator.appVersion.indexOf("MSIE") == -1)
+     document.getElementById('photo_image').style.display = 'none';
+  document.getElementById('photo_titre').innerHTML = "<b>" + titre + "</b>";
+}
+</script>
+<div id="photo_image"></div>
+<div id="photo_chargement"></div>
+<div id="photo_titre"></div>
+<div class="photo_conteneur">
+<!-- BEGIN PHOTO -->
+<div class="photo_miniature"><b><font face=$font_face size=$font_size_titre >{PHOTO_TITRE}</font></b>
+<br>
+<img border=0 width='{PHOTO_LARGEUR}' onclick="affi_image('{PHOTO_LIEN}', '{PHOTO_TITRE}');" height='{PHOTO_HAUTEUR}' src='{PHOTO_LIEN_IMAGE}' alt='{PHOTO_DESCRIPTION}'>
+</div>
+{PHOTO_FIN_LIGNE}
+<!-- END PHOTO -->
+<!-- BEGIN PHOTO_LIGNE_B -->
+<!-- END PHOTO_LIGNE_B -->
+</div>
+<div class="photo_navigation">
+<a href="photo.php{PHOTO_DEBUT_DEBUT}"><font face=verdana size=$font_size color=$couleur_texte>{PHOTO_DEBUT}</a> | </font>
+<!-- BEGIN PHOTO_PAGES -->
+[<a href='photo.php{PHOTO_DEBUT_VAL_PAGE}'>{PHOTO_PAGE}</a>]
+<!-- END PHOTO_PAGES -->
+&nbsp;|&nbsp;<a href="photo.php{PHOTO_DEBUT_VAL_FIN}"><font face=verdana size=$font_size color=$couleur_texte>{PHOTO_FIN}</font></a><br><br>
+<!-- BEGIN PHOTO_PRECEDENT_LIEN -->
+<a href="photo.php{PHOTO_DEBUT_PRECEDENT}"><font face=$font_face size=$font_size color=$couleur_texte>{PHOTO_PRECEDENT_TEXT}</font></a>
+<!-- END PHOTO_PRECEDENT_LIEN -->
+<!-- BEGIN PHOTO_PRECEDENT -->
+<font face=$font_face size=$font_size color=$couleur_texte>{PHOTO_PRECEDENT}</font>
+<!-- END PHOTO_PRECEDENT --> |
+<!-- BEGIN PHOTO_SUIVANT_LIEN -->
+<a href="photo.php{PHOTO_DEBUT_SUIVANT}"><font face=$font_face size=$font_size color=$couleur_texte>{PHOTO_SUIVANT_TEXT}</font></a>
+<!-- END PHOTO_SUIVANT_LIEN -->
+<!-- BEGIN PHOTO_SUIVANT -->
+<font face=$font_face size=$font_size color=$couleur_texte>{PHOTO_SUIVANT}</font>
+<!-- END PHOTO_SUIVANT -->
+<br>
+</div>
+<!-- END NO_PHOTO_BLOC -->
+</div>

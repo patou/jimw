@@ -1,0 +1,50 @@
+<div align="center">
+<font color=red size=6 align="center">{TITRE_ALBUM}</font>
+<form method="GET">
+<select name="album" ONCHANGE="this.form.submit();">
+<!-- BEGIN LIST_ALBUM -->
+<option value="{ID_ALBUM}" {SELECT_ALBUM}>{NOM_ALBUM}</option>
+<!-- END LIST_ALBUM -->
+</select>
+</form>
+<a href='photo.php?order=id&ad=ASC{PHOTO_URL1}' CLASS='menu'>v</a> {PHOTO_ORDER_ID} <a CLASS='menu' href='photo.php?order=id&ad=DESC{PHOTO_URL1}'>^</a>
+&nbsp;&nbsp;<a href='photo.php?order=nom&ad=ASC{PHOTO_URL1}' class='menu'>v</a> {PHOTO_ORDER_NOM} <a class='menu' href='photo.php?order=nom&ad=DESC{PHOTO_URL1}'>^</a>
+&nbsp;&nbsp;<a class='menu' href='photo.php?order=titre&ad=ASC{PHOTO_URL1}'>v</a> {PHOTO_ORDER_TITRE} <a  class='menu' href='photo.php?order=titre&ad=DESC{PHOTO_URL1}'>^</a><br />
+<!-- BEGIN NO_PHOTO -->
+
+<hr color="#CCFFCC" align="center" width="500"/>
+<font color="red" align="center"><i><b>{PHOTOS_NOPHOTOS}</b></i></font><br />
+<!-- END NO_PHOTO -->
+<!-- BEGIN NO_PHOTO_BLOC -->
+<table border=0 cellspacing=5><tr valign=custom>
+<!-- BEGIN PHOTO -->
+<td><p align='center'>&nbsp;&nbsp;<b><font face=$font_face size=$font_size_titre >{PHOTO_TITRE}</font></b>
+<br><a href='{PHOTO_LIEN}' title='{PHOTO_DESCRIPTION}'><img border=0 width='{PHOTO_LARGEUR}' height='{PHOTO_HAUTEUR}' src='{PHOTO_LIEN_IMAGE}' alt='{PHOTO_DESCRIPTION}'></a>
+<br>
+</p></td>
+{PHOTO_FIN_LIGNE}
+<!-- END PHOTO -->
+<!-- BEGIN PHOTO_LIGNE_B -->
+</tr><tr valign=custom>
+<!-- END PHOTO_LIGNE_B -->
+</td></tr></table></center>
+<a href="photo.php{PHOTO_DEBUT_DEBUT}"><font face=verdana size=$font_size color=$couleur_texte>{PHOTO_DEBUT}</a> | </font>
+<!-- BEGIN PHOTO_PAGES -->
+[<a href='photo.php{PHOTO_DEBUT_VAL_PAGE}'>{PHOTO_PAGE}</a>]
+<!-- END PHOTO_PAGES -->
+&nbsp;|&nbsp;<a href="photo.php{PHOTO_DEBUT_VAL_FIN}"><font face=verdana size=$font_size color=$couleur_texte>{PHOTO_FIN}</font></a><br><br>
+<!-- BEGIN PHOTO_PRECEDENT_LIEN -->
+<a href="photo.php{PHOTO_DEBUT_PRECEDENT}"><font face=$font_face size=$font_size color=$couleur_texte>{PHOTO_PRECEDENT_TEXT}</font></a>
+<!-- END PHOTO_PRECEDENT_LIEN -->
+<!-- BEGIN PHOTO_PRECEDENT -->
+<font face=$font_face size=$font_size color=$couleur_texte>{PHOTO_PRECEDENT}</font>
+<!-- END PHOTO_PRECEDENT --> |
+<!-- BEGIN PHOTO_SUIVANT_LIEN -->
+<a href="photo.php{PHOTO_DEBUT_SUIVANT}"><font face=$font_face size=$font_size color=$couleur_texte>{PHOTO_SUIVANT_TEXT}</font></a>
+<!-- END PHOTO_SUIVANT_LIEN -->
+<!-- BEGIN PHOTO_SUIVANT -->
+<font face=$font_face size=$font_size color=$couleur_texte>{PHOTO_SUIVANT}</font>
+<!-- END PHOTO_SUIVANT -->
+<br>
+<!-- END NO_PHOTO_BLOC -->
+</div>

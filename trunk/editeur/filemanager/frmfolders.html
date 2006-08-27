@@ -1,0 +1,68 @@
+<!--
+ * FCKeditor - The text editor for internet
+ * Copyright (C) 2003-2004 Frederico Caldeira Knabben
+ * 
+ * Licensed under the terms of the GNU Lesser General Public License:
+ * 		http://www.opensource.org/licenses/lgpl-license.php
+ * 
+ * For further information visit:
+ * 		http://www.fckeditor.net/
+ * 
+ * File Name: frmfolders.html
+ * 	This page shows the list of folders available in the parent folder 
+ * 	of the current folder.
+ * 
+ * Version:  2.0 Beta 2
+ * Modified: 2004-06-19 01:03:21
+ * 
+ * File Authors:
+ * 		Frederico Caldeira Knabben (fredck@fckeditor.net)
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<link href="Browser.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="../dhtmlXCommon.js"></script>
+<script type="text/javascript" src="../dhtmlXTree.js"></script>
+
+	</head>
+	<body class="FileArea" bottomMargin="10" leftMargin="10" topMargin="10" rightMargin="10">
+		<div id="treeBox"></div>
+<script> 
+ var tree = new dhtmlXTreeObject(document.getElementById("treeBox"),"100%","100%",0);
+ function getfolderPath(id)
+ {
+   var path = '';
+   while(id != 0)
+   {
+      path = tree.getItemText(id) + '/' + path;
+	  id = tree.getParentId(id);	
+   }
+   path = '/' + path;
+   return path;
+ } 
+ function doOnSelect(folderPath)
+ {
+    window.parent.frames['frmActualFolder'].SetCurrentFolder( window.top.ResourceType, getfolderPath(folderPath) ) ;
+	window.parent.frames['frmCreateFolder'].SetCurrentFolder( window.top.ResourceType, folderPath ) ;
+	window.parent.frames['frmUpload'].SetCurrentFolder( window.top.ResourceType, folderPath ) ;
+	
+	// Load the resources list for this folder.
+	window.parent.frames['frmResourcesList'].LoadResources( window.top.ResourceType, folderPath ) ;
+ }
+ function LoadFolders( folderPath )
+{
+	tree.selectItem(folderPath,true);		
+	//tree.refreshItem(folderPath);
+}
+ tree.setImagePath("./images/");
+ tree.setStdImages("Folder.gif","FolderOpened.gif","Folder.gif"); 
+ tree.enableCheckBoxes(false); 
+ tree.enableDragAndDrop(false);
+ tree.setOnClickHandler(doOnSelect);
+ tree.loadXML('./connectors/connector.php?Command=GetFolders');
+ 
+</script>
+	</body>
+</html>
