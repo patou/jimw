@@ -1,5 +1,15 @@
 <?php
-class jimw_version
+/**
+ * JIMW
+ *
+ * @author	    Patou
+ * @category   Jimw_Core
+ * @package    Jimw
+ * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @license    http://www.jimw.fr
+ * @version    $Id: Data.php 2797 2007-01-16 01:35:30Z patou $
+ */
+class Jimw_Version
 {
 	/** @var string Product */
 	public $product = 'JIMW';
@@ -25,6 +35,7 @@ class jimw_version
 	{
 		return $this->product . ' ' . $this->major_version . '.' . $this->minor_version . ' ' . $this->dev_version;
 	}
+	
 	/**
 	 * Return a string of the version
 	 *
@@ -34,6 +45,7 @@ class jimw_version
 	{
 		return $this->major_version . '.' . $this->minor_version;
 	}
+	
 	/**
 	 * Return the copyright string
 	 *
@@ -43,6 +55,7 @@ class jimw_version
 	{
 		return 'Copyright (C) 2006 ' . $this->company . '. All rights Reserved.';
 	}
+	
 	/**
 	 * Return the php version
 	 *
@@ -52,6 +65,7 @@ class jimw_version
 	{
 		return phpversion();
 	}
+	
 	/**
 	 * Test if an php extention is loaded
 	 *

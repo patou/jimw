@@ -1,8 +1,18 @@
 <?php
 /**
+ * JIMW
+ *
+ * @author	    Patou
+ * @category   Jimw_Core
+ * @package    Jimw_Module
+ * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @license    http://www.jimw.fr
+ * @version    $Id: Data.php 2797 2007-01-16 01:35:30Z patou $
+ */
+/**
  * Class interface for a Module
  */
-abstract class jimw_module
+abstract class Jimw_Module
 {
 	public $id;
 	public $config;

@@ -1,14 +1,16 @@
 <?php
 /**
- * jimw_mail.class.php
+ * JIMW
  *
- * @author Patrice de Saint Steban
- * @copyright JIMW
- * @package JIMW
- * @version 2.0
+ * @author	    Patou
+ * @category   Jimw_Core
+ * @package    Jimw_Mail
+ * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @license    http://www.jimw.fr
+ * @version    $Id: Data.php 2797 2007-01-16 01:35:30Z patou $
  */
 
-class jimw_mail
+class Jimw_Mail
 {
 	private $to = '';
 	private $subject = '';
