@@ -38,7 +38,7 @@ abstract class Jimw_Data
 	 * @param string or data $name The column name in the database (may be a list)
 	 * @param array $options Option for data
 	 */
-	public function __construct ($name,array $options)
+	public function __construct ($name, array $options)
 	{
 		$this->name = $name;
 		$this->options = $options;
