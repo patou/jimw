@@ -1,9 +1,15 @@
 <?php
 /**
- * JIMW_EXCEPTION
+ * JIMW
  *
+ * @author	    Patou
+ * @category   Jimw_Core
+ * @package    Jimw
+ * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @license    http://www.jimw.fr
+ * @version    $Id: Data.php 2797 2007-01-16 01:35:30Z patou $
  */
-class jimw_exception extends Exception
+class Jimw_Exception extends Exception
 {
 	/**
 	 * contructor

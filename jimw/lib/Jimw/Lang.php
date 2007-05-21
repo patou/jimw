@@ -1,9 +1,15 @@
 <?php
 /**
- * JIMW_LANG
- * @package JIMW
+ * JIMW
+ *
+ * @author	    Patou
+ * @category   Jimw_Core
+ * @package    Jimw
+ * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @license    http://www.jimw.fr
+ * @version    $Id: Data.php 2797 2007-01-16 01:35:30Z patou $
  */
-class jimw_lang implements ArrayAccess
+class Jimw_Lang implements ArrayAccess
 {
 	public  $_l = array();
 	private $_f = array();
