@@ -1,3 +1,3 @@
 <?php
-print $_REQUEST["str"];
+print $_SERVER["REQUEST_URI"];
 ?>
