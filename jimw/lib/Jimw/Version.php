@@ -7,7 +7,7 @@
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
- * @version    $Id: Data.php 2797 2007-01-16 01:35:30Z patou $
+ * @version    $Id:  $
  */
 class Jimw_Version
 {
@@ -21,7 +21,7 @@ class Jimw_Version
 	public $major_version = 2;
 	/** @var int Minor version number */
 	public $minor_version = 0;
-	/** @var int Develper version number */
+	/** @var int Developer version number */
 	public $dev_version = 'Alpha 1';
 	/** @var int Revision version number */
 	public $revision = '$Revision: $';
