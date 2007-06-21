@@ -9,7 +9,8 @@
  * @license    http://www.jimw.fr
  * @version    $Id:  $
  */
-error_reporting(E_ALL|E_STRICT);
+if (!empty($jimw_debug_mode))
+	error_reporting(E_ALL|E_STRICT);
 if (file_exists('config/global.php'))
 	include('config/global.php');
 if (empty($JIMW_REP))
@@ -21,9 +22,15 @@ try {
 	new Jimw_Controler ();
 }
 catch (Zend_Exception $e) {
-	echo $e->getMessage();
+	if (!empty($jimw_debug_mode))
+		echo $e->getMessage();
+	else
+		echo 'error'; /** @todo Change it to more friendly error*/
 }
 catch (Exception $e) {
-	echo $e->getMessage();
+	if (!empty($jimw_debug_mode))
+		echo $e->getMessage();
+	else
+		echo 'error'; /** @todo Change it to more friendly error*/
 }
 ?>
