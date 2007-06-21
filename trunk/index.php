@@ -12,9 +12,16 @@
 /**
  * @var $JIMW_REP The path to Jimw root installation (with / at the end)
  */
-$JIMW_REP = 'jimw/';
+$JIMW_REP = './jimw/';
 /**
  * Include the main file of Jimw
  */
 include($JIMW_REP . 'Jimw.php')
 ?>
+<pre>
+<?php
+//test rewrite url
+print $_SERVER["REQUEST_URI"];
+print_r ($_SERVER);
+?>
+</pre>

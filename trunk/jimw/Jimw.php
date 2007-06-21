@@ -14,12 +14,11 @@ if (!empty($jimw_debug_mode))
 if (file_exists('config/global.php'))
 	include('config/global.php');
 if (empty($JIMW_REP))
-	$JIMW_REP = 'jimw/';
-set_include_path($JIMW_REP . '/lib' . PATH_SEPARATOR . $JIMW_REP . PATH_SEPARATOR . get_include_path()); 
+	$JIMW_REP = './jimw/';
+set_include_path($JIMW_REP . 'lib' . PATH_SEPARATOR . 'lib' . PATH_SEPARATOR . $JIMW_REP . PATH_SEPARATOR . get_include_path()); 
 require_once('Zend/Loader.php');
 spl_autoload_register(array('Zend_Loader', 'autoload'));
 try {
-	new Jimw_Controler ();
 }
 catch (Zend_Exception $e) {
 	if (!empty($jimw_debug_mode))
@@ -33,4 +32,5 @@ catch (Exception $e) {
 	else
 		echo 'error'; /** @todo Change it to more friendly error*/
 }
+
 ?>
