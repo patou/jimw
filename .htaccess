@@ -1,2 +1,7 @@
+#Activate the Rewrite Engine (you must have the rewrite_mode enabled)
 RewriteEngine on
-RewriteRule !^public/(.*) index.php5
+RewriteBase /jimw
+#Rewrite all url to the main index file
+# Change the main url file with the server configuration
+RewriteRule !\.php$ /jimw/index.php
+
