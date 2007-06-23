@@ -7,7 +7,7 @@
 		<watches/>
 	</project_entity>
 	<project_entity ID="SourceControl">
-		<encodingStyle value="CVS"/>
+		<encodingStyle value="Subversion"/>
 	</project_entity>
 	<project_entity ID="project_roots">
 		<vfile name="D:\manu\site internet\jimw\jimw"/>
@@ -26,16 +26,20 @@
 			<SubversionCommand commandType="resolve"/>
 		</svnCmdArguments>
 	</project_entity>
-	<project_entity ID="editor_component" selectedEditor="6">
+	<project_entity ID="editor_component" selectedEditor="11">
 		<openEditors>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Data\String.php" caretPosition="5" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Exception.php" caretPosition="499" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Lang.php" caretPosition="655" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Mail.php" caretPosition="91" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Module.php" caretPosition="93" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Version.php" caretPosition="6" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\Jimw.php" caretPosition="672" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\index.php" caretPosition="333" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Global\Request.php" caretPosition="436" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Request\Http.php" caretPosition="18374" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\Jimw.php" caretPosition="1376" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Global\Controller.php" caretPosition="1047" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\config\global.php" caretPosition="840" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Global\Router.php" caretPosition="1624" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Router\Rewrite.php" caretPosition="7924" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Router\Interface.php" caretPosition="1125" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Router\Abstract.php" caretPosition="4040" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Dispatcher\Standard.php" caretPosition="11892" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Dispatcher\Abstract.php" caretPosition="2461" clone="false" encoding="default"/>
+			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Dispatcher\Interface.php" caretPosition="5278" clone="false" encoding="default"/>
 		</openEditors>
 	</project_entity>
 	<project_entity ID="CVS">

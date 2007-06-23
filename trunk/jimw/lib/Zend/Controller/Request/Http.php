@@ -349,7 +349,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
          
         $this->_requestUri = $requestUri; 
         return $this;
-    } 
+    }
      
     /**
      * Returns the REQUEST_URI taking into account
@@ -361,10 +361,10 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
     { 
         if (empty($this->_requestUri)) { 
             $this->setRequestUri(); 
-        } 
+        }
          
         return $this->_requestUri; 
-    } 
+    }
      
     /**
      * Set the base URL of the request; i.e., the segment leading to the script name
