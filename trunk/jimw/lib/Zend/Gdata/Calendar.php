@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Zend Framework
  *
@@ -19,23 +20,32 @@
  */
 
 /**
- * Zend_Gdata
+ * @see Zend_Gdata
  */
 require_once('Zend/Gdata.php');
 
 /**
- * Zend_Gdata_Data
+ * @see Zend_Gdata_Calendar_EventFeed
  */
-require_once('Zend/Gdata/Data.php');
+require_once('Zend/Gdata/Calendar/EventFeed.php');
 
 /**
- * Zend_Gdata_InvalidArgumentException
+ * @see Zend_Gdata_Calendar_EventEntry
  */
-require_once('Zend/Gdata/InvalidArgumentException.php');
+require_once('Zend/Gdata/Calendar/EventEntry.php');
 
 /**
- * Gdata Calendar
- *
+ * @see Zend_Gdata_Calendar_ListFeed
+ */
+require_once('Zend/Gdata/Calendar/ListFeed.php');
+
+/**
+ * @see Zend_Gdata_Calendar_ListEntry
+ */
+require_once('Zend/Gdata/Calendar/ListEntry.php');
+
+/**
+ * Service class for interacting with the Google Calendar data API 
  * @link http://code.google.com/apis/gdata/calendar.html
  *
  * @category   Zend
@@ -45,336 +55,102 @@ require_once('Zend/Gdata/InvalidArgumentException.php');
  */
 class Zend_Gdata_Calendar extends Zend_Gdata
 {
-    const CALENDAR_FEED_URI = 'http://www.google.com/calendar/feeds';
-    const CALENDAR_POST_URI = 'http://www.google.com/calendar/feeds/default/private/full';
 
-    protected $_defaultPostUri = self::CALENDAR_POST_URI;
+    const CALENDAR_FEED_URI = 'http://www.google.com/calendar/feeds';
+    const CALENDAR_EVENT_FEED_URI = 'http://www.google.com/calendar/feeds/default/private/full';
+    const AUTH_SERVICE_NAME = 'cl';
+
+    protected $_defaultPostUri = self::CALENDAR_EVENT_FEED_URI;
+
+    public static $namespaces = array(
+            'gCal' => 'http://schemas.google.com/gCal/2005');
 
     /**
      * Create Gdata_Calendar object
      */
     public function __construct($client = null)
     {
+        $this->registerPackage('Zend_Gdata_Calendar');
+        $this->registerPackage('Zend_Gdata_Calendar_Extension');
         parent::__construct($client);
-        $this->_httpClient->setParameterPost('service', 'cl');
+        $this->_httpClient->setParameterPost('service', self::AUTH_SERVICE_NAME);
     }
 
     /**
      * Retreive feed object
      *
-     * @return Zend_Feed
+     * @param mixed $location The location for the feed, as a URL or Query
+     * @return Zend_Gdata_Calendar_EventFeed
      */
-    public function getCalendarFeed($uri = null)
+    public function getCalendarEventFeed($location = null)
     {
-        if ($uri == null) {
-            $uri = self::CALENDAR_FEED_URI;
-        }
-        if (isset($this->_params['_user'])) {
-            $uri .= '/' . $this->_params['_user'];
+        if ($location == null) {
+            $uri = self::CALENDAR_EVENT_FEED_URI;
+        } else if ($location instanceof Zend_Gdata_Query) {
+            $uri = $location->getQueryUrl();
         } else {
-            $uri .= '/default';
+            $uri = $location;
         }
-        if (isset($this->_params['_visibility'])) {
-            $uri .= '/' . $this->_params['_visibility'];
-        } else {
-            $uri .= '/public';
-        }
-        if (isset($this->_params['_projection'])) {
-            $uri .= '/' . $this->_params['_projection'];
-        } else {
-            $uri .= '/full';
-        }
-        if (isset($this->_params['_event'])) {
-            $uri .= '/' . $this->_params['_event'];
-            if (isset($this->_params['_comments'])) {
-                $uri .= '/comments/' . $this->_params['_comments'];
-            }
-        }
-
-        $uri .= $this->getQueryString();
-        return parent::getFeed($uri);
+        return parent::getFeed($uri, 'Zend_Gdata_Calendar_EventFeed');
     }
+
+    /**
+     * Retreive entry object
+     *
+     * @return Zend_Gdata_Calendar_EventEntry
+     */
+    public function getCalendarEventEntry($location = null)
+    {
+        if ($location == null) {
+            require 'Zend/Gdata/App/InvalidArgumentException';
+            throw new Zend_Gdata_App_InvalidArgumentException(
+                    'Location must not be null');
+        } else if ($location instanceof Zend_Gdata_Query) {
+            $uri = $location->getQueryUrl();
+        } else {
+            $uri = $location;
+        }
+        return parent::getEntry($uri, 'Zend_Gdata_Calendar_EventEntry');
+    }
+
 
     /**
      * Retrieve feed object
      *
-     * @return Zend_Feed
+     * @return Zend_Gdata_Calendar_ListFeed
      */
     public function getCalendarListFeed()
     {
-        $uri = self::CALENDAR_FEED_URI;
-        if (isset($this->_params['_user'])) {
-            $uri .= '/' . $this->_params['_user'];
+        $uri = self::CALENDAR_FEED_URI . '/default';
+        return parent::getFeed($uri,'Zend_Gdata_Calendar_ListFeed');
+    }
+
+    /**
+     * Retreive entryobject
+     *
+     * @return Zend_Gdata_Calendar_ListEntry
+     */
+    public function getCalendarListEntry($location = null)
+    {
+        if ($location == null) {
+            require 'Zend/Gdata/App/InvalidArgumentException';
+            throw new Zend_Gdata_App_InvalidArgumentException(
+                    'Location must not be null');
+        } else if ($location instanceof Zend_Gdata_Query) {
+            $uri = $location->getQueryUrl();
         } else {
-            $uri .= '/default';
+            $uri = $location;
         }
-        return parent::getFeed($uri);
+        return parent::getEntry($uri,'Zend_Gdata_Calendar_ListEntry');
     }
 
-    /**
-     * @param string $value
-     */
-    public function setComments($value)
+    public function insertEvent($event, $uri=null)
     {
-        $this->comments = $value;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setEvent($value)
-    {
-        $this->event = $value;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setStartMax($value)
-    {
-        $this->startMax = $value;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setStartMin($value)
-    {
-        $this->startMin = $value;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setOrderby($value)
-    {
-        $this->orderby = $value;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setProjection($value)
-    {
-        $this->projection = $value;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setUser($value)
-    {
-        $this->user = $value;
-    }
-
-    /**
-     * @return string visibility
-     */
-    public function setVisibility($value)
-    {
-        $this->visibility = $value;
-    }
-
-    /**
-     * @return string comments
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
-
-    /**
-     * @return string event
-     */
-    public function getEvent()
-    {
-        return $this->event;
-    }
-
-    /**
-     * @return string startMax
-     */
-    public function getStartMax()
-    {
-        return $this->startMax;
-    }
-
-    /**
-     * @return string startMin
-     */
-    public function getStartMin()
-    {
-        return $this->startMin;
-    }
-
-    /**
-     * @return string orderBy
-     */
-    public function getOrderby()
-    {
-        return $this->orderby;
-    }
-
-    /**
-     * @return string projection
-     */
-    public function getProjection()
-    {
-        return $this->projection;
-    }
-
-    /**
-     * @return string user
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @return string visibility
-     */
-    public function getVisibility()
-    {
-        return $this->visibility;
-    }
-
-    /**
-     * @param string $var
-     * @param string $value
-     * @throws Zend_Gdata_InvalidArgumentException
-     */
-    protected function __set($var, $value)
-    {
-        switch ($var) {
-            case 'startMin':
-                $var = 'start-min';
-                $value = $this->formatTimestamp($value);
-                break;
-            case 'startMax':
-                $var = 'start-max';
-                $value = $this->formatTimestamp($value);
-                break;
-            case 'visibility':
-            case 'projection':
-                if (!Zend_Gdata_Data::isValid($value, $var)) {
-                    throw new Zend_Gdata_InvalidArgumentException("Unsupported $var value: '$value'");
-                }
-                $var = "_$var";
-                break;
-            case 'orderby':
-                if (!Zend_Gdata_Data::isValid($value, 'orderby#calendar')) {
-                    throw new Zend_Gdata_InvalidArgumentException("Unsupported $var value: '$value'");
-                }
-                break;
-            case 'user':
-                $var = '_user';
-                // @todo: validate user value
-                break;
-            case 'event':
-                $var = '_event';
-                // @todo: validate event value
-                break;
-            case 'comments':
-                $var = '_comments';
-                // @todo: validate comments subfeed value
-                break;
-            default:
-                // other params are handled by parent
-                break;
+        if ($uri == null) {
+            $uri = $this->_defaultPostUri;
         }
-        parent::__set($var, $value);
-    }
-
-    protected function __get($var)
-    {
-        switch ($var) {
-            case 'startMin':
-                $var = 'start-min';
-                break;
-            case 'startMax':
-                $var = 'start-max';
-                break;
-            case 'visibility':
-                $var = '_visibility';
-                break;
-            case 'projection':
-                $var = '_projection';
-                break;
-            case 'user':
-                $var = '_user';
-                break;
-            case 'event':
-                $var = '_event';
-                break;
-            case 'comments':
-                $var = '_comments';
-                break;
-            default:
-                break;
-        }
-        return parent::__get($var);
-    }
-
-    protected function __isset($var)
-    {
-        switch ($var) {
-            case 'startMin':
-                $var = 'start-min';
-                break;
-            case 'startMax':
-                $var = 'start-max';
-                break;
-            case 'visibility':
-                $var = '_visibility';
-                break;
-            case 'projection':
-                $var = '_projection';
-                break;
-            case 'user':
-                $var = '_user';
-                break;
-            case 'event':
-                $var = '_event';
-                break;
-            case 'comments':
-                $var = '_comments';
-                break;
-            default:
-                break;
-        }
-        return parent::__isset($var);
-    }
-
-    protected function __unset($var)
-    {
-        switch ($var) {
-            case 'startMin':
-                $var = 'start-min';
-                break;
-            case 'startMax':
-                $var = 'start-max';
-                break;
-            case 'visibility':
-                $var = '_visibility';
-                break;
-            case 'projection':
-                $var = '_projection';
-                break;
-            case 'user':
-                $var = '_user';
-                break;
-            case 'event':
-                $var = '_event';
-                break;
-            case 'comments':
-                $var = '_comments';
-                break;
-            default:
-                break;
-        }
-        return parent::__unset($var);
+        $newEvent = $this->insertEntry($event, $uri, 'Zend_Gdata_Calendar_EventEntry');
+        return $newEvent;
     }
 
 }
-
