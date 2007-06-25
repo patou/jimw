@@ -2,12 +2,12 @@
 /**
  * JIMW
  *
- * @author	    Patou
+ * @author	   Patou
  * @category   Jimw_Core
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
- * @version    $Id:  $
+ * @version    $Id$
  */
 class Jimw_Version
 {

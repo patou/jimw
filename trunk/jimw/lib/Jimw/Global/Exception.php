@@ -1,6 +1,6 @@
 <?php
 /**
- * JIMW
+ * Jimw_Exception
  *
  * @author	    Patou
  * @category   Jimw_Core
@@ -9,8 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Exception extends Exception
+class Jimw_Global_Exception extends Jimw_Exception
 {
-
 }
 ?>

@@ -7,16 +7,17 @@
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
- * @version    $Id:  $
+ * @version    $Id$
  */
 class Jimw_Global_Request extends Zend_Controller_Request_Http
 {
-	private $_domaineName = "";
-	private $_subDomaine = "";
-	private $_domainePort = "";
-	private $_domaineProtocol = "";
+	private $_domainName = "";
+	private $_subDomain = "";
+	private $_domainPort = "";
+	private $_domainProtocol = "";
 	private $_path = "";
 	private $_pageAlias = "";
+	private $_tree = null;
 	
 	/**
      * Constructor
@@ -32,7 +33,6 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	{
 		parent::__construct($uri);
 		$this->setDomains();
-		$this->setPath();
 	}
 	
 	/**
@@ -40,9 +40,41 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	 *
 	 * @return string The sub domain
 	 */
-	public function getSubDomaine ()
+	public function getSubDomain ()
 	{
-		return $this->_subDomaine;
+		return $this->_subDomain;
+	}
+
+	/**
+	 * Set the sub domain name
+	 *
+	 * @return Jimw_Global_Request 
+	 */
+	public function setSubDomain ($pageAlias)
+	{
+		$this->_pageAlias = $pageAlias;
+		return $this;
+	}
+	
+	/**
+	 * Return the tree
+	 *
+	 * @return Jimw_Tree
+	 */
+	public function getTree ()
+	{
+		return $this->_tree;
+	}
+
+	/**
+	 * Set the tre
+	 *
+	 * @return Jimw_Global_Request 
+	 */
+	public function setTree ($tree)
+	{
+		$this->_tree = $tree;
+		return $this;
 	}
 	
 	/**
@@ -52,9 +84,19 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	 */
 	public function getDomainName ()
 	{
-		return $this->_domaineName;
+		return $this->_domainName;
 	}
 
+	/**
+	 * Set the domain name
+	 *
+	 * @return Jimw_Global_Request 
+	 */
+	public function setDomainName ($domain)
+	{
+		$this->_domainName = $domain;
+		return $this;
+	}
 		
 	/**
 	 * Return the domains port
@@ -63,7 +105,18 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	 */
 	public function getDomainPort ()
 	{
-		return $this->_domainePort;
+		return $this->_domainPort;
+	}
+
+	/**
+	 * Set the domain port
+	 *
+	 * @return Jimw_Global_Request 
+	 */
+	public function setDomainPort ($port)
+	{
+		$this->_domainPort = $port;
+		return $this;
 	}
 
 	/**
@@ -73,7 +126,18 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	 */
 	public function getDomainProtocol ()
 	{
-		return $this->_domaineProtocol;
+		return $this->_domainProtocol;
+	}
+
+	/**
+	 * Set the domain protocol
+	 *
+	 * @return Jimw_Global_Request 
+	 */
+	public function setDomainProtocol ($protocol)
+	{
+		$this->_domainProtocol = $protocol;
+		return $this;
 	}
 	
 	/**
@@ -86,6 +150,17 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 		return $this->_pageAlias;
 	}
 	
+	/**
+	 * Set the jimw page alias
+	 *
+	 * @return Jimw_Global_Request 
+	 */
+	public function setPageAlias ($pageAlias)
+	{
+		$this->_pageAlias = $pageAlias;
+		return $this;
+	}
+		
 	/**
 	 * Return the jimw paths
 	 *
@@ -105,38 +180,16 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 		$name = $this->get("SERVER_NAME");
 		$tab_name = explode(".", $name);
 		if (count($tab_name) >= 3) {
-			$this->_subDomaine = $tab_name[0];
-			$this->_domaineName = implode(".", array_slice($tab_name, 1));
+			$this->_subDomain = $tab_name[0];
+			$this->_domainName = implode(".", array_slice($tab_name, 1));
 		}
 		else {
-			$this->_subDomaine = "";
-			$this->_domaineName = $name;
+			$this->_subDomain = "";
+			$this->_domainName = $name;
 		}
-		$this->_domainePort = $this->get("SERVER_PORT");
-		$this->_domaineProtocol = ($this->get("HTTPS") == "on") ? "https" : "http";
-	}
-	
-	
-	/**
-	 * Set Domain informations : Path, alias, params, 
-	 *
-	 */
-	public function setPath ()
-	{
-		$uri = rtrim($this->getRequestUri(), "/");
-		$tab_uri = explode("/", $uri);
-		if ($uri[count($uri)] == "/") {
-			$tab_uri[] = "index.html";
-		}
-		$nb = count($tab_uri);
-		if ($nb == 1) {
-			$this->_path = "";
-			$this->_pageAlias = "";
-		}
-		else {
-			$this->_pageAlias = $tab_uri[$nb - 1];
-			$this->_path = implode("/", array_slice($tab_uri, 0, $nb - 1));;
-		}
+		$this->_domainPort = $this->get("SERVER_PORT");
+		$this->_domainProtocol = ($this->get("HTTPS") == "on") ? "https" : "http";
+		return $this;
 	}
 }
 ?>

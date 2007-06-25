@@ -1,6 +1,6 @@
 <?php
 /**
- * JIMW
+ * Jimw_Db_Rowset
  *
  * @author	    Patou
  * @category   Jimw_Core
@@ -9,8 +9,8 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Exception extends Exception
+class Jimw_Db_Rowset extends Jimw_Db_Table_Rowset 
 {
-
+	
 }
 ?>

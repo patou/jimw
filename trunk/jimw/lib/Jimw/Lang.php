@@ -7,7 +7,7 @@
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
- * @version    $Id: Data.php 2797 2007-01-16 01:35:30Z patou $
+ * @version    $Id$
  * @todo 		re do it with zend Translation
  */
 class Jimw_Lang implements ArrayAccess

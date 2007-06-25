@@ -532,15 +532,15 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
              
             if ((null !== $baseUrl)
                 && (false === ($pathInfo = substr($requestUri, strlen($baseUrl))))) 
-            { 
+            {
                 // If substr() returns false then PATH_INFO is set to an empty string 
                 $pathInfo = ''; 
             } elseif (null === $baseUrl) {
                 $pathInfo = $requestUri;
             }
-        } 
+        }
          
-        $this->_pathInfo = (string) $pathInfo; 
+        $this->_pathInfo = (string) $pathInfo;
         return $this;
     } 
  
