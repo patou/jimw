@@ -7,7 +7,7 @@
  * @package    Jimw_Module
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
- * @version    $Id:  $
+ * @version    $Id$
  */
  
 include_once('Model/Article.php');
@@ -35,7 +35,8 @@ class Article_ArticleController extends Jimw_Module_Action
 		$article = new Article();
 		$where = $article->getAdapter()->quoteInto ('tree_id = ?', $tree['tree_id']);
 		$result = $article->fetchRow($where);
-		$this->getResponse()->appendBody($result->article_content);
+		if ($result)
+			$this->getResponse()->appendBody($result->article_content);
 	}
 }
 ?>
