@@ -13,7 +13,8 @@
 class IndexController extends Zend_Controller_Action 
 {
 	public function index () {
-		$this->getResponse()->appendBody('Index');
+		//$this->getResponse()->appendBody('Index');
+		$this->_forward('toto', 'article', 'article');
 	}
 }
 ?>
