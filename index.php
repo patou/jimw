@@ -18,10 +18,3 @@ $JIMW_REP = './jimw/';
  */
 include($JIMW_REP . 'Jimw.php')
 ?>
-<pre>
-<?php
-//test rewrite url
-print $_SERVER["REQUEST_URI"];
-print_r ($_SERVER);
-?>
-</pre>

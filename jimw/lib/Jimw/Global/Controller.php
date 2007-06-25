@@ -81,7 +81,7 @@ class Jimw_Global_Controller
  		*/
 		$frontcontroller->setDispatcher(new Jimw_Site_Dispatch ());
 		$frontcontroller->dispatch($this->request, $this->response);
-		Zend_Debug::dump($frontcontroller);
+		//Zend_Debug::dump($frontcontroller);
 	}
 }
 ?>
