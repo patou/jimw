@@ -1,6 +1,6 @@
 <?php
 /**
- * JIMW
+ * IndexController
  *
  * @author	    Patou
  * @category   Jimw_Core
@@ -9,8 +9,11 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Exception extends Exception
+ 
+class IndexController extends Zend_Controller_Action 
 {
-
+	public function index () {
+		$this->getResponse()->appendBody('Index');
+	}
 }
 ?>

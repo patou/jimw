@@ -17,6 +17,12 @@ if (!defined('JIMW_REP'))
 // Load Global Configuration file
 if (file_exists(JIMW_REP. 'config/global.php'))
 	include(JIMW_REP. 'config/global.php');
+else {
+	/** Module directory */
+	define('JIMW_REP_MODULE', JIMW_REP . 'module/');
+	/** Lib directory */
+	define('JIMW_REP_LIB', JIMW_REP . 'lib/');
+}
 if (!defined('JIMW_DEBUG_MODE'))
 	define('JIMW_DEBUG_MODE', false);
 else

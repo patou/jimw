@@ -7,13 +7,16 @@
 		<watches/>
 	</project_entity>
 	<project_entity ID="SourceControl">
-		<encodingStyle value="Subversion"/>
+		<encodingStyle value="CVS"/>
 	</project_entity>
 	<project_entity ID="project_roots">
 		<vfile name="D:\manu\site internet\jimw\jimw"/>
 	</project_entity>
-	<project_entity ID="bookmarks"/>
 	<project_entity ID="javaBridge" JRE_Name="1.5.0_06"/>
+	<project_entity ID="bookmarks"/>
+	<project_entity ID="editor_component" selectedEditor="0">
+		<openEditors/>
+	</project_entity>
 	<project_entity ID="Subversion">
 		<svnCmdArguments>
 			<SubversionCommand commandType="update"/>
@@ -25,22 +28,6 @@
 			<SubversionCommand commandType="revert"/>
 			<SubversionCommand commandType="resolve"/>
 		</svnCmdArguments>
-	</project_entity>
-	<project_entity ID="editor_component" selectedEditor="11">
-		<openEditors>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Global\Request.php" caretPosition="436" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Request\Http.php" caretPosition="18374" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\Jimw.php" caretPosition="1376" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Global\Controller.php" caretPosition="1047" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\config\global.php" caretPosition="840" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Jimw\Global\Router.php" caretPosition="1624" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Router\Rewrite.php" caretPosition="7924" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Router\Interface.php" caretPosition="1125" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Router\Abstract.php" caretPosition="4040" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Dispatcher\Standard.php" caretPosition="11892" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Dispatcher\Abstract.php" caretPosition="2461" clone="false" encoding="default"/>
-			<editor fileName="D:\manu\site internet\jimw\jimw\lib\Zend\Controller\Dispatcher\Interface.php" caretPosition="5278" clone="false" encoding="default"/>
-		</openEditors>
 	</project_entity>
 	<project_entity ID="CVS">
 		<lastArguments>
