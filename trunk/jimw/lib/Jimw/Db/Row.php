@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Db_Row extends Jimw_Db_Table_Row
+class Jimw_Db_Row extends Zend_Db_Table_Row
 {
 	
 }

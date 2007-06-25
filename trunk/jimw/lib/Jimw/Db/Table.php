@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Db_Table extends Jimw_Db_Table 
+class Jimw_Db_Table extends Zend_Db_Table 
 {
 	protected $_rowClass = 'Jimw_Db_Row';
 	protected $_rowsetClass = 'Jimw_Db_Rowset';
