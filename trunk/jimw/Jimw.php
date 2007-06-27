@@ -41,7 +41,7 @@ else
 try {
 	$controler = new Jimw_Global_Controller();
 	$controler->run();
-	Zend_Debug::dump($controler->getRequest(), 'Request : ');
+	//Zend_Debug::dump($controler->getRequest(), 'Request : ');
 }
 // Display exceptions
 catch (Zend_Exception $e) {

@@ -70,7 +70,7 @@ class Jimw_Global_Controller
 		$frontcontroller->setModuleControllerDirectoryName('');
 		$frontcontroller->addModuleDirectory(JIMW_REP_MODULE);
 		$frontcontroller->registerPlugin(new Jimw_Site_Plugins_GlobalRender ());
-		$frontcontroller->setParam('noViewRenderer', true);
+		//$frontcontroller->setParam('noViewRenderer', true);
 		/*
 		// init viewRenderer
 		$view = new Zend_View();

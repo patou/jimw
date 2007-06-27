@@ -15,23 +15,17 @@
   * @abstract class
   * @author Patou
   */
-class Jimw_Data_Article extends Jimw_Data
+class Jimw_Data_Date extends Jimw_Data
 {
 	/**
 	 * The data
 	 * @var string
 	 */
-	private $text = "";
-	
-	/**
-	 * The data
-	 * @var string
-	 */
-	private $text = "";
-	
+	private $data = "";
 		
 	/**
 	 * Construct a new data
+	 * new Data_Date('birthday', array('old_greater' => value))
 	 *
 	 * @param string or data $name The column name in the database (may be a list)
 	 * @param array $options Option for data
@@ -52,6 +46,12 @@ class Jimw_Data_Article extends Jimw_Data
 	{
 		
 		// @todo
+		if (!Zend_Validate_Date::isValid($data))
+			return false;
+		if (isset($this->old_greater) )
+			return false;
+			
+		
 		return true;
 	}
 }

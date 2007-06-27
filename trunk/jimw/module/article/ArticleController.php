@@ -35,8 +35,9 @@ class Article_ArticleController extends Jimw_Module_Action
 		$article = new Article();
 		$where = $article->getAdapter()->quoteInto ('tree_id = ?', $tree['tree_id']);
 		$result = $article->fetchRow($where);
-		if ($result)
-			$this->getResponse()->appendBody($result->article_content);
+		$this->view->article = $result;
+		$this->view->tree = $this->_request->getTree ();
+		$this->render("article", "body");
 	}
 }
 ?>
