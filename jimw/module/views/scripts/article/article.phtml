@@ -1,0 +1,13 @@
+<?= $this->tree['tree_id']?>
+<p>
+<?= (isset($this->tree['tree_description']))? $this->tree['tree_description']:''; ?>
+</p>
+<? if (!empty($this->article)): ?>
+<p>
+<?= $this->article->article_content ?>
+</p>
+<? else: ?>
+<p>
+Article Not Found
+</p>
+<? endif; ?>

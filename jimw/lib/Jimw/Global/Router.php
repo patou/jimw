@@ -63,7 +63,7 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
         	if ($result === false)
         		throw new Jimw_Global_Exception('Unknow website', 404);
         	$this->testConnexion($result);
-        	Zend_Debug::dump($result);
+        	//Zend_Debug::dump($result);
         } catch (Zend_Db_Adapter_Exception $e){
 			echo $e->getMessage();
 		} catch (Zend_Db_Select_Exception  $e){

@@ -38,8 +38,10 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
 		/* @var $db Zend_Db_Adapter_Abstract */
 		$select = $db->select();
 		$select->from('jimw_tree', '*');
-		$select->joinNatural('jimw_module', '*');
-		$select->joinNatural('jimw_site', '*');
+		$select->from('jimw_module', '*');
+		$select->from('jimw_site', array('site_name', 'site_path'));
+		$select->where('jimw_tree.site_id = jimw_site.site_id');
+		$select->where('jimw_tree.module_id = jimw_module.module_id');
 		$select->where('tree_alias = ?', $alias);
 		$result = $db->fetchRow($select);
 		if ($result === false) {
@@ -64,9 +66,9 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
         }
         /* @var $request Jimw_Global_Request */
     	// Just One module for the first version
-    	echo $request->getBaseUrl () . '<br />';
+    	//echo $request->getBaseUrl () . '<br />';
     	$path = $request->getPathInfo ();
-    	echo $path . '<br />';
+    	//echo $path . '<br />';
     	$len_path = strlen($path);
     	$tab_path = explode('/', trim($path, '/'));
     	$len_tab_path = count($tab_path);
@@ -87,19 +89,17 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
        		if ($len_tab_path == 1 || strpos($tab_path[$len_tab_path - 1], '.') === false)
     		{
     			$alias = $tab_path[$len_tab_path - 1];
-    			Zend_Debug::dump($tab_path, 'in the if');
     			$controller = false;
     		}
     		else {
-    			Zend_Debug::dump($tab_path, 'in the else');
     			$alias = $tab_path[$len_tab_path - 2];
     			$controller = $this->getController($tab_path[$len_tab_path - 1], $request);
     		}
     	}
-    	echo 'alias = ', $alias, '<br />';
+    	/*echo 'alias = ', $alias, '<br />';
     	echo 'controler = ', $controller, '<br />';
     	echo 'len_tab_path = ', $len_tab_path, '<br />';
-    	Zend_Debug::dump($tab_path);
+    	Zend_Debug::dump($tab_path);*/
     	$module = $this->getModuleAlias($alias, $request);
     	if ($module === false) {
     		$request->setModuleName('');
@@ -114,8 +114,8 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
     	else 
     		$request->setControllerName($controller);
     	$request->setActionName($alias);
-    	Zend_Debug::dump($request);
-    	return $request;
+    	//Zend_Debug::dump($request);
+       	return $request;
     }
 }
 ?>

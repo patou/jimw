@@ -115,5 +115,15 @@ abstract class Jimw_Data
 	{
 		$this->options[$name] = $value;
 	}
+	
+	protected function __get ($name)
+	{
+		return $this->getOption($name);
+	}
+	
+	protected function __isset ($name)
+	{
+		return isset($this->options[$name]);
+	}
 }
 ?>
