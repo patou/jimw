@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
+   <head>
+       <title><?php echo $this->request->getDomainName (); ?> - <?= $this->tree['tree_menutitle']; ?></title>
+       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	   <link rel="stylesheet" media="screen" type="text/css" title="hautefeuille" href="<?= $this->path ?>/style.css" /> 
+		<script type="text/javascript"><!--//--><![CDATA[//><!--
+function titre(){
+				self.status = 'JIMW';
+				return true;
+			}
+       setTimeout('titre()','10');
+sfHover = function() {
+	var sfEls = document.getElementById("nav").getElementsByTagName("LI");
+	for (var i=0; i<sfEls.length; i++) {
+		sfEls[i].onmouseover=function() {
+			this.className+=" sfhover";
+		}
+		sfEls[i].onmouseout=function() {
+			this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
+		}
+	}
+}
+if (window.attachEvent) window.attachEvent("onload", sfHover);
+
+//--><!]]></script><!-- Menu deroulant -->
+
+   </head>
+
+   <body>
+
+       <!-- L en-tête -->
+
+       <div id="en_tete">
+	   
+	   <div id="titre_page">
+	   
+	   <?= $this->tree['tree_pagetitle']; ?>
+       </div></div>   
+        <div id="container">
+
+		
+<ul id="nav">
+<?php foreach ($this->menu as $menu) { 
+	$link = $menu['domain_protocol'].'://'.(!empty($menu['domain_subdomain']) ? $menu['domain_subdomain'].'.':'')
+	.$menu['domain_name'].'/'.(!empty($menu['domain_path']) ? $menu['domain_path'].'/':'').$menu['tree_alias'];
+	?>
+	<li>
+		<a href="<?= $link ?>">&nbsp;&nbsp;<?= $menu['tree_menutitle']?></a>
+	</li>
+<?php } ?>     
+</ul>
+	</div>
+
+       
+	   
+
+       <!-- Le corps -->
+
+       <div id="corps">
