@@ -22,7 +22,7 @@ class Jimw_Site_Plugins_GlobalRender extends Zend_Controller_Plugin_Abstract
 		$select->from('jimw_domain', '*');
 		$select->where('jimw_tree.site_id = jimw_domain.site_id');
 		//$select->joinNatural('jimw_domain', '*');
-		//$select->order('tree_order ASC');
+		$select->order('tree_order ASC');
 		$result = $db->fetchAll($select);
 		return $result;
 	}
@@ -32,11 +32,11 @@ class Jimw_Site_Plugins_GlobalRender extends Zend_Controller_Plugin_Abstract
         $response = $this->getResponse();
         $this->view = new Zend_View ();
         $tree = $request->getTree ();
-        $this->view->path = $request->getBaseUrl() . '/' . trim($tree['site_path'], '/') . '/template';
+        $this->view->path = $request->getBaseUrl() . '/' . trim($request->site_path, '/') . '/template';
         $this->view->request = $request;
 		$this->view->tree = $tree;
 		$this->view->menu = $this->createMenu();
-		$this->view->setScriptPath(trim($tree['site_path'], '/') . '/template');
+		$this->view->setScriptPath(trim($request->site_path, '/') . '/template');
         $response->prepend('header', $this->view->render('header.phtml'));
     }
 

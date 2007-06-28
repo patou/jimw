@@ -31,6 +31,19 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
 		return $tab_path[0];
 	}
 	
+	private function getSite (Jimw_Global_Request $request) {
+		$db = Zend_Registry::get('db');
+        $select = $db->select ();
+        $select->from('jimw_site', '*');
+        $select->joinNatural('jimw_domain', 'site_id');
+        $select->where('domain_name = ?', $request->getDomainName());
+        $select->where('domain_port = ?', $request->getDomainPort());
+        $select->where('domain_protocol = ?', $request->getDomainProtocol());
+        $select->where('domain_subdomain = ?', $request->getSubDomain());
+        $result = $db->fetchRow($select);
+        $request->setParam('site_path', $result['site_path']);
+	}
+	
 	private function getModuleAlias($alias, Jimw_Global_Request $request) {
 		// Connect to the database
 		/* @var $db Zend_Db_Adapter_Abstract */
@@ -76,10 +89,10 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
     		$controller = false;
     		if ($len_tab_path == 0)
     		{
-    			$request->setModuleName();
+    			$request->setModuleName('default');
     			$request->setControllerName('index');
     			$request->setActionName('index');
-    			return $request;
+    			//return $request;
     		}
     		else {
     			$alias = $tab_path[$len_tab_path - 1];
@@ -102,18 +115,20 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
     	Zend_Debug::dump($tab_path);*/
     	$module = $this->getModuleAlias($alias, $request);
     	if ($module === false) {
-    		$request->setModuleName('');
+    		$request->setModuleName('default');
     		$request->setControllerName('index');
     		$request->setActionName('index');
-    		return $request;
     	}
-    	$request->setPageAlias($alias);
-    	$request->setModuleName($module);
-    	if ($controller === false)
-    		$request->setControllerName($module);
-    	else 
-    		$request->setControllerName($controller);
-    	$request->setActionName($alias);
+    	else {
+	    	$request->setPageAlias($alias);
+	    	$request->setModuleName($module);
+	    	if ($controller === false)
+	    		$request->setControllerName($module);
+	    	else 
+	    		$request->setControllerName($controller);
+	    	$request->setActionName($alias);
+    	}
+    	$this->getSite($request);
     	//Zend_Debug::dump($request);
        	return $request;
     }
