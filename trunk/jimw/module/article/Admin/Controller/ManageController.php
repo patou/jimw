@@ -26,7 +26,7 @@ class Article_ManageController extends Zend_Controller_Action
 	public function saveAction () {
 		$db = Zend_Registry::get('db');
 		/* @var $db Zend_Db_Adapter_Abstract */
-		$db->update('jimw_article', array('article_content' => $this->_request->content), $db->quoteInto('tree_id = ?', $this->_request->id));
+		$db->update('jimw_article', array('article_content' => stripslashes($this->_request->content)), $db->quoteInto('tree_id = ?', $this->_request->id));
 
 		$this->_forward('edit', 'tree', 'default', array('id' => $this->_request->id));
 	}
