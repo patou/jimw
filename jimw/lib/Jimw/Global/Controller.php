@@ -67,7 +67,7 @@ class Jimw_Global_Controller
 		$frontcontroller->setRouter($router);
 		$frontcontroller->setControllerDirectory(JIMW_REP_LIB . 'Jimw/Controller/');
 		$frontcontroller->setResponse($this->response);
-		$frontcontroller->setModuleControllerDirectoryName('');
+		$frontcontroller->setModuleControllerDirectoryName('Controller');
 		$frontcontroller->addModuleDirectory(JIMW_REP_MODULE);
 		$frontcontroller->registerPlugin(new Jimw_Site_Plugins_GlobalRender ());
 		//$frontcontroller->setParam('noViewRenderer', true);
