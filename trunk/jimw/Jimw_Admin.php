@@ -7,7 +7,7 @@
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
- * @version    $Id:  $
+ * @version    $Id$
  */
 if (!defined('JIMW_REP'))
 	if (file_exists('../jimw/'))

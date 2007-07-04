@@ -7,7 +7,7 @@
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
- * @version    $Id:  $
+ * @version    $Id$
  */
 /**
  * @var $JIMW_REP The path to Jimw root installation (with / at the end)
