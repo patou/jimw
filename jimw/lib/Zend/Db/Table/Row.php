@@ -60,8 +60,12 @@ class Zend_Db_Table_Row extends Zend_Db_Table_Row_Abstract
 	        $table = $this->_table;
 	        if ($table && $table instanceof Jimw_Db_Table) {
 	        	$prefix = $table->getTableName ();
-	        	if (!empty($prefix))
-	       			$columnName = $prefix . '_' . $columnName;
+	        	if (!empty($prefix)) {
+	       			$name = $prefix . '_' . $columnName;
+	       			if (array_key_exists($name, $this->_data))
+	       				$columnName = $name;
+	        	}
+	       		
 	        }
         }
         return $columnName;
