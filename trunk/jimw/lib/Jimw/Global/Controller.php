@@ -61,7 +61,7 @@ class Jimw_Global_Controller
 	public function run () {
 		$this->request = $this->router->route($this->request);
 		$frontcontroller = Zend_Controller_Front::getInstance();
-		$frontcontroller->throwExceptions(true);
+		//$frontcontroller->throwExceptions(true);
 		$frontcontroller->setRequest($this->request);
 		$router = new Jimw_Site_Router();
 		$frontcontroller->setRouter($router);
