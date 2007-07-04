@@ -27,9 +27,8 @@ class Jimw_Site_Plugins_GlobalRender extends Zend_Controller_Plugin_Abstract
 		return $result;
 	}
 	
-    public function preDispatch(Zend_Controller_Request_Abstract $request)
-    {
-        $response = $this->getResponse();
+	private function init (Zend_Controller_Request_Abstract $request) {
+		$response = $this->getResponse();
         $this->view = new Zend_View ();
         $tree = $request->getTree ();
         $this->view->path = $request->getBaseUrl() . '/' . trim($request->site_path, '/') . '/template';
@@ -37,6 +36,12 @@ class Jimw_Site_Plugins_GlobalRender extends Zend_Controller_Plugin_Abstract
 		$this->view->tree = $tree;
 		$this->view->menu = $this->createMenu();
 		$this->view->setScriptPath(trim($request->site_path, '/') . '/template');
+	}
+	
+    public function preDispatch(Zend_Controller_Request_Abstract $request)
+    {
+    	$this->init($request);
+    	$response = $this->getResponse();
         $response->prepend('header', $this->view->render('header.phtml'));
     }
 
