@@ -11,6 +11,6 @@
  */
 class Article extends Jimw_Db_Table 
 {
-	protected $_name = 'jimw_article';
+	protected $_name = 'article';
 }
 ?>

@@ -29,11 +29,11 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
     		$db->getConnection();
     		Zend_Db_Table::setDefaultAdapter($db);
     		Zend_Registry::set('db', $db);
+    		Zend_Registry::set('db_prefix', $param['database_prefix']);
     	} catch (Zend_Db_Adapter_Exception $e){
 			echo $e->getMessage();
 			throw new Jimw_Global_Exception('Could not connect to the database');
 		}
-    	
     }
     
 	/**
