@@ -60,8 +60,9 @@ class TreeController extends Zend_Controller_Action
 				'tree_alias'=> $req->alias,
 				'tree_description'=> $req->description);
 		$db = Zend_Registry::get('db');
+		$tree = new Jimw_Site_Tree();
 		/* @var $db Zend_Db_Adapter_Abstract */
-		$db->update('jimw_tree', $save, $db->quoteInto('tree_id = ?', $req->id));
+		$tree->update($save, $db->quoteInto('tree_id = ?', $req->id));
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ' . $req->pagetitle);
 		$this->_forward('index', 'index');
 	}
@@ -77,8 +78,9 @@ class TreeController extends Zend_Controller_Action
 				'site_id' => 1,
 				'module_id' => 1);
 		$db = Zend_Registry::get('db');
+		$tree = new Jimw_Site_Tree();
 		/* @var $db Zend_Db_Adapter_Abstract */
-		$db->insert('jimw_tree', $save);
+		$tree->insert($save);
 		$id = $db->lastInsertId();
 		//Create the article
 		$article = array ('tree_id' => $id,
