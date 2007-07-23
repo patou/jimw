@@ -58,6 +58,27 @@ class Jimw_Global_Controller
 		return $this->response;
 	}
 	
+	public function initTranslate () {
+		$trans = new Zend_Translate('array', array(), 'fr');
+		return $trans;
+	}
+	
+	public function initView() {
+		$view = new Jimw_Site_View();
+		$view->addFilterPath(JIMW_REP_LIB . '/Jimw/Site/View/Filter', 'Jimw_Site_View_Filter_');
+		$view->addHelperPath(JIMW_REP_LIB . '/Jimw/Site/View/Helper', 'Jimw_Site_View_Helper_');
+		$request = $this->request;
+		$view->request = $request;
+		$tree = $request->getTree ();
+        $this->view->path = $request->getBaseUrl () . '/' . trim($request->site_path, '/') . '/template';
+        $this->view->request = $request;
+		$this->view->tree = $tree;
+		$view->setTranslate ($this->initTranslate());
+		$viewRenderer = Zend_Controller_Action_HelperBroker::getExistingHelper('viewRenderer');
+		$viewRenderer->setView ($view);
+		$viewRenderer->setViewSuffix ('phtml');
+	}
+	
 	public function run () {
 		$this->request = $this->router->route($this->request);
 		$frontcontroller = Zend_Controller_Front::getInstance();
@@ -70,15 +91,14 @@ class Jimw_Global_Controller
 		$frontcontroller->setModuleControllerDirectoryName('Controller');
 		$frontcontroller->addModuleDirectory(JIMW_REP_MODULE);
 		$frontcontroller->registerPlugin(new Jimw_Site_Plugins_GlobalRender ());
+		
 		//$frontcontroller->setParam('noViewRenderer', true);
 		/*
 		// init viewRenderer
 		$view = new Zend_View();
 		/** @var Zend_Controller_Action_Helper_ViewRenderer viewRenderer */
-		/*$viewRenderer = Zend_Controller_Action_HelperBroker::getExistingHelper('viewRenderer');
-		$viewRenderer->setView($view);
-		$viewRenderer->setViewSuffix('phtml');
- 		*/
+		
+ 		
 		$frontcontroller->setDispatcher(new Jimw_Site_Dispatch ());
 		$frontcontroller->dispatch($this->request, $this->response);
 		//Zend_Debug::dump($frontcontroller);
