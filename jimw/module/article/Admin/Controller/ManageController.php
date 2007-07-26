@@ -9,12 +9,11 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Article_ManageController extends Zend_Controller_Action 
+class Article_ManageController extends Jimw_Admin_Action 
 {
 	public function editAction () {
 		$this->view->id = $this->_request->id;
-		$this->view->path = $this->_request->getBaseUrl() . '/public';
-        $this->view->request = $this->_request;
+		$this->view->request = $this->_request;
         		$db = Zend_Registry::get('db');
 		/* @var $db Zend_Db_Adapter_Abstract */
         $select = $db->select();
