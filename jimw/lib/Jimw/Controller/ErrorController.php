@@ -42,6 +42,7 @@ class ErrorController extends Zend_Controller_Action {
                 // ... get some output to display...
                 break;
             default:
+            	$this->render('error', 'body', true);
                 // application error; display error page, but don't change
                 // status code
                 break;

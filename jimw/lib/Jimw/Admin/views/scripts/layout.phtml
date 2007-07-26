@@ -50,17 +50,12 @@
 <tr>
 <td>
 	<p class="menu01">
-		<a href="<?= $this->request->getBaseUrl() ?>"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;Pages</a>
+		<a href="<?= $this->request->getBaseUrl() ?>"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;Intro</a>
 	</p>
 </td>
 <td>
 	<p class="menu01">
-		<a href="<?= $this->request->getBaseUrl() ?>"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;Sites</a>
-	</p>
-</td>
-<td>
-	<p class="menu01">
-		<a href="<?= $this->request->getBaseUrl() ?>"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;Configuration</a>
+		<a href="<?= $this->request->getBaseUrl() ?>/tree/list"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;Pages</a>
 	</p>
 </td>
 </tr>
@@ -68,6 +63,42 @@
 	</td>
 </tr>
 </table>
+
+
+
+
+
+
 <table border="0" cellpadding="0" cellspacing="0" width="780">
 <tr bgcolor="#AFC0D0" valign="top">
 	<td width="487">
+	
+	<?php echo $this->content; ?>
+	</td>
+	<td width="2" class="dotsw"><img src="<?= $this->path ?>/images/px1.gif" alt="" width="1" height="1" border="0"></td>
+</tr>
+</table>
+
+
+
+<table border="0" cellpadding="0" cellspacing="0" width="780">
+<tr>
+	<td colspan="2"><img src="<?= $this->path ?>/images/px1.gif" width="1" height="1" alt="" border="0"></td>
+</tr>
+<tr bgcolor="#28549E">
+	<td height="19" colspan="2"><img src="<?= $this->path ?>/images/px1.gif" width="1" height="1" alt="" border="0"></td>
+</tr>
+<tr>
+	<td height="70"><p>Copyright &copy; 2006 - 2007 <?php echo $this->request->getDomainName (); ?> / 
+<a href="http://www.logisim.com" target="_blank">Simon LEPRINCE</a> / 
+<a href="http://www.lesgrumels.fr" target="_blank">lesgrumels</a></p></td>
+	<td></td>
+</tr>
+</table>
+	</td>
+	<td class="bgright"><img src="<?= $this->path ?>/images/bg_right.gif" alt="" width="17" height="16" border="0"></td>
+	<td class="bg"><img src="<?= $this->path ?>/images/px1.gif" width="1" height="1" alt="" border="0"></td>
+</tr>
+</table>
+	</body>
+</html>
