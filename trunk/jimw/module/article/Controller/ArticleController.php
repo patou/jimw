@@ -33,7 +33,7 @@ class Article_ArticleController extends Jimw_Module_Action
 		$result = $article->fetchRow($where);
 		$this->view->article = $result;
 		$this->view->tree = $this->_request->getTree ();
-		$this->render("article", "body");
+		$this->render('article', 'body');
 	}
 }
 ?>

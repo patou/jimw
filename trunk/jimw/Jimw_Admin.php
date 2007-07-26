@@ -39,17 +39,8 @@ else
 	
 // Call the Global Controler
 try {
-	$frontcontroller = Zend_Controller_Front::getInstance();
-	$request = new Jimw_Global_Request();
-	$router = new Jimw_Global_Router();
-	$request = $router->route($request);
-	$frontcontroller->setRequest($request);
-	$frontcontroller->throwExceptions(true);
-	$frontcontroller->setControllerDirectory(JIMW_REP_LIB . 'Jimw/Admin/Controller');
-	$frontcontroller->setModuleControllerDirectoryName('Admin/Controller');
-	$frontcontroller->addModuleDirectory(JIMW_REP_MODULE);
-	$frontcontroller->registerPlugin(new Jimw_Admin_GlobalRender ());
-	$frontcontroller->dispatch();
+	$controler = new Jimw_Admin_Controller();
+	$controler->run();
 	//Zend_Debug::dump($frontcontroller);
 	//Zend_Debug::dump($controler->getRequest(), 'Request : ');
 }

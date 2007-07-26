@@ -10,7 +10,7 @@
  * @version    $Id$
  */
 
-class Jimw_Global_Controller
+class Jimw_Admin_Controller
 {
 	/**
 	 * The request var
@@ -65,8 +65,7 @@ class Jimw_Global_Controller
 
 	public function initView() {
 		$view = new Jimw_Site_View();
-		$view->addFilterPath(JIMW_REP_LIB . '/Jimw/Admin/view/filter', 'Jimw_Admin_View_Filter_');
-		$view->addHelperPath(JIMW_REP_LIB . '/Jimw/Admin/view/helper', 'Jimw_Admin_View_Helper_');
+		$view->addBasePath(JIMW_REP_LIB . '/Jimw/Admin/view/', 'Jimw_Admin_View');
 		$view->setTranslate ($this->initTranslate());
 		$viewRenderer = new Jimw_Site_View_ViewRenderer();
 		$viewRenderer->setView($view);
@@ -80,14 +79,10 @@ class Jimw_Global_Controller
 		$frontcontroller = Zend_Controller_Front::getInstance();
 		$frontcontroller->throwExceptions(true);
 		$frontcontroller->setRequest($this->request);
-		$router = new Jimw_Site_Router();
-		$frontcontroller->setRouter($router);
-		$frontcontroller->setControllerDirectory(JIMW_REP_LIB . 'Jimw/Controller/');
+		$frontcontroller->setControllerDirectory(JIMW_REP_LIB . 'Jimw/Admin/Controller/');
 		$frontcontroller->setResponse($this->response);
-		$frontcontroller->setModuleControllerDirectoryName('Controller');
+		$frontcontroller->setModuleControllerDirectoryName('Admin/Controller');
 		$frontcontroller->addModuleDirectory(JIMW_REP_MODULE);
-		//$frontcontroller->registerPlugin(new Jimw_Site_Plugins_GlobalRender ());
-		$frontcontroller->setDispatcher(new Jimw_Site_Dispatch ());
 		$frontcontroller->dispatch($this->request, $this->response);
 		//Zend_Debug::dump($frontcontroller);
 	}
