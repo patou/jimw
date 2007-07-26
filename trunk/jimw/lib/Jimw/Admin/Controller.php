@@ -65,7 +65,7 @@ class Jimw_Admin_Controller
 
 	public function initView() {
 		$view = new Jimw_Site_View();
-		$view->addBasePath(JIMW_REP_LIB . '/Jimw/Admin/view/', 'Jimw_Admin_View');
+		$view->addBasePath(JIMW_REP_LIB . 'Jimw/Admin/views/', 'Jimw_Admin_View');
 		$view->setTranslate ($this->initTranslate());
 		$viewRenderer = new Jimw_Site_View_ViewRenderer();
 		$viewRenderer->setView($view);
