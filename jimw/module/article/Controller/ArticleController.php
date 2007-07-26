@@ -13,10 +13,6 @@
 include_once('Model/Article.php');
 class Article_ArticleController extends Jimw_Module_Action
 {
-	public function index () {
-		$this->getResponse()->appendBody('Article');
-	}
-	
 	public function viewModule ($alias)
 	{
 		
