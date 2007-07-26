@@ -1,14 +1,4 @@
 <?php
-/**
- * Jimw_Site_View_ViewRenderer
- *
- * @author	   Patou
- * @category   Jimw_Core
- * @package    Jimw
- * @copyright  Copyright (c) 2006-2007 jimw.fr
- * @license    http://www.jimw.fr
- * @version    $Id$
- */
 class Jimw_Site_View_ViewRenderer 
     extends Zend_Controller_Action_Helper_ViewRenderer
 {
@@ -17,14 +7,7 @@ class Jimw_Site_View_ViewRenderer
      *
      * @var string
      */
-    protected $_layoutScript = 'site.tpl.php';
-    
-    /**
-     * Name of layout script to render. Defaults to 'site.tpl.php'.
-     *
-     * @var string
-     */
-    protected $_layoutPath = './public/template';
+    protected $_layoutScript = 'layout';
     
     
     /**
@@ -41,7 +24,7 @@ class Jimw_Site_View_ViewRenderer
                                 array $options = array())
     {
         if (!isset($options['viewSuffix'])) {
-            $options['viewSuffix'] = 'tpl.php';
+            $options['viewSuffix'] = 'phtml';
         }
         parent::__construct($view, $options);
     }
@@ -66,24 +49,17 @@ class Jimw_Site_View_ViewRenderer
         return $this->_layoutScript;
     }
     
-     /**
-     * Set the layout path to be rendered.
-     *
-     * @param string $path
-     */
-    public function setLayoutPath($path)
-    {
-        $this->_layoutPath = $script;
-    }
-    
     /**
-     * Retreive the path of the layout script to be rendered.
+     * Retreive the name of the layout script to be rendered.
      *
      * @return string
      */
-    public function getLayoutPath()
+    public function formatLayoutScript()
     {
-        return $this->_layoutPath;
+    	$layout = $this->_layoutScript;
+    	if ($this->getViewSuffix())
+    		$layout .= '.' . $this->getViewSuffix();
+        return $layout;
     }
     
     /**
@@ -102,13 +78,13 @@ class Jimw_Site_View_ViewRenderer
         }
         
         // assign action script name to view.
-        $this->view->content = $script;
-        
+        $this->view->content = $this->view->render($script);
         // render layout script and append to Response's body
-        $layoutScript = $this->getLayoutScript();        
+        $layoutScript = $this->formatLayoutScript();        
         $layoutContent = $this->view->render($layoutScript);
         $this->getResponse()->appendBody($layoutContent, $name);
         
         $this->setNoRender();
     }
 }
+

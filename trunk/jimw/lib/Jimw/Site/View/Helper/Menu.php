@@ -28,7 +28,7 @@ class Jimw_Site_View_Helper_Menu
 	
 	private function getMenu ($name)
 	{
-		return array ();
+		return $this->createMenu();
 	}
 	
 	/**
@@ -42,7 +42,7 @@ class Jimw_Site_View_Helper_Menu
 	{
 		$menu = $this->getMenu ($name);
 		if ($display)
-			return display_menu ($menu);
+			return $this->display_menu ($menu);
 		else
 			return $menu;
 	}
@@ -51,7 +51,7 @@ class Jimw_Site_View_Helper_Menu
 	{
 		$html = '<li>';
 		foreach ($menu as $item)
-			$html .= '<ul>' . '</ul>' . "\n";
+			$html .= '<ul>' . $menu->tree_menutitle . '</ul>' . "\n";
 		$html .= '</li>';
 		return $html;
 	}
