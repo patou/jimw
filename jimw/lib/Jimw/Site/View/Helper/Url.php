@@ -20,7 +20,7 @@ class Jimw_Site_View_Helper_Url
 	 * @param boolean $display Auto render the menu with <li></li> tag
 	 * @return void|Jimw_Site_Tree_Row
 	 */
-	public function url ($text, $alias = '', $domain = null, $contorller = '', array $urlOption = array ())
+	public function url ($text, $alias = '', $domain = null, $controller = '', array $urlOption = array ())
 	{
 		return $alias;
 	}

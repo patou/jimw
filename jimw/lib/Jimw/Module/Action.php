@@ -12,9 +12,26 @@
  
 abstract class Jimw_Module_Action extends Zend_Controller_Action 
 {
-	public function indexAction () {
-		$this->getResponse()->appendBody('Article');
+	public function init() {
+		$request = $this->getRequest ();
+		$tree = $request->getTree ();
+		$this->view->path = $request->getBaseUrl () . '/' . trim($tree['site_path'], '/') . '/template';
+		$this->view->addScriptPath(trim($request->site_path, '/') . '/template');
+		$this->view->request = $request;
+		$this->view->tree = $tree;
+		$this->initModule();
 	}
+	
+	/**
+	 * Initialisation of the module
+	 * Call by init method
+	 *
+	 */
+	
+	public function initModule() {
+		
+	}
+	
 	abstract public function viewModule ($alias);
 	/**
 	 * Get the 
