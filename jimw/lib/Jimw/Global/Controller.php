@@ -65,8 +65,8 @@ class Jimw_Global_Controller
 
 	public function initView() {
 		$view = new Jimw_Site_View();
-		$view->addFilterPath(JIMW_REP_LIB . '/Jimw/Admin/View/Filter', 'Jimw_Admin_View_Filter_');
-		$view->addHelperPath(JIMW_REP_LIB . '/Jimw/Admin/View/Helper', 'Jimw_Admin_View_Helper_');
+		$view->addFilterPath(JIMW_REP_LIB . '/Jimw/Site/View/Filter', 'Jimw_Admin_View_Filter_');
+		$view->addHelperPath(JIMW_REP_LIB . '/Jimw/Site/View/Helper', 'Jimw_Admin_View_Helper_');
 		$view->setTranslate ($this->initTranslate());
 		$viewRenderer = new Jimw_Site_View_ViewRenderer();
 		$viewRenderer->setView($view);
