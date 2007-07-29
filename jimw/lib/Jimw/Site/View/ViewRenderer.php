@@ -9,7 +9,7 @@ class Jimw_Site_View_ViewRenderer
      */
     protected $_layoutScript = 'layout';
     
-    
+    protected $_renderLayout = true;
     /**
      * Constructor
      *
@@ -50,6 +50,40 @@ class Jimw_Site_View_ViewRenderer
     }
     
     /**
+     * Set if the Layout must be render.
+     *
+     * @param string $script
+     */
+    public function setRenderLayout($renderLayout = true)
+    {
+        $this->_renderLayout = ($renderLayout) ? true : false;
+    }
+    
+    /**
+     * Set that the Layout mustn't be render.
+     *
+     * @param string $script
+     */
+    public function noRenderLayout()
+    {
+        $this->_renderLayout = false;
+    }
+    
+    /**
+     * Retreive if the Layout must be render.
+     *
+     * @return string
+     */
+    public function getRenderLayout()
+    {
+        return $this->_renderLayout;
+    }
+    
+    public function preDispatch()
+    {
+    	$this->_renderLayout = true;
+    }
+    /**
      * Retreive the name of the layout script to be rendered.
      *
      * @return string
@@ -78,12 +112,14 @@ class Jimw_Site_View_ViewRenderer
         }
         
         // assign action script name to view.
-        $this->view->content = $this->view->render($script);
-        // render layout script and append to Response's body
-        $layoutScript = $this->formatLayoutScript();        
-        $layoutContent = $this->view->render($layoutScript);
-        $this->getResponse()->appendBody($layoutContent, $name);
+        $this->view->appendContent ($this->view->render($script));
         
+        // render layout script and append to Response's body
+        if ($this->_renderLayout) {
+        	$layoutScript = $this->formatLayoutScript();
+        	$layoutContent = $this->view->render($layoutScript);
+        	$this->getResponse()->appendBody($layoutContent, $name);	
+        }
         $this->setNoRender();
     }
 }

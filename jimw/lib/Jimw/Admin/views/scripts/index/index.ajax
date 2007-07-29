@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+         <title><?php echo $this->request->getDomainName (); ?> - JimwAdmin</title>
+         <base href="<?php echo $this->request->getBaseUrl() ?>/" >
+    <head>
+         <title>JimwAdmin</title>
+         <style>
+             .footer {
+             	text-size: 10px;
+             }
+         </style>
+    </head>
+    <body>
+        <div id="content"></div>
+        <div class="footer"><p><a href="<?php echo $this->request->getBaseUrl() ?>/index/index/ext/phtml">Html version</a><br />Copyright &copy; 2006 - 2007 <?php echo $this->request->getDomainName (); ?> / 
+<a href="http://www.logisim.com" target="_blank">Simon LEPRINCE</a> / 
+<a href="http://www.lesgrumels.fr" target="_blank">lesgrumels</a></p></div>
+        <script language="javascript" src="<?php echo $this->request->getBaseUrl() ?>/jimw.JimwAdmin/jimw.JimwAdmin.nocache.js"></script>
+        <iframe src="javascript:''" id='__gwt_historyFrame' style='width:0;height:0;border:0'></iframe>
+    </body>
+</html>

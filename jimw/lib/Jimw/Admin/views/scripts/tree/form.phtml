@@ -1,4 +1,4 @@
-<form action="<?= $this->request->getBaseUrl() ?>/tree/<?= $this->form_type?>/id/<?= $this->id ?>" method="post">
+<form action="<?= $this->request->getBaseUrl() ?>/tree/<?= $this->form_type?>/ext/phtml/id/<?= $this->id ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
         			<input type="hidden" name="sub" value="1"><table border="0" width="90%" align="right">
 <? if (!empty($this->id)): ?>
@@ -12,9 +12,5 @@
 <tr><td colspan="2" align="center"><input type="submit" name="btn" value="<?= ucfirst($this->form_type)?>"></td></tr></table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
-&nbsp;<br/>
-<? if (!empty($this->id)): ?>
-<a href="<?= $this->request->getBaseUrl() ?>/article/manage/edit/id/<?= $this->id ?>">Edit</a>
-<? endif; ?>
-<a href="<?= $this->request->getBaseUrl() ?>">Return</a>
+<a href="<?= $this->request->getBaseUrl() ?>/tree/list/ext/phtml">Return</a>
 </p>

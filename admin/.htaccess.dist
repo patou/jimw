@@ -3,7 +3,7 @@ RewriteEngine on
 #RewriteBase /jimw
 #Rewrite all url to the main index file
 # Change the main url file with the server configuration
-RewriteRule !\.php$ /jimw/admin/index.php
+RewriteRule !(\.php|\.gif)$ /jimw/admin/index.php
 #Protect the website by authentification
 AuthType Basic
 AuthName "Administration"

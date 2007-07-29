@@ -50,12 +50,12 @@
 <tr>
 <td>
 	<p class="menu01">
-		<a href="<?= $this->request->getBaseUrl() ?>"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;Intro</a>
+		<a href="<?= $this->request->getBaseUrl() ?>/index/index/ext/phtml"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;Intro</a>
 	</p>
 </td>
 <td>
 	<p class="menu01">
-		<a href="<?= $this->request->getBaseUrl() ?>/tree/list"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;Pages</a>
+		<a href="<?= $this->request->getBaseUrl() ?>/tree/list/ext/phtml"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;Pages</a>
 	</p>
 </td>
 </tr>
@@ -73,7 +73,7 @@
 <tr bgcolor="#AFC0D0" valign="top">
 	<td width="487">
 	
-	<?php echo $this->content; ?>
+	<?php echo $this->getContent(); ?>
 	</td>
 	<td width="2" class="dotsw"><img src="<?= $this->path ?>/images/px1.gif" alt="" width="1" height="1" border="0"></td>
 </tr>
@@ -89,7 +89,7 @@
 	<td height="19" colspan="2"><img src="<?= $this->path ?>/images/px1.gif" width="1" height="1" alt="" border="0"></td>
 </tr>
 <tr>
-	<td height="70"><p>Copyright &copy; 2006 - 2007 <?php echo $this->request->getDomainName (); ?> / 
+	<td height="70"><p><a href="<?php echo $this->request->getBaseUrl() ?>/">Ajax version</a><br />Copyright &copy; 2006 - 2007 <?php echo $this->request->getDomainName (); ?> / 
 <a href="http://www.logisim.com" target="_blank">Simon LEPRINCE</a> / 
 <a href="http://www.lesgrumels.fr" target="_blank">lesgrumels</a></p></td>
 	<td></td>

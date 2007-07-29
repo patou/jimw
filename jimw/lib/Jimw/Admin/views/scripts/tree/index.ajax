@@ -1,0 +1,4 @@
+<?php 
+foreach ($this->flashmessenger as $message)
+	echo '{"type":"alert", "message":"' . $message . '"},'; 
+echo '{"type":"reloadtree"},{"type":"closetab"},';
