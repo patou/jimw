@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cache-entry>
+	<generated-type-hash class="jimw.client.tree.ToolbarStrings_" hash="22077A4AC4B2CA36FD002AB33E85E9CC"/>
+	<generated-type-hash class="com.google.gwt.user.client.ui.DisclosurePanelImages_generatedBundle" hash="149BE4A232227CEC405EE04A2055FED9"/>
+	<generated-type-hash class="jimw.client.pages.TabPages_Images_generatedBundle" hash="4F8D11FAA1878D7617555F9EA71556D8"/>
+	<generated-type-hash class="com.google.gwt.user.client.ui.TreeImages_generatedBundle" hash="778ED29E275F973EDF76ACD57F297BB1"/>
+	<generated-type-hash class="jimw.client.toolbar.ToolbarStrings_" hash="4DAE9A35E4E10A39AF752EA591E02EFC"/>
+	<generated-type-hash class="jimw.client.Sink_Images_generatedBundle" hash="B75A2F8921BF16A2BF5524A2054F7E05"/>
+	<generated-type-hash class="jimw.client.tree.ToolbarImages_generatedBundle" hash="EC4D8F6C0E52529926B137C90E967B52"/>
+	<generated-type-hash class="jimw.client.toolbar.ToolbarImages_generatedBundle" hash="CB4CA285C0C67661264EE94AE453EA66"/>
+	<rebind-decision in="jimw.client.toolbar.ToolbarStrings" out="jimw.client.toolbar.ToolbarStrings_"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.TreeImages" out="com.google.gwt.user.client.ui.TreeImages_generatedBundle"/>
+	<rebind-decision in="com.google.gwt.user.client.impl.HTTPRequestImpl" out="com.google.gwt.user.client.impl.HTTPRequestImpl"/>
+	<rebind-decision in="jimw.client.Sink.Images" out="jimw.client.Sink_Images_generatedBundle"/>
+	<rebind-decision in="jimw.client.pages.TabPages.Images" out="jimw.client.pages.TabPages_Images_generatedBundle"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.FormPanelImpl" out="com.google.gwt.user.client.ui.impl.FormPanelImpl"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.RichTextAreaImpl" out="com.google.gwt.user.client.ui.impl.RichTextAreaImplOpera"/>
+	<rebind-decision in="jimw.client.toolbar.ToolbarImages" out="jimw.client.toolbar.ToolbarImages_generatedBundle"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.HorizontalSplitPanel.Impl" out="com.google.gwt.user.client.ui.HorizontalSplitPanel.Impl"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.DisclosurePanelImages" out="com.google.gwt.user.client.ui.DisclosurePanelImages_generatedBundle"/>
+	<rebind-decision in="jimw.client.tree.ToolbarStrings" out="jimw.client.tree.ToolbarStrings_"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.TextBoxImpl" out="com.google.gwt.user.client.ui.impl.TextBoxImpl"/>
+	<rebind-decision in="com.google.gwt.user.client.impl.DOMImpl" out="com.google.gwt.user.client.impl.DOMImplOpera"/>
+	<rebind-decision in="com.google.gwt.user.client.impl.HistoryImpl" out="com.google.gwt.user.client.impl.HistoryImplStandard"/>
+	<rebind-decision in="jimw.client.tree.ToolbarImages" out="jimw.client.tree.ToolbarImages_generatedBundle"/>
+	<rebind-decision in="jimw.client.JimwAdmin" out="jimw.client.JimwAdmin"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.VerticalSplitPanel.Impl" out="com.google.gwt.user.client.ui.VerticalSplitPanel.Impl"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.ClippedImageImpl" out="com.google.gwt.user.client.ui.impl.ClippedImageImpl"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.FocusImpl" out="com.google.gwt.user.client.ui.impl.FocusImplOld"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.PopupImpl" out="com.google.gwt.user.client.ui.impl.PopupImpl"/>
+</cache-entry>
