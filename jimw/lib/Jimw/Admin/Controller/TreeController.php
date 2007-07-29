@@ -104,7 +104,7 @@ class TreeController extends Jimw_Admin_Action
 		$db->insert('jimw_article', $article);
 		//End Create article
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Insert successful ' . $req->pagetitle);
-		$this->_forward('index');
+		$this->_forward('edit', 'tree', 'default', array('id'=>$id));
 	}
 }
 ?>

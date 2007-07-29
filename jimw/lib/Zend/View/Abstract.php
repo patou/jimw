@@ -980,7 +980,6 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
             $prefix = $info['prefix'];
 
             $class = $prefix . ucfirst($name);
-            
             if (class_exists($class, false)) {
                 $reflection = new ReflectionClass($class);
                 $file = $reflection->getFileName();
