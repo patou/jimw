@@ -16,6 +16,20 @@ class Jimw_Site_View extends Zend_View
 	/** @var $_translate Zend_Translate */
 	protected $_translate = null;
 	
+	protected $_content = '';
+	
+	public function getContent () {
+		return $this->_content;
+	}
+	
+	public function setContent ($content) {
+		$this->_content = $content;
+	}
+	
+	public function appendContent ($content) {
+		$this->_content .= $content;
+	}
+	
 	/**
 	 * Translate function helper
 	 *

@@ -1,0 +1,1 @@
+{"type" : "form", "action" : "/manage/save/ext/ajax", "method":"post", "field" : [{"type" : "richtextarea", "label" : "Content", "name" : "content", "value" : "<?php echo $this->content ?>"}]},

@@ -12,7 +12,10 @@
 class TreeController extends Jimw_Admin_Action
 {
 	public function indexAction () {
-		$this->_forward('list');
+		if ($this->_helper->getHelper('FlashMessenger')->hasMessages())
+			$this->_forward('list');
+		else
+			$this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages ();
 	}
 	
 	public function listAction () {
@@ -37,7 +40,9 @@ class TreeController extends Jimw_Admin_Action
 		$this->view->tree = $result;
 		$this->view->form_type = 'save';
 		$this->view->id = $id;
+		$this->getHelper('ViewRenderer')->noRenderLayout();
 		$this->render('form');
+		$this->_forward('edit', 'manage', 'article');
 	}
 
 	public function addAction () {
@@ -59,7 +64,7 @@ class TreeController extends Jimw_Admin_Action
 		$db->delete('jimw_tree', $db->quoteInto('tree_id = ?', $req->id));
 		$db->delete('jimw_article', $db->quoteInto('tree_id = ?', $req->id));
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Delete successful '. $req->id);
-		$this->_forward('list');
+		$this->_forward('index');
 	}
 
 	public function saveAction () {
@@ -75,7 +80,7 @@ class TreeController extends Jimw_Admin_Action
 		/* @var $db Zend_Db_Adapter_Abstract */
 		$tree->update($save, $db->quoteInto('tree_id = ?', $req->id));
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ' . $req->pagetitle);
-		$this->_forward('list');
+		$this->_forward('index');
 	}
 
 
@@ -99,7 +104,7 @@ class TreeController extends Jimw_Admin_Action
 		$db->insert('jimw_article', $article);
 		//End Create article
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Insert successful ' . $req->pagetitle);
-		$this->_forward('list');
+		$this->_forward('index');
 	}
 }
 ?>

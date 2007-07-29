@@ -26,8 +26,8 @@ class Article_ManageController extends Jimw_Admin_Action
 		$db = Zend_Registry::get('db');
 		/* @var $db Zend_Db_Adapter_Abstract */
 		$db->update('jimw_article', array('article_content' => stripslashes($this->_request->content)), $db->quoteInto('tree_id = ?', $this->_request->id));
-
-		$this->_forward('edit', 'tree', 'default', array('id' => $this->_request->id));
+		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ');
+		$this->_forward('index', 'tree', 'default', array('id' => $this->_request->id));
 	}
 }
 ?>
