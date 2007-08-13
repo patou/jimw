@@ -19,7 +19,7 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
      * @throws Jimw_Global_Exception
      * @return Zend_Controller_Request_Abstract|boolean
      */
-    private function testConnexion (array $param) {
+    private function testConnection (array $param) {
     	$db_param = array ('dbname' => $param['database_name'],
     						'host' => $param['database_server'],
     						'username' => $param['database_user'],
@@ -61,8 +61,8 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
         	$select->where('domain_subdomain = ?', $request->getSubDomain());
         	$result = $db->fetchRow($select);
         	if ($result === false)
-        		throw new Jimw_Global_Exception('Unknow website', 404);
-        	$this->testConnexion($result);
+        		throw new Jimw_Global_Exception('Unknown website', 404);
+        	$this->testConnection($result);
         	//Zend_Debug::dump($result);
         } catch (Zend_Db_Adapter_Exception $e){
 			echo $e->getMessage();
