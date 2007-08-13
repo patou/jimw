@@ -50,9 +50,9 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	 *
 	 * @return Jimw_Global_Request 
 	 */
-	public function setSubDomain ($pageAlias)
+	public function setSubDomain ($subDomain)
 	{
-		$this->_pageAlias = $pageAlias;
+		$this->_subDomain = $subDomain;
 		return $this;
 	}
 	
@@ -67,7 +67,7 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	}
 
 	/**
-	 * Set the tre
+	 * Set the tree
 	 *
 	 * @return Jimw_Global_Request 
 	 */
