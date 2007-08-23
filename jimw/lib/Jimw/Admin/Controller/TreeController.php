@@ -35,6 +35,7 @@ class TreeController extends Jimw_Admin_Action
 		/* @var $db Zend_Db_Adapter_Abstract */
 		$select = $db->select();
 		$select->from('jimw_tree', array('id' => 'tree_id', 'pagetitle'=> 'tree_pagetitle', 'menutitle'=> 'tree_menutitle', 'alias'=> 'tree_alias', 'description'=> 'tree_description', 'order' => 'tree_order'));
+		$select->joinNatural('jimw_module', array('module' => 'module_path'));
 		$select->where('tree_id = ?', $id);
 		$result = $db->fetchRow($select);
 		$this->view->tree = $result;
@@ -42,7 +43,7 @@ class TreeController extends Jimw_Admin_Action
 		$this->view->id = $id;
 		$this->getHelper('ViewRenderer')->noRenderLayout();
 		$this->render('form');
-		$this->_forward('edit', 'manage', 'article');
+		$this->_forward('edit', 'manage', $result['module']);
 	}
 
 	public function addAction () {
@@ -51,7 +52,13 @@ class TreeController extends Jimw_Admin_Action
 		'menutitle'=> '',
 		'alias'=> '',
 		'description'=> '',
-		'order' => 0);
+		'order' => 0,
+		'module' => 0);
+		$db = Zend_Registry::get('db');
+		/* @var $db Zend_Db_Adapter_Abstract */
+		$select = $db->select();
+		$select->from('jimw_module', array('id' => 'module_id', 'name'=> 'module_name'));
+		$this->view->modules = $db->fetchAll($select);
 		$this->view->form_type = 'insert';
 		$this->view->id = '';
 		$this->render('form');
@@ -92,7 +99,7 @@ class TreeController extends Jimw_Admin_Action
 		'tree_description'=> $req->description,
 		'tree_order'=> $req->order,
 		'site_id' => 1,
-		'module_id' => 1);
+		'module_id' => $req->module);
 		$db = Zend_Registry::get('db');
 		$tree = new Jimw_Site_Tree();
 		/* @var $db Zend_Db_Adapter_Abstract */

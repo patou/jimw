@@ -1,0 +1,2 @@
+{"type" : "form", "action" : "/gallery/manage/save/ext/ajax/id/<?php echo $this->id ?>", "method":"post", "field" : [{"type" : "textbox", "label" : "Directory", "name" : "directory", "value" : "<?php 
+echo $this->directory ?>"}]},

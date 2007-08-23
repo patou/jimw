@@ -1,3 +1,10 @@
+<?php
+	if ($this->request->isXmlHttpRequest()):
+		echo $this->getContent();
+		return;
+	else:
+		
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
 <html>
@@ -8,7 +15,19 @@
 <link rel="stylesheet" type="text/css" href="<?= $this->path ?>/jesusway.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="Content-Language" content="fr">
-
+<script src="<?= $this->path ?>/mootools.v1.11.js"></script>
+<script>
+<!--
+function load_page(url) {
+	//var content = new Fx.Slide('slide', {duration : 500});
+	//content.slideOut(); //toggle the slider up and down.
+	new Ajax(url, {method: 'get', update: 'content', onComplete: function() {
+		//content.slideIn ();
+	}}).request();
+	return false;
+}
+-->
+</script>
 </head>
 
 
@@ -49,13 +68,13 @@
 <table border="0" cellpadding="0" cellspacing="0">
 <tr>
 <?php 
-foreach ($this->menu(0, false) as $menu) { 
+foreach ($this->menu(0, false) as $menu) {
 	$link = $menu['domain_protocol'].'://'.(!empty($menu['domain_subdomain']) ? $menu['domain_subdomain'].'.':'')
 	.$menu['domain_name'].'/'.(!empty($menu['domain_path']) ? $menu['domain_path'].'/':'').$menu['tree_alias'];
 	?>
 <td>
 	<p class="menu01">
-		<a href="<?= $link ?>"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;<?= $menu['tree_menutitle']?></a>
+		<a href="<?= $link ?>" onclick="load_page('<?= $link ?>'); return false;"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;<?= $menu['tree_menutitle']?></a>
 	</p>
 </td>
 <?php } ?>
@@ -75,8 +94,11 @@ foreach ($this->menu(0, false) as $menu) {
 <table border="0" cellpadding="0" cellspacing="0" width="780">
 <tr bgcolor="#AFC0D0" valign="top">
 	<td width="487">
-	
+	<div id="slide">
+	<div id="content">
 	<?php echo $this->getContent(); ?>
+	</div>
+	</div>
 	</td>
 	<td width="2" class="dotsw"><img src="<?= $this->path ?>/images/px1.gif" alt="" width="1" height="1" border="0"></td>
 </tr>
@@ -105,3 +127,5 @@ foreach ($this->menu(0, false) as $menu) {
 </table>
 	</body>
 </html>
+<?php
+	endif;

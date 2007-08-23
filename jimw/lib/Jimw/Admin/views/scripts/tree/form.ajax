@@ -1,1 +1,9 @@
-{"type" : "form", "action" : "/tree/<?= $this->form_type?>/ext/ajax", "method":"post", "field" : [{"type" : "hidden", "name" : "id", "value" : "<?= $this->id ?>"}, {"type" : "textbox", "label" : "Title", "name" : "title", "value" : "<?= $this->urlEncode($this->tree['pagetitle']) ?>"}, {"type" : "textbox", "label" : "Menu Title", "name" : "menutitle", "value" : "<?= $this->urlEncode($this->tree['menutitle']) ?>"}, {"type" : "textbox", "label" : "Menu Order", "name" : "order", "value" : "<?= $this->urlEncode($this->tree['order']) ?>"}, {"type" : "textbox", "label" : "Alias (*)", "name" : "alias", "value" : "<?= $this->urlEncode($this->tree['alias']) ?>"}, {"type" : "textarea", "label" : "Description", "name" : "description", "value" : "<?= $this->urlEncode($this->tree['description']) ?>"}]},
+{"type" : "form", "action" : "/tree/<?= $this->form_type?>/ext/ajax", "method":"post", "field" : [{"type" : "hidden", "name" : "id", "value" : "<?= $this->id ?>"}, {"type" : "textbox", "label" : "Title", "name" : "title", "value" : "<?= $this->urlEncode($this->tree['pagetitle']) ?>"}, {"type" : "textbox", "label" : "Menu Title", "name" : "menutitle", "value" : "<?= $this->urlEncode($this->tree['menutitle']) ?>"}, {"type" : "textbox", "label" : "Menu Order", "name" : "order", "value" : "<?= $this->urlEncode($this->tree['order']) ?>"}, {"type" : "textbox", "label" : "Alias (*)", "name" : "alias", "value" : "<?= $this->urlEncode($this->tree['alias']) ?>"}, {"type" : "textarea", "label" : "Description", "name" : "description", "value" : "<?= $this->urlEncode($this->tree['description']) ?>"}<?php 
+if (isset($this->modules)) {
+	echo ', {"type" : "listbox", "label" : "Type", "name" : "module", "values" : {';
+	$list = '';
+	foreach ($this->modules as $module)
+		$list .= ', "' . $module['id'] . '" : "' . $module['name'] . '"';
+	echo trim($list, ','), '}}';
+}
+?>]},
