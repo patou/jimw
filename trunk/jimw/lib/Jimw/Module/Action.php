@@ -18,7 +18,7 @@ abstract class Jimw_Module_Action extends Zend_Controller_Action
 		$this->view->path = $request->getBaseUrl () . '/' . trim($tree['site_path'], '/') . '/template';
 		$this->view->path_public = $request->getBaseUrl () . '/' . trim($tree['site_path'], '/');
 		$this->getHelper('ViewRenderer')->setViewSuffix($request->getParam('ext', 'phtml'));
-		$this->view->addScriptPath(trim($request->site_path, '/') . '/template');
+		$this->view->addScriptPath(trim($tree['site_path'], '/') . '/template');
 		$this->view->request = $request;
 		$this->view->tree = $tree;
 		$this->initModule();
