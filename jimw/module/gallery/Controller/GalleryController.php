@@ -26,8 +26,8 @@ class Gallery_GalleryController extends Jimw_Module_Action
 			if ($dh = opendir($dir)) {
 				while (($img = readdir($dh)) !== false) {
 					if ($img != '.' && $img != '..' && !is_dir($dir . '/' . $img)) {
-						$size = getimagesize($dir . '/thumbnails/' . $img);
-						$photos[] = array ('url' => $base_path . $img, 'title' => '', 'thumbnails' => $base_path . 'thumbnails/' . $img, 'thumbnails_width' => $size[0], 'thumbnails_height' => $size[1]);
+						if (!$size = @getimagesize($dir . '/thumbnails/' . $img))
+							$photos[] = array ('url' => $base_path . $img, 'title' => '', 'thumbnails' => $base_path . 'thumbnails/' . $img, 'thumbnails_width' => $size[0], 'thumbnails_height' => $size[1]);
 					}
 				}
 				closedir($dh);
