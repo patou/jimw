@@ -70,7 +70,7 @@ function load_page(url) {
 <?php 
 foreach ($this->menu(0, false) as $menu) {
 	$link = $menu['domain_protocol'].'://'.(!empty($menu['domain_subdomain']) ? $menu['domain_subdomain'].'.':'')
-	.$menu['domain_name'].'/'.(!empty($menu['domain_path']) ? $menu['domain_path'].'/':'').$menu['tree_alias'];
+	.$menu['domain_name'].'/'.(!empty($menu['domain_path']) ? $menu['domain_path'].'/':'').$menu['tree_alias'].'/';
 	?>
 <td>
 	<p class="menu01">

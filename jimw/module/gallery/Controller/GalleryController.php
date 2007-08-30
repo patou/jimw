@@ -27,7 +27,7 @@ class Gallery_GalleryController extends Jimw_Module_Action
 				while (($img = readdir($dh)) !== false) {
 					if ($img != '.' && $img != '..' && !is_dir($dir . '/' . $img)) {
 						if (($size = @getimagesize($dir . '/thumbnails/' . $img)) !== false)
-							$photos[] = array ('url' => $base_path . $img, 'title' => '', 'thumbnails' => $base_path . 'thumbnails/' . $img, 'thumbnails_width' => $size[0], 'thumbnails_height' => $size[1]);
+							$photos[] = array ('url' => $base_path . $img, 'title' => '', 'thumbnails' => $base_path . 'thumbnails/' . $img, 'thumbnails_width' => $size[0], 'thumbnails_height' => $size[1], 'file' => $img);
 					}
 				}
 				closedir($dh);
@@ -36,6 +36,7 @@ class Gallery_GalleryController extends Jimw_Module_Action
 		else
 			exit ("$dir isn't a valid directory");
 		$this->view->photos = $photos;
+		$this->view->photos_path = $dir;
 		$this->render('gallery', 'body');
 	}
 }
