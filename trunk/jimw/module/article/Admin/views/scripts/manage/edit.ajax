@@ -1,2 +1,9 @@
-{"type" : "form", "action" : "/article/manage/save/ext/ajax/id/<?php echo $this->id ?>", "method":"post", "field" : [{"type" : "richtextarea", "label" : "Content", "name" : "content", "value" : "<?php 
-echo $this->urlEncode($this->content) ?>"}]},
+<?php
+
+$element = new Jimw_Admin_Element();
+$form = new Jimw_Admin_Element_Form('/article/manage/save/ext/ajax/id/'.$this->id);
+$form->addField(new Jimw_Admin_Element_Richtextarea('Content', 'content', $this->content));
+$element->addElement($form);
+
+echo $element, ',';
+?>
