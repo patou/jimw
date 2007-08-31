@@ -9,19 +9,24 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Article_ManageController extends Jimw_Admin_Action 
+class Article_ManageController extends Jimw_Admin_Action
 {
 	public function editAction () {
 		$this->view->id = $this->_request->id;
 		$this->view->request = $this->_request;
-        		$db = Zend_Registry::get('db');
+		$db = Zend_Registry::get('db');
 		/* @var $db Zend_Db_Adapter_Abstract */
-        $select = $db->select();
+		$select = $db->select();
 		$select->from('jimw_article', 'article_content');
 		$select->where('tree_id = ?', $this->view->id);
-        $this->view->content = $db->fetchOne($select);
+		$this->view->content = $db->fetchOne($select);
+		if (empty($this->view->content)) {
+			$article = array ('tree_id' => $id,
+			'article_content' => '');
+			$db->insert('jimw_article', $article);
+		}
 	}
-	
+
 	public function saveAction () {
 		$db = Zend_Registry::get('db');
 		/* @var $db Zend_Db_Adapter_Abstract */
