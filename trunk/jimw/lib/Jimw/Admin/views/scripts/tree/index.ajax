@@ -1,4 +1,10 @@
-<?php 
+<?php
+
+$element = new Jimw_Admin_Element();
 foreach ($this->flashmessenger as $message)
-	echo '{"type":"alert", "message":"' . $message . '"},'; 
-echo '{"type":"reloadtree"},{"type":"closetab"},';
+	$element->addAlert($message);
+$element->addReloadTree();
+$element->addCloseTab();
+
+echo $element, ',';
+?>

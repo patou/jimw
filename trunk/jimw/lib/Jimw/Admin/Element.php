@@ -7,7 +7,7 @@
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
- * @version    $Id:$
+ * @version    $Id$
  */
  
 class Jimw_Admin_Element extends Jimw_Admin_Element_Base 
@@ -19,10 +19,10 @@ class Jimw_Admin_Element extends Jimw_Admin_Element_Base
     public function addAlert($message) {
         $this->elements[] = array('type' => 'alert', 'message' => $this->urlEncode($message));
     }
-    public function addReloadTree($message) {
+    public function addReloadTree() {
         $this->elements[] = array('type' => 'reloadtree');
     }
-    public function addCloseTab($message) {
+    public function addCloseTab() {
         $this->elements[] = array('type' => 'closetab');
     }
     public function addElement(Jimw_Admin_Element_Base $element) {
