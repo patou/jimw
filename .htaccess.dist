@@ -5,5 +5,7 @@ RewriteBase /jimw
 # Change the main url file with the server configuration
 RewriteRule !\.php$ /jimw/index.php
 
+# Remove # if your apache configuration permit to change php flag
 php_flag magic_quotes_gpc off
+php_flag magic_quotes_runtime off
 php_flag register_globals off
