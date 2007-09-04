@@ -4,6 +4,6 @@
  	foreach ($this->list_tree as $tree) {
  		if ($first) $first = false;
  		else echo ', ';
- 		echo '{"alias" : "' . $tree['tree_alias'] . '", "title" : "' . $tree['tree_menutitle'] . '", "id" : ' . $tree['tree_id'] . '}';
+ 		echo '{"alias" : "' . $tree['tree_alias'] . '", "title" : "' . $tree['tree_menutitle'] . ' (' . $tree['tree_id'] . ')' . '", "id" : ' . $tree['tree_id'] . '}';
  	}
  	//echo ']';

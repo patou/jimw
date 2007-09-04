@@ -5,7 +5,7 @@ echo $message . '<br />'; ?>
 <p class="list">
 <?php foreach ($this->list_tree as $tree) { ?>
 <br /><img src="<?= $this->path ?>/images/dot_g.gif" width="5" height="5" alt="" border="0" class="absmiddle"> <?= $tree['tree_order']?>)
-<?= $tree['tree_menutitle']?> ( <?= $tree['tree_alias']?> ) 
+<?= $tree['tree_menutitle']?> ( <?= $tree['tree_alias']?> : <?= $tree['tree_id']?>)
 <a href="<?= $this->request->getBaseUrl() ?>/tree/edit/ext/phtml/id/<?= $tree['tree_id']?>"><img src="<?= $this->path ?>/images/edit.gif" width="16" height="16" alt="Edit" border="0" class="absmiddle" /></a> - <a href="<?= $this->request->getBaseUrl() ?>/tree/delete/ext/phtml/id/<?= $tree['tree_id']?>" onclick="return confirm('Do you realy want to Delete this Page ?');"><img src="<?= $this->path ?>/images/delete.gif" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
 <?php } ?>
 </p>

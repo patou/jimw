@@ -21,7 +21,7 @@ class Article_ManageController extends Jimw_Admin_Action
 		$select->where('tree_id = ?', $this->view->id);
 		$this->view->content = $db->fetchOne($select);
 		if (empty($this->view->content)) {
-			$article = array ('tree_id' => $id,
+			$article = array ('tree_id' => $this->view->id,
 			'article_content' => '');
 			$db->insert('jimw_article', $article);
 		}

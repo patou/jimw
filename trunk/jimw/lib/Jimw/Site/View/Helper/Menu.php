@@ -12,7 +12,7 @@
 
 class Jimw_Site_View_Helper_Menu
 {
-	private function createMenu() {
+	private function createMenu($name) {
 		/* @var $db Zend_Db_Adapter_Abstract */
 		$db = Zend_Registry::get('db');
 		/* @var $db Zend_Db_Adapter_Abstract */
@@ -20,6 +20,7 @@ class Jimw_Site_View_Helper_Menu
 		$select->from('jimw_tree', '*');
 		$select->from('jimw_domain', '*');
 		$select->where('jimw_tree.site_id = jimw_domain.site_id');
+		$select->where('jimw_tree.tree_parentid = ?', $name);
 		//$select->joinNatural('jimw_domain', '*');
 		$select->order('tree_order ASC');
 		$result = $db->fetchAll($select);
@@ -28,7 +29,7 @@ class Jimw_Site_View_Helper_Menu
 	
 	private function getMenu ($name)
 	{
-		return $this->createMenu();
+		return $this->createMenu($name);
 	}
 	
 	/**
