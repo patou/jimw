@@ -34,7 +34,7 @@ class TreeController extends Jimw_Admin_Action
 		$db = Zend_Registry::get('db');
 		/* @var $db Zend_Db_Adapter_Abstract */
 		$select = $db->select();
-		$select->from('jimw_tree', array('id' => 'tree_id', 'pagetitle'=> 'tree_pagetitle', 'menutitle'=> 'tree_menutitle', 'alias'=> 'tree_alias', 'description'=> 'tree_description', 'order' => 'tree_order'));
+		$select->from('jimw_tree', array('id' => 'tree_id', 'pagetitle'=> 'tree_pagetitle', 'menutitle'=> 'tree_menutitle', 'alias'=> 'tree_alias', 'description'=> 'tree_description', 'order' => 'tree_order', 'parentid' => 'tree_parentid'));
 		$select->joinNatural('jimw_module', array('module' => 'module_path'));
 		$select->where('tree_id = ?', $id);
 		$result = $db->fetchRow($select);
@@ -53,7 +53,8 @@ class TreeController extends Jimw_Admin_Action
 		'alias'=> '',
 		'description'=> '',
 		'order' => 0,
-		'module' => 0);
+		'module' => 0,
+		'parentid' => 0);
 		$db = Zend_Registry::get('db');
 		/* @var $db Zend_Db_Adapter_Abstract */
 		$select = $db->select();

@@ -59,9 +59,9 @@ require_once('Zend/Loader.php');
 spl_autoload_register(array('Zend_Loader', 'autoload'));
 // Global configuration
 if (isset ($jimw_config_db))
-Zend_Registry::set('config_db', $jimw_config_db);
+	Zend_Registry::set('config_db', $jimw_config_db);
 else
-Zend_Registry::set('config_db', array('type' => 'PDO_SQLITE', 'dbname' => JIMW_REP . 'config/config.db'));
+	Zend_Registry::set('config_db', array('type' => 'PDO_SQLITE', 'dbname' => JIMW_REP . 'config/config.db'));
 
 // Call the Global Controler
 try {

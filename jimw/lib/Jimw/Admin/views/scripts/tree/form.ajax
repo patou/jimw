@@ -6,6 +6,7 @@ $form->addField(new Jimw_Admin_Element_Hidden('id', $this->id));
 $form->addField(new Jimw_Admin_Element_Textbox('Page title', 'pagetitle', $this->tree['pagetitle']));
 $form->addField(new Jimw_Admin_Element_Textbox('Menu title', 'menutitle', $this->tree['menutitle']));
 $form->addField(new Jimw_Admin_Element_Textbox('Menu order', 'order', $this->tree['order']));
+$form->addField(new Jimw_Admin_Element_Textbox('Tree Parent', 'parentid', $this->tree['parentid']));
 $form->addField(new Jimw_Admin_Element_Textbox('Alias (*)', 'alias', $this->tree['alias']));
 
 if (isset($this->modules) && is_array($this->modules)) {

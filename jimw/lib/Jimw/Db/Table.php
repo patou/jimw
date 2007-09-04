@@ -14,6 +14,7 @@ class Jimw_Db_Table extends Zend_Db_Table
 	protected $_rowClass = 'Jimw_Db_Row';
 	protected $_rowsetClass = 'Jimw_Db_Rowset';
 	protected $_tableName = '';
+	protected $_dependentTables = array('Site');
 
 	/**
 	 * Setup the table name and add the db prefix before the table name
