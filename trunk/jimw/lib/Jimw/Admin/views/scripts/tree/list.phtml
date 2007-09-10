@@ -3,10 +3,35 @@
 foreach ($this->flashmessenger as $message)
 echo $message . '<br />'; ?>
 <p class="list">
-<?php foreach ($this->list_tree as $tree) { ?>
-<br /><img src="<?= $this->path ?>/images/dot_g.gif" width="5" height="5" alt="" border="0" class="absmiddle"> <?= $tree['tree_order']?>)
-<?= $tree['tree_menutitle']?> ( <?= $tree['tree_alias']?> : <?= $tree['tree_id']?>)
-<a href="<?= $this->request->getBaseUrl() ?>/tree/edit/ext/phtml/id/<?= $tree['tree_id']?>"><img src="<?= $this->path ?>/images/edit.gif" width="16" height="16" alt="Edit" border="0" class="absmiddle" /></a> - <a href="<?= $this->request->getBaseUrl() ?>/tree/delete/ext/phtml/id/<?= $tree['tree_id']?>" onclick="return confirm('Do you realy want to Delete this Page ?');"><img src="<?= $this->path ?>/images/delete.gif" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
-<?php } ?>
+<?php
+$path = $this->path;
+$baseurl = $this->request->getBaseUrl();
+function list_tree($list, $parent, $path, $baseurl) {
+	
+?>
+<ul style='list-style:none; margin-left: 15px; padding:0;'>
+<?php
+	foreach ($list[$parent] as $tree):
+		?>
+		<li>
+			<img src="<?= $path ?>/images/dot_g.gif" width="5" height="5" alt="" border="0" class="absmiddle"> <?= $tree['tree_order']?>)
+				<?= $tree['tree_menutitle']?> ( <?= $tree['tree_alias']?> : <?= $tree['tree_id']?>)
+				<a href="<?= $baseurl ?>/tree/edit/ext/phtml/id/<?= $tree['tree_id']?>"><img src="<?= $path ?>/images/edit.gif" width="16" height="16" alt="Edit" border="0" class="absmiddle" /></a> - 
+				<a href="<?= $baseurl ?>/tree/delete/ext/phtml/id/<?= $tree['tree_id']?>" onclick="return confirm('Do you realy want to Delete this Page ?');"><img src="<?= $path ?>/images/delete.gif" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
+		</li>
+		<?php
+		if (isset($list[$tree['tree_id']])) {
+			list_tree($list, $tree['tree_id'], $path, $baseurl);	
+		}
+		?>
+		
+		<?php
+	endforeach;
+?>
+</ul>
+<?php
+}
+list_tree($this->list_tree, 0, $path, $baseurl);
+?>
 </p>
 <p class="t01"><a href="<?= $this->request->getBaseUrl() ?>/tree/add/ext/phtml">Add new Page</a></p>
