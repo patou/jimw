@@ -25,7 +25,11 @@ class TreeController extends Jimw_Admin_Action
 		$select->from('jimw_tree', '*');
 		$select->order('tree_order ASC');
 		$result = $db->fetchAll($select);
-		$this->view->list_tree = $result;
+		$list_tree = array();
+		foreach ($result as $item) {
+			$list_tree[$item['tree_parentid']][] = $item;
+		}
+		$this->view->list_tree = $list_tree;
 		$this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages ();
 	}
 
@@ -81,6 +85,7 @@ class TreeController extends Jimw_Admin_Action
 		'tree_pagetitle'=> $req->pagetitle,
 		'tree_menutitle'=> $req->menutitle,
 		'tree_order'=> $req->order,
+		'tree_parentid'=> $req->parentid,
 		'tree_alias'=> $req->alias,
 		'tree_description'=> $req->description);
 		$db = Zend_Registry::get('db');
@@ -99,6 +104,7 @@ class TreeController extends Jimw_Admin_Action
 		'tree_alias'=> $req->alias,
 		'tree_description'=> $req->description,
 		'tree_order'=> $req->order,
+		'tree_parentid'=> $req->parentid,
 		'site_id' => 1,
 		'module_id' => $req->getPost('module'));
 		$db = Zend_Registry::get('db');

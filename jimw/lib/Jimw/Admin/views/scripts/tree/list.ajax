@@ -1,9 +1,17 @@
 <?php
-	//echo '[';
-	$first = true;
- 	foreach ($this->list_tree as $tree) {
- 		if ($first) $first = false;
- 		else echo ', ';
- 		echo '{"alias" : "' . $tree['tree_alias'] . '", "title" : "' . $tree['tree_menutitle'] . ' (' . $tree['tree_id'] . ')' . '", "id" : ' . $tree['tree_id'] . '}';
- 	}
- 	//echo ']';
+//echo '[';
+function list_tree($list, $parent) {
+	$ret = '';
+	foreach ($list[$parent] as $tree) {
+		$ret .= '{"alias" : "' . $tree['tree_alias'] . '", "title" : "' . $tree['tree_menutitle'] . ' (' . $tree['tree_id'] . ')' . '", "id" : ' . $tree['tree_id'];
+		if (isset($list[$tree['tree_id']])) {
+			$ret .= ', "children": [';
+			$ret .= trim(list_tree($list, $tree['tree_id']), ',');
+			$ret .= ']';
+		}
+		$ret .= '},';
+	}
+	return $ret;
+}
+echo list_tree($this->list_tree, 0);
+//echo ']';

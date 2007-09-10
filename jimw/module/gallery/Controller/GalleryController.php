@@ -26,8 +26,14 @@ class Gallery_GalleryController extends Jimw_Module_Action
 			if ($dh = opendir($dir)) {
 				while (($img = readdir($dh)) !== false) {
 					if ($img != '.' && $img != '..' && !is_dir($dir . '/' . $img)) {
-						if (($size = @getimagesize($dir . '/thumbnails/' . $img)) !== false)
+						if (($size = @getimagesize($dir . '/thumbnails/' . $img)) !== false) {
+							if (function_exists('exif_read_data')) {
+								$data = @exif_read_data($dir . '/' . $img);
+								//Zend_Debug::dump($data, $dir . '/' . $img);
+								echo $data["ImageDescription"];
+							}
 							$photos[] = array ('url' => $base_path . $img, 'title' => '', 'thumbnails' => $base_path . 'thumbnails/' . $img, 'thumbnails_width' => $size[0], 'thumbnails_height' => $size[1], 'file' => $img);
+						}
 					}
 				}
 				closedir($dh);
@@ -40,4 +46,3 @@ class Gallery_GalleryController extends Jimw_Module_Action
 		$this->render('gallery', 'body');
 	}
 }
-?>
