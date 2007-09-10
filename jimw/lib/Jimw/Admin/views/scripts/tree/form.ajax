@@ -1,7 +1,7 @@
 <?php
 
 $element = new Jimw_Admin_Element();
-$form = new Jimw_Admin_Element_Form('/tree/'.$this->form_type.'/ext/ajax');
+$form = new Jimw_Admin_Element_Form('tree/'.$this->form_type.'/ext/ajax');
 $form->addField(new Jimw_Admin_Element_Hidden('id', $this->id));
 $form->addField(new Jimw_Admin_Element_Textbox('Page title', 'pagetitle', $this->tree['pagetitle']));
 $form->addField(new Jimw_Admin_Element_Textbox('Menu title', 'menutitle', $this->tree['menutitle']));
@@ -13,7 +13,7 @@ if (isset($this->modules) && is_array($this->modules)) {
 	$listbox = new Jimw_Admin_Element_Listbox('Type', 'module');
 	foreach ($this->modules as $module)
 		$listbox->addValue($module['name'], $module['id']);
-	$form->addField($listbox);
+	//$form->addField($listbox);
 }
 
 $element->addElement($form);
