@@ -1,7 +1,7 @@
-<form action="<?= $this->request->getBaseUrl() ?>/gallery/manage/save/ext/phtml/id/<?= $this->id ?>" method="post">
+<form action="<?= $this->request->getBaseUrl() ?>/links/manage/save/ext/phtml/id/<?= $this->id ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
 <table border="0" width="90%" align="right">
-<tr><td class="t01">Directory : </td><td><input type="text" name="directory" value="<?= $this->directory ?>"></td></tr>
+<tr><td class="t01">Redirect URL : </td><td><input type="text" name="redirect_url" value="<?= $this->redirect_url ?>"></td></tr>
 <tr><td colspan="2" align="center"><input type="submit" name="btn" value="Save"></td></tr>
 </table></form>
 <br/>
