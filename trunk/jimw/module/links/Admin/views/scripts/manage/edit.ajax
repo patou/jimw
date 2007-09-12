@@ -1,0 +1,2 @@
+{"type" : "form", "action" : "/links/manage/save/ext/ajax/id/<?php echo $this->id ?>", "method":"post", "field" : [{"type" : "textbox", "label" : "Redirect URL", "name" : "redirect_url", "value" : "<?php 
+echo $this->redirect_url ?>"}]},

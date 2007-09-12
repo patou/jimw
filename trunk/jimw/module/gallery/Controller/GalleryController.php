@@ -1,9 +1,9 @@
 <?php
 /**
- * ArticleController
+ * GalleryController
  *
  * @author	    Patou
- * @category   Jimw_Article
+ * @category   Jimw_Gallery
  * @package    Jimw_Module
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr

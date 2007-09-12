@@ -13,7 +13,7 @@ if (isset($this->modules) && is_array($this->modules)) {
 	$listbox = new Jimw_Admin_Element_Listbox('Type', 'module');
 	foreach ($this->modules as $module)
 		$listbox->addValue($module['name'], $module['id']);
-	//$form->addField($listbox);
+	$form->addField($listbox);
 }
 
 $element->addElement($form);
