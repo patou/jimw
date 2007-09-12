@@ -1,12 +1,7 @@
-<p>
-<?= (isset($this->tree['tree_description']))? $this->tree['tree_description']:''; ?>
-</p>
+<?= (!empty($this->tree['tree_description'])) ? '<p>'.$this->tree['tree_description'].'</p>' : ''; ?>
+
 <? if (!empty($this->article)): ?>
-<p>
 <?= $this->article->content ?>
-</p>
 <? else: ?>
-<p>
-Article Not Found
-</p>
+<p>Article not found</p>
 <? endif; ?>
