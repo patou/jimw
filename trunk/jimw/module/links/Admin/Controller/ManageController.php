@@ -17,9 +17,11 @@ class Links_ManageController extends Jimw_Admin_Action
         		$db = Zend_Registry::get('db');
 		/* @var $db Zend_Db_Adapter_Abstract */
         $select = $db->select();
-		$select->from('jimw_tree', 'tree_param');
+		$select->from('jimw_tree', array ('tree_param', 'tree_version'));
 		$select->where('tree_id = ?', $this->view->id);
-        $this->view->redirect_url = $db->fetchOne($select);
+		$row = $db->fetchRow($select);
+        $this->view->redirect_url = $row['tree_param'];
+        $this->view->visited = $row['tree_version'];
 	}
 	
 	public function saveAction () {
