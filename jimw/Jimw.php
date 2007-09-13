@@ -11,7 +11,7 @@
  */
 
 if (get_magic_quotes_runtime() != 0)
-	set_magic_quotes_runtime(0);
+set_magic_quotes_runtime(0);
 
 if(get_magic_quotes_gpc() == 1){
 	function remove_magic_quotes(&$array)
@@ -48,11 +48,13 @@ else {
 	define('JIMW_REP_MODULE', JIMW_REP . 'module/');
 	/** Lib directory */
 	define('JIMW_REP_LIB', JIMW_REP . 'lib/');
+	/** Cache directory */
+	define('JIMW_CACHE_LIB', './cache/');
 }
 if (!defined('JIMW_DEBUG_MODE'))
-define('JIMW_DEBUG_MODE', false);
+	define('JIMW_DEBUG_MODE', false);
 else
-error_reporting(E_ALL|E_STRICT);
+	error_reporting(E_ALL|E_STRICT);
 // Autoload initialisation
 set_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
 require_once('Zend/Loader.php');
@@ -63,6 +65,24 @@ if (isset ($jimw_config_db))
 else
 	Zend_Registry::set('config_db', array('type' => 'PDO_SQLITE', 'dbname' => JIMW_REP . 'config/config.db'));
 
+
+if (!JIMW_DEBUG_MODE) {
+	$frontendOptions = array(
+	'automatic_serialization' => true
+	);
+
+	$backendOptions  = array(
+	'cacheDir'                => 'cacheDir'
+	);
+
+	$cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
+
+
+	// Next, set the cache to be used with all table objects
+
+	Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
+
+}
 // Call the Global Controler
 try {
 	$controler = new Jimw_Global_Controller();

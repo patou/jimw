@@ -29,4 +29,7 @@
 	
 	/** Lib directory */
 	define('JIMW_REP_LIB', JIMW_REP . 'lib/');
+	
+	/** Cache directory */
+	define('JIMW_CACHE_LIB', './cache/');
 ?>

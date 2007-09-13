@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Db_Table extends Zend_Db_Table 
+class Jimw_Db_Table extends Zend_Db_Table
 {
 	protected $_rowClass = 'Jimw_Db_Row';
 	protected $_rowsetClass = 'Jimw_Db_Rowset';
@@ -33,7 +33,7 @@ class Jimw_Db_Table extends Zend_Db_Table
         	$this->_tableName = substr($this->_name, strlen($prefix));
         }
     }
-    
+
     /**
      * Get the real table name without the prefix
      *
@@ -42,7 +42,7 @@ class Jimw_Db_Table extends Zend_Db_Table
     public function getTableName () {
     	return $this->_tableName;
     }
-    
+
     /**
      * Transform a column name from the user-specified form
      * to the physical form used in the database.
@@ -67,7 +67,7 @@ class Jimw_Db_Table extends Zend_Db_Table
         }
         return $columnName;
     }
-    
+
 	public function insert(array $data)
     {
         // add a timestamp
