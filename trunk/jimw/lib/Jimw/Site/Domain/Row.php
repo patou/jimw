@@ -10,6 +10,7 @@
  * @version    $Id$
  */
 class Jimw_Site_Domain_Row extends Jimw_Db_Row {
+
 	/**
 	 * Display the Url
 	 * @param $alias The Alias Name

@@ -18,92 +18,83 @@
 <body>
 <!-- wrap starts here -->
 <div id="wrap">
-	
+
 	<!-- content-wrap starts here -->
-	<div id="content-wrap">		
-											
+	<div id="content-wrap">
+
 		<img src="<?= $this->path ?>/images/banner.gif" width="967" height="138" alt="RN TA ES Lyon 2007 : Avec Lui, tu peux faire de TA vie des annéES de lumière !" class="no-border" />
-		
-		<div id="sidebar" >							
-			
+
+		<div id="sidebar" >
+
 			<!-- <h1>Menu</h1> -->
 			<ul class="sidemenu">
-				<?php 
-				$tree = new Jimw_Site_Tree($this->tree['tree_id']);
-				$menu = $tree->getMenu('left');
-				foreach ($menu as $menuitem) {
-					if ($menuitem['expanded']) {
-						$submenu = $tree->getChildren($menuitem['tree_id']);
-					} else {
-						$submenu = array();
-					}
-					$class = ($menuitem['active'] ? ' class="current"' : '')
+				<?php
+				foreach ($this->menu('left') as $menuitem) {
 				?>
 				<li>
-					<a href="<?php echo $menuitem['linkurl']; ?>"<?php echo $class; ?>><?php echo $menuitem['tree_menutitle']; ?></a>
+					<a href="<?php echo $menuitem->toUrl (); ?>"<?php echo ($menuitem->getActive() ? ' class="current"' : ''); ?>><?php echo $menuitem->menutitle; ?></a>
 				</li>
 				<?php
-				if (count($submenu) > 0):
-					?>
+				if ($menuitem->getExpanded() && $menuitem->hasChildren ()):
+				?>
 					<ul>
 					<?php
-					foreach ($submenu as $submenuitem) {
-						$class = ($submenuitem['active'] ? ' class="current"' : '')
+					foreach ($menuitem->getChildren() as $submenuitem) {
 					?>
 						<li>
-							<a href="<?php echo $submenuitem['linkurl']; ?>"<?php echo $class; ?>><?php echo $submenuitem['tree_menutitle']; ?></a>
+							<a href="<?php echo $submenuitem->toUrl (); ?>"<?php echo ($submenuitem->getActive() ? ' class="current"' : ''); ?>><?php echo $submenuitem->tree_menutitle; ?></a>
 						</li>
 					<?php
 					}
 					?>
 					</ul>
 				<?php endif;
-				} 
+				}
 				?>
 			</ul>
-			
-			<!--	
+
+			<!--
 			<h1>Photos</h1>
 			<ul class="sidemenu">
 
-			</ul>		
+			</ul>
 			-->
 			<!-- <h1>RNTA</h1>
-			<p>&quot;Rassemblement National des T&eacute;moins Aujourd'hui&quot;</p>		
-				
-			<p class="align-right"><a href="http://www.mej.fr/">MEJ</a></p>	-->			
-		
-		</div>
-			
-		<div id="main">	
-		
-		<?php echo $this->getContent(); ?>
-		
-		</div>	
+			<p>&quot;Rassemblement National des T&eacute;moins Aujourd'hui&quot;</p>
 
-	<!-- content-wrap ends here -->		
+			<p class="align-right"><a href="http://www.mej.fr/">MEJ</a></p>	-->
+
+		</div>
+
+		<div id="main">
+
+		<?php echo $this->getContent(); ?>
+
+		</div>
+
+	<!-- content-wrap ends here -->
 	</div>
 
-<!-- footer starts here -->	
+<!-- footer starts here -->
 <div id="footer">
-	
+
 	<div class="footer-left">
-		<p class="align-left">			
+		<p class="align-left">
 		&copy; 2007 <a href="http://www.mej.fr/"><strong>MEJ</strong></a> | <a href="http://www.jesusway.fr/"><strong>JesusWay.fr</strong></a>
 		&nbsp; <a href="http://validator.w3.org/check/referer">XHTML</a> |
 		<a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> valides
 		</p>
 	</div>
-	
+
 	<div class="footer-right">
 		<p class="align-right">
 			<a href="/">Accueil</a>&nbsp;|&nbsp;<a href="/admin/">Accès rédacteur</a>
 		</p>
 	</div>
-	
+
 </div>
 <!-- footer ends here -->
-	
+
 <!-- wrap ends here -->
 </div>
 
