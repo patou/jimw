@@ -3,7 +3,7 @@
 		echo $this->getContent();
 		return;
 	else:
-		
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
@@ -67,19 +67,15 @@ function load_page(url) {
 	<td>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr>
-<?php 
-foreach ($this->menu(0, false) as $menu) {
-	$link = $menu['domain_protocol'].'://'.(!empty($menu['domain_subdomain']) ? $menu['domain_subdomain'].'.':'')
-	.$menu['domain_name'].'/'.(!empty($menu['domain_path']) ? $menu['domain_path'].'/':'').$menu['tree_alias'].'/';
-	?>
+<?php
+foreach ($this->menu('top') as $menuitem) {
+?>
 <td>
 	<p class="menu01">
-		<a href="<?= $link ?>"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;<?= $menu['tree_menutitle']?></a>
+		<a href="<?= $menuitem->toUrl () ?>"><img src="<?= $this->path ?>/images/b_go.gif" width="19" height="25" alt="" border="0" class="absmiddle">&nbsp;&nbsp;<?php echo $menuitem->menutitle; ?></a>
 	</p>
 </td>
 <?php } ?>
-
-
 </tr>
 </table>
 	</td>
@@ -114,8 +110,8 @@ foreach ($this->menu(0, false) as $menu) {
 	<td height="19" colspan="2"><img src="<?= $this->path ?>/images/px1.gif" width="1" height="1" alt="" border="0"></td>
 </tr>
 <tr>
-	<td height="70"><p>Copyright &copy; 2006 - 2007 <?php echo $this->request->getDomainName (); ?> / 
-<a href="http://www.logisim.com" target="_blank">Simon LEPRINCE</a> / 
+	<td height="70"><p>Copyright &copy; 2006 - 2007 <?php echo $this->request->getDomainName (); ?> /
+<a href="http://www.logisim.com" target="_blank">Simon LEPRINCE</a> /
 <a href="http://www.lesgrumels.fr" target="_blank">lesgrumels</a></p></td>
 	<td></td>
 </tr>

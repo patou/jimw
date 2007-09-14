@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Site_Router extends Zend_Controller_Router_Abstract 
+class Jimw_Site_Router extends Zend_Controller_Router_Abstract
 {
 	/**
 	 * Get the controller name
@@ -30,7 +30,7 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
 		}
 		return $tab_path[0];
 	}
-	
+
 	private function getSite (Jimw_Global_Request $request) {
 		$db = Zend_Registry::get('db');
         $select = $db->select ();
@@ -43,7 +43,7 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
         $result = $db->fetchRow($select);
         $request->setParam('site_path', $result['site_path']);
 	}
-	
+
 	private function getModuleAlias($alias, Jimw_Global_Request $request) {
 		// Connect to the database
 		/* @var $db Zend_Db_Adapter_Abstract */
@@ -60,10 +60,11 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
 		if ($result === false) {
 			return false;
 		}
+		Jimw_Site_Tree::setCurrent($result['tree_id']);
 		$request->setTree($result);
 		return $result['module_path'];
 	}
-	
+
 	/**
      * Processes a request and sets its controller and action.  If
      * no route was possible, an exception is thrown.
@@ -124,7 +125,7 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
 	    	$request->setModuleName($module);
 	    	if ($controller === false)
 	    		$request->setControllerName($module);
-	    	else 
+	    	else
 	    		$request->setControllerName($controller);
 	    	$request->setActionName($alias);
     	}

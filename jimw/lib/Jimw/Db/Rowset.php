@@ -9,8 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Db_Rowset extends Zend_Db_Table_Rowset 
+class Jimw_Db_Rowset extends Zend_Db_Table_Rowset
 {
-	
+
 }
-?>
