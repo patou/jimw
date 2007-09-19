@@ -15,9 +15,11 @@ class Links_LinksController extends Jimw_Module_Action
 {
 	public function viewModule ($alias)
 	{
+		$treeFactory = new Jimw_Site_Tree();
 		$tree = $this->_request->getTree();
+		$tree = $treeFactory->find($tree->id)->current();
 		$tree->setParam ('count', $tree->getParam('count', 0) + 1);
 		$tree->save ();
-		$this->_redirect($tree->getParam ('count'));
+		$this->_redirect($tree->getParam ('url'));
 	}
 }

@@ -93,6 +93,15 @@ class TreeController extends Jimw_Admin_Action
 		$save->menutitle = $req->menutitle;
 		$save->order = $req->order;
 		$save->parentid = $req->parentid;
+		$save->module_id = $req->module;
+		$save->site_id = 1;
+		$save->version = 0;
+		$save->status = 0;
+		$save->param = '';
+		$save->icon = '';
+		$save->image = '';
+		$save->creationdate = '1900-01-01 00:00:00';
+		$save->editiondate = '1900-01-01 00:00:00';
 		$save->alias = $req->alias;
 		$save->description = $req->description;
 		$save->save ();
