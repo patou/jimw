@@ -48,7 +48,7 @@ CREATE TABLE `jimw_tree` (
 `tree_status` TINYINT NOT NULL default '0',
 `tree_version` INTEGER NOT NULL default '0',
 `tree_type` TINYINT NOT NULL default '0',
-`tree_param` VARCHAR (32)  NOT NULL default '',
+`tree_param` TINYTEXT  NOT NULL default '',
 `tree_creationdate` DATETIME NOT NULL default '1900-01-01 00:00:00',
 `tree_editiondate` DATETIME NOT NULL default '1900-01-01 00:00:00',
 PRIMARY KEY (`tree_id`)

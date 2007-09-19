@@ -31,6 +31,11 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
 		return $tab_path[0];
 	}
 
+	/**
+	 * Obsolete
+	 *
+	 * @param Jimw_Global_Request $request
+	 */
 	private function getSite (Jimw_Global_Request $request) {
 		$db = Zend_Registry::get('db');
         $select = $db->select ();
@@ -45,24 +50,25 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
 	}
 
 	private function getModuleAlias($alias, Jimw_Global_Request $request) {
-		// Connect to the database
-		/* @var $db Zend_Db_Adapter_Abstract */
-		$db = Zend_Registry::get('db');
-		/* @var $db Zend_Db_Adapter_Abstract */
-		$select = $db->select();
-		$select->from('jimw_tree', '*');
-		$select->from('jimw_module', '*');
-		$select->from('jimw_site', array('site_name', 'site_path'));
-		$select->where('jimw_tree.site_id = jimw_site.site_id');
-		$select->where('jimw_tree.module_id = jimw_module.module_id');
-		$select->where('tree_alias = ?', $alias);
-		$result = $db->fetchRow($select);
-		if ($result === false) {
+		$tree = new Jimw_Site_Tree ();
+		$result = $tree->findByAlias($alias);
+		if (!$result) {
 			return false;
 		}
-		Jimw_Site_Tree::setCurrent($result['tree_id']);
+		Jimw_Site_Tree::setCurrent($result->id);
 		$request->setTree($result);
-		return $result['module_path'];
+		$request->setParam('site_path', $result->site->path);
+		return $result->module->path;
+	}
+
+	private function _setPath($tab_path, $length, Jimw_Global_Request $request) {
+		if ($length > 0) {
+			$path = implode('/', array_slice($tab_path, 0, $length));
+			$base = $request->getBasePath ();
+			if (!empty($base))
+				$path = $base . '/' . $path;
+			$request->setPath(trim($path, '/'));
+		}
 	}
 
 	/**
@@ -93,10 +99,11 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
     			$request->setModuleName('default');
     			$request->setControllerName('index');
     			$request->setActionName('index');
-    			//return $request;
+    			$request->setPath(trim($request->getBaseUrl(), '/'));
     		}
     		else {
     			$alias = $tab_path[$len_tab_path - 1];
+    			$this->_setPath($tab_path, $len_tab_path - 1, $request);
     		}
     	}
     	else {
@@ -104,10 +111,12 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
     		{
     			$alias = $tab_path[$len_tab_path - 1];
     			$controller = false;
+    			$this->_setPath($tab_path, $len_tab_path - 1, $request);
     		}
     		else {
     			$alias = $tab_path[$len_tab_path - 2];
     			$controller = $this->getController($tab_path[$len_tab_path - 1], $request);
+    			$this->_setPath($tab_path, $len_tab_path - 2, $request);
     		}
     	}
     	/*echo 'alias = ', $alias, '<br />';
@@ -119,6 +128,7 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
     		$request->setModuleName('default');
     		$request->setControllerName('index');
     		$request->setActionName('index');
+    		$this->_setPath($tab_path, $len_tab_path, $request);
     	}
     	else {
 	    	$request->setPageAlias($alias);
@@ -129,7 +139,7 @@ class Jimw_Site_Router extends Zend_Controller_Router_Abstract
 	    		$request->setControllerName($controller);
 	    	$request->setActionName($alias);
     	}
-    	$this->getSite($request);
+    	//$this->getSite($request);
     	//Zend_Debug::dump($request);
        	return $request;
     }

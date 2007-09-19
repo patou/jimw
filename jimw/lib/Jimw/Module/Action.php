@@ -9,49 +9,37 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
- 
-abstract class Jimw_Module_Action extends Zend_Controller_Action 
+
+abstract class Jimw_Module_Action extends Zend_Controller_Action
 {
 	public function init() {
 		$request = $this->getRequest ();
 		$tree = $request->getTree ();
-		$this->view->path = $request->getBaseUrl () . '/' . trim($tree['site_path'], '/') . '/template';
-		$this->view->path_public = $request->getBaseUrl () . '/' . trim($tree['site_path'], '/');
+		$site_path = trim($tree->site->path, '/');
+		$this->view->path = $request->getBaseUrl () . '/' . $site_path . '/template';
+		$this->view->path_public = $request->getBaseUrl () . '/' . $site_path;
 		$this->getHelper('ViewRenderer')->setViewSuffix($request->getParam('ext', 'phtml'));
-		$this->view->addScriptPath(trim($tree['site_path'], '/') . '/template');
+		$this->view->addScriptPath($site_path . '/template');
+		$this->view->addScriptPath($site_path . '/template/' . $tree->module->path);
 		$this->view->request = $request;
 		$this->view->tree = $tree;
 		$this->initModule();
 	}
-	
+
 	/**
 	 * Initialisation of the module
 	 * Call by init method
 	 *
 	 */
-	
+
 	public function initModule() {
-		
+
 	}
-	
+
 	abstract public function viewModule ($alias);
-	/**
-	 * Get the 
-	 *
-	 * @param unknown_type $id
-	 * @param unknown_type $param
-	 */
-	public function __call ($alias, $param) {
-		//Check Alias
-		//Get Hierarichy
-		
-		//Call viewModule function
-		$this->viewModule($alias);	
-	}
-	
-	   /**
+    /**
      * Dispatch the requested action
-     * 
+     *
      * @param string $action Method name of action
      * @return void
      */
@@ -67,10 +55,9 @@ abstract class Jimw_Module_Action extends Zend_Controller_Action
             $this->postDispatch();
         }
 
-        // whats actually important here is that this action controller is 
-        // shutting down, regardless of dispatching; notify the helpers of this 
+        // whats actually important here is that this action controller is
+        // shutting down, regardless of dispatching; notify the helpers of this
         // state
         $this->_helper->notifyPostDispatch();
     }
 }
-?>

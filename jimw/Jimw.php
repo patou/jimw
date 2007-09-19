@@ -10,6 +10,7 @@
  * @version    $Id$
  */
 
+$startTime = microtime(true);
 if (get_magic_quotes_runtime() != 0)
 set_magic_quotes_runtime(0);
 
@@ -52,18 +53,18 @@ else {
 	define('JIMW_CACHE_LIB', './cache/');
 }
 if (!defined('JIMW_DEBUG_MODE'))
-	define('JIMW_DEBUG_MODE', false);
+define('JIMW_DEBUG_MODE', false);
 else
-	error_reporting(E_ALL|E_STRICT);
+error_reporting(E_ALL|E_STRICT);
 // Autoload initialisation
 set_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
 require_once('Zend/Loader.php');
 spl_autoload_register(array('Zend_Loader', 'autoload'));
 // Global configuration
 if (isset ($jimw_config_db))
-	Zend_Registry::set('config_db', $jimw_config_db);
+Zend_Registry::set('config_db', $jimw_config_db);
 else
-	Zend_Registry::set('config_db', array('type' => 'PDO_SQLITE', 'dbname' => JIMW_REP . 'config/config.db'));
+Zend_Registry::set('config_db', array('type' => 'PDO_SQLITE', 'dbname' => JIMW_REP . 'config/config.db'));
 
 
 if (!JIMW_DEBUG_MODE) {
@@ -72,7 +73,7 @@ if (!JIMW_DEBUG_MODE) {
 	);
 
 	$backendOptions  = array(
-	'cacheDir'                => 'cacheDir'
+	'cacheDir'                => './cache/db'
 	);
 
 	$cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
@@ -81,7 +82,6 @@ if (!JIMW_DEBUG_MODE) {
 	// Next, set the cache to be used with all table objects
 
 	Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
-
 }
 // Call the Global Controler
 try {
@@ -101,5 +101,35 @@ catch (Exception $e) {
 	echo $e->getMessage();
 	else
 	echo 'error'; /** @todo Change it to more friendly error*/
+}
+
+
+if (JIMW_DEBUG_MODE) {
+	echo "<!-- Debug Mode \n";
+	$db = Zend_Registry::get('db');
+	if ($db) {
+		$profiler = $db->getProfiler ();
+		$totalTime    = $profiler->getTotalElapsedSecs();
+		$queryCount   = $profiler->getTotalNumQueries();
+		$longestTime  = 0;
+		$longestQuery = null;
+
+		foreach ($profiler->getQueryProfiles() as $query) {
+			if ($query->getElapsedSecs() > $longestTime) {
+				$longestTime  = $query->getElapsedSecs();
+				$longestQuery = $query->getQuery();
+			}
+			echo 'Query : ', $query->getElapsedSecs(), ' for ', $query->getQuery(), "\n";
+		}
+
+		echo 'Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "\n";
+		echo 'Average query length: ' . $totalTime / $queryCount . ' seconds' . "\n";
+		echo 'Queries per second: ' . $queryCount / $totalTime . "\n";
+		echo 'Longest query length: ' . $longestTime . "\n";
+		echo "Longest query: \n" . $longestQuery . "\n";
+	}
+	$totalTime = microtime(true) - $startTime;
+	//calculate the time difference
+	echo "\ntotal execution time: $totalTime . \n//-->";
 }
 ?>

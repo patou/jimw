@@ -9,7 +9,6 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Exception extends Zend_Exception
+class Jimw_Admin_Exception extends Jimw_Exception
 {
 }
-?>

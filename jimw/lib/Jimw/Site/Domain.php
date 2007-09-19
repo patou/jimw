@@ -13,6 +13,14 @@ class Jimw_Site_Domain extends Jimw_Db_Table {
 	protected $_name = 'domain';
 	protected $_rowClass = 'Jimw_Site_Domain_Row';
 
+	protected $_dependentTables = array('Jimw_Site_Site');
+	protected $_referenceMap    = array(
+	'site' => array(
+	'columns'           => array('site_id'),
+	'refTableClass'     => 'Jimw_Site_Site',
+	'refColumns'        => 'site_id'
+	));
+
 	/**
 	 * Get the Domain Row from a Site Id
 	 *

@@ -13,6 +13,19 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	protected $_name = 'tree';
 	protected $_rowClass = 'Jimw_Site_Tree_Row';
 
+	protected $_dependentTables = array('Jimw_Site_Site', 'Jimw_Site_Module');
+	protected $_referenceMap    = array(
+	'site' => array(
+	'columns'           => array('site_id'),
+	'refTableClass'     => 'Jimw_Site_Site',
+	'refColumns'        => 'site_id'
+	),
+	'module' => array(
+	'columns'           => array('module_id'),
+	'refTableClass'     => 'Jimw_Site_Module',
+	'refColumns'        => 'module_id'
+	));
+
 	protected static $_children = null;
 	protected static $_nodes = null;
 	protected static $_currentid = -1;
@@ -84,33 +97,6 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 		//return $list;
 	}
 
-	public function getMenu ($menutitle) {
-		$list = array();
-		/* @var $db Zend_Db_Adapter_Abstract */
-		$db = Zend_Registry::get('db');
-		$select = $db->select();
-		$select->from('jimw_menuitem', '*');
-		$select->where('jimw_menuitem.menu_name = ?', $menutitle);
-		$result = $db->fetchAll($select, array('menuitem_order', 'tree_id'));
-		if ($result === false) {
-			return $list;
-		} else {
-			foreach ($result as $item) {
-				if ($item['menuitem_status'] == 0) {
-					$list = array_merge($list, $this->getChildren($item['tree_id']));
-				} else {
-					$list[] = self::$_nodes[$item['tree_id']];
-				}
-			}
-			return $list;
-		}
-		if (array_key_exists($parent, self::$_children)) {
-			foreach (self::$_children[$parent] as $child) {
-				$list[] = self::$_nodes[$child];
-			}
-		}
-		return $list;
-	}
 
 	/**
 	 * Test if the Tree id given has children
@@ -171,13 +157,13 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 * @return Jimw_Db_RowClass
 	 */
 	public function createRow(array $data = array())
-    {
-    	$data['tree_creationdate'] = time();
-    	$data['tree_editiondate'] = time();
-    	$data['tree_type'] = 0;
-    	$data['tree_status'] = 3;
-        return parent::createRow($data);
-    }
+	{
+		$data['tree_creationdate'] = time();
+		$data['tree_editiondate'] = time();
+		$data['tree_type'] = 0;
+		$data['tree_status'] = 3;
+		return parent::createRow($data);
+	}
 
 	public function update(array $data, $where)
 	{
@@ -196,20 +182,74 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 */
 	public function find () {
 		$args = func_get_args();
-
+		$this->_loadTree();
 		$list = array();
 		foreach ($args as $i) {
-			$list = self::$_nodes[$i];
+			if (isset(self::$_nodes[$i])) {
+				$list[] = self::$_nodes[$i];
+			}
 		}
-        $data  = array(
-            'table'    => $this,
-            'data'     => $list,
-            'rowClass' => $this->_rowClass,
-            'stored'   => true
-        );
+		$data  = array(
+		'table'    => $this,
+		'data'     => $list,
+		'rowClass' => $this->_rowClass,
+		'stored'   => true
+		);
 
-        Zend_Loader::loadClass($this->_rowsetClass);
-        return new $this->_rowsetClass($data);
+		Zend_Loader::loadClass($this->_rowsetClass);
+		return new $this->_rowsetClass($data);
+	}
+
+	/**
+	 * Find a Tree Item by the , and get the module and Site
+	 *
+	 * @param string $alias
+	 * @return boolean|Jimw_Site_Tree_Row
+	 */
+	public function findByAlias($alias) {
+		$list = $this->_fetch(array('tree_alias = ?' => $alias), array('tree_version DESC'));
+		if ($list) {
+			$list = $list[0];
+			$module = new Jimw_Site_Module();
+			$list['module'] = $module->find($list['module_id'])->current ();
+			$site = new Jimw_Site_Site();
+			$list['site'] = $site->find($list['site_id'])->current ();
+			$data  = array(
+			'table'    => $this,
+			'data'     => $list,
+			'rowClass' => $this->_rowClass,
+			'stored'   => true
+			);
+			Zend_Loader::loadClass($this->_rowClass);
+			return new $this->_rowClass($data);
+		}
+		return false;
+	}
+
+	/**
+	 * Find a Tree Item by the , and get the module and Site
+	 *
+	 * @param string $alias
+	 * @return boolean|Jimw_Site_Tree_Row
+	 */
+	public function findBySite($site) {
+		$this->_loadTree();
+		$id = $site->tree_id;
+		if (isset(self::$_nodes[$id])) {
+			$list = self::$_nodes[$id];
+			$module = new Jimw_Site_Module();
+			$list['module'] = $module->find($list['module_id'])->current ();
+			$list['site'] = $site;
+			$data  = array(
+			'table'    => $this,
+			'data'     => $list,
+			'rowClass' => $this->_rowClass,
+			'stored'   => true
+			);
+			Zend_Loader::loadClass($this->_rowClass);
+			return new $this->_rowClass($data);
+		}
+		return false;
 	}
 }
 ?>
