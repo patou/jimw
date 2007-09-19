@@ -19,9 +19,11 @@ class Gallery_GalleryController extends Jimw_Module_Action
 		/* @var $request Jimw_Global_Request */
 		$request = $this->_request;
 		$tree = $request->getTree();
+		/* @var $tree Jimw_Site_Tree_Row */
 		$photos = array();
-		$dir = rtrim('./' . $tree['site_path'], '/') . '/' . trim($tree['tree_param'], '/');
-		$base_path = $this->view->path_public . '/' . trim($tree['tree_param'], '/') . '/';
+		$rep = trim($tree->getParam('dir'), '/');
+		$dir = rtrim('./' . $tree->site->path, '/') . '/' . $rep;
+		$base_path = $this->view->path_public . '/' . $rep . '/';
 		if (is_dir($dir)) {
 			if ($dh = opendir($dir)) {
 				while (($img = readdir($dh)) !== false) {

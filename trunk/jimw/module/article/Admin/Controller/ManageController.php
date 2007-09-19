@@ -9,30 +9,62 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
+include_once (dirname(__FILE__) . '/../../Controller/Model/Article.php');
 class Article_ManageController extends Jimw_Admin_Action
 {
 	public function editAction () {
-		$this->view->id = $this->_request->id;
+		$id = $this->_request->id;
 		$this->view->request = $this->_request;
-		$db = Zend_Registry::get('db');
-		/* @var $db Zend_Db_Adapter_Abstract */
-		$select = $db->select();
-		$select->from('jimw_article', 'article_content');
-		$select->where('tree_id = ?', $this->view->id);
-		$this->view->content = $db->fetchOne($select);
-		if (empty($this->view->content)) {
-			$article = array ('tree_id' => $this->view->id,
-			'article_content' => '');
-			$db->insert('jimw_article', $article);
+		$article = new Article();
+		$result = $article->findByTree($this->view->id);
+		if (!$result) {
+			$new = $article->fetchNew();
+			$new->content = '';
+			$new->tree_id = $id;
+			$new->date = '1900-01-01 00:00:00';
+			$new->status = 0;
+			$new->revisioninfo = '';
+			$new->save();
+			$result = $new;
 		}
+		$this->view->content = $result->content;
+		$this->view->id = $id;
 	}
 
 	public function saveAction () {
-		$db = Zend_Registry::get('db');
-		/* @var $db Zend_Db_Adapter_Abstract */
-		$db->update('jimw_article', array('article_content' => stripslashes($this->_request->content)), $db->quoteInto('tree_id = ?', $this->_request->id));
+		$id = $this->view->id;
+		$article = new Article();
+		$result = $article->findByTree($id);
+		if (!$result) {
+			$new = $article->fetchNew();
+			$new->content = '';
+			$new->date = '1900-01-01 00:00:00';
+			$new->tree_id = $id;
+			$new->status = 0;
+			$new->revisioninfo = '';
+			$new->save();
+		} else {
+			$result->content = stripslashes($this->_request->content);
+			$result->date = '1900-01-01 00:00:00';
+			$result->status = 0;
+			$result->revisioninfo = '';
+			$result->save ();
+		}
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ');
-		$this->_forward('index', 'tree', 'default', array('id' => $this->_request->id));
+		$this->_forward('index', 'tree', 'default', array('id' => $id));
+	}
+
+	public function deleteAction () {
+		$id = $this->view->id;
+		$article = new Article();
+		$result = $article->findByTree($id);
+		if ($result) {
+			$result->delete ();
+			$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ');
+		} else {
+			throw new Jimw_Admin_Exception();
+		}
+		$this->_forward('index', 'tree', 'default');
 	}
 }
 ?>

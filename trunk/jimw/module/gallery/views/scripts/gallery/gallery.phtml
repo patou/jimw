@@ -2,7 +2,7 @@
 $this->declareVars(array('can_download' => true));
 ?>
 <p>
-<?= (isset($this->tree['tree_description']))? $this->tree['tree_description']:''; ?>
+<?= (isset($this->tree->description))? $this->tree->description : ''; ?>
 </p>
 <script language="javascript" type="text/javascript">
 
@@ -89,7 +89,7 @@ endif;
 <?php
 if ($this->can_download):
 ?>
-<form name="download" method="POST" action="<?php echo $this->request->getBaseUrl() . '/'. $this->request->getPageAlias() . '/galleryzip.phtml'; ?>">
+<form name="download" method="POST" action="<?php echo $this->request->getBaseUrl() . '/'. $this->tree->alias() . '/galleryzip.phtml'; ?>">
 <input type="hidden" name="dir" value="<?php echo $this->photos_path ?>" />
 <div id="download_link"><a href="#" onclick="display_download();">Télécharger les photos</a></div>
 <?php

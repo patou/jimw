@@ -4,24 +4,24 @@
 <? if (!empty($this->id)): ?>
 <tr><td class="t01">Id :</td><td class="t01"><?= $this->id ?></td></tr>
 <? endif; ?>
-<tr><td class="t01">Title :</td><td><input type="text" name="pagetitle" size="40" value="<?= $this->tree['pagetitle']?>"></td></tr>
-<tr><td class="t01">Menu Title :</td><td><input type="text" name="menutitle" size="40" value="<?= $this->tree['menutitle']?>"></td></tr>
-<tr><td class="t01">Order :</td><td><input type="text" name="order" size="40" value="<?= $this->tree['order']?>"></td></tr>
-<tr><td class="t01">Tree Parent :</td><td><input type="text" name="parentid" size="40" value="<?= $this->tree['parentid']?>">(0 for the root tree item)</td></tr>
-<tr><td class="t01">Alias : </td><td><input type="text" name="alias" size="40" value="<?= $this->tree['alias']?>"></td></tr>
+<tr><td class="t01">Title :</td><td><input type="text" name="pagetitle" size="40" value="<?= $this->tree->pagetitle?>"></td></tr>
+<tr><td class="t01">Menu Title :</td><td><input type="text" name="menutitle" size="40" value="<?= $this->tree->menutitle?>"></td></tr>
+<tr><td class="t01">Order :</td><td><input type="text" name="order" size="40" value="<?= $this->tree->order?>"></td></tr>
+<tr><td class="t01">Tree Parent :</td><td><input type="text" name="parentid" size="40" value="<?= $this->tree->parentid?>">(0 for the root tree item)</td></tr>
+<tr><td class="t01">Alias : </td><td><input type="text" name="alias" size="40" value="<?= $this->tree->alias?>"></td></tr>
 <?php
 	if (isset($this->modules)):
 ?>
 <tr><td class="t01">Type : </td><td><select name="module">
 <?php
 	foreach ($this->modules as $module)
-		echo '<option value="', $module['id'],'">',$module['name'],'</option>';
+		echo '<option value="', $module->id,'">',$module->name,'</option>';
 ?>
 </select></td></tr>
 <?php
 	endif;
 ?>
-<tr><td class="t01">Description : </td><td><textarea name="description" rows="4" cols="37"><?= $this->tree['description']?></textarea></td></tr>
+<tr><td class="t01">Description : </td><td><textarea name="description" rows="4" cols="37"><?= $this->tree->description?></textarea></td></tr>
 <tr><td colspan="2" align="center"><input type="submit" name="btn" value="<?= ucfirst($this->form_type)?>"></td></tr></table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">

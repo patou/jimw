@@ -15,12 +15,9 @@ class Links_LinksController extends Jimw_Module_Action
 {
 	public function viewModule ($alias)
 	{
-
-		/* @var $request Jimw_Global_Request */
-		$request = $this->_request;
-		$tree = $request->getTree();
-		$db = Zend_Registry::get('db');
-		$db->update('jimw_tree', array('tree_version' => $tree['tree_version'] + 1), $db->quoteInto('tree_id = ?', $tree['tree_id']));
-		$this->_redirect($tree['tree_param']);
+		$tree = $this->_request->getTree();
+		$tree->setParam ('count', $tree->getParam('count', 0) + 1);
+		$tree->save ();
+		$this->_redirect($tree->getParam ('count'));
 	}
 }

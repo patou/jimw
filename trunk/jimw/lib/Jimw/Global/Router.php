@@ -11,7 +11,7 @@
  */
 class Jimw_Global_Router extends Zend_Controller_Router_Abstract
 {
-    
+
     /**
      * Test the connexion to the database
      *
@@ -24,6 +24,9 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
     						'host' => $param['database_server'],
     						'username' => $param['database_user'],
     						'password' => $param['database_pass']);
+    	if (JIMW_DEBUG_MODE) {
+    		$db_param['profiler'] = true;
+    	}
     	try {
     		$db = Zend_Db::factory($param['database_type'], $db_param);
     		$db->getConnection();
@@ -35,7 +38,7 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
 			throw new Jimw_Global_Exception('Could not connect to the database');
 		}
     }
-    
+
 	/**
      * Processes a request and sets its controller and action.  If
      * no route was possible, an exception is thrown.
@@ -60,8 +63,9 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
         	$select->where('domain_protocol = ?', $request->getDomainProtocol());
         	$select->where('domain_subdomain = ?', $request->getSubDomain());
         	$result = $db->fetchRow($select);
-        	if ($result === false)
+        	if ($result === false) {
         		throw new Jimw_Global_Exception('Unknown website', 404);
+        	}
         	$this->testConnection($result);
         	//Zend_Debug::dump($result);
         } catch (Zend_Db_Adapter_Exception $e){

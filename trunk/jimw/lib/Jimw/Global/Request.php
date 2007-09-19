@@ -11,21 +11,21 @@
  */
 class Jimw_Global_Request extends Zend_Controller_Request_Http
 {
-	private $_domainName = "";
-	private $_subDomain = "";
-	private $_domainPort = "";
-	private $_domainProtocol = "";
-	private $_path = "";
-	private $_pageAlias = "";
+	private $_domainName = '';
+	private $_subDomain = '';
+	private $_domainPort = '';
+	private $_domainProtocol = '';
+	private $_path = '';
+	private $_pageAlias = '';
 	private $_tree = null;
-	
+
 	/**
      * Constructor
      *
-     * If a $uri is passed, the object will attempt to populate itself using 
+     * If a $uri is passed, the object will attempt to populate itself using
      * that information.
-     * 
-     * @param string|Zend_Uri $uri 
+     *
+     * @param string|Zend_Uri $uri
      * @return void
      * @throws Zend_Controller_Request_Exception when invalid URI passed
      */
@@ -34,7 +34,7 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 		parent::__construct($uri);
 		$this->setDomains();
 	}
-	
+
 	/**
 	 * Return the sub domains name
 	 *
@@ -48,14 +48,14 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	/**
 	 * Set the sub domain name
 	 *
-	 * @return Jimw_Global_Request 
+	 * @return Jimw_Global_Request
 	 */
 	public function setSubDomain ($subDomain)
 	{
 		$this->_subDomain = $subDomain;
 		return $this;
 	}
-	
+
 	/**
 	 * Return the tree
 	 *
@@ -69,14 +69,14 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	/**
 	 * Set the tree
 	 *
-	 * @return Jimw_Global_Request 
+	 * @return Jimw_Global_Request
 	 */
 	public function setTree ($tree)
 	{
 		$this->_tree = $tree;
 		return $this;
 	}
-	
+
 	/**
 	 * Return the domains name
 	 *
@@ -90,14 +90,14 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	/**
 	 * Set the domain name
 	 *
-	 * @return Jimw_Global_Request 
+	 * @return Jimw_Global_Request
 	 */
 	public function setDomainName ($domain)
 	{
 		$this->_domainName = $domain;
 		return $this;
 	}
-		
+
 	/**
 	 * Return the domains port
 	 *
@@ -111,7 +111,7 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	/**
 	 * Set the domain port
 	 *
-	 * @return Jimw_Global_Request 
+	 * @return Jimw_Global_Request
 	 */
 	public function setDomainPort ($port)
 	{
@@ -132,35 +132,35 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	/**
 	 * Set the domain protocol
 	 *
-	 * @return Jimw_Global_Request 
+	 * @return Jimw_Global_Request
 	 */
 	public function setDomainProtocol ($protocol)
 	{
 		$this->_domainProtocol = $protocol;
 		return $this;
 	}
-	
+
 	/**
 	 * Return the jimw page alias
 	 *
-	 * @return string 
+	 * @return string
 	 */
 	public function getPageAlias ()
 	{
 		return $this->_pageAlias;
 	}
-	
+
 	/**
 	 * Set the jimw page alias
 	 *
-	 * @return Jimw_Global_Request 
+	 * @return Jimw_Global_Request
 	 */
 	public function setPageAlias ($pageAlias)
 	{
 		$this->_pageAlias = $pageAlias;
 		return $this;
 	}
-		
+
 	/**
 	 * Return the jimw paths
 	 *
@@ -170,7 +170,17 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	{
 		return $this->_path;
 	}
-		
+
+	/**
+	 * Set the jimw paths
+	 *
+	 * @return string path
+	 */
+	public function setPath ($path)
+	{
+		$this->_path = $path;
+	}
+
 	/**
 	 * Set Domain informations
 	 *

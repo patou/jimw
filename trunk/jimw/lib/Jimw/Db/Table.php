@@ -14,7 +14,6 @@ class Jimw_Db_Table extends Zend_Db_Table
 	protected $_rowClass = 'Jimw_Db_Row';
 	protected $_rowsetClass = 'Jimw_Db_Rowset';
 	protected $_tableName = '';
-	protected $_dependentTables = array('Site');
 
 	/**
 	 * Setup the table name and add the db prefix before the table name
@@ -71,21 +70,21 @@ class Jimw_Db_Table extends Zend_Db_Table
 	public function insert(array $data)
     {
         // add a timestamp
-        $creationdate = $this->_transformColumn('creationdate');
+        /**$creationdate = $this->_transformColumn('creationdate');
         if (empty($data[$creationdate]))
         	$data[$creationdate] = time ();
         $editiondate = $this->_transformColumn('editiondate');
         if (empty($data[$editiondate]))
-        	$data[$editiondate] = time();
+        	$data[$editiondate] = time();*/
         return parent::insert($data);
     }
 
     public function update(array $data, $where)
     {
         // add a timestamp
-        $editiondate = $this->_transformColumn('editiondate');
+        /**$editiondate = $this->_transformColumn('editiondate');
         if (empty($data[$editiondate]))
-        	$data[$editiondate] = time();
+        	$data[$editiondate] = time();*/
         return parent::update($data, $where);
     }
 }

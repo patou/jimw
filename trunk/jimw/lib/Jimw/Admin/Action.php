@@ -9,8 +9,8 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
- 
-abstract class Jimw_Admin_Action extends Zend_Controller_Action 
+
+abstract class Jimw_Admin_Action extends Zend_Controller_Action
 {
 	public function init() {
 		$request = $this->getRequest ();
@@ -21,8 +21,12 @@ abstract class Jimw_Admin_Action extends Zend_Controller_Action
 		$this->view->tree = $tree;
 		$this->initModule();
 	}
-	
+
+	public function deleteAction () {
+		$this->_forward('index', 'tree', 'default');
+	}
+
 	public function initModule () {
-		
+
 	}
 }
