@@ -12,7 +12,7 @@
 <meta name="Robots" content="index,follow" />
 
 <link rel="stylesheet" href="<?= $this->path ?>/images/rn2007.css" type="text/css" />
-<title>RN TA/ES 2007 - <?= $this->tree['tree_pagetitle']; ?></title>
+<title>RN TA/ES 2007 - <?= $this->tree->pagetitle; ?></title>
 </head>
 
 <body>
@@ -29,7 +29,7 @@
 			<!-- <h1>Menu</h1> -->
 			<ul class="sidemenu">
 				<?php
-				foreach ($this->menu('left') as $menuitem) {
+				/**foreach ($this->menu('left') as $menuitem) {
 				?>
 				<li>
 					<a href="<?php echo $menuitem->toUrl (); ?>"<?php echo ($menuitem->getActive() ? ' class="current"' : ''); ?>><?php echo $menuitem->menutitle; ?></a>
@@ -49,8 +49,12 @@
 					?>
 					</ul>
 				<?php endif;
-				}
+					}*/
 				?>
+			<?php
+				echo $this->menu('left', array('ulClassName' => 'sidemenu', 'currentClassName' => 'current',
+				'menuDepth' => 3, 'menuExpanded' => true));
+			?>
 			</ul>
 
 			<!--
