@@ -32,19 +32,19 @@ class Article_ManageController extends Jimw_Admin_Action
 	}
 
 	public function saveAction () {
-		$id = $this->view->id;
+		$id = $this->_request->id;
 		$article = new Article();
 		$result = $article->findByTree($id);
 		if (!$result) {
 			$new = $article->fetchNew();
-			$new->content = '';
+			$new->content = $this->_request->content;
 			$new->date = '1900-01-01 00:00:00';
 			$new->tree_id = $id;
 			$new->status = 0;
 			$new->revisioninfo = '';
 			$new->save();
 		} else {
-			$result->content = stripslashes($this->_request->content);
+			$result->content = $this->_request->content;
 			$result->date = '1900-01-01 00:00:00';
 			$result->status = 0;
 			$result->revisioninfo = '';
