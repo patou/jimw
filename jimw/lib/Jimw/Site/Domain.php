@@ -29,7 +29,7 @@ class Jimw_Site_Domain extends Jimw_Db_Table {
 	 */
 	public function getDomain($site_id) {
 		$where = $this->getAdapter()->quoteInto('site_id = ?', $site_id);
-		return $this->fetchRow($where);
+		return $this->fetchRow($where, array('domain_status'));
 	}
 
 	public static $_cacheDomain = null;
