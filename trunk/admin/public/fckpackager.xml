@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
- * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2007 Frederico Caldeira Knabben
- *
- * == BEGIN LICENSE ==
- *
- * Licensed under the terms of any of the following licenses at your
- * choice:
- *
- *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
- *
- *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
- *
- *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
- *
- * == END LICENSE ==
- *
- * This is the configuration file to be used with FCKpackager to generate the
- * compressed code files in the "js" folder.
- *
- * Please check http://www.fckeditor.net for more info.
+	* FCKeditor - The text editor for Internet - http://www.fckeditor.net
+	* Copyright (C) 2003-2007 Frederico Caldeira Knabben
+	*
+	* == BEGIN LICENSE ==
+	*
+	* Licensed under the terms of any of the following licenses at your
+	* choice:
+	*
+	*  - GNU General Public License Version 2 or later (the "GPL")
+	*    http://www.gnu.org/licenses/gpl.html
+	*
+	*  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
+	*    http://www.gnu.org/licenses/lgpl.html
+	*
+	*  - Mozilla Public License Version 1.1 or later (the "MPL")
+	*    http://www.mozilla.org/MPL/MPL-1.1.html
+	*
+	* == END LICENSE ==
+	*
+	* This is the configuration file to be used with FCKpackager to generate the
+	* compressed code files in the "js" folder.
+	*
+	* Please check http://www.fckeditor.net for more info.
 -->
 <Package>
 	<Header><![CDATA[/*
@@ -112,10 +112,14 @@
 
 		<File path="editor/_source/commandclasses/fcknamedcommand.js" />
 		<File path="editor/_source/commandclasses/fck_othercommands.js" />
-		<File path="editor/_source/commandclasses/fckspellcheckcommand_ie.js" />
-		<File path="editor/_source/commandclasses/fcktextcolorcommand.js" />
-		<File path="editor/_source/commandclasses/fckpasteplaintextcommand.js" />
-		<File path="editor/_source/commandclasses/fckpastewordcommand.js" />
+		<File
+			path="editor/_source/commandclasses/fckspellcheckcommand_ie.js" />
+		<File
+			path="editor/_source/commandclasses/fcktextcolorcommand.js" />
+		<File
+			path="editor/_source/commandclasses/fckpasteplaintextcommand.js" />
+		<File
+			path="editor/_source/commandclasses/fckpastewordcommand.js" />
 		<File path="editor/_source/commandclasses/fcktablecommand.js" />
 		<File path="editor/_source/commandclasses/fckstylecommand.js" />
 		<File path="editor/_source/commandclasses/fckfitwindow.js" />
@@ -129,7 +133,8 @@
 		<File path="editor/_source/classes/fcktoolbarspecialcombo.js" />
 		<File path="editor/_source/classes/fcktoolbarfontscombo.js" />
 		<File path="editor/_source/classes/fcktoolbarfontsizecombo.js" />
-		<File path="editor/_source/classes/fcktoolbarfontformatcombo.js" />
+		<File
+			path="editor/_source/classes/fcktoolbarfontformatcombo.js" />
 		<File path="editor/_source/classes/fcktoolbarstylecombo.js" />
 		<File path="editor/_source/classes/fcktoolbarpanelbutton.js" />
 		<File path="editor/_source/internals/fcktoolbaritems.js" />
@@ -180,7 +185,8 @@
 		<File path="editor/_source/classes/fckelementpath.js" />
 		<File path="editor/_source/classes/fckdomrange.js" />
 		<File path="editor/_source/classes/fckdomrange_gecko.js" />
-		<File path="editor/_source/classes/fckdocumentfragment_gecko.js" />
+		<File
+			path="editor/_source/classes/fckdocumentfragment_gecko.js" />
 		<File path="editor/_source/classes/fckw3crange.js" />
 		<File path="editor/_source/classes/fckenterkey.js" />
 
@@ -197,10 +203,14 @@
 
 		<File path="editor/_source/commandclasses/fcknamedcommand.js" />
 		<File path="editor/_source/commandclasses/fck_othercommands.js" />
-		<File path="editor/_source/commandclasses/fckspellcheckcommand_gecko.js" />
-		<File path="editor/_source/commandclasses/fcktextcolorcommand.js" />
-		<File path="editor/_source/commandclasses/fckpasteplaintextcommand.js" />
-		<File path="editor/_source/commandclasses/fckpastewordcommand.js" />
+		<File
+			path="editor/_source/commandclasses/fckspellcheckcommand_gecko.js" />
+		<File
+			path="editor/_source/commandclasses/fcktextcolorcommand.js" />
+		<File
+			path="editor/_source/commandclasses/fckpasteplaintextcommand.js" />
+		<File
+			path="editor/_source/commandclasses/fckpastewordcommand.js" />
 		<File path="editor/_source/commandclasses/fcktablecommand.js" />
 		<File path="editor/_source/commandclasses/fckstylecommand.js" />
 		<File path="editor/_source/commandclasses/fckfitwindow.js" />
@@ -214,7 +224,8 @@
 		<File path="editor/_source/classes/fcktoolbarspecialcombo.js" />
 		<File path="editor/_source/classes/fcktoolbarfontscombo.js" />
 		<File path="editor/_source/classes/fcktoolbarfontsizecombo.js" />
-		<File path="editor/_source/classes/fcktoolbarfontformatcombo.js" />
+		<File
+			path="editor/_source/classes/fcktoolbarfontformatcombo.js" />
 		<File path="editor/_source/classes/fcktoolbarstylecombo.js" />
 		<File path="editor/_source/classes/fcktoolbarpanelbutton.js" />
 		<File path="editor/_source/internals/fcktoolbaritems.js" />

@@ -58,8 +58,8 @@ class Jimw_Zip  {
 		$addCentralRecord .= pack("v", 0 ); 
 		$addCentralRecord .= pack("v", 0 ); 
 		$addCentralRecord .= pack("v", 0 ); 
-		$ext = "\x00\x00\x10\x00";
-		$ext = "\xff\xff\xff\xff";  
+		//$ext = "\x00\x00\x10\x00";
+		//$ext = "\xff\xff\xff\xff";  
 		$addCentralRecord .= pack("V", 16 ); 
 
 		$addCentralRecord .= pack("V", $this -> oldOffset ); 
@@ -163,7 +163,7 @@ class Jimw_Zip  {
 	 */
 
 	public function forceDownload($archiveName) {
-		$headerInfo = '';
+		//$headerInfo = '';
 		 
 		if(ini_get('zlib.output_compression')) {
 			ini_set('zlib.output_compression', 'Off');

@@ -2,9 +2,7 @@
 <bindings xmlns="http://www.mozilla.org/xbl">
 	<binding id="numericfield">
 		<implementation>
-			<constructor>
-				this.keypress = CheckIsDigit ;
-			</constructor>
+			<constructor>this.keypress = CheckIsDigit ;</constructor>
 			<method name="CheckIsDigit">
 				<body>
 					<![CDATA[

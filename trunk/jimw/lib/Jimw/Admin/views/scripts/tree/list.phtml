@@ -1,8 +1,3 @@
-<p class="t01">Edit the website</p>
-<?php
-foreach ($this->flashmessenger as $message)
-echo $message . '<br />'; ?>
-<p class="list">
 <?php
 $path = $this->path;
 $baseurl = $this->request->getBaseUrl();
@@ -31,6 +26,13 @@ function list_tree($list, $path, $baseurl) {
 </ul>
 <?php
 }
+?>
+<p class="t01">Edit the website</p>
+<?php
+foreach ($this->flashmessenger as $message)
+echo $message . '<br />'; ?>
+<p class="list">
+<?php
 list_tree($this->list_tree, $path, $baseurl);
 ?>
 </p>

@@ -201,5 +201,7 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 		$this->_domainProtocol = ($this->get("HTTPS") == "on") ? "https" : "http";
 		return $this;
 	}
+	
+	
 }
 ?>
