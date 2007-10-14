@@ -43,8 +43,6 @@ class TreeController extends Jimw_Admin_Action
 
 	public function addAction () {
 		$tree = new Jimw_Site_Tree();
-		$result = $tree->find($id);
-
 		$this->view->tree = $tree->fetchNew();
 		$module = new Jimw_Site_Module();
 		$this->view->modules = $module->fetchAll();
@@ -87,13 +85,14 @@ class TreeController extends Jimw_Admin_Action
 
 	public function insertAction () {
 		$req = $this->_request;
+		Zend_Debug::dump($req);
 		$tree = new Jimw_Site_Tree();
 		$save = $tree->fetchNew();
 		$save->pagetitle = $req->pagetitle;
 		$save->menutitle = $req->menutitle;
 		$save->order = $req->order;
 		$save->parentid = $req->parentid;
-		$save->module_id = $req->module;
+		$save->module_id = $req->getPost('module');
 		$save->site_id = 1;
 		$save->version = 0;
 		$save->status = 0;
@@ -104,6 +103,7 @@ class TreeController extends Jimw_Admin_Action
 		$save->editiondate = '1900-01-01 00:00:00';
 		$save->alias = $req->alias;
 		$save->description = $req->description;
+		Zend_Debug::dump($save);
 		$save->save ();
 		$id = $save->id;
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Insert successful ' . $req->pagetitle);

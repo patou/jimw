@@ -27,7 +27,7 @@ class Jimw_Data_Article extends Jimw_Data
 	 * The data
 	 * @var string
 	 */
-	private $text = "";
+	private $data = "";
 	
 		
 	/**
@@ -52,7 +52,7 @@ class Jimw_Data_Article extends Jimw_Data
 	{
 		
 		// @todo
-		return true;
+		return $data;
 	}
 }
 ?>

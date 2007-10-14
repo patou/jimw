@@ -52,13 +52,12 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	/**
 	 * Load the all tree into the class and keep it in the class
 	 *
-	 * @return unknown
 	 */
 	private function _loadTree () {
 		if (self::$_children === null || self::$_nodes === null) {
 			$result = $this->_fetch(null, array('tree_order', 'tree_alias'));
 			if ($result === false) {
-				return false;
+				return;
 			} else {
 				foreach ($result as $node) {
 					self::$_nodes[$node['tree_id']] = $node;

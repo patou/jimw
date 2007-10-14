@@ -23,10 +23,7 @@ abstract class Jimw_Module
 		$this->config = $config;
 	}
 
-	abstract  function sessionStart()
-	{
-
-	}
+	abstract  function sessionStart();
 
 }
 

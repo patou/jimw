@@ -43,11 +43,12 @@ class Jimw_Mail
 	 */
 	public function addTo($to)
 	{
-		if ($this->isMail($to))
+		if ($this->isMail($to)) {
 			if (!empty($this->to))
 				$this->to .= ', '. $to;
 			else
 				$this->to = $to;
+		}
 	}
 	/**
 	 * add an mail to send in copy carbon
@@ -57,11 +58,12 @@ class Jimw_Mail
 	 */
 	public function addCC($to)
 	{
-		if ($this->isMail($to))
+		if ($this->isMail($to)) {
 			if (!empty($this->header['CC']))
 				$this->header['CC'] .= ', '. $to;
 			else
 				$this->header['CC'] = $to;
+		}
 	}
 	/**
 	 * add an mail to send in b copy carbon
@@ -71,11 +73,12 @@ class Jimw_Mail
 	 */
 	public function addBCC($to)
 	{
-		if ($this->isMail($to))
+		if ($this->isMail($to)) {
 			if (!empty($this->header['BCC']))
 				$this->header['BCC'] .= ', '. $to;
 			else
 				$this->header['BCC'] = $to;
+		}
 	}
 	/**
 	 * Set the subject
@@ -96,7 +99,7 @@ class Jimw_Mail
 	public function setFrom($from)
 	{
 		if ($this->isMail($from))
-			return $this->addHeader('From', $from);
+			$this->addHeader('From', $from);
 	}
 	/**
 	 * Define the Reply-To
@@ -107,7 +110,7 @@ class Jimw_Mail
 	public function setReplyTo($replyto)
 	{
 		if ($this->isMail($replyto))
-			return $this->addHeader('Reply-To', $replyto);
+			$this->addHeader('Reply-To', $replyto);
 	}
 	/**
 	 * Set the Text Part of the mail
@@ -230,6 +233,7 @@ class Jimw_Mail
 		$headers = $this->generateHeader();
 		if (!(empty($this->to) || empty($this->subject) || empty($message)))
 			return @mail($this->to, $this->subject, $message, $headers);
+		return false;
 	}
 	/**
 	 * Validate a Mail
@@ -382,7 +386,7 @@ class Jimw_Mail
 	{
 		$part .= "--==Mixed_Boundary_x".$this->boundary."x\n";
 		$part .= 'Content-Type: ' . $type ."\n";
-		foreach ($this->header as $name => $value)
+		foreach ($headers as $name => $value)
 			$part .= $name.': '. $value . "\n";
 		$part .= "\n".$content;
 		return $part;
