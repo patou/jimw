@@ -21,7 +21,7 @@ class TreeController extends Jimw_Admin_Action
 	public function listAction () {
 		$tree = new Jimw_Site_Tree();
 		$session = new Zend_Session_Namespace('Admin');
-		if (isset($session->site))
+		if (isset($session->site) && isset($session->site->tree_id))
 			$parentid = $tree->find($session->site->tree_id)->current();
 		else
 			$parentid = null;
