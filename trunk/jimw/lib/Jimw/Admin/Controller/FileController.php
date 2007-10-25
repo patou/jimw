@@ -52,7 +52,6 @@ class FileController extends Jimw_Admin_Action {
 		$this->view->file_path = $dir;
 		if (!empty($dir) && $dir != '/')
 			$this->view->file_path_up = substr($dir, 0, strrpos($dir, '/'));
-		//Zend_Debug::dump($files);
 		$this->render('list');
 	}
 	
@@ -68,13 +67,12 @@ class FileController extends Jimw_Admin_Action {
 				$files[] = array('text' => $filename,
 								'path' => $filename,
 								'leaf' => !$file->isDir (),
-								'disabled' => !$file->isWritable (),
+								'disabled' => false,
 								'id' => '/' . trim($dir . '/' . $filename, '/'),
 								'cls' => ($file->isDir () ? 'folder' : $this->get_ext($filename)));
 			}
 		}
 		$this->view->files = $files;
-		//Zend_Debug::dump($files);
 		$this->render('list');
 	}
 	
