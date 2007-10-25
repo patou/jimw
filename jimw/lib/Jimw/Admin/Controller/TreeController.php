@@ -21,7 +21,11 @@ class TreeController extends Jimw_Admin_Action
 	public function listAction () {
 		$tree = new Jimw_Site_Tree();
 		$session = new Zend_Session_Namespace('Admin');
-		$this->view->list_tree = $tree->getChildren($tree->find($session->site->tree_id)->current()->parentid);
+		if (isset($session->site))
+			$parentid = $tree->find($session->site->tree_id)->current();
+		else
+			$parentid = null;
+		$this->view->list_tree = $tree->getChildren($parentid ? $parentid->parentid : 0);
 		$this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages ();
 	}
 
