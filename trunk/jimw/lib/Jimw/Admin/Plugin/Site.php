@@ -11,7 +11,7 @@ class Jimw_Admin_Plugin_Site extends Zend_Controller_Plugin_Abstract {
 		if (isset($request->site)) {
 			$session->site = $sites->find($request->site);
 		}
-		if (!empty($session->site)) {
+		if (!isset($session->site)) {
 			$domains = new Jimw_Site_Domain();
 			$domain = $domains->fetchRow(array ('domain_name = ?' => $request->getDomainName(),
 						'domain_port = ?' => $request->getDomainPort(),
