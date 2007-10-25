@@ -9,6 +9,32 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
+
+$startTime = microtime(true);
+if (get_magic_quotes_runtime() != 0)
+	set_magic_quotes_runtime(0);
+
+if (get_magic_quotes_gpc() == 1){
+	function remove_magic_quotes(&$array)
+	{
+		foreach($array as $key => $val){
+
+
+			if(is_array($val)){
+				remove_magic_quotes($array[$key]);
+			} else if(is_string($val)){
+				$array[$key] = stripslashes($val);
+			}
+		}
+	}
+
+	remove_magic_quotes($_POST);
+	remove_magic_quotes($_GET);
+	remove_magic_quotes($_REQUEST);
+	remove_magic_quotes($_SERVER);
+	remove_magic_quotes($_FILES);
+	remove_magic_quotes($_COOKIE);
+}
 if (! defined('JIMW_REP')) {
     if (file_exists('../jimw/'))
         define('JIMW_REP', '../jimw/'); 
@@ -30,6 +56,8 @@ else
     // Autoload initialisationset_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
 require_once ('Zend/Loader.php');
 spl_autoload_register(array('Zend_Loader' , 'autoload'));
+// Session
+$session = new Zend_Session_Namespace('Admin');
 // Global configurationif (isset($jimw_config_db))
     Zend_Registry::set('config_db', $jimw_config_db); 
 else

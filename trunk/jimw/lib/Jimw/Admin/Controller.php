@@ -1,8 +1,8 @@
 <?php
 /**
- * Jimw_Global_Controler
+ * Jimw_Admin_Controler
  *
- * @author	    Patou
+ * @author	   Patou
  * @category   Jimw_Core
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
@@ -73,10 +73,25 @@ class Jimw_Admin_Controller
 		return $view;
 	}
 
+	public function registerPlugins(Zend_Controller_Front $frontcontroller) {
+		$dir = new DirectoryIterator(JIMW_REP_LIB . 'Jimw/Admin/Plugin');
+		if ($dir->valid()) {
+			foreach ($dir as $plugin) {
+				if (!$dir->isDot() && ereg("^(.*)\.php$", $plugin, $plugin_info)) {
+					include_once (JIMW_REP_LIB . 'Jimw/Admin/Plugin/' . $plugin);
+					$class_name = "Jimw_Admin_Plugin_${plugin_info[1]}";
+					$class = new $class_name();
+					$frontcontroller->registerPlugin($class);
+				}
+			}
+		}
+	}
+	
 	public function run () {
 		$this->request = $this->router->route($this->request);
 		$this->initView();
 		$frontcontroller = Zend_Controller_Front::getInstance();
+		$this->registerPlugins($frontcontroller);
 		$frontcontroller->throwExceptions(true);
 		$frontcontroller->setRequest($this->request);
 		$frontcontroller->setControllerDirectory(JIMW_REP_LIB . 'Jimw/Admin/Controller/');
