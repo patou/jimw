@@ -79,7 +79,7 @@ class FileController extends Jimw_Admin_Action {
 	public function deleteAction () {
 		$file = $this->get_dir($this->getRequest()->file);
 		if (file_exists($file)) {
-			if (is_dir($file) && rmdir($file) || unlink($file)) {
+			if (is_dir($file) && @rmdir($file) || @unlink($file)) {
 				$this->view->files = array('success' => true);	
 			}		
 			else {
@@ -96,7 +96,7 @@ class FileController extends Jimw_Admin_Action {
 	public function renameAction () {
 		$oldname = $this->get_dir($this->getRequest()->oldname);
 		$newname = $this->get_dir($this->getRequest()->newname);
-		if (file_exists($oldname) && rename($oldname, $newname)) {
+		if (file_exists($oldname) && @rename($oldname, $newname)) {
 			$this->view->files = array('success' => true);		
 		}
 		else {
@@ -108,7 +108,7 @@ class FileController extends Jimw_Admin_Action {
 	
 	public function newdirAction () {
 		$dir = $this->get_dir($this->getRequest()->dir);
-		if (!mkdir($dir, 0777, true))
+		if (!@mkdir($dir, 0755, true))
 			$this->view->files = array('success' => false, 'error' => "the directory $dir can't be create");
 		else
 			$this->view->files = array('success' => true);
@@ -135,7 +135,7 @@ class FileController extends Jimw_Admin_Action {
 				$return['errors'][$id] = 'Error to upload file ' . $file['name'] . ' ';
 			}
 			else {
-				move_uploaded_file($file['tmp_name'], $path . '/' . $file['name']);	
+				@move_uploaded_file($file['tmp_name'], $path . '/' . $file['name']);	
 			}			
 		}
 		$this->view->files = $return;
