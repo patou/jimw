@@ -10,6 +10,8 @@ class Jimw_Site_View_ViewRenderer
     protected $_layoutScript = 'layout';
     
     protected $_renderLayout = true;
+    
+    protected $_appendBody = false;
     /**
      * Constructor
      *
@@ -58,7 +60,17 @@ class Jimw_Site_View_ViewRenderer
     {
         $this->_renderLayout = ($renderLayout) ? true : false;
     }
-    
+
+    /**
+     * If appendBody is true The result is append to the body response, otherwise, the result is append to the content
+     *
+     * @param string $script
+     */
+    public function setAppendBody($appendBody = true)
+    {
+        $this->_appendBody = ($appendBody) ? true : false;
+    }
+ 
     /**
      * Set that the Layout mustn't be render.
      *
@@ -112,7 +124,10 @@ class Jimw_Site_View_ViewRenderer
         }
         
         // assign action script name to view.
-        $this->view->appendContent ($this->view->render($script));
+        if ($this->_appendBody)
+        	$this->getResponse()->appendBody ($this->view->render($script));
+        else
+        	$this->view->appendContent ($this->view->render($script));
         
         // render layout script and append to Response's body
         if ($this->_renderLayout) {

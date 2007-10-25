@@ -12,6 +12,7 @@
 class IndexController extends Jimw_Admin_Action 
 {
 	public function indexAction () {
+		$this->render('index');
 	}
 }
 ?>

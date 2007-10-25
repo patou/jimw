@@ -1,0 +1,3 @@
+<?php
+	/* @var $this Zend_View */
+	echo $this->render('file/index.phtml');
