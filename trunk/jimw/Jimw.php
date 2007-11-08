@@ -37,13 +37,14 @@ if(get_magic_quotes_gpc() == 1){
 }
 
 if (!defined('JIMW_REP'))
-if (file_exists('./jimw/'))
-define('JIMW_REP', './jimw/');
-else
-define('JIMW_REP', './');
+	if (file_exists('./jimw/'))
+	  define('JIMW_REP', './jimw/');
+	else
+	  define('JIMW_REP', './');
+
 // Load Global Configuration file
 if (file_exists(JIMW_REP. 'config/global.php'))
-include(JIMW_REP. 'config/global.php');
+	include(JIMW_REP. 'config/global.php');
 else {
 	/** Module directory */
 	define('JIMW_REP_MODULE', JIMW_REP . 'module/');

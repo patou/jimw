@@ -1,4 +1,4 @@
-CREATE TABLE `jimw_admin` (
+CREATE TABLE `{PREFIX}admin` (
 `admin_id` INTEGER auto_increment ,
 `admin_login` VARCHAR (32)  NOT NULL default '',
 `admin_pass` VARCHAR (40)  NOT NULL default '',
@@ -7,7 +7,7 @@ CREATE TABLE `jimw_admin` (
 PRIMARY KEY (`admin_id`)
 );
 
-CREATE TABLE `jimw_domain` (
+CREATE TABLE `{PREFIX}domain` (
 `domain_id` INTEGER auto_increment ,
 `database_id` INTEGER default '0',
 `domain_protocol` VARCHAR (15)  NOT NULL default '',
@@ -17,7 +17,7 @@ CREATE TABLE `jimw_domain` (
 PRIMARY KEY (`domain_id`)
 );
 
-CREATE TABLE `jimw_database` (
+CREATE TABLE `{PREFIX}database` (
 `database_id` INTEGER auto_increment ,
 `database_type` VARCHAR (15)  NOT NULL default '',
 `database_server` VARCHAR (64)  NOT NULL default '',

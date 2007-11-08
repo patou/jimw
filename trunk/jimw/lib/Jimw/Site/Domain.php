@@ -10,7 +10,7 @@
  * @version    $Id$
  */
 class Jimw_Site_Domain extends Jimw_Db_Table {
-	protected $_name = 'domain';
+	protected $_name = 'path';
 	protected $_rowClass = 'Jimw_Site_Domain_Row';
 
 	protected $_dependentTables = array('Jimw_Site_Site');
@@ -29,7 +29,7 @@ class Jimw_Site_Domain extends Jimw_Db_Table {
 	 */
 	public function getDomain($site_id) {
 		$where = $this->getAdapter()->quoteInto('site_id = ?', $site_id);
-		return $this->fetchRow($where, array('domain_status'));
+		return $this->fetchRow($where, array('path_status'));
 	}
 
 	public static $_cacheDomain = null;

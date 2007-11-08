@@ -1,4 +1,4 @@
-CREATE TABLE `jimw_user` (
+CREATE TABLE `{PREFIX}user` (
 `user_id` INTEGER auto_increment ,
 `user_login` VARCHAR (32)  NOT NULL default '',
 `user_password` VARCHAR (32)  NOT NULL default '',
@@ -11,7 +11,7 @@ CREATE TABLE `jimw_user` (
 PRIMARY KEY (`user_id`)
 );
 
-CREATE TABLE `jimw_site` (
+CREATE TABLE `{PREFIX}site` (
 `site_id` INTEGER auto_increment ,
 `tree_id` INTEGER default '0',
 `site_access` TINYINT NOT NULL default '0',
@@ -20,7 +20,7 @@ CREATE TABLE `jimw_site` (
 PRIMARY KEY (`site_id`)
 );
 
-CREATE TABLE `jimw_domain` (
+CREATE TABLE `{PREFIX}domain` (
 `domain_id` INTEGER auto_increment ,
 `site_id` INTEGER default '0',
 `domain_protocol` VARCHAR (8)  NOT NULL default '',
@@ -32,7 +32,7 @@ CREATE TABLE `jimw_domain` (
 PRIMARY KEY (`domain_id`)
 );
 
-CREATE TABLE `jimw_tree` (
+CREATE TABLE `{PREFIX}tree` (
 `tree_id` INTEGER auto_increment ,
 `tree_parentid` INTEGER default '0',
 `tree_order` INTEGER NOT NULL default '0',
@@ -54,7 +54,7 @@ CREATE TABLE `jimw_tree` (
 PRIMARY KEY (`tree_id`)
 );
 
-CREATE TABLE `jimw_menuitem` (
+CREATE TABLE `{PREFIX}menuitem` (
 `menuitem_id` INTEGER auto_increment ,
 `menu_name` VARCHAR (32)  NOT NULL default '',
 `site_id` INTEGER default '0',
@@ -65,7 +65,7 @@ CREATE TABLE `jimw_menuitem` (
 PRIMARY KEY (`menuitem_id`)
 );
 
-CREATE TABLE `jimw_module` (
+CREATE TABLE `{PREFIX}module` (
 `module_id` INTEGER auto_increment ,
 `module_name` VARCHAR (32)  NOT NULL default '',
 `module_path` VARCHAR (32)  NOT NULL default '',
@@ -75,7 +75,7 @@ CREATE TABLE `jimw_module` (
 PRIMARY KEY (`module_id`)
 );
 
-CREATE TABLE `jimw_module_config` (
+CREATE TABLE `{PREFIX}module_config` (
 `module_config_id` INTEGER auto_increment ,
 `module_id` INTEGER default '0',
 `module_config_key` VARCHAR (32)  NOT NULL default '',
@@ -84,7 +84,7 @@ PRIMARY KEY (`module_config_id`),
 KEY `module_config_key` (`module_config_key`)
 );
 
-CREATE TABLE `jimw_article` (
+CREATE TABLE `{PREFIX}article` (
 `article_id` INTEGER auto_increment ,
 `tree_id` INTEGER default '0',
 `user_id` INTEGER default '0',
