@@ -907,5 +907,6 @@ abstract class Zend_Db_Adapter_Abstract
      * @return bool
      */
     abstract public function supportsParameters($type);
+    
 
 }

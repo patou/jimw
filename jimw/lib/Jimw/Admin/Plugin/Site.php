@@ -13,10 +13,10 @@ class Jimw_Admin_Plugin_Site extends Zend_Controller_Plugin_Abstract {
 		}
 		if (!isset($session->site)) {
 			$domains = new Jimw_Site_Domain();
-			$domain = $domains->fetchRow(array ('domain_name = ?' => $request->getDomainName(),
-						'domain_port = ?' => $request->getDomainPort(),
-						'domain_protocol = ?' => $request->getDomainProtocol(),
-						'domain_subdomain = ?' => $request->getSubDomain()));
+			$domain = $domains->fetchRow(array ('path_name = ?' => $request->getDomainName(),
+						'path_port = ?' => $request->getDomainPort(),
+						'path_protocol = ?' => $request->getDomainProtocol(),
+						'path_subdomain = ?' => $request->getSubDomain()));
 			if (!$domain) {
 				throw new Jimw_Exception("This ".$request->getPath()." url didn't exist");
 			}
