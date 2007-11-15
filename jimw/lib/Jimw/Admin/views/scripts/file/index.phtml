@@ -14,7 +14,7 @@
 	<link rel="shortcut icon" href="/img/silk/icons/page_white_stack.png" type="image/png">
 	<script type="text/javascript">
 		var path = "<?= $this->path ?>";
-		var basename = "<?= $this->request->getBaseUrl() ?>";
+		var basename = "<?= $this->url(array(), 'default', true); ?>";
 	</script>
 	<script type="text/javascript" src="<?= $this->path ?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
 	<script type="text/javascript" src="<?= $this->path ?>/javascripts/extjs/ext-all.js"></script>

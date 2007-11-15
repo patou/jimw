@@ -12,10 +12,14 @@
 class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 
 	public function __construct(array $config = array ()) {
-		if (isset($config['data']['active']))
-		$this->_active = true;
-		if (isset($config['data']['expanded']))
-		$this->_expanded = true;
+		if (isset($config['data']['active'])) {
+			$this->_active = true;
+			unset($config['data']['active']);
+		}
+		if (isset($config['data']['expanded'])) {
+			$this->_expanded = true;
+			unset($config['data']['expanded']);
+		}
 		parent::__construct($config);
 	}
 	/**
@@ -123,9 +127,10 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 		$this->_saveParam();
 	}
 
+
 	/**
 	 * Get the url of the tree
-	 *
+	 * @deprecated 
 	 * @return string
 	 */
 	public function getUrl () {
@@ -134,7 +139,7 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 
 	/**
 	 * Get the url of the tree
-	 *
+	 * @deprecated 
 	 * @return string
 	 */
 	public function toUrl () {

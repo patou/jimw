@@ -1,5 +1,5 @@
 <script type="text/javascript" src="<?= $this->path ?>/fckeditor.js"></script>
-<form action="<?= $this->request->getBaseUrl() ?>/article/manage/save/ext/phtml/id/<?= $this->id ?>" method="post">
+<form action="<?php echo $this->url(array('module' => 'article', 'controller' => 'manage', 'action' => 'save', 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
 <table border="0" width="90%" align="right">
 <tr><td class="t01">Content : </td><td><textarea name="content" rows="20" cols="60"><?= $this->content ?></textarea></td></tr>

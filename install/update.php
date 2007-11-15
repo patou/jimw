@@ -12,7 +12,7 @@
 $startTime = microtime(true);
 define('JIMW_REP', '../jimw/');
 // Configuration
-define('DEFAULT_VERSION', 2);
+define('DEFAULT_VERSION', 1);
 // End Configuration
 if (file_exists(JIMW_REP. 'config/global.php'))
 include(JIMW_REP. 'config/global.php');
