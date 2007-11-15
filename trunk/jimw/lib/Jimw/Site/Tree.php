@@ -28,6 +28,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 
 	protected static $_children = null;
 	protected static $_nodes = null;
+	protected static $_nodesAlias = null;
 	protected static $_currentid = -1;
 
 	/**
@@ -54,28 +55,31 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 *
 	 */
 	private function _loadTree () {
-		if (self::$_children === null || self::$_nodes === null) {
+		if (self::$_children === null || self::$_nodes === null || self::$_nodesAlias === null) {
 			$result = $this->_fetch(null, array('tree_order', 'tree_alias'));
 			if ($result === false) {
 				return;
 			} else {
 				foreach ($result as $node) {
 					self::$_nodes[$node['tree_id']] = $node;
+					self::$_nodesAlias[$node['tree_alias']] = $node['tree_id']; 
 					self::$_children[$node['tree_parentid']][] = $node['tree_id'];
 				}
 				if (self::$_currentid >= 0) {
-					$newid = self::$_nodes[self::$_currentid]['tree_parentid'];
-					self::$_nodes[self::$_currentid]['expanded'] = true;
-					self::$_nodes[self::$_currentid]['active']  = true;
-					while (isset(self::$_nodes[$newid])) {
-						self::$_nodes[$newid]['expanded'] = true;
-						$newid = self::$_nodes[$newid]['tree_parentid'];
-					}
+					$this->_setExpandTree();
 				}
 			}
 		}
 	}
-
+	private function _setExpandTree () {
+		$newid = self::$_nodes[self::$_currentid]['tree_parentid'];
+		self::$_nodes[self::$_currentid]['expanded'] = true;
+		self::$_nodes[self::$_currentid]['active']  = true;
+		while (isset(self::$_nodes[$newid])) {
+			self::$_nodes[$newid]['expanded'] = true;
+			$newid = self::$_nodes[$newid]['tree_parentid'];
+		}
+	}
 	public function getChildren ($parent = 0) {
 		$this->_loadTree();
 		$list = array();
@@ -200,12 +204,33 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	}
 
 	/**
-	 * Find a Tree Item by the , and get the module and Site
+	 * Find a Tree Item by alias by using the cache
+	 * 
+	 * @param string $alias
+	 * @return boolean|Jimw_Site_Tree_Row
+	 */
+	public function findAlias($alias) {
+		$id = self::$_nodesAlias[$alias];
+		if ($id !== false) {
+			$data  = array(
+			'table'    => $this,
+			'data'     => array(self::$_nodes[$id]),
+			'rowClass' => $this->_rowClass,
+			'stored'   => true
+			);
+			Zend_Loader::loadClass($this->_rowsetClass);
+			return new $this->_rowsetClass($data);
+		}
+		return false;
+	}
+	
+	/**
+	 * Find a Tree Item by the alias, and get the module and Site
 	 *
 	 * @param string $alias
 	 * @return boolean|Jimw_Site_Tree_Row
 	 */
-	public function findByAlias($alias) {
+	public function findByAliasWithModuleAndSite($alias) {
 		$list = $this->_fetch(array('tree_alias = ?' => $alias), array('tree_version DESC'));
 		if ($list) {
 			$list = $list[0];

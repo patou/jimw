@@ -1,13 +1,13 @@
 <?php if (isset($this->files['Files'])): ?>
 	<img width="16" height="18" class="folder" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/tree/folder-open.gif"/> 
 	<?php 
-		echo '<a href="', $this->request->getBaseUrl (),'/file/list/ext/phtml?path=/">root</a>&nbsp;/&nbsp;';
+		echo '<a href="', $this->url(array('controller' => 'file', 'action' => 'list', 'ext' => 'phtml', 'path' => '/'), 'get', true), '">root</a>&nbsp;/&nbsp;';
 		$p = '';
 		$path = explode('/', $this->file_path);
 		for ($i = 1; $i < count($path); $i++) {
 			if ($path[$i] != '') {
 				$p .= '/' . $path[$i];
-				echo '<a href="', $this->request->getBaseUrl (),'/file/list/ext/phtml?path=', $p, '">', $path[$i], '</a>&nbsp;/&nbsp;';
+				echo '<a href="', $this->url(array('controller' => 'file', 'action' => 'list', 'ext' => 'phtml', 'path' => $p), 'get', true), '">', $path[$i], '</a>&nbsp;/&nbsp;';
 			}
 		}
 	?>
@@ -24,7 +24,7 @@
 	<tr>
 		<td><img width="16" height="18" class="folder" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/tree/folder.gif"/></td>
 		<td colspan="3">
-			<a href="<?php echo $this->request->getBaseUrl (); ?>/file/list/ext/phtml?path=<?php echo $this->file_path_up; ?>">&nbsp;..&nbsp;</a>
+			<a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'ext' => 'phtml', 'path' => '/' . trim($this->file_path_up, '/')), 'get', true); ?>">&nbsp;..&nbsp;</a>
 		</td>
 	</tr>
 	<?php endif; 
@@ -33,18 +33,18 @@
 			<td><img width="16" height="18" class="folder" src="<?php echo $this->path . ($file['cls'] == 'folder' ? '/javascripts/extjs/resources/images/default/tree/folder.gif' : '/javascripts/extjs/resources/images/default/tree/leaf.gif') ?>"/></td>
 			<td>
 			<?php if ($file['cls'] == 'folder') { ?>
-				<a href="<?php echo $this->request->getBaseUrl (); ?>/file/list/ext/phtml?path=<?php echo $file['path']; ?>"><?php echo $file['name'] ?></a>
+				<a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'ext' => 'phtml', 'path' => $file['path']), 'get', true); ?>"><?php echo $file['name'] ?></a>
 			<?php } else { echo $file['name']; }?>
 			</td>
 			<td><?php echo $file['size']; ?></td>
 			<td>
-				<a href="#" onclick="if (confirm('Do you realy want to delete this file ?')) window.location = '<?php echo $this->request->getBaseUrl (); ?>/file/delete/ext/phtml?file=<?php echo $file['path'] ?>'">
+				<a href="#" onclick="if (confirm('Do you realy want to delete this file ?')) window.location = '<?php echo $this->url(array('controller' => 'file', 'action' => 'delete', 'ext' => 'phtml', 'file' => $file['path']), 'get', true); ?>'">
 					<img width="16" height="18" border="0" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>
 				</a>
-				<a href="#" onclick="var name = prompt('Rename to ?', '<?php echo $file['name']; ?>'); if (name != null && name != '<?php echo $file['name']; ?>') window.location = '<?php echo $this->request->getBaseUrl (); ?>/file/rename/ext/phtml?oldname=<?php echo $file['path'] ?>&newname=<?php echo $this->file_path; ?>/' + name;">
+				<a href="#" onclick="var name = prompt('Rename to ?', '<?php echo $file['name']; ?>'); if (name != null && name != '<?php echo $file['name']; ?>') window.location = '<?php echo $this->url(array('controller' => 'file', 'action' => 'rename', 'oldname' => $file['path'], 'ext' => 'phtml'), 'get', true); ?>&newname=<?php echo str_replace('/', '%2F', $this->file_path . '/'); ?>' + name;">
 					<img width="16" height="18" border="0" class="folder" src="<?php echo $this->path; ?>/images/icons/pencil.png"/>
 				</a>
-				<a href="<?php echo $this->request->getBaseUrl (); ?>/file/rename/ext/phtml?path=<?php echo $file['path'] ?>">
+				<a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'download', 'ext' => 'phtml', 'file' => $file['path']), 'get', true); ?>">
 					<img width="16" height="18" border="0" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_down.png"/>
 				</a>
 			</td>
@@ -52,19 +52,19 @@
 	<?php endforeach; ?>
 	</table>
 	<hr />
-	<form action="<?php echo $this->request->getBaseUrl (); ?>/file/newdir/ext/phtml">
-	New Directory: <input type="text" name="dir" value="<?php echo $this->file_path; ?>/">
+	<form action="<?php echo $this->url(array('controller' => 'file', 'action' => 'newdir', 'ext' => 'phtml'), 'get', true); ?>" method="POST">
+	New Directory: <input type="text" name="dir" value="<?php echo '/' . ltrim($this->file_path . '/', '/'); ?>">
 	<input type="submit" value="Submit" />
 	</form>
 	<hr />
-	<form action="<?php echo $this->request->getBaseUrl (); ?>/file/upload/ext/phtml">
+	<form action="<?php echo $this->url(array('controller' => 'file', 'action' => 'upload', 'ext' => 'phtml'), 'get', true); ?>" method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="path" value="<?php echo $this->file_path; ?>/">
 	Upload File: <input type="file" name="file" value="<?php echo $this->file_path; ?>/" />
 	<input type="submit" value="Submit" />
 	</form>
 <?php else:
 	if (!$this->files['success']) { echo '<font color="red">', $this->files['error'], '</font>'; } ?>
-	<br /><a href="<?php echo $this->request->getBaseUrl (); ?>/file/list/ext/phtml?path=<?php echo $this->file_path; ?>">Return</a>
+	<br /><a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'ext' => 'phtml', 'path' => '/' . trim($this->file_path_up, '/')), 'get', true); ?>">Return</a>
 	<br />
 	
 <?php endif;?>

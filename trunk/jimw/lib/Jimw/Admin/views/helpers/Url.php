@@ -1,18 +1,6 @@
 <?php
-/**
- * Jimw_Site_View_Helper_Url
- *
- * @author	    Patou
- * @category   Jimw_Core
- * @package    Jimw
- * @copyright  Copyright (c) 2006-2007 jimw.fr
- * @license    http://www.jimw.fr
- * @version    $Id$
- */
 
-class Jimw_Site_View_Helper_Url
-{
-	
+class Jimw_Admin_View_Helper_Url {
 	public function url(array $urlOptions = array(), $name = null, $reset = false) {
  
         $ctrl = Zend_Controller_Front::getInstance();
@@ -41,9 +29,9 @@ class Jimw_Site_View_Helper_Url
         else {
         	$url = rtrim($request->getBaseUrl(), '/') . '/';
         }
-        $url .= $route->assemble($urlOptions, $reset);
+        $url .= ltrim($route->assemble($urlOptions, $reset), '/');
         
         return $url;
 	}
-	
 }
+?>

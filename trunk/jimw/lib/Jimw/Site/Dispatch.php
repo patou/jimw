@@ -11,6 +11,20 @@
  */
 class Jimw_Site_Dispatch extends Zend_Controller_Dispatcher_Standard 
 {
+	/**
+     * Default Extention
+     * @var string
+     */
+    protected $_defaultExt = 'phtml';
+	
+	/**
+	 * @return string
+	 */
+	public function getDefaultExt () {
+		return $this->_defaultExt ;
+	}
+
+    
     /**
      * Formats a string into an action name.  This is used to take a raw
      * action name, such as one that would be stored inside a Zend_Controller_Request_Abstract
@@ -26,5 +40,6 @@ class Jimw_Site_Dispatch extends Zend_Controller_Dispatcher_Standard
         return strtolower($formatted);
     }
 
+    
 }
 ?>

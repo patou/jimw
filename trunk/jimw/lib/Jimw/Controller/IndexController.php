@@ -28,9 +28,10 @@ class IndexController extends Zend_Controller_Action
 		$treeFactory = new Jimw_Site_Tree();
 		$tree = $treeFactory->findBySite($site);
 		//Zend_Debug::dump($tree);
-		if (!$result) {
+		if (!$tree) {
 			throw new Jimw_Exception("This $site->tree_id page didn't exist");
 		}
+		Jimw_Site_Tree::setCurrent($result->id);
 		$request->setTree($tree);
 		$request->setPageAlias($tree->alias);
 		$module = $tree->module->path;

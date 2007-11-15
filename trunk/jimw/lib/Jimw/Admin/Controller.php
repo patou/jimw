@@ -27,16 +27,26 @@ class Jimw_Admin_Controller
 	private $response;
 
 	/**
+	 * The Dispatch var
+	 *
+	 * @var Jimw_Admin_Dispatch
+	 */
+	private $dispatch;
+	
+	/**
 	 * The global router
 	 *
 	 * @var Jimw_Global_Router
 	 */
 	private $router;
+	
+	private $frontcontroller;
 
 	public function __construct() {
 		$this->request = new Jimw_Global_Request();
 		$this->response = new Zend_Controller_Response_Http();
 		$this->router = new Jimw_Global_Router();
+		$this->dispatch = new Jimw_Admin_Dispatch();
 	}
 
 	/**
@@ -73,7 +83,7 @@ class Jimw_Admin_Controller
 		return $view;
 	}
 
-	public function registerPlugins(Zend_Controller_Front $frontcontroller) {
+	public function _registerPlugins() {
 		$dir = new DirectoryIterator(JIMW_REP_LIB . 'Jimw/Admin/Plugin');
 		if ($dir->valid()) {
 			foreach ($dir as $plugin) {
@@ -81,25 +91,53 @@ class Jimw_Admin_Controller
 					include_once (JIMW_REP_LIB . 'Jimw/Admin/Plugin/' . $plugin);
 					$class_name = "Jimw_Admin_Plugin_${plugin_info[1]}";
 					$class = new $class_name();
-					$frontcontroller->registerPlugin($class);
+					$this->frontcontroller->registerPlugin($class);
 				}
 			}
 		}
 	}
 	
+	private function _registerModulePlugin() {
+		$this->frontcontroller->setModuleControllerDirectoryName('Admin/Controller');
+		$this->frontcontroller->addModuleDirectory(JIMW_REP_MODULE);
+		$db = Zend_Registry::get('db');
+		$modules = new Jimw_Site_Module();
+		$modules_list = $modules->fetchAll();
+		foreach ($modules_list as $module) {
+			$name = $module->path;
+			$Name = ucfirst($name);
+			$path = JIMW_REP_MODULE . $name . '/Admin/Plugin/';
+			if (file_exists($path)) {
+				$dir = new DirectoryIterator($path);
+				if ($dir->valid()) {
+					foreach ($dir as $plugin) {
+						if (!$dir->isDot() && ereg("^(.*)\.php$", $plugin, $plugin_info)) {
+							include_once ($path . $plugin);
+							$class_name = "Jimw_${Name}_Admin_Plugin_${plugin_info[1]}";
+							$class = new $class_name();
+							$this->frontcontroller->registerPlugin($class);
+						}
+					}
+				}
+			}
+		}
+	}	
 	public function run () {
 		$this->request = $this->router->route($this->request);
 		$this->initView();
-		$frontcontroller = Zend_Controller_Front::getInstance();
-		$this->registerPlugins($frontcontroller);
-		$frontcontroller->throwExceptions(true);
-		$frontcontroller->setRequest($this->request);
-		$frontcontroller->setControllerDirectory(JIMW_REP_LIB . 'Jimw/Admin/Controller/');
-		$frontcontroller->setResponse($this->response);
-		$frontcontroller->setModuleControllerDirectoryName('Admin/Controller');
-		$frontcontroller->addModuleDirectory(JIMW_REP_MODULE);
-		$frontcontroller->dispatch($this->request, $this->response);
-		//Zend_Debug::dump($frontcontroller);
+		$this->frontcontroller = Zend_Controller_Front::getInstance();
+		$router = $this->frontcontroller->getRouter();
+		$this->frontcontroller->throwExceptions(true);
+		$this->frontcontroller->setRequest($this->request);
+		$this->frontcontroller->setControllerDirectory(JIMW_REP_LIB . 'Jimw/Admin/Controller/');
+		$this->frontcontroller->setResponse($this->response);
+		$this->frontcontroller->setDispatcher($this->dispatch);
+		$this->_registerPlugins();
+		$this->_registerModulePlugin();
+		$router->addRoute('ext', new Jimw_Site_Route_Module(array(), $this->dispatch, $this->request, false));
+		$router->addRoute('get', new Jimw_Site_Route_Get(array()));
+		$this->frontcontroller->dispatch($this->request, $this->response);
+		//Zend_Debug::dump($this->frontcontroller);
 	}
 }
 ?>

@@ -1,4 +1,4 @@
 <?php 
 foreach ($this->flashmessenger as $message)
 echo $message . '<br />'; ?>
-<p class="t01"><a href="<?= $this->request->getBaseUrl() ?>/tree/list/ext/phtml">Return</a></p>
+<p class="t01"><a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>">Return</a></p>

@@ -18,6 +18,8 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	private $_path = '';
 	private $_pageAlias = '';
 	private $_tree = null;
+	private $_extKey = 'ext';
+	private $_aliasKey = 'alias';
 
 	/**
      * Constructor
@@ -35,6 +37,14 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 		$this->setDomains();
 	}
 
+	public  function getExtKey () {
+		return $this->_extKey;
+	}
+	
+	public  function getAliasKey () {
+		return $this->_aliasKey;
+	}
+	
 	/**
 	 * Return the sub domains name
 	 *
@@ -202,6 +212,39 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 		return $this;
 	}
 	
-	
+	    /**
+     * Returns everything between the BaseUrl and QueryString.
+     * This value is calculated instead of reading PATH_INFO
+     * directly from $_SERVER due to cross-platform differences.
+     *
+     * @return string
+     */ 
+    public function getPathInfo() 
+    { 
+        if (empty($this->_pathInfo)) {
+        	$pathInfo = null;
+        	if (defined('JIMW_NO_REWRITE_URL')) {
+	        	$baseUrl = substr($this->getBaseUrl(), strlen($this->getBasePath()));      
+	            if ((null !== $baseUrl)
+	                && (false === ($pathInfo = substr($_SERVER['QUERY_STRING'], strlen($baseUrl))))) 
+	            {
+	                // If substr() returns false then PATH_INFO is set to an empty string 
+	                $pathInfo = ''; 
+	            } elseif (null === $baseUrl) {
+	                $pathInfo = $_SERVER['QUERY_STRING'];
+	            }
+	        	$_GET = array();
+	            if (false !== ($pos = strpos($pathInfo, '?'))) {
+	                // Get key => value pairs and set $_GET
+	                $query = substr($pathInfo, $pos + 1);
+	                parse_str($query, $vars);
+	                $_GET = $vars;
+	            }
+        	}
+            $this->setPathInfo($pathInfo); 
+        } 
+         
+        return $this->_pathInfo; 
+    }
 }
 ?>

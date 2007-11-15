@@ -12,6 +12,13 @@
 
 class Jimw_Site_View_Helper_Menu
 {
+	public $view;
+
+    public function setView(Zend_View_Interface $view)
+    {
+        $this->view = $view;
+    }
+	
 	/**
 	 * Get the menu list
 	 * If the menu item didn't exist get children the root tree (parentid = 0)
@@ -77,7 +84,7 @@ class Jimw_Site_View_Helper_Menu
 			if (!empty($class)) {
 				$class = ' class="' . $class . '"';
 			}
-			$html .= '<a href="' . $menuitem->toUrl () . '"'  . $class . '>' . $menuitem->menutitle . '</a></li>';
+			$html .= '<a href="' . $this->view->url (array('alias' => $menuitem->alias, 'ext' => 'phtml'), 'alias', true) . '"'  . $class . '>' . $menuitem->menutitle . '</a></li>';
 			if (isset($option['menuDepth']) && $option['menuDepth'] > 1) {
 				if ($menuitem->hasChildren () && ( (isset($option['menuExpanded']) && !$option['menuExpanded']) || $menuitem->getExpanded () )) {
 					$html .= $this->display_menu($menuitem->getChildren(), array_merge($option, array('menuDepth' => $option['menuDepth'] - 1)));
