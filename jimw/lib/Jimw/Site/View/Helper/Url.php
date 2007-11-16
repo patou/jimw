@@ -41,7 +41,7 @@ class Jimw_Site_View_Helper_Url
         else {
         	$url = rtrim($request->getBaseUrl(), '/') . '/';
         }
-        $url .= $route->assemble($urlOptions, $reset);
+        $url .= ltrim($route->assemble($urlOptions, $reset), '/');
         
         return $url;
 	}
