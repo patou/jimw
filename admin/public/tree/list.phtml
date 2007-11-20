@@ -1,0 +1,92 @@
+<?php
+$path = $this->path;
+
+$baseurl = $this->request->getBaseUrl();
+function module_name($module_id) {
+	static $_list = null;
+	if ($_list === null) {
+		$module = new Jimw_Site_Module();
+		$modules = $module->fetchAll();
+		foreach ($modules as $mod) {
+			$_list[$mod->id] = $mod->path;
+		}
+	}
+	return (isset($_list[$module_id])) ? $_list[$module_id] : '';
+}
+
+function list_tree($list, $view, $path, $baseurl, $prof = 0) {
+
+?>
+<ul style='list-style:none; margin-left: 15px; padding:0;'>
+<?php
+	$item = 0;
+	$length = count($list);
+	foreach ($list as $tree):
+		?>
+		<tr>
+			 <td><?= $tree->id?></td>
+				<td><?php for ($i = 0; $i < $prof; $i++) echo '&nbsp;&nbsp;&nbsp;&nbsp;'; ?>
+				<img src="<?= $path ?>/images/icons/module/<?php
+				$module = module_name($tree->module_id);
+				echo (is_readable('./public/images/icons/module/' . $module . '.png')) ? $module : 'article'; 
+				?>" width="16" height="16" alt="" border="0"/>
+				<?= $tree->menutitle?> ( <?= $tree->alias?> : <?= $tree->id?>)</td>
+				<td align="right"><a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>"><img src="<?= $path ?>/images/icons/page_white_edit.png" width="16" height="16" alt="Edit" border="0" class="absmiddle" /></a>
+				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>" onclick="return confirm('Do you realy want to Delete this Page ?');"><img src="<?= $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
+				<?php
+					if ($item > 0) {
+				?>
+					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>"><img src="<?= $path ?>/images/icons/arrow_up.png" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
+				<?php
+					}
+					else {
+				?>
+					<img src="<?= $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
+				<?php						
+					}
+					if ($item < $length - 1) {
+				?>
+					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>"><img src="<?= $path ?>/images/icons/arrow_down.png" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
+				<?php		
+					}
+					else {
+				?>
+					<img src="<?= $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
+				<?php
+					}
+					$item++;
+				?>
+				</td>
+		</tr>
+		<?php
+		if ($tree->hasChildren ()) {
+			list_tree($tree->getChildren (), $view, $path, $baseurl, $prof + 1);
+		}
+		?>
+
+		<?php
+	endforeach;
+?>
+</ul>
+<?php
+}
+?>
+<p class="t01">Edit the website</p>
+<?php
+foreach ($this->flashmessenger as $message)
+echo $message . '<br />'; ?>
+<p class="list">
+<table width="100%" cellspacing="0" cellpadding="0">
+<thead>
+<tr><th width="20px"><img src="<?php echo $this->path ?>/images/icons/page_white_stack.png" /></th><th width="80%"><?= $this->_('Pages') ?></th><th align="right"><?= $this->_('Action') ?></th></th>
+</thead>
+<tbody>
+<?php
+list_tree($this->list_tree, $this, $path, $baseurl);
+?>
+</tbody>
+</table>
+</p>
+<hr />
+<br />
+<p class="t01"><a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>">Add new Page</a></p>
