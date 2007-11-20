@@ -1,10 +1,10 @@
 <form action="<?php echo $this->url(array('module' => 'gallery', 'controller' => 'manage', 'action' => 'save', 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
-<table border="0" width="90%" align="right">
-<tr><td class="t01">Directory : </td><td><input type="text" name="directory" value="<?= $this->directory ?>"></td></tr>
-<tr><td colspan="2" align="center"><input type="submit" name="btn" value="Save"></td></tr>
+<table border="0" width="90%">
+<tr><td class="t01"><?php echo $this->_('Directory') ?> : </td><td><input type="text" name="directory" value="<?= $this->directory ?>"></td></tr>
+<tr><td colspan="2" align="center"><input type="submit" name="btn" value="<?php echo $this->_('Save') ?>"></td></tr>
 </table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
-	<a href="<?= $this->request->getBaseUrl() ?>">Return</a>
+	<a href="<?= $this->request->getBaseUrl() ?>"><?php echo $this->_('Return') ?></a>
 </p>

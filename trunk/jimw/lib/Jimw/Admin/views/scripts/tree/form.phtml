@@ -1,13 +1,16 @@
 <form action="<?php echo $this->url(array('controller' => 'tree', 'action' => $this->form_type, 'ext' => 'phtml'), 'ext', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
-        			<input type="hidden" name="sub" value="1"><table border="0" width="90%" align="right">
+<input type="hidden" name="sub" value="1">
+<table border="0" width="90%">
 <? if (!empty($this->id)): ?>
 <tr><td class="t01">Id :</td><td class="t01"><?= $this->id ?></td></tr>
 <? endif; ?>
 <tr><td class="t01">Title :</td><td><input type="text" name="pagetitle" size="40" value="<?= $this->tree->pagetitle?>"></td></tr>
 <tr><td class="t01">Menu Title :</td><td><input type="text" name="menutitle" size="40" value="<?= $this->tree->menutitle?>"></td></tr>
 <tr><td class="t01">Order :</td><td><input type="text" name="order" size="40" value="<?= $this->tree->order?>"></td></tr>
-<tr><td class="t01">Tree Parent :</td><td><input type="text" name="parentid" size="40" value="<?= $this->tree->parentid?>">(0 for the root tree item)</td></tr>
+<tr><td class="t01">Tree Parent :</td><td>
+<?php echo $this->selectTree('parentid', $this->tree->parentid) ?>
+</td></tr>
 <tr><td class="t01">Alias : </td><td><input type="text" name="alias" size="40" value="<?= $this->tree->alias?>"></td></tr>
 <?php
 	if (isset($this->modules)):
@@ -22,8 +25,10 @@
 	endif;
 ?>
 <tr><td class="t01">Description : </td><td><textarea name="description" rows="4" cols="37"><?= $this->tree->description?></textarea></td></tr>
-<tr><td colspan="2" align="center"><input type="submit" name="btn" value="<?= ucfirst($this->form_type)?>"></td></tr></table></form>
+<tr><td colspan="2" align="center"><input type="submit" name="btn" value="<?= ucfirst($this->form_type)?>"></td>
+</tr>
+</table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
-<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>">Return</a>
+<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Return') ?></a>
 </p>

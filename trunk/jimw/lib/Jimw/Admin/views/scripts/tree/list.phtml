@@ -7,6 +7,8 @@ function list_tree($list, $view, $path, $baseurl) {
 ?>
 <ul style='list-style:none; margin-left: 15px; padding:0;'>
 <?php
+	$i = 0;
+	$l = count($list);
 	foreach ($list as $tree):
 		?>
 		<li>
@@ -14,6 +16,29 @@ function list_tree($list, $view, $path, $baseurl) {
 				<?= $tree->menutitle?> ( <?= $tree->alias?> : <?= $tree->id?>)
 				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>"><img src="<?= $path ?>/images/edit.gif" width="16" height="16" alt="Edit" border="0" class="absmiddle" /></a> -
 				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>" onclick="return confirm('Do you realy want to Delete this Page ?');"><img src="<?= $path ?>/images/delete.gif" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
+				<?php
+					if ($i > 0) {
+				?>
+					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'move', 'direction' => 'up', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>"><img src="<?= $path ?>/images/icons/arrow_up.png" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
+				<?php
+					}
+					else {
+				?>
+					<img src="<?= $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
+				<?php						
+					}
+					if ($i == $l - 1) {
+				?>
+					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'move', 'direction' => 'down', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>"><img src="<?= $path ?>/images/icons/arrow_down.png" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
+				<?php		
+					}
+					else {
+				?>
+					<img src="<?= $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
+				<?php
+					}
+					$i++;
+				?>
 		</li>
 		<?php
 		if ($tree->hasChildren ()) {
