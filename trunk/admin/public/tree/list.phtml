@@ -28,8 +28,8 @@ function list_tree($list, $view, $path, $baseurl, $prof = 0) {
 				<td><?php for ($i = 0; $i < $prof; $i++) echo '&nbsp;&nbsp;&nbsp;&nbsp;'; ?>
 				<img src="<?= $path ?>/images/icons/module/<?php
 				$module = module_name($tree->module_id);
-				echo (is_readable('./public/images/icons/module/' . $module . '.png')) ? $module : 'article'; 
-				?>" width="16" height="16" alt="" border="0"/>
+				echo (is_readable('./public/images/icons/module/' . $module . '.png')) ? $module : 'article';
+				?>.png" width="16" height="16" alt="" border="0"/>
 				<?= $tree->menutitle?> ( <?= $tree->alias?> : <?= $tree->id?>)</td>
 				<td align="right"><a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>"><img src="<?= $path ?>/images/icons/page_white_edit.png" width="16" height="16" alt="Edit" border="0" class="absmiddle" /></a>
 				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>" onclick="return confirm('Do you realy want to Delete this Page ?');"><img src="<?= $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
@@ -42,12 +42,12 @@ function list_tree($list, $view, $path, $baseurl, $prof = 0) {
 					else {
 				?>
 					<img src="<?= $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
-				<?php						
+				<?php
 					}
 					if ($item < $length - 1) {
 				?>
 					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>"><img src="<?= $path ?>/images/icons/arrow_down.png" width="16" height="16" alt="Delete" border="0" class="absmiddle" /></a>
-				<?php		
+				<?php
 					}
 					else {
 				?>
