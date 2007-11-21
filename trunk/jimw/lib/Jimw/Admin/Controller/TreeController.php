@@ -115,5 +115,16 @@ class TreeController extends Jimw_Admin_Action
 		$this->_forward('edit', 'tree', 'default', array('id'=>$id));
 		//$this->_forward('index');
 	}
+	
+	public function moveAction () {
+		
+		$tree = new Jimw_Site_Tree();
+		$save = $tree->find($this->_request->id)->current();
+		$save->order += ($this->_request->direction == 'up') ? -1 : 1;
+		// Todo: chercher si un noeux à le même order et switcher
+		$save->save ();
+		$this->_helper->getHelper('FlashMessenger')->addMessage ('Move successful ' . $save->pagetitle); 
+		$this->_forward('index');
+	}
 }
 ?>

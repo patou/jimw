@@ -69,7 +69,8 @@ class Jimw_Admin_Controller
 	}
 
 	public function initTranslate () {
-		$trans = new Zend_Translate('array', array(), 'fr');
+		include (JIMW_REP . '/lang/fr/common.php');
+		$trans = new Zend_Translate('array', $lang, 'fr');
 		return $trans;
 	}
 
