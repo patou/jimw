@@ -1,4 +1,29 @@
 <?php
-$lang['test'] = 'Test';
-$lang['test2'] = 'Test 2';
+$lang['Return'] = 'Retour';
+$lang['Id'] = 'Identifiant';
+$lang['Title'] = 'Titre';
+$lang['Menu Title'] = 'Titre du menu';
+$lang['Parent'] = 'Parent';
+$lang['root'] = 'racine';
+$lang['Alias'] = 'Alias';
+$lang['Description'] = 'Description';
+$lang['Save'] = 'Sauvegarder';
+$lang['Content'] = 'Contenu';
+$lang['Files'] = 'Fichiers';
+$lang['Pages'] = 'Pages';
+$lang['Intro'] = 'Accueil';
+$lang['Welcome on your Jimw Administration'] = 'Bienvenue dans votre espace d&#039;administration';
+$lang['Edit the website'] = 'Editez votre site internet';
+$lang['Add new Page'] = 'Ajouter un nouvelle page';
+$lang['Action'] = 'Action';
+$lang['Name'] = 'Nom';
+$lang['Size'] = 'Taille';
+$lang['Submit'] = 'Envoyer';
+$lang['New Directory'] = 'Nouveau repertoire';
+$lang['Upload Files'] = 'Envoyez des Fichiers';
+$lang['Delete'] = 'Supprimer';
+$lang['Edit'] = 'Modifier';
+$lang['Rename'] = 'Renomer';
+$lang['Download'] = 'T&eacute;l&eacute;charger';
+$lang['Edit files'] = 'Vous pouvez ici &eacute;diter vos fichiers';
 ?>
