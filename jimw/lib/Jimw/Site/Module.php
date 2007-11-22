@@ -11,5 +11,5 @@
  */
 class Jimw_Site_Module extends Jimw_Db_Table {
 	protected $_name = 'module';
-	protected $_dependentTables = array('Tree');
+	protected $_dependentTables = array('Jimw_Site_Tree');
 }
