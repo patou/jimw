@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-define('JIMW_NO_REWRITE_URL', true);
+//define('JIMW_NO_REWRITE_URL', true);
 $startTime = microtime(true);
 if (get_magic_quotes_runtime() != 0)
 	set_magic_quotes_runtime(0);
