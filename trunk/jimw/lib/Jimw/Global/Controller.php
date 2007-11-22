@@ -90,8 +90,10 @@ class Jimw_Global_Controller
 				if (!$dir->isDot() && ereg("^(.*)\.php$", $plugin, $plugin_info)) {
 					include_once (JIMW_REP_LIB . 'Jimw/Plugin/' . $plugin);
 					$class_name = "Jimw_Plugin_${plugin_info[1]}";
-					$class = new $class_name();
-					$this->frontcontroller->registerPlugin($class);
+					if (class_exists($class_name)) {
+						$class = new $class_name();
+						$this->frontcontroller->registerPlugin($class);
+					}
 				}
 			}
 		}
@@ -114,8 +116,10 @@ class Jimw_Global_Controller
 						if (!$dir->isDot() && ereg("^(.*)\.php$", $plugin, $plugin_info)) {
 							include_once ($path . $plugin);
 							$class_name = "Jimw_${Name}_Plugin_${plugin_info[1]}";
-							$class = new $class_name();
-							$this->frontcontroller->registerPlugin($class);
+							if (class_exists($class_name)) {
+								$class = new $class_name();
+								$this->frontcontroller->registerPlugin($class);
+							}
 						}
 					}
 				}
