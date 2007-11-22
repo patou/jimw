@@ -1,6 +1,7 @@
 <?php
 
-class Jimw_Plugin_Site extends Zend_Controller_Plugin_Abstract {
+
+//class Jimw_Plugin_Site extends Zend_Controller_Plugin_Abstract {
     /**
      * Called after Zend_Controller_Router exits.
      *
@@ -49,6 +50,7 @@ class Jimw_Plugin_Site extends Zend_Controller_Plugin_Abstract {
 //	    		
 //    	}
 //    }
-}
+
+//}
 
 ?>

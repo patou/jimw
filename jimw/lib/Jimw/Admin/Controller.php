@@ -92,8 +92,10 @@ class Jimw_Admin_Controller
 				if (!$dir->isDot() && ereg("^(.*)\.php$", $plugin, $plugin_info)) {
 					include_once (JIMW_REP_LIB . 'Jimw/Admin/Plugin/' . $plugin);
 					$class_name = "Jimw_Admin_Plugin_${plugin_info[1]}";
-					$class = new $class_name();
-					$this->frontcontroller->registerPlugin($class);
+					if (class_exists($class_name)) {
+						$class = new $class_name();
+						$this->frontcontroller->registerPlugin($class);
+					}
 				}
 			}
 		}
@@ -116,8 +118,10 @@ class Jimw_Admin_Controller
 						if (!$dir->isDot() && ereg("^(.*)\.php$", $plugin, $plugin_info)) {
 							include_once ($path . $plugin);
 							$class_name = "Jimw_${Name}_Admin_Plugin_${plugin_info[1]}";
-							$class = new $class_name();
-							$this->frontcontroller->registerPlugin($class);
+							if (class_exists($class_name)) {
+								$class = new $class_name();
+								$this->frontcontroller->registerPlugin($class);
+							}
 						}
 					}
 				}
