@@ -8,7 +8,7 @@
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
- * @version    $Id: $
+ * @version    $Id$
  */
 
 class FileController extends Jimw_Admin_Action {

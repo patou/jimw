@@ -33,7 +33,7 @@ function list_tree($list, $view, $path, $baseurl, $prof = 0) {
 				<?= $tree->menutitle?> ( <?= $tree->alias?> : <?= $tree->id?>)</td>
 				<td align="right"><a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>">
 				<img src="<?= $path ?>/images/icons/page_white_edit.png" width="16" height="16" alt="<?php echo $view->_('Edit'); ?>" title="<?php echo $view->_('Edit'); ?>" border="0" class="absmiddle" /></a>
-				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>" onclick="return confirm('<?php echo $view->escape($view->_('Do you realy want to Delete this Page ?')); ?>');">
+				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>" onclick="return confirm('<?php echo $view->escape($view->_('Do you really want to delete this Page ?')); ?>');">
 				<img src="<?= $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="<?php echo $view->_('Delete'); ?>" title="<?php echo $view->_('Delete'); ?>" border="0" class="absmiddle" /></a>
 				<?php
 					if ($item > 0) {

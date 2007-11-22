@@ -28,7 +28,7 @@ function redim_image(url, height, width)
 {
 	var maxWidth = 600;
 	var maxHeight = 400;
-	$('photo_chargement').innerHTML = "Chargement Terminé !";
+	$('photo_chargement').innerHTML = "Chargement Terminï¿½ !";
 	var h = dH = height;
 	var w = dW = width;
 	if ((h >= maxHeight) || (w >= maxWidth)) {
@@ -89,9 +89,9 @@ endif;
 <?php
 if ($this->can_download):
 ?>
-<form name="download" method="POST" action="<?php echo $this->request->getBaseUrl() . '/'. $this->tree->alias() . '/galleryzip.phtml'; ?>">
+<form name="download" method="POST" action="<?php echo $this->request->getBaseUrl() . '/gallery/zip.phtml'; ?>">
 <input type="hidden" name="dir" value="<?php echo $this->photos_path ?>" />
-<div id="download_link"><a href="#" onclick="display_download();">Télécharger les photos</a></div>
+<div id="download_link"><a href="#" onclick="display_download();">T&eacute;l&eacute;charger les photos</a></div>
 <?php
 endif;
 ?>
@@ -116,7 +116,7 @@ endforeach;
 if ($this->can_download):
 ?>
 <div id="download_button" class="download_hidden">
-<input type="submit" value="Télécharger" /></div>
+<input type="submit" value="T&eacute;l&eacute;charger" /></div>
 </form>
 <?php
 endif;

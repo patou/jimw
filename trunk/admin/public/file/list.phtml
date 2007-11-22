@@ -1,4 +1,5 @@
-<p class="t01"><?php echo $this->_('Edit files') ?></p>
+<div class="content">
+		<p><?php echo $this->_('Edit files') ?></p>
 <?php if (isset($this->files['Files'])): ?>
 	<img width="16" height="18" class="folder" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/tree/folder-open.gif"/> 
 	<?php 
@@ -52,20 +53,28 @@
 		</tr>
 	<?php endforeach; ?>
 	</table>
+	<br />
 	<hr />
-	<form action="<?php echo $this->url(array('controller' => 'file', 'action' => 'newdir', 'ext' => 'phtml'), 'get', true); ?>" method="POST">
-	<?php echo $this->_('New Directory') ?>: <input type="text" name="dir" value="<?php echo '/' . ltrim($this->file_path . '/', '/'); ?>">
-	<input type="submit" value="<?php echo $this->_('Submit') ?>" />
-	</form>
-	<hr />
-	<form action="<?php echo $this->url(array('controller' => 'file', 'action' => 'upload', 'ext' => 'phtml'), 'get', true); ?>" method="POST" enctype="multipart/form-data">
-	<input type="hidden" name="path" value="<?php echo $this->file_path; ?>/">
-	<?php echo $this->_('Upload Files') ?>: <input type="file" name="file" value="<?php echo $this->file_path; ?>/" />
-	<input type="submit" value="<?php echo $this->_('Submit') ?>" />
-	</form>
+	<br />
 <?php else:
 	if (!$this->files['success']) { echo '<font color="red">', $this->files['error'], '</font>'; } ?>
 	<br /><a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'ext' => 'phtml', 'path' => '/' . trim($this->file_path_up, '/')), 'get', true); ?>"><?php echo $this->_('Return') ?></a>
 	<br />
 	
 <?php endif;?>
+</div>
+<div class="sidenav">
+
+			<h1><? echo $this->_('New Directory'); ?></h1>
+			<form action="<?php echo $this->url(array('controller' => 'file', 'action' => 'newdir', 'ext' => 'phtml'), 'get', true); ?>" method="POST">
+				<input type="text" name="dir" value="<?php echo '/' . ltrim($this->file_path . '/', '/'); ?>">
+				<input type="submit" value="<?php echo $this->_('Submit') ?>" />
+			</form>
+			<h1><? echo $this->_('Upload Files'); ?></h1>
+			<form action="<?php echo $this->url(array('controller' => 'file', 'action' => 'upload', 'ext' => 'phtml'), 'get', true); ?>" method="POST" enctype="multipart/form-data">
+				<input type="hidden" name="path" value="<?php echo $this->file_path; ?>/">
+				<input type="file" name="file" value="<?php echo $this->file_path; ?>/" />
+				<input type="submit" value="<?php echo $this->_('Submit') ?>" />
+			</form>
+</div>
+		
