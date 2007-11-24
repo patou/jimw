@@ -112,6 +112,9 @@
         if (!empty($ext) && $ext !== $this->_defaults[$this->_extKey]) {
         	$url .= self::EXT_DELIMITER . $ext;	
         }
+        else {
+        	$url .= self::URI_DELIMITER;
+        }
         while (($tree = $tree->getParent()->current ()) !== null) {
         	$url = $tree->alias . self::URI_DELIMITER . $url;
         }
