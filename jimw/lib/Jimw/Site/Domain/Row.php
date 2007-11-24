@@ -23,8 +23,8 @@ class Jimw_Site_Domain_Row extends Jimw_Db_Row {
 			$link .= $this->subdomain . '.';
 		$link .= $this->name . '/';
 		if (!empty($this->path))
-			$link .= $this->path . '/';
-		return $link . $alias;
+			$link .= trim($this->path . '/', '/');
+		return $link . (!empty($alias)? '/' . $alias : '');
 	}
 
 	/**

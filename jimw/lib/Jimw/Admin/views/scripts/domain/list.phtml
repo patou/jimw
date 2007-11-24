@@ -1,0 +1,47 @@
+	<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th style="width:16px">&nbsp;</th>
+			<th style="width:60%"><?php echo $this->_('Name') ?></th>
+			<th style="width:150px"><?php echo $this->_('Site') ?></th>
+			<th style="width:40px" align="right"><?php echo $this->_('Action') ?></th>
+		</tr>
+	</thead>
+	<?php
+		foreach ($this->domains_list as $domain): ?>
+		<tr>
+			<td>
+			&nbsp;</td>
+			<td>
+			<?php echo $this->escape($domain->__toString ()); ?>
+			</td>
+			<td>
+			<?php echo $this->escape($domain->site_id); ?>
+			</td>
+			<td align="right">
+				<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'edit', 'ext' => 'phtml', 'id' => $domain->id), 'ext', true); ?>">
+					<img width="16" height="18" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/pencil.png"/>
+				</a>
+				<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'delete', 'ext' => 'phtml', 'id' => $domain->id), 'ext', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Domain ?')); ?>');">
+					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>
+				</a>
+				<!--
+				<?php if ($domain->status): ?>
+				<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'disable', 'ext' => 'phtml', 'id' => $domain->id), 'ext', true); ?>"
+				onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to disable this module ? If some page work with this module, they did\'nt work')); ?>');">
+					<img width="16" height="18" border="0" title="<?php echo $this->_('Disable') ?>" alt="<?php echo $this->_('Disable') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/accept.png"/>
+				</a>
+				<?php else: ?>
+				<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'enable', 'ext' => 'phtml', 'id' => $domain->id), 'ext', true); ?>">
+					<img width="16" height="18" border="0" title="<?php echo $this->_('Enable') ?>" alt="<?php echo $this->_('Enable') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>
+				</a>
+				<?php endif; ?>
+				-->
+			</td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
+<br />
+<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Add'); ?></a>
+<hr />
+<a href="<?php echo $this->url(array('controller' => 'system'), 'ext', true); ?>"><?php echo $this->_('Return'); ?></a>

@@ -9,6 +9,7 @@ $lang['Alias'] = 'Alias';
 $lang['Description'] = 'Description';
 $lang['Save'] = 'Sauvegarder';
 $lang['Insert'] = 'Ajouter';
+$lang['Add'] = 'Ajouter';
 $lang['Content'] = 'Contenu';
 $lang['Files'] = 'Fichiers';
 $lang['Pages'] = 'Pages';

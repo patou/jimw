@@ -10,7 +10,7 @@
  * @version    $Id$
  */
 class Jimw_Site_Domain extends Jimw_Db_Table {
-	protected $_name = 'path';
+	protected $_name = 'domain';
 	protected $_rowClass = 'Jimw_Site_Domain_Row';
 
 	protected $_dependentTables = array('Jimw_Site_Site');
@@ -26,12 +26,15 @@ class Jimw_Site_Domain extends Jimw_Db_Table {
 	 *
 	 * @param unknown_type $config
 	 */
-	/*public function __construct($config = array()) {
+	public function __construct($config = array()) {
 		if (!empty($config[self::ADAPTER])) {
 			$config[self::ADAPTER] = 'db_global';
 		}
+		if (empty($config[self::PREFIX])) {
+			$config[self::PREFIX] = 'jimw';
+		}
 		parent::__construct($config);
-	}*/
+	}
 	/**
 	 * Get the Domain Row from a Site Id
 	 *
@@ -47,6 +50,7 @@ class Jimw_Site_Domain extends Jimw_Db_Table {
 	/**
 	 * Static method to get the Domain Url from a specific site
 	 * Use a cache and load all domain in the first call of the method
+	 * @deprecated 
 	 * @param int $site_id The Site id
 	 * @return string
 	 */

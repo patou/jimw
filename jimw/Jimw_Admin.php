@@ -56,6 +56,9 @@ else
     // Autoload initialisationset_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
 require_once ('Zend/Loader.php');
 spl_autoload_register(array('Zend_Loader' , 'autoload'));
+if (JIMW_DEBUG_MODE) {
+	Jimw_Debug::initDebug();
+}
 // Session
 $session = new Zend_Session_Namespace('Admin');
 // Global configurationif (isset($jimw_config_db))
@@ -65,15 +68,7 @@ else
     // Call the Global Controlertry {
     $controler = new Jimw_Admin_Controller();
     $controler->run();
-    //Zend_Debug::dump($frontcontroller);//Zend_Debug::dump($controler->getRequest(), 'Request : ');} // Display exceptionscatch (Zend_Exception $e) {
-    if (JIMW_DEBUG_MODE)
-        echo $e->getMessage(); else
-        echo 'error';
-/** @todo Change it to more friendly error*/
-} catch (Exception $e) {
-    if (JIMW_DEBUG_MODE)
-        echo $e->getMessage(); else
-        echo 'error';
-/** @todo Change it to more friendly error*/
+    //Zend_Debug::dump($frontcontroller);//Zend_Debug::dump($controler->getRequest(), 'Request : ');} // Display exceptionscatch (Exception $e) {
+    Jimw_Debug::display_exception($e);
 }
 ?>
