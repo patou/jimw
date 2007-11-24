@@ -14,22 +14,52 @@ class Jimw_Db_Table extends Zend_Db_Table
 	protected $_rowClass = 'Jimw_Db_Row';
 	protected $_rowsetClass = 'Jimw_Db_Rowset';
 	protected $_tableName = '';
-
+	const PREFIX = 'prefix';
+	protected $_prefix = 'jimw';
+	
+	   /**
+     * Constructor.
+     *
+     * Supported params for $config are:
+     * - db              = user-supplied instance of database connector,
+     *                     or key name of registry instance.
+     * - name            = table name.
+     * - primary         = string or array of primary key(s).
+     * - rowClass        = row class name.
+     * - rowsetClass     = rowset class name.
+     * - referenceMap    = array structure to declare relationship
+     *                     to parent tables.
+     * - dependentTables = array of child tables.
+     * - metadataCache   = cache for information from adapter describeTable().
+     *
+     * @param  mixed $config Array of user-specified config options, or just the Db Adapter.
+     * @return void
+     */
+    public function __construct($config = array())
+    {
+    	if (isset($config[self::PREFIX])) {
+			$this->_prefix = $config[self::PREFIX];
+		}
+		else {
+			$this->_prefix = Zend_Registry::get('db_prefix');
+		}
+		parent::__construct($config);
+    }
 	/**
 	 * Setup the table name and add the db prefix before the table name
 	 *
 	 */
 	protected function _setupTableName()
     {
-    	$prefix = Zend_Registry::get('db_prefix');
+    	
     	parent::_setupTableName();
-        if (!strpos($this->_name, $prefix)) {
+        if (!strpos($this->_name, $this->_prefix)) {
         	$this->_tableName = $this->_name;
-        	if (!empty($prefix))
-        		$this->_name = $prefix . '_' . $this->_name;
+        	if (!empty($this->_prefix))
+        		$this->_name = $this->_prefix . '_' . $this->_name;
         }
         else {
-        	$this->_tableName = substr($this->_name, strlen($prefix));
+        	$this->_tableName = substr($this->_name, strlen($this->_prefix));
         }
     }
 

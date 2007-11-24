@@ -84,53 +84,24 @@ if (!JIMW_DEBUG_MODE) {
 
 	Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
 }
+else {
+	Jimw_Debug::initDebug();
+}
 // Call the Global Controler
 try {
 	$controler = new Jimw_Global_Controller();
 	$controler->run();
-	//Zend_Debug::dump($controler->getRequest(), 'Request : ');
-}
-// Display exceptions
-catch (Zend_Exception $e) {
-	if (JIMW_DEBUG_MODE)
-	echo $e->getMessage();
-	else
-	echo 'error'; /** @todo Change it to more friendly error*/
 }
 catch (Exception $e) {
-	if (JIMW_DEBUG_MODE)
-	echo $e->getMessage();
-	else
-	echo 'error'; /** @todo Change it to more friendly error*/
+    Jimw_Debug::display_exception($e);
 }
 
-
 if (JIMW_DEBUG_MODE) {
-	echo "<!-- Debug Mode \n";
 	$db = Zend_Registry::get('db');
-	if ($db) {
-		$profiler = $db->getProfiler ();
-		$totalTime    = $profiler->getTotalElapsedSecs();
-		$queryCount   = $profiler->getTotalNumQueries();
-		$longestTime  = 0;
-		$longestQuery = null;
-
-		foreach ($profiler->getQueryProfiles() as $query) {
-			if ($query->getElapsedSecs() > $longestTime) {
-				$longestTime  = $query->getElapsedSecs();
-				$longestQuery = $query->getQuery();
-			}
-			echo 'Query : ', $query->getElapsedSecs(), ' for ', $query->getQuery(), "\n";
-		}
-
-		echo 'Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "\n";
-		echo 'Average query length: ' . $totalTime / $queryCount . ' seconds' . "\n";
-		echo 'Queries per second: ' . $queryCount / $totalTime . "\n";
-		echo 'Longest query length: ' . $longestTime . "\n";
-		echo "Longest query: \n" . $longestQuery . "\n";
-	}
+	Jimw_Debug::profile_db($db);
+	//Jimw_Debug::profile_db(Zend_Registry::get('db_global'));
 	$totalTime = microtime(true) - $startTime;
 	//calculate the time difference
-	echo "\ntotal execution time: $totalTime . \n//-->";
+	Jimw_Debug::display("\ntotal execution time: $totalTime .");
 }
 ?>
