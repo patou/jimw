@@ -1,11 +1,11 @@
 <?php
 
 /**
- * indexController.php
+ * ModuleController.php
  *
  * @author	   Patou
- * @category   ModuleController
- * @package    Jimw_Admin
+ * @category   Jimw_Admin
+ * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
  * @version    $Id$

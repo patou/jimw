@@ -22,6 +22,17 @@ class Jimw_Site_Domain extends Jimw_Db_Table {
 	));
 
 	/**
+	 * Use the global database
+	 *
+	 * @param unknown_type $config
+	 */
+	/*public function __construct($config = array()) {
+		if (!empty($config[self::ADAPTER])) {
+			$config[self::ADAPTER] = 'db_global';
+		}
+		parent::__construct($config);
+	}*/
+	/**
 	 * Get the Domain Row from a Site Id
 	 *
 	 * @param int $site_id
