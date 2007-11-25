@@ -44,7 +44,7 @@ class Jimw_Db_Table extends Zend_Db_Table
     	}
     	else {
     		$this->_prefix = Zend_Registry::get('db_prefix');
-    		$config[self::ADAPTER] = 'db_global';
+    		$config[self::ADAPTER] = 'db';
     	}
     	parent::__construct($config);
     }
