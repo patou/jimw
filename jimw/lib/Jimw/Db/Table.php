@@ -16,8 +16,9 @@ class Jimw_Db_Table extends Zend_Db_Table
 	protected $_tableName = '';
 	const PREFIX = 'prefix';
 	protected $_prefix = 'jimw';
+	protected $_isGlobalDb = false;
 	
-	   /**
+	/**
      * Constructor.
      *
      * Supported params for $config are:
@@ -37,13 +38,15 @@ class Jimw_Db_Table extends Zend_Db_Table
      */
     public function __construct($config = array())
     {
-    	if (isset($config[self::PREFIX])) {
-			$this->_prefix = $config[self::PREFIX];
-		}
-		else {
-			$this->_prefix = Zend_Registry::get('db_prefix');
-		}
-		parent::__construct($config);
+    	if ($this->_isGlobalDb) {
+    		$this->_prefix = 'jimw';
+    		$config[self::ADAPTER] = 'db_global';
+    	}
+    	else {
+    		$this->_prefix = Zend_Registry::get('db_prefix');
+    		$config[self::ADAPTER] = 'db_global';
+    	}
+    	parent::__construct($config);
     }
 	/**
 	 * Setup the table name and add the db prefix before the table name
