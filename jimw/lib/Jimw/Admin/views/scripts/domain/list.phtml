@@ -11,7 +11,7 @@
 		foreach ($this->domains_list as $domain): ?>
 		<tr>
 			<td>
-			&nbsp;</td>
+			<?php echo $this->escape($domain->id); ?></td>
 			<td>
 			<?php echo $this->escape($domain->__toString ()); ?>
 			</td>

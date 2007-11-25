@@ -25,8 +25,8 @@ class ErrorController extends Jimw_Admin_Action {
             default:
                 // application error; display error page, but don't change
                 // status code
-                Jimw_Debug::dump($errors);
-                //$this->view->message = ;
+                
+                $this->view->message = $errors->exception->getMessage () . Jimw_Debug::display_exception($errors->exception, false);
                 break;
         }
     }

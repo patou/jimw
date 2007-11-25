@@ -1,0 +1,51 @@
+	<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th style="width:16px">&nbsp;</th>
+			<th style="width:50px"><?php echo $this->_('Type') ?></th>
+			<th style="width:100px"><?php echo $this->_('Server') ?></th>
+			<th style="width:50px"><?php echo $this->_('Port') ?></th>
+			<th style="width:100px"><?php echo $this->_('Name') ?></th>
+			<th style="width:100px"><?php echo $this->_('User') ?></th>
+			<th style="width:150px"><?php echo $this->_('Prefix') ?></th>
+			<th style="width:40px" align="right"><?php echo $this->_('Action') ?></th>
+		</tr>
+	</thead>
+	<?php
+		foreach ($this->databases_list as $database): ?>
+		<tr>
+			<td>
+			<?php echo $this->escape($database->id); ?></td>
+			<td>
+			<?php echo $this->escape($database->type); ?>
+			</td>
+			<td>
+			<?php echo $this->escape($database->server); ?>
+			</td>
+			<td>
+			<?php echo $this->escape($database->port); ?>
+			</td>
+			<td>
+			<?php echo $this->escape($database->name); ?>
+			</td>
+			<td>
+			<?php echo $this->escape($database->user); ?>
+			</td>
+			<td>
+			<?php echo $this->escape($database->prefix); ?>
+			</td>
+			<td align="right">
+				<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'edit', 'ext' => 'phtml', 'id' => $database->id), 'ext', true); ?>">
+					<img width="16" height="18" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/pencil.png"/>
+				</a>
+				<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'delete', 'ext' => 'phtml', 'id' => $database->id), 'ext', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Database ?')); ?>');">
+					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>
+				</a>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
+<br />
+<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Add'); ?></a>
+<hr />
+<a href="<?php echo $this->url(array('controller' => 'system'), 'ext', true); ?>"><?php echo $this->_('Return'); ?></a>
