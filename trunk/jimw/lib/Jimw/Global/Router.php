@@ -54,7 +54,11 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
         }
         $jimw_config_db = Zend_Registry::get('config_db');
         try {
+	        if (JIMW_DEBUG_MODE) {
+	    		$jimw_config_db['profiler'] = true;
+	    	}
         	$db = Zend_Db::factory($jimw_config_db['type'], $jimw_config_db);
+        	Zend_Registry::set('db_global', $db);
         	$select = $db->select ();
         	$select->from('jimw_database', '*');
         	$select->joinNatural('jimw_domain', 'database_id');

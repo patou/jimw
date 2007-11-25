@@ -34,11 +34,11 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract {
     		$request = $this->_request;
 			/* @var $request Jimw_Global_Request */
 			$domain = new Jimw_Site_Domain ();
-			$result = $domain->fetchRow(array ('path_name = ?' => $request->getDomainName(),
-							'path_port = ?' => $request->getDomainPort(),
-							'path_protocol = ?' => $request->getDomainProtocol(),
-							'path_subdomain = ?' => $request->getSubDomain(),
-							'path_path = ?' => $request->getPath()));
+			$result = $domain->fetchRow(array ('domain_name = ?' => $request->getDomainName(),
+							'domain_port = ?' => $request->getDomainPort(),
+							'domain_protocol = ?' => $request->getDomainProtocol(),
+							'domain_subdomain = ?' => $request->getSubDomain(),
+							'domain_path = ?' => $request->getPath()));
 			if (!$result) {
 				throw new Jimw_Exception("This ".$request->getPath()." url didn't exist");
 			}

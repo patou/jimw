@@ -74,10 +74,8 @@ class DomainController extends Jimw_Admin_Action
 	
 	public function insertAction () {
 		$req = $this->_request;
-		$id = $req->id;
 		$tree = new Jimw_Site_Domain();
 		$save = $tree->fetchNew();
-		$save->id = $id;
 		$save->site_id = 1;
 		$save->database_id = 1;
 		$save->status = 0;

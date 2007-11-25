@@ -27,9 +27,7 @@ class Jimw_Site_Domain extends Jimw_Db_Table {
 	 * @param unknown_type $config
 	 */
 	public function __construct($config = array()) {
-		if (!empty($config[self::ADAPTER])) {
-			$config[self::ADAPTER] = 'db_global';
-		}
+		$config[self::ADAPTER] = 'db_global';
 		if (empty($config[self::PREFIX])) {
 			$config[self::PREFIX] = 'jimw';
 		}
@@ -43,7 +41,7 @@ class Jimw_Site_Domain extends Jimw_Db_Table {
 	 */
 	public function getDomain($site_id) {
 		$where = $this->getAdapter()->quoteInto('site_id = ?', $site_id);
-		return $this->fetchRow($where, array('path_status'));
+		return $this->fetchRow($where, array('domain_status'));
 	}
 
 	public static $_cacheDomain = null;

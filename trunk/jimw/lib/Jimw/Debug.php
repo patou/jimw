@@ -11,7 +11,7 @@ class Jimw_Debug extends Zend_Debug {
 			'errorHandlerCallback'
 		);
 		
-		set_error_handler($errorhandler);
+		//set_error_handler($errorhandler);
 	}
 
 		/**
@@ -80,34 +80,40 @@ class Jimw_Debug extends Zend_Debug {
 	{
 		$output = 'Exception ['. get_class($e). '-'. $e->getCode(). '] : ';
 		$output .= $e->getMessage();
+
+		$file = $e->getFile();
+		$output .= '<acronym class="backtrace" title="' . $e->getFile() . ' on line ' . $e->getLine() . '">'. self::cropScriptPath($e->getFile()) . ' on line ' . $e->getLine() . "\n<br />";
+		$stack = $e->getTrace();
+		//Zend_Debug::dump($stack);
+		foreach ($stack as $item) {
+			$output .= '<acronym class="backtrace" title="' . $item['file'] . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. '()">'. self::cropScriptPath($item['file']) . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. "()\n<br />";
+		}
         return self::display($output, 'red', $echo);
 	}
 	
-	public static function profile_db($db)
+	public static function profile_db($db, $echo = true)
 	{
-		/*if ($db) {
-			$output = '';
-			/*$profiler = $db->getProfiler ();
+		if ($db && ($profiler = $db->getProfiler ())) {
+			$output = '';			
 			$totalTime    = $profiler->getTotalElapsedSecs();
 			$queryCount   = $profiler->getTotalNumQueries();
 			$longestTime  = 0;
 			$longestQuery = null;
-			
-				foreach ($profiler->getQueryProfiles() as $query) {
-					if ($query->getElapsedSecs() > $longestTime) {
-						$longestTime  = $query->getElapsedSecs();
-						$longestQuery = $query->getQuery();
-					}
-					$output .= 'Query : '. $query->getElapsedSecs(). ' for '. $query->getQuery(). "<br />\n";
+			foreach ($profiler->getQueryProfiles() as $query) {
+				if ($query->getElapsedSecs() > $longestTime) {
+					$longestTime  = $query->getElapsedSecs();
+					$longestQuery = $query->getQuery();
 				}
-			
-				$output .= 'Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "<br />\n";
-				$output .= 'Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br />\n";
-				$output .= 'Queries per second: ' . $queryCount / $totalTime . "<br />\n";
-				$output .= 'Longest query length: ' . $longestTime . "<br />\n";
-				$output .= "Longest query: <br />\n" . $longestQuery . "<br />\n";
+				$output .= 'Query : '. $query->getElapsedSecs(). ' for '. $query->getQuery(). "<br />\n";
+			}
+		
+			$output .= 'Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "<br />\n";
+			$output .= 'Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br />\n";
+			$output .= 'Queries per second: ' . $queryCount / $totalTime . "<br />\n";
+			$output .= 'Longest query length: ' . $longestTime . "<br />\n";
+			$output .= "Longest query: <br />\n" . $longestQuery . "<br />\n";
 			return self::display($output, 'blue', $echo);
-		}*/
+		}
 	}
 	
 	/**
@@ -118,7 +124,8 @@ class Jimw_Debug extends Zend_Debug {
 	public static function getTraceback () {
 		$callStack = debug_backtrace();
 		$debugConsoleFiles = array(
-			'Debug.php'
+			'Debug.php',
+			'ErrorController.php'
 		);
 		
 		$call = array (
