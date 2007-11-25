@@ -12,7 +12,7 @@
 class Jimw_Site_Domain extends Jimw_Db_Table {
 	protected $_name = 'domain';
 	protected $_rowClass = 'Jimw_Site_Domain_Row';
-
+	protected $_isGlobalDb = true;
 	protected $_dependentTables = array('Jimw_Site_Site');
 	protected $_referenceMap    = array(
 	'site' => array(
@@ -21,18 +21,6 @@ class Jimw_Site_Domain extends Jimw_Db_Table {
 	'refColumns'        => 'site_id'
 	));
 
-	/**
-	 * Use the global database
-	 *
-	 * @param unknown_type $config
-	 */
-	public function __construct($config = array()) {
-		$config[self::ADAPTER] = 'db_global';
-		if (empty($config[self::PREFIX])) {
-			$config[self::PREFIX] = 'jimw';
-		}
-		parent::__construct($config);
-	}
 	/**
 	 * Get the Domain Row from a Site Id
 	 *
