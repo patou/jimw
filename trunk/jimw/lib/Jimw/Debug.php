@@ -71,7 +71,7 @@ class Jimw_Debug extends Zend_Debug {
         	background-color: white;
         	padding: 3px;
         	margin: 5px 3px;">' . "\n";
-			$output .= '<a href="#" onclick="el = document.getElementById(\''.$div_id.'\'); el.style.display = (el.style.display == \'none\') ? \'block\' : \'none\';">';
+			$output .= '<a href="" onclick="el = document.getElementById(\''.$div_id.'\'); el.style.display = (el.style.display == \'none\') ? \'block\' : \'none\'; return false;">';
 			$output .= substr($message, 0, 60) . ' ...';
 			$output .= '</a><div id="'.$div_id.'" style="display:none;">';
 		}

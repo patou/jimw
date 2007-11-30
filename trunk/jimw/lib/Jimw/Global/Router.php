@@ -72,7 +72,7 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
         		$databases = new Jimw_Global_Database();
         		$database = $databases->find ($domain->database_id);
         		if ($database->exists()) {
-        			$pathInfo = substr($uri, strlen('/'.$path));
+        			$pathInfo = (!empty($path)) ? substr($uri, strlen('/'.$path)) : $uri;
         			//Jimw_Debug::display($pathInfo);
         			if ($pathInfo !== false) {
         				$request->setPathInfo($pathInfo);

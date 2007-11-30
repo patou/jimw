@@ -20,7 +20,7 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract {
 			$tree = new Jimw_Site_Tree ();
 			$result = $tree->findByAliasWithModuleAndSite($alias);
 			if (!$result) {
-				return false;
+				throw new Jimw_Exception("This $alias page didn't exist");
 			}
 			Jimw_Site_Tree::setCurrent($result->id);
 			$request->setTree($result);
