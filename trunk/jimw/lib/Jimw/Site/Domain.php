@@ -43,7 +43,9 @@ class Jimw_Site_Domain extends Jimw_Db_Table {
 	public static function toUrl ($site_id, $alias = '') {
 		if (self::$_cacheDomain === null) {
 			$self = new self ();
-			$rowSet = $self->fetchAll();
+			$database = Zend_Registry::get('database')->id;
+			$rowSet = $self->fetchAll(array('domain_status = ?' => 1,
+											'database_id = ?' => $database));
 			$dom = array();
 			foreach ($rowSet as $row) {
 				$dom[$row->site_id] = $row->__toString();
