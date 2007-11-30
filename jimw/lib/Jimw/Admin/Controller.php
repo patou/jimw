@@ -132,8 +132,9 @@ class Jimw_Admin_Controller
 		$this->request = $this->router->route($this->request);
 		$this->initView();
 		$this->frontcontroller = Zend_Controller_Front::getInstance();
+		$this->frontcontroller->setBaseUrl('/admin');
 		$router = $this->frontcontroller->getRouter();
-		//$this->frontcontroller->throwExceptions(true);
+		$this->frontcontroller->throwExceptions(true);
 		$this->frontcontroller->setRequest($this->request);
 		$this->frontcontroller->setControllerDirectory(JIMW_REP_LIB . 'Jimw/Admin/Controller/');
 		$this->frontcontroller->setResponse($this->response);
