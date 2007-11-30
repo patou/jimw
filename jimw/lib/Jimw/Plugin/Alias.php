@@ -32,17 +32,7 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract {
     	}
     	else {
     		$request = $this->_request;
-			/* @var $request Jimw_Global_Request */
-			$domain = new Jimw_Site_Domain ();
-			$result = $domain->fetchRow(array ('domain_name = ?' => $request->getDomainName(),
-							'domain_port = ?' => $request->getDomainPort(),
-							'domain_protocol = ?' => $request->getDomainProtocol(),
-							'domain_subdomain = ?' => $request->getSubDomain(),
-							'domain_path = ?' => $request->getPath()));
-			if (!$result) {
-				throw new Jimw_Exception("This ".$request->getPath()." url didn't exist");
-			}
-			$site = $result->findParentJimw_Site_Site();
+			$site = Zend_Registry::get('site');
 			$treeFactory = new Jimw_Site_Tree();
 			$tree = $treeFactory->findBySite($site);
 			if (!$tree) {
@@ -56,10 +46,8 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract {
 			$request->setControllerName($module);
 			$request->setModuleName($module);
 			$request->setActionName($alias);
-			//$this->_forward($tree->alias, $module, $module);
-	    		
     	}
-    }
 	}
+}
 
 ?>

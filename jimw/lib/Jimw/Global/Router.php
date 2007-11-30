@@ -19,22 +19,22 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
      * @throws Jimw_Global_Exception
      * @return Zend_Controller_Request_Abstract|boolean
      */
-    private function testConnection (array $param) {
-    	$db_param = array ('dbname' => $param['database_name'],
-    						'host' => $param['database_server'],
-    						'username' => $param['database_user'],
-    						'password' => $param['database_pass']);
+    private function testConnection (Jimw_Db_Row $param) {
+    	$db_param = array ('dbname' => $param->name,
+    						'host' => $param->server,
+    						'username' => $param->user,
+    						'password' => $param->pass);
     	if (JIMW_DEBUG_MODE) {
     		$db_param['profiler'] = true;
     	}
     	try {
-    		$db = Zend_Db::factory($param['database_type'], $db_param);
+    		$db = Zend_Db::factory($param->type, $db_param);
     		$db->getConnection();
     		Zend_Db_Table::setDefaultAdapter($db);
     		Zend_Registry::set('db', $db);
-    		Zend_Registry::set('db_prefix', $param['database_prefix']);
+    		Zend_Registry::set('database', $param);
+    		Zend_Registry::set('db_prefix', $param->prefix);
     	} catch (Zend_Db_Adapter_Exception $e){
-			echo $e->getMessage();
 			throw new Jimw_Global_Exception('Could not connect to the database');
 		}
     }
@@ -53,33 +53,41 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
             throw new Zend_Controller_Router_Exception('Jimw_Global_Router requires a Jimw_Global_Request-based request object');
         }
         $jimw_config_db = Zend_Registry::get('config_db');
-        try {
-	        if (JIMW_DEBUG_MODE) {
-	    		$jimw_config_db['profiler'] = true;
-	    	}
-        	$db = Zend_Db::factory($jimw_config_db['type'], $jimw_config_db);
-        	Zend_Registry::set('db_global', $db);
-        	$select = $db->select ();
-        	$select->from('jimw_database', '*');
-        	$select->joinNatural('jimw_domain', 'database_id');
-        	$select->where('domain_name = ?', $request->getDomainName());
-        	$select->where('domain_port = ?', $request->getDomainPort());
-        	$select->where('domain_protocol = ?', $request->getDomainProtocol());
-        	$select->where('domain_subdomain = ?', $request->getSubDomain());
-        	$result = $db->fetchRow($select);
-        	if ($result === false) {
-        		throw new Jimw_Global_Exception('Unknown website', 404);
-        	}
-        	$this->testConnection($result);
-        	//Zend_Debug::dump($result);
-        } catch (Zend_Db_Adapter_Exception $e){
-			echo $e->getMessage();
-		} catch (Zend_Db_Select_Exception  $e){
-			echo $e->getMessage();
-		} catch (Zend_Db_Exception $e){
-			echo $e->getMessage();
+        if (JIMW_DEBUG_MODE) {
+	   		$jimw_config_db['profiler'] = true;
 		}
-        return $request;
+        $db = Zend_Db::factory($jimw_config_db['type'], $jimw_config_db);
+        Zend_Registry::set('db_global', $db);
+        $domains = new Jimw_Site_Domain();
+        $domain_list = $domains->fetchAll(array ('domain_name = ?' => $request->getDomainName(),
+        										'domain_port = ?' => $request->getDomainPort(),
+        										'domain_protocol = ?' => $request->getDomainProtocol(),
+        										'domain_subdomain = ?' => $request->getSubDomain()), 'domain_path DESC');
+        $uri = trim($request->getRequestUri (), '/');
+        //Jimw_Debug::display($uri);
+        foreach ($domain_list as $domain) {
+        	$path = $domain->path;
+        	//Jimw_Debug::display($path);
+        	if (empty($path) || strpos($uri,$path) === 0) {
+        		$databases = new Jimw_Global_Database();
+        		$database = $databases->find ($domain->database_id);
+        		if ($database->exists()) {
+        			$pathInfo = substr($uri, strlen('/'.$path));
+        			//Jimw_Debug::display($pathInfo);
+        			if ($pathInfo !== false) {
+        				$request->setPathInfo($pathInfo);
+        			}
+        			else {
+        				$request->setPathInfo('/');
+        			}
+        			$this->testConnection($database->current());
+        			$site = $domain->findParentJimw_Site_Site();
+					Zend_Registry::set('site', $site);
+        			return $request;
+        		}
+        	}
+        }
+        throw new Jimw_Global_Exception('Unknown website', 404);
     }
 }
 ?>
