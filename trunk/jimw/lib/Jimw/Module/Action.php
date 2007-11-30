@@ -60,4 +60,15 @@ abstract class Jimw_Module_Action extends Zend_Controller_Action
         // state
         $this->_helper->notifyPostDispatch();
     }
+
+	/**
+	 * Translate string
+	 *
+	 * @param string $messageId
+	 * @param string $local
+	 * @return string
+	 */
+	public function _($messageId, $local = null) {
+		return $this->view->_($messageId, $local);
+	}
 }

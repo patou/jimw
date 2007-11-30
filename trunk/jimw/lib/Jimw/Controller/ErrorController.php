@@ -9,24 +9,10 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class ErrorController extends Zend_Controller_Action {
+class ErrorController extends Jimw_Admin_Action {
 	public function errorAction()
     {
-        $errors = $this->_getParam('error_handler');
-
-        switch ($errors->type) {
-            case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
-            case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
-                // 404 error -- controller or action not found
-                $this->getResponse()->setRawHeader('HTTP/1.1 404 Not Found');
-
-                // ... get some output to display...
-                break;
-            default:
-                // application error; display error page, but don't change
-                // status code
-                break;
-        }
+		$this->error();
     }
     
     public function error()
@@ -37,14 +23,15 @@ class ErrorController extends Zend_Controller_Action {
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
                 // 404 error -- controller or action not found
-                $this->getResponse()->setRawHeader('HTTP/1.1 404 Not Found');
+                $this->view->message = $this->_("This page didn't exist");
 
                 // ... get some output to display...
                 break;
             default:
-            	$this->render('error', 'body', true);
                 // application error; display error page, but don't change
                 // status code
+                
+                $this->view->message = $this->_($errors->exception->getMessage ()) . Jimw_Debug::display_exception($errors->exception, false);
                 break;
         }
     }

@@ -29,4 +29,15 @@ abstract class Jimw_Admin_Action extends Zend_Controller_Action
 	public function initModule () {
 
 	}
+	
+	/**
+	 * Translate string
+	 *
+	 * @param string $messageId
+	 * @param string $local
+	 * @return string
+	 */
+	public function _($messageId, $local = null) {
+		return $this->view->_($messageId, $local);
+	}
 }

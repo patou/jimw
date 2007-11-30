@@ -523,7 +523,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
              
             if (null === ($requestUri = $this->getRequestUri())) { 
                 return $this; 
-            } 
+            }
              
             // Remove the query string from REQUEST_URI 
             if ($pos = strpos($requestUri, '?')) { 

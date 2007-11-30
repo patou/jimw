@@ -55,21 +55,34 @@ class Jimw_Debug extends Zend_Debug {
 	
 	public static function dump($var, $label=null, $echo=true)
 	{
-		return self::display(parent::dump($var, null, false), $echo);
+		return self::display(parent::dump($var, null, false), 'yellow',$echo);
 	}
 	
 	public static function display ($message, $color = '#00E600',$echo = true)
 	{
-		$output = '<div style="border: 1px solid ' .$color . ';
+		static $id = 0;
+		$div_id = 'debug'.$id++;
+		if (!JIMW_DEBUG_MODE) {
+			$output = "\n<!--\n";
+		}
+		else {
+			$output = '<div style="border: 1px solid ' .$color . ';
         	border-left: 5px solid ' .$color . ';
         	background-color: white;
         	padding: 3px;
         	margin: 5px 3px;">' . "\n";
+			$output .= '<a href="#" onclick="el = document.getElementById(\''.$div_id.'\'); el.style.display = (el.style.display == \'none\') ? \'block\' : \'none\';">';
+			$output .= substr($message, 0, 60) . ' ...';
+			$output .= '</a><div id="'.$div_id.'" style="display:none;">';
+		}
 		$output .= $message . "\n";
 		$output .= self::getTraceback();
-		$output .= '</div>' . "\n";
-		if (!JIMW_DEBUG_MODE)
-			$output = "\n<!--\n" . $output . "\n-->\n";
+		if (!JIMW_DEBUG_MODE) {
+			 $output .= "\n-->\n";
+		}
+		else {
+			$output .= '</div></div>' . "\n";
+		}
 		if ($echo) {
             echo($output);
         }
@@ -139,12 +152,16 @@ class Jimw_Debug extends Zend_Debug {
 			return;
 		$fullTraceback = $call['file'] . ' on line ' . $call['line'];
 		$call['file'] = self::cropScriptPath($call['file']);
-		
-		$traceback = '<acronym class="backtrace" title="' . $fullTraceback . '">';
+		$traceback = '';
+		if (JIMW_DEBUG_MODE) {
+			$traceback = '<br /><acronym class="backtrace" title="' . $fullTraceback . '">';
+		}
 		$traceback .= $call['file'] . ' on line ';
-		$traceback .= $call['line'] . '</acronym>';
-		
-		return '<br />' . $traceback;
+		$traceback .= $call['line'];
+		if (JIMW_DEBUG_MODE) {
+			$traceback .= '</acronym>';
+		}
+		return $traceback;
 	}
 	
 	/**
