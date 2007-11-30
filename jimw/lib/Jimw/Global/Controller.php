@@ -144,7 +144,6 @@ class Jimw_Global_Controller
 		$this->_registerPlugin();
 		$this->_registerModulePlugin();
 		$this->frontcontroller->setResponse($this->response);
-		//$this->frontcontroller->registerPlugin(new Jimw_Site_Plugins_GlobalRender ());
 		$this->frontcontroller->dispatch($this->request, $this->response);
 		//Zend_Debug::dump($this->frontcontroller);
 	}
