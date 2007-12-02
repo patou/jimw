@@ -17,5 +17,3 @@ class Jimw_Admin_Plugin_Site extends Zend_Controller_Plugin_Abstract {
 		}
 	}
 }
-
-?>

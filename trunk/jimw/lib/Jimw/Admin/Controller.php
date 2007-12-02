@@ -147,4 +147,3 @@ class Jimw_Admin_Controller
 		//Zend_Debug::dump($this->frontcontroller);
 	}
 }
-?>

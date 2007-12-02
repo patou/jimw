@@ -183,5 +183,3 @@ class Jimw_Debug extends Zend_Debug {
 		return $path;
 	}
 }
-
-?>
