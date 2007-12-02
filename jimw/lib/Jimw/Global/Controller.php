@@ -148,4 +148,3 @@ class Jimw_Global_Controller
 		//Zend_Debug::dump($this->frontcontroller);
 	}
 }
-?>

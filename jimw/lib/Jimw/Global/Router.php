@@ -91,4 +91,3 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
         throw new Jimw_Global_Exception('Unknown website', 404);
     }
 }
-?>

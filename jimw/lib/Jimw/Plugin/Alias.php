@@ -49,5 +49,3 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract {
     	}
 	}
 }
-
-?>
