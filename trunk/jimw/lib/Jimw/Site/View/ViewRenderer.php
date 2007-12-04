@@ -118,7 +118,7 @@ class Jimw_Site_View_ViewRenderer
      */
     public function renderScript($script, $name = null)
     {
-        $this->view->baseUrl = $this->_request->getBaseUrl();
+        $this->view->baseUrl = $this->getRequest()->getBaseUrl();
         if (null === $name) {
             $name = $this->getResponseSegment();
         }
