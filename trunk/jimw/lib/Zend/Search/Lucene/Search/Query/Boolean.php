@@ -165,6 +165,31 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
             $signs[]      = ($this->_signs === null)? true : $this->_signs[$id];
         }
 
+        // Remove insignificant subqueries
+        foreach ($subqueries as $id => $subquery) {
+            if ($subquery instanceof Zend_Search_Lucene_Search_Query_Insignificant) {
+                // Insignificant subquery has to be removed anyway
+                unset($subqueries[$id]);
+                unset($signs[$id]);
+            }
+        }
+        if (count($subqueries) == 0) {
+            // Boolean query doesn't has non-insignificant subqueries
+            return new Zend_Search_Lucene_Search_Query_Insignificant();
+        }
+        // Check if all non-insignificant subqueries are prohibited
+        $allProhibited = true;
+        foreach ($signs as $sign) {
+            if ($sign !== false) {
+                $allProhibited = false;
+                break;
+            }
+        }
+        if ($allProhibited) {
+            return new Zend_Search_Lucene_Search_Query_Insignificant();
+        }
+
+
         // Check for empty subqueries
         foreach ($subqueries as $id => $subquery) {
             if ($subquery instanceof Zend_Search_Lucene_Search_Query_Empty) {
@@ -180,6 +205,10 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
             }
         }
 
+        // Check, if reduced subqueries list is empty
+        if (count($subqueries) == 0) {
+            return new Zend_Search_Lucene_Search_Query_Empty();
+        }
 
         // Check if all non-empty subqueries are prohibited
         $allProhibited = true;
@@ -207,12 +236,6 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
             $optimizedQuery->setBoost($optimizedQuery->getBoost()*$this->getBoost());
 
             return $optimizedQuery;
-        }
-
-
-        // Check, if reduced subqueries list is empty
-        if (count($subqueries) == 0) {
-            return new Zend_Search_Lucene_Search_Query_Empty();
         }
 
 
@@ -456,11 +479,35 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
             $this->_resVector = array();
         }
 
-        foreach ($this->_subqueries as $subquery) {
+        $resVectors      = array();
+        $resVectorsSizes = array();
+        $resVectorsIds   = array(); // is used to prevent arrays comparison
+        foreach ($this->_subqueries as $subqueryId => $subquery) {
+            $resVectors[]      = $subquery->matchedDocs();
+            $resVectorsSizes[] = count(end($resVectors));
+            $resVectorsIds[]   = $subqueryId;
+        }
+        // sort resvectors in order of subquery cardinality increasing
+        array_multisort($resVectorsSizes, SORT_ASC, SORT_NUMERIC,
+                        $resVectorsIds,   SORT_ASC, SORT_NUMERIC,
+                        $resVectors);
+        
+        foreach ($resVectors as $nextResVector) {
             if($this->_resVector === null) {
-                $this->_resVector = $subquery->matchedDocs();
+                $this->_resVector = $nextResVector;
             } else {
-                $this->_resVector = array_intersect_key($this->_resVector, $subquery->matchedDocs());
+                //$this->_resVector = array_intersect_key($this->_resVector, $nextResVector);
+                
+                /**
+                 * This code is used as workaround for array_intersect_key() slowness problem.
+                 */
+                $updatedVector = array();
+                foreach ($this->_resVector as $id => $value) {
+                    if (isset($nextResVector[$id])) {
+                        $updatedVector[$id] = $value;
+                    }
+                }
+                $this->_resVector = $updatedVector;
             }
 
             if (count($this->_resVector) == 0) {
@@ -469,7 +516,8 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
             }
         }
 
-        ksort($this->_resVector, SORT_NUMERIC);
+        // ksort($this->_resVector, SORT_NUMERIC);
+        // Used algorithm doesn't change elements order
     }
 
 
@@ -479,30 +527,61 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
      */
     private function _calculateNonConjunctionResult()
     {
-        $required   = null;
-        $optional   = array();
+        $requiredVectors      = array();
+        $requiredVectorsSizes = array();
+        $requiredVectorsIds   = array(); // is used to prevent arrays comparison
+
+        $optional = array();
 
         foreach ($this->_subqueries as $subqueryId => $subquery) {
-            $docs = $subquery->matchedDocs();
-
             if ($this->_signs[$subqueryId] === true) {
                 // required
-                if ($required !== null) {
-                    // array intersection
-                    $required = array_intersect_key($required, $docs);
-                } else {
-                    $required = $docs;
-                }
+                $requiredVectors[]      = $subquery->matchedDocs();
+                $requiredVectorsSizes[] = count(end($requiredVectors));
+                $requiredVectorsIds[]   = $subqueryId;
             } elseif ($this->_signs[$subqueryId] === false) {
                 // prohibited
                 // Do nothing. matchedDocs() may include non-matching id's
+                // Calculating prohibited vector may take significant time, but do not affect the result
+                // Skipped.  
             } else {
                 // neither required, nor prohibited
                 // array union
-                $optional += $docs;
+                $optional += $subquery->matchedDocs();
             }
         }
 
+        // sort resvectors in order of subquery cardinality increasing
+        array_multisort($requiredVectorsSizes, SORT_ASC, SORT_NUMERIC,
+                        $requiredVectorsIds,   SORT_ASC, SORT_NUMERIC,
+                        $requiredVectors);
+        
+        $required = null;
+        foreach ($requiredVectors as $nextResVector) {
+            if($required === null) {
+                $required = $nextResVector;
+            } else {
+                //$required = array_intersect_key($required, $nextResVector);
+                
+                /**
+                 * This code is used as workaround for array_intersect_key() slowness problem.
+                 */
+                $updatedVector = array();
+                foreach ($required as $id => $value) {
+                    if (isset($nextResVector[$id])) {
+                        $updatedVector[$id] = $value;
+                    }
+                }
+                $required = $updatedVector;
+            }
+
+            if (count($required) == 0) {
+                // Empty result set, we don't need to check other terms
+                break;
+            }
+        }
+                
+        
         if ($required !== null) {
             $this->_resVector = &$required;
         } else {
@@ -530,6 +609,12 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
         $score = 0;
 
         foreach ($this->_subqueries as $subquery) {
+            $subscore = $subquery->score($docId, $reader);
+
+            if ($subscore == 0) {
+                return 0;
+            }
+
             $score += $subquery->score($docId, $reader) * $this->_coord;
         }
 

@@ -15,8 +15,8 @@
  * @package    Zend_Controller
  * @subpackage Router
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Module.php 5017 2007-05-27 15:01:58Z martel $
- * @license    http://www.zend.com/license/framework/1_0.txt Zend Framework License version 1.0
+ * @version    $Id: Module.php 6453 2007-09-21 16:12:29Z darby $
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /** Zend_Controller_Router_Exception */
@@ -33,7 +33,7 @@ require_once 'Zend/Controller/Router/Route/Interface.php';
  * @package    Zend_Controller
  * @subpackage Router
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://www.zend.com/license/framework/1_0.txt Zend Framework License version 1.0
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @see        http://manuals.rubyonrails.com/read/chapter/65
  */
 class Zend_Controller_Router_Route_Module implements Zend_Controller_Router_Route_Interface
@@ -200,7 +200,7 @@ class Zend_Controller_Router_Route_Module implements Zend_Controller_Router_Rout
         }
 
         $params += $this->_defaults;
-        
+
         $url = '';
 
         if ($this->_moduleValid || array_key_exists($this->_moduleKey, $data)) {
@@ -229,7 +229,7 @@ class Zend_Controller_Router_Route_Module implements Zend_Controller_Router_Rout
             $url = '/' . $controller . $url;
         }
 
-        if (isset($module)) {        
+        if (isset($module)) {
             $url = '/' . $module . $url;
         }
 

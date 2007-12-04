@@ -15,16 +15,9 @@
  * @category   Zend
  * @package    Zend_Locale
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Locale.php 4433 2007-04-09 13:23:58Z thomas $
+ * @version    $Id: Locale.php 6900 2007-11-22 13:38:30Z thomas $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
-
-/**
- * Include needed Locale classes
- */
-require_once 'Zend/Locale/Data.php';
-require_once 'Zend/Locale/Format.php';
 
 
 /**
@@ -36,359 +29,47 @@ require_once 'Zend/Locale/Format.php';
 class Zend_Locale {
 
     // Class wide Locale Constants
-    private static $_LocaleData = array(
-        'root'  => '',
-        'aa_DJ' => '',
-        'aa_ER' => '',
-        'aa_ET' => '',
-        'aa'    => '',
-        'af_ZA' => 'iso-8859-1,windows-1252',
-        'af'    => 'iso-8859-1,windows-1252',
-        'am_ET' => '',
-        'am'    => '',
-        'ar_AE' => 'iso-8859-6,windows-1256',
-        'ar_BH' => 'iso-8859-6,windows-1256',
-        'ar_DZ' => 'iso-8859-6,windows-1256',
-        'ar_EG' => 'iso-8859-6,windows-1256',
-        'ar_IQ' => 'iso-8859-6,windows-1256',
-        'ar_JO' => 'iso-8859-6,windows-1256',
-        'ar_KW' => 'iso-8859-6,windows-1256',
-        'ar_LB' => 'iso-8859-6,windows-1256',
-        'ar_LY' => 'iso-8859-6,windows-1256',
-        'ar_MA' => 'iso-8859-6,windows-1256',
-        'ar_OM' => 'iso-8859-6,windows-1256',
-        'ar_QA' => 'iso-8859-6,windows-1256',
-        'ar_SA' => 'iso-8859-6,windows-1256',
-        'ar_SD' => 'iso-8859-6,windows-1256',
-        'ar_SY' => 'iso-8859-6,windows-1256',
-        'ar_TN' => 'iso-8859-6,windows-1256',
-        'ar_YE' => 'iso-8859-6,windows-1256',
-        'ar'    => 'iso-8859-6,windows-1256',
-        'as_IN' => '',
-        'as'    => '',
-        'az_AZ' => '',
-        'az'    => '',
-        'be_BY' => 'iso-8859-5',
-        'be'    => 'iso-8859-5',
-        'bg_BG' => 'iso-8859-5',
-        'bg'    => 'iso-8859-5',
-        'bn_IN' => '',
-        'bn'    => '',
-        'bs_BA' => '',
-        'bs'    => '',
-        'byn_ER'=> '',
-        'byn'   => '',
-        'ca_ES' => 'iso-8859-1,windows-1252',
-        'ca'    => 'iso-8859-1,windows-1252',
-        'cs_CZ' => 'iso-8859-2',
-        'cs'    => 'iso-8859-2',
-        'cy_GB' => '',
-        'cy'    => '',
-        'da_DK' => 'iso-8859-1,windows-1252',
-        'da'    => 'iso-8859-1,windows-1252',
-        'de_AT' => 'iso-8859-1,windows-1252',
-        'de_BE' => 'iso-8859-1,windows-1252',
-        'de_CH' => 'iso-8859-1,windows-1252',
-        'de_DE' => 'iso-8859-1,windows-1252',
-        'de_LI' => 'iso-8859-1,windows-1252',
-        'de_LU' => 'iso-8859-1,windows-1252',
-        'de'    => 'iso-8859-1,windows-1252',
-        'dv_MV' => '',
-        'dv'    => '',
-        'dz_BT' => '',
-        'dz'    => '',
-        'el_CY' => 'iso-8859-7',
-        'el_GR' => 'iso-8859-7',
-        'el'    => 'iso-8859-7',
-        'en_AS' => 'iso-8859-1,windows-1252',
-        'en_AU' => 'iso-8859-1,windows-1252',
-        'en_BE' => 'iso-8859-1,windows-1252',
-        'en_BW' => 'iso-8859-1,windows-1252',
-        'en_BZ' => 'iso-8859-1,windows-1252',
-        'en_CA' => 'iso-8859-1,windows-1252',
-        'en_GB' => 'iso-8859-1,windows-1252',
-        'en_GU' => 'iso-8859-1,windows-1252',
-        'en_HK' => 'iso-8859-1,windows-1252',
-        'en_IE' => 'iso-8859-1,windows-1252',
-        'en_IN' => 'iso-8859-1,windows-1252',
-        'en_JM' => 'iso-8859-1,windows-1252',
-        'en_MH' => 'iso-8859-1,windows-1252',
-        'en_MP' => 'iso-8859-1,windows-1252',
-        'en_MT' => 'iso-8859-1,windows-1252',
-        'en_NZ' => 'iso-8859-1,windows-1252',
-        'en_PH' => 'iso-8859-1,windows-1252',
-        'en_PK' => 'iso-8859-1,windows-1252',
-        'en_SG' => 'iso-8859-1,windows-1252',
-        'en_TT' => 'iso-8859-1,windows-1252',
-        'en_UM' => 'iso-8859-1,windows-1252',
-        'en_US' => 'iso-8859-1,windows-1252',
-        'en_VI' => 'iso-8859-1,windows-1252',
-        'en_ZA' => 'iso-8859-1,windows-1252',
-        'en_ZW' => 'iso-8859-1,windows-1252',
-        'en'    => 'iso-8859-1,windows-1252',
-        'eo'    => 'iso-8859-3',
-        'es_AR' => 'iso-8859-1,windows-1252',
-        'es_BO' => 'iso-8859-1,windows-1252',
-        'es_CL' => 'iso-8859-1,windows-1252',
-        'es_CO' => 'iso-8859-1,windows-1252',
-        'es_CR' => 'iso-8859-1,windows-1252',
-        'es_DO' => 'iso-8859-1,windows-1252',
-        'es_EC' => 'iso-8859-1,windows-1252',
-        'es_ES' => 'iso-8859-1,windows-1252',
-        'es_GT' => 'iso-8859-1,windows-1252',
-        'es_HN' => 'iso-8859-1,windows-1252',
-        'es_MX' => 'iso-8859-1,windows-1252',
-        'es_NI' => 'iso-8859-1,windows-1252',
-        'es_PA' => 'iso-8859-1,windows-1252',
-        'es_PE' => 'iso-8859-1,windows-1252',
-        'es_PR' => 'iso-8859-1,windows-1252',
-        'es_PY' => 'iso-8859-1,windows-1252',
-        'es_SV' => 'iso-8859-1,windows-1252',
-        'es_US' => 'iso-8859-1,windows-1252',
-        'es_UY' => 'iso-8859-1,windows-1252',
-        'es_VE' => 'iso-8859-1,windows-1252',
-        'es'    => 'iso-8859-1,windows-1252',
-        'et_EE' => 'iso-8859-15',
-        'et'    => 'iso-8859-15',
-        'eu_ES' => 'iso-8859-1,windows-1252',
-        'eu'    => 'iso-8859-1,windows-1252',
-        'fa_AF' => '',
-        'fa_IR' => '',
-        'fa'    => '',
-        'fi_FI' => 'iso-8859-1,windows-1252',
-        'fi'    => 'iso-8859-1,windows-1252',
-        'fo_FO' => 'iso-8859-1,windows-1252',
-        'fo'    => 'iso-8859-1,windows-1252',
-        'fr_BE' => 'iso-8859-1,windows-1252',
-        'fr_CA' => 'iso-8859-1,windows-1252',
-        'fr_CH' => 'iso-8859-1,windows-1252',
-        'fr_FR' => 'iso-8859-1,windows-1252',
-        'fr_LU' => 'iso-8859-1,windows-1252',
-        'fr_MC' => 'iso-8859-1,windows-1252',
-        'fr'    => 'iso-8859-1,windows-1252',
-        'ga_IE' => 'iso-8859-1,windows-1252',
-        'ga'    => 'iso-8859-1,windows-1252',
-        'gez_ER'=> '',
-        'gez_ET'=> '',
-        'gez'   => '',
-        'gl_ES' => 'iso-8859-1,windows-1252',
-        'gl'    => 'iso-8859-1,windows-1252',
-        'gu_IN' => '',
-        'gu'    => '',
-        'gv_GB' => '',
-        'gv'    => '',
-        'haw_US'=> '',
-        'haw'   => '',
-        'he_IL' => '',
-        'he'    => '',
-        'hi_IN' => '',
-        'hi'    => '',
-        'hr_HR' => 'iso-8859-2,windows-1250',
-        'hr'    => 'iso-8859-2,windows-1250',
-        'hu_HU' => 'iso-8859-2',
-        'hu'    => 'iso-8859-2',
-        'hy_AM' => '',
-        'hy'    => '',
-        'id_ID' => '',
-        'id'    => '',
-        'is_IS' => 'iso-8859-1,windows-1252',
-        'is'    => 'iso-8859-1,windows-1252',
-        'it_CH' => 'iso-8859-1,windows-1252',
-        'it_IT' => 'iso-8859-1,windows-1252',
-        'it'    => 'iso-8859-1,windows-1252',
-        'iu'    => '',
-        'ja_JP' => 'shift_jis,iso-2022-jp,euc-jp',
-        'ja'    => 'shift_jis,iso-2022-jp,euc-jp',
-        'ka_GE' => '',
-        'ka'    => '',
-        'kk_KZ' => '',
-        'kk'    => '',
-        'kl_GL' => '',
-        'kl'    => '',
-        'km_KH' => '',
-        'km'    => '',
-        'kn_IN' => '',
-        'kn'    => '',
-        'ko_KR' => 'euc-kr',
-        'ko'    => 'euc-kr',
-        'kok_IN'=> '',
-        'kok'   => '',
-        'kw_GB' => '',
-        'kw'    => '',
-        'ky_KG' => '',
-        'ky'    => '',
-        'lo_LA' => '',
-        'lo'    => '',
-        'lt_LT' => 'iso-8859-13,windows-1257',
-        'lt'    => 'iso-8859-13,windows-1257',
-        'lv_LV' => 'iso-8859-13,windows-1257',
-        'lv'    => 'iso-8859-13,windows-1257',
-        'mk_MK' => 'iso-8859-5,windows-1251',
-        'mk'    => 'iso-8859-5,windows-1251',
-        'ml_IN' => '',
-        'ml'    => '',
-        'mn_MN' => '',
-        'mn'    => '',
-        'mr_IN' => '',
-        'mr'    => '',
-        'ms_BN' => '',
-        'ms_MY' => '',
-        'ms'    => '',
-        'mt_MT' => 'iso-8859-3',
-        'mt'    => 'iso-8859-3',
-        'nb_NO' => '',
-        'nb'    => '',
-        'nl_BE' => 'iso-8859-1,windows-1252',
-        'nl_NL' => 'iso-8859-1,windows-1252',
-        'nl'    => 'iso-8859-1,windows-1252', 
-        'no_NO' => 'iso-8859-1,windows-1252',
-        'no'    => 'iso-8859-1,windows-1252',
-        'om_ET' => '',
-        'om_KE' => '',
-        'om'    => '',
-        'or_IN' => '',
-        'or'    => '',
-        'pa_IN' => '',
-        'pa'    => '',
-        'pl_PL' => 'iso-8859-2',
-        'pl'    => 'iso-8859-2',
-        'ps_AF' => '',
-        'ps'    => '',
-        'pt_BR' => 'iso-8859-1,windows-1252',
-        'pt_PT' => 'iso-8859-1,windows-1252',
-        'pt'    => 'iso-8859-1,windows-1252',
-        'ro_RO' => 'iso-8859-2',
-        'ro'    => 'iso-8859-2',
-        'ru_RU' => 'koi8-r,iso-8859-5',
-        'ru_UA' => 'koi8-r,iso-8859-5',
-        'ru'    => 'koi8-r,iso-8859-5',
-        'sa_IN' => '',
-        'sa'    => '',
-        'sh_BA' => '',
-        'sh_CS' => '',
-        'sh_YU' => '',
-        'sh'    => '',
-        'sid_ET'=> '',
-        'sid'   => '',
-        'sk_SK' => 'iso-8859-2',
-        'sk'    => 'iso-8859-2',
-        'sl_SI' => 'iso-8859-2,windows-1250',
-        'sl'    => 'iso-8859-2,windows-1250',
-        'so_DJ' => '',
-        'so_ET' => '',
-        'so_KE' => '',
-        'so_SO' => '',
-        'so'    => '',
-        'sq_AL' => 'iso-8859-1,windows-1252',
-        'sq'    => 'iso-8859-1,windows-1252',
-        'sr_BA' => 'windows-1251,iso-8859-5,iso-8859-2,windows-1250',
-        'sr_CS' => 'windows-1251,iso-8859-5,iso-8859-2,windows-1250',
-        'sr_YU' => 'windows-1251,iso-8859-5,iso-8859-2,windows-1250',
-        'sr'    => 'windows-1251,iso-8859-5,iso-8859-2,windows-1250',
-        'sv_FI' => 'iso-8859-1,windows-1252',
-        'sv_SE' => 'iso-8859-1,windows-1252',
-        'sv'    => 'iso-8859-1,windows-1252',
-        'sw_KE' => '',
-        'sw_TZ' => '',
-        'sw'    => '',
-        'syr_SY'=> '',
-        'syr'   => '',
-        'ta_IN' => '',
-        'ta'    => '',
-        'te_IN' => '',
-        'te'    => '',
-        'th_TH' => '',
-        'th'    => '',
-        'ti_ER' => '',
-        'ti_ET' => '',
-        'ti'    => '',
-        'tig_ER'=> '',
-        'tig'   => '',
-        'tr_TR' => 'iso-8859-9,windows-1254',
-        'tr'    => 'iso-8859-9,windows-1254',
-        'tt_RU' => '',
-        'tt'    => '',
-        'uk_UA' => 'iso-8859-5',
-        'uk'    => 'iso-8859-5',
-        'ur_PK' => '',
-        'ur'    => '',
-        'uz_AF' => '',
-        'uz_UZ' => '',
-        'uz'    => '',
-        'vi_VN' => '',
-        'vi'    => '',
-        'wal_ET'=> '',
-        'wal'   => '',
-        'zh_CN' => '',
-        'zh_HK' => '',
-        'zh_MO' => '',
-        'zh_SG' => '',
-        'zh_TW' => '',
-        'zh'    => ''
-    );
-
-
-    /**
-     * 
-     */
-    private static $_LocaleTranslation = array(
-        'Australia'       => 'AU',
-        'Austria'         => 'AT',
-        'Belgium'         => 'BE',
-        'Brazil'          => 'BR',
-        'Canada'          => 'CA',
-        'China'           => 'CN',
-        'Czech Republic'  => 'CZ',
-        'Denmark'         => 'DK',
-        'Finland'         => 'FI',
-        'France'          => 'FR',
-        'Germany'         => 'DE',
-        'Greece'          => 'GR',
-        'Hong Kong SAR'   => 'HK',
-        'Hungary'         => 'HU',
-        'Iceland'         => 'IS',
-        'Ireland'         => 'IE',
-        'Italy'           => 'IT',
-        'Japan'           => 'JP',
-        'Korea'           => 'KP',
-        'Mexiko'          => 'MX',
-        'The Netherlands' => 'NL',
-        'New Zealand'     => 'NZ',
-        'Norway'          => 'NO',
-        'Poland'          => 'PL',
-        'Portugal'        => 'PT',
-        'Russia'          => 'RU',
-        'Singapore'       => 'SG',
-        'Slovakia'        => 'SK',
-        'Spain'           => 'ES',
-        'Sweden'          => 'SE',
-        'Taiwan'          => 'TW',
-        'Turkey'          => 'TR',
-        'United Kingdom'  => 'GB',
-        'United States'   => 'US',
-        
-        'Chinese'         => 'zh',
-        'Czech'           => 'cs',
-        'Danish'          => 'da',
-        'Dutch'           => 'nl',
-        'English'         => 'en',
-        'Finnish'         => 'fi',
-        'French'          => 'fr',
-        'German'          => 'de',
-        'Greek'           => 'el',
-        'Hungarian'       => 'hu',
-        'Icelandic'       => 'is',
-        'Italian'         => 'it',
-        'Japanese'        => 'ja',
-        'Korean'          => 'ko',
-        'Norwegian'       => 'no',
-        'Polish'          => 'pl',
-        'Portuguese'      => 'pt',
-        'Russian'         => 'ru',
-        'Slovak'          => 'sk',
-        'Spanish'         => 'es',
-        'Swedish'         => 'sv',
-        'Turkish'         => 'tr'
+    private static $_localeData = array(
+        'root'  => true, 'aa_DJ' => true, 'aa_ER' => true, 'aa_ET' => true, 'aa'    => true, 'af_NA' => true, 'af_ZA' => true, 'af'    => true, 'ak_GH' => true, 'ak'    => true,
+        'am_ET' => true, 'am'    => true, 'ar_AE' => true, 'ar_BH' => true, 'ar_DZ' => true, 'ar_EG' => true, 'ar_IQ' => true, 'ar_JO' => true, 'ar_KW' => true, 'ar_LB' => true,
+        'ar_LY' => true, 'ar_MA' => true, 'ar_OM' => true, 'ar_QA' => true, 'ar_SA' => true, 'ar_SD' => true, 'ar_SY' => true, 'ar_TN' => true, 'ar_YE' => true, 'ar'    => true,
+        'as_IN' => true, 'as'    => true, 'az_AZ' => true, 'az'    => true, 'be_BY' => true, 'be'    => true, 'bg_BG' => true, 'bg'    => true, 'bn_BD' => true, 'bn_IN' => true,
+        'bn'    => true, 'bo_CN' => true, 'bo_IN' => true, 'bo'    => true, 'bs_BA' => true, 'bs'    => true, 'byn_ER'=> true, 'byn'   => true, 'ca_ES' => true, 'ca'    => true,
+        'cch_NG'=> true, 'cch'   => true, 'cop_EG'=> true, 'cop_US'=> true, 'cop'   => true, 'cs_CZ' => true, 'cs'    => true, 'cy_GB' => true, 'cy'    => true, 'da_DK' => true,
+        'da'    => true, 'de_AT' => true, 'de_BE' => true, 'de_CH' => true, 'de_DE' => true, 'de_LI' => true, 'de_LU' => true, 'de'    => true, 'dv_MV' => true, 'dv'    => true,
+        'dz_BT' => true, 'dz'    => true, 'ee_GH' => true, 'ee_TG' => true, 'ee'    => true, 'el_CY' => true, 'el_GR' => true, 'el'    => true, 'en_AS' => true, 'en_AU' => true,
+        'en_BE' => true, 'en_BW' => true, 'en_BZ' => true, 'en_CA' => true, 'en_GB' => true, 'en_GU' => true, 'en_HK' => true, 'en_IE' => true, 'en_IN' => true, 'en_JM' => true,
+        'en_MH' => true, 'en_MP' => true, 'en_MT' => true, 'en_NZ' => true, 'en_PH' => true, 'en_PK' => true, 'en_SG' => true, 'en_TT' => true, 'en_UM' => true, 'en_US' => true,
+        'en_VI' => true, 'en_ZA' => true, 'en_ZW' => true, 'en'    => true, 'eo'    => true, 'es_AR' => true, 'es_BO' => true, 'es_CL' => true, 'es_CO' => true, 'es_CR' => true,
+        'es_DO' => true, 'es_EC' => true, 'es_ES' => true, 'es_GT' => true, 'es_HN' => true, 'es_MX' => true, 'es_NI' => true, 'es_PA' => true, 'es_PE' => true, 'es_PR' => true,
+        'es_PY' => true, 'es_SV' => true, 'es_US' => true, 'es_UY' => true, 'es_VE' => true, 'es'    => true, 'et_EE' => true, 'et'    => true, 'eu_ES' => true, 'eu'    => true,
+        'fa_AF' => true, 'fa_IR' => true, 'fa'    => true, 'fi_FI' => true, 'fi'    => true, 'fil'   => true, 'fo_FO' => true, 'fo'    => true, 'fr_BE' => true, 'fr_CA' => true,
+        'fr_CH' => true, 'fr_FR' => true, 'fr_LU' => true, 'fr_MC' => true, 'fr'    => true, 'fur_IT'=> true, 'fur'   => true, 'ga_IE' => true, 'ga'    => true, 'gaa_GH'=> true,
+        'gaa'   => true, 'gez_ER'=> true, 'gez_ET'=> true, 'gez'   => true, 'gl_ES' => true, 'gl'    => true, 'gu_IN' => true, 'gu'    => true, 'gv_GB' => true, 'gv'    => true,
+        'ha_GH' => true, 'ha_NE' => true, 'ha_NG' => true, 'ha'    => true, 'haw_US'=> true, 'haw'   => true, 'he_IL' => true, 'he'    => true, 'hi_IN' => true, 'hi'    => true,
+        'hr_HR' => true, 'hr'    => true, 'hu_HU' => true, 'hu'    => true, 'hy_AM' => true, 'hy'    => true, 'ia'    => true, 'id_ID' => true, 'id'    => true, 'ig_NG' => true,
+        'ig'    => true, 'ii_CN' => true, 'ii'    => true, 'is_IS' => true, 'is'    => true, 'it_CH' => true, 'it_IT' => true, 'it'    => true, 'iu'    => true, 'ja_JP' => true,
+        'ja'    => true, 'ka_GE' => true, 'ka'    => true, 'kaj_NG'=> true, 'kaj'   => true, 'kam_KE'=> true, 'kam'   => true, 'kcg_NG'=> true, 'kcg'   => true, 'kfo_NG'=> true,
+        'kfo'   => true, 'kk_KZ' => true, 'kk'    => true, 'kl_GL' => true, 'kl'    => true, 'km_KH' => true, 'km'    => true, 'kn_IN' => true, 'kn'    => true, 'ko_KR' => true,
+        'ko'    => true, 'kok_IN'=> true, 'kok'   => true, 'kpe_GN'=> true, 'kpe_LR'=> true, 'kpe'   => true, 'ku_IQ' => true, 'ku_IR' => true, 'ku_SY' => true, 'ku_TR' => true,
+        'ku'    => true, 'kw_GB' => true, 'kw'    => true, 'ky_KG' => true, 'ky'    => true, 'ln_CD' => true, 'ln_CG' => true, 'ln'    => true, 'lo_LA' => true, 'lo'    => true,
+        'lt_LT' => true, 'lt'    => true, 'lv_LV' => true, 'lv'    => true, 'mk_MK' => true, 'mk'    => true, 'ml_IN' => true, 'ml'    => true, 'mn_MN' => true, 'mn'    => true,
+        'mr_IN' => true, 'mr'    => true, 'ms_BN' => true, 'ms_MY' => true, 'ms'    => true, 'mt_MT' => true, 'mt'    => true, 'my_MM' => true, 'my'    => true, 'nb_NO' => true,
+        'nb'    => true, 'ne_NP' => true, 'ne'    => true, 'nl_BE' => true, 'nl_NL' => true, 'nl'    => true, 'nn_NO' => true, 'nn'    => true, 'nr_ZA' => true, 'nr'    => true,
+        'nso_ZA'=> true, 'nso'   => true, 'ny_MW' => true, 'ny'    => true, 'om_ET' => true, 'om_KE' => true, 'om'    => true, 'or_IN' => true, 'or'    => true, 'pa_IN' => true,
+        'pa_PK' => true, 'pa'    => true, 'pl_PL' => true, 'pl'    => true, 'ps_AF' => true, 'ps'    => true, 'pt_BR' => true, 'pt_PT' => true, 'pt'    => true, 'ro_RO' => true,
+        'ro'    => true, 'ru_RU' => true, 'ru_UA' => true, 'ru'    => true, 'rw_RW' => true, 'rw'    => true, 'sa_IN' => true, 'sa'    => true, 'se_FI' => true, 'se_NO' => true,
+        'se'    => true, 'sh_BA' => true, 'sh_CS' => true, 'sh_YU' => true, 'sh'    => true, 'sid_ET'=> true, 'sid'   => true, 'sk_SK' => true, 'sk'    => true, 'sl_SI' => true,
+        'sl'    => true, 'so_DJ' => true, 'so_ET' => true, 'so_KE' => true, 'so_SO' => true, 'so'    => true, 'sq_AL' => true, 'sq'    => true, 'sr_BA' => true, 'sr_CS' => true,
+        'sr_ME' => true, 'sr_RS' => true, 'sr_YU' => true, 'sr'    => true, 'ss_ZA' => true, 'ss'    => true, 'ssy'   => true, 'st_ZA' => true, 'st'    => true, 'sv_FI' => true,
+        'sv_SE' => true, 'sv'    => true, 'sw_KE' => true, 'sw_TZ' => true, 'sw'    => true, 'syr_SY'=> true, 'syr'   => true, 'ta_IN' => true, 'ta'    => true, 'te_IN' => true,
+        'te'    => true, 'tg_TJ' => true, 'tg'    => true, 'th_TH' => true, 'th'    => true, 'ti_ER' => true, 'ti_ET' => true, 'ti'    => true, 'tig_ER'=> true, 'tig'   => true,
+        'tn_ZA' => true, 'tn'    => true, 'to_TO' => true, 'to'    => true, 'tr_TR' => true, 'tr'    => true, 'ts_ZA' => true, 'ts'    => true, 'tt_RU' => true, 'tt'    => true,
+        'ug'    => true, 'uk_UA' => true, 'uk'    => true, 'und_ZZ'=> true, 'und'   => true, 'ur_IN' => true, 'ur_PK' => true, 'ur'    => true, 'uz_AF' => true, 'uz_UZ' => true,
+        'uz'    => true, 've_ZA' => true, 've'    => true, 'vi_VN' => true, 'vi'    => true, 'wal_ET'=> true, 'wal'   => true, 'wo_SN' => true, 'wo'    => true, 'xh_ZA' => true,
+        'xh'    => true, 'yo_NG' => true, 'yo'    => true, 'zh_CN' => true, 'zh_HK' => true, 'zh_MO' => true, 'zh_SG' => true, 'zh_TW' => true, 'zh'    => true, 'zu_ZA' => true,
+        'zu'    => true,
+        'auto'  => false, 'browser' => false, 'environment' => false
     );
 
 
@@ -401,16 +82,22 @@ class Zend_Locale {
 
 
     /**
-     * Actual set locale 
+     * Actual set locale
      */
     private $_Locale;
 
 
     /**
-     * Actual set Codeset 
+     * Actual set Codeset
      */
     private $_Codeset;
 
+    /**
+     * Automatic detected locale
+     */
+    private static $_auto;
+    private static $_browser;
+    private static $_environment;
 
     /**
      * Generates a locale object
@@ -427,6 +114,15 @@ class Zend_Locale {
      */
     public function __construct($locale = null)
     {
+        if (empty(self::$_auto)) {
+            self::$_auto        = $this->getDefault(null, false);
+            self::$_browser     = $this->getDefault(self::BROWSER, false);
+            self::$_environment = $this->getDefault(self::ENVIRONMENT, false);
+            if (empty($locale) and empty(self::$_auto)) {
+                throw new Zend_Locale_Exception('Autodetection of Locale has been failed!');
+            }
+        }
+
         if ($locale instanceof Zend_Locale) {
             $locale = $locale->toString();
         }
@@ -436,7 +132,7 @@ class Zend_Locale {
 
     /**
      * Serialization Interface
-     * 
+     *
      * @return string
      */
     public function serialize()
@@ -447,7 +143,7 @@ class Zend_Locale {
 
     /**
      * Returns a string representation of the object
-     * 
+     *
      * @return string
      */
     public function toString()
@@ -471,15 +167,15 @@ class Zend_Locale {
     /**
      * Search the locale automatically and return all used locales
      * ordered by quality
-     * 
+     *
      * Standard Searchorder is
      * - getBrowser
      * - getEnvironment
      * @todo - getFramework
-     * 
+     *
      * @param $searchorder  - OPTIONAL searchorder
      * @param $fastsearch   - OPTIONAL returnes the first found locale array when true
-     *                        otherwise all found default locales will be returned 
+     *                        otherwise all found default locales will be returned
      * @return  locale - returns an array of all the mosta locale string
      */
     public function getDefault($searchorder = null, $fastsearch = null)
@@ -522,19 +218,21 @@ class Zend_Locale {
 
     /**
      * Expects the Systems standard locale
-     * 
+     *
      * For Windows:
      * f.e.: LC_COLLATE=C;LC_CTYPE=German_Austria.1252;LC_MONETARY=C
      * would be recognised as de_AT
-     * 
+     *
      * @return array
      */
     public function getEnvironment()
     {
+        require_once 'Zend/Locale/Data/Translation.php';
+
         $language = setlocale(LC_ALL, 0);
         $languages = explode(';', $language);
         $languagearray = array();
-        
+
         foreach ($languages as $locale)
         {
 
@@ -543,7 +241,7 @@ class Zend_Locale {
 
                $language = substr($language, 1, strpos($language, '.') - 1);
                $splitted = explode('_', $language);
-               if (!empty(Zend_Locale::$_LocaleData[$language])) {
+               if (array_key_exists((string) $language, self::$_localeData)) {
                    $languagearray[$language] = 1;
                    if (strlen($language) > 4) {
                        $languagearray[substr($language, 0, 2)] = 1;
@@ -551,14 +249,14 @@ class Zend_Locale {
                    continue;
                }
 
-               if (!empty(Zend_Locale::$_LocaleTranslation[$splitted[0]])) {
-                   if (!empty(Zend_Locale::$_LocaleTranslation[$splitted[1]])) {
-                       $languagearray[Zend_Locale::$_LocaleTranslation[$splitted[0]] . '_'
-                     . Zend_Locale::$_LocaleTranslation[$splitted[1]]] = 1;
+               if (!empty(Zend_Locale_Data_Translation::$localeTranslation[$splitted[0]])) {
+                   if (!empty(Zend_Locale_Data_Translation::$localeTranslation[$splitted[1]])) {
+                       $languagearray[Zend_Locale_Data_Translation::$localeTranslation[$splitted[0]] . '_'
+                     . Zend_Locale_Data_Translation::$localeTranslation[$splitted[1]]] = 1;
                    }
-                   $languagearray[Zend_Locale::$_LocaleTranslation[$splitted[0]]] = 1;
+                   $languagearray[Zend_Locale_Data_Translation::$localeTranslation[$splitted[0]]] = 1;
                }
-            }            
+            }
         }
         return $languagearray;
     }
@@ -566,10 +264,10 @@ class Zend_Locale {
     /**
      * Return an array of all accepted languages of the client
      * Expects RFC compilant Header !!
-     * 
+     *
      * The notation can be :
      * de,en-UK-US;q=0.5,fr-FR;q=0.2
-     * 
+     *
      * @return array - list of accepted languages including quality
      */
     public function getBrowser()
@@ -609,7 +307,9 @@ class Zend_Locale {
             foreach($country2 as $country) {
                 $languages[$region . '_' . strtoupper($country)] = $quality;
             }
-            $languages[$region] = $quality;
+            if (!isset($languages[$region]) || ($languages[$region] < $quality)) {
+                $languages[$region] = $quality;
+            }
         }
         return $languages;
     }
@@ -627,7 +327,7 @@ class Zend_Locale {
 
     /**
      * Sets a new locale
-     * 
+     *
      * @param mixed  $locale  OPTIONAL new locale to set
      */
     public function setLocale($locale = null)
@@ -636,23 +336,31 @@ class Zend_Locale {
             $locale = $this->getDefault($locale, true);
         }
 
+        if (($locale == 'auto') or ($locale === null)) {
+            $locale = self::$_auto;
+        }
+        if ($locale == 'browser') {
+            $locale = self::$_browser;
+        }
+        if ($locale == 'environment') {
+            $locale = self::$_environment;
+        }
         if (is_array($locale)) {
             $locale = key($locale);
         }
-        
-        if (!isset(Zend_Locale::$_LocaleData[$locale])) {
+        if (!array_key_exists((string) $locale, self::$_localeData)) {
             $region = substr($locale, 0, 3);
             if (isset($region[2])) {
                 if (($region[2] == '_') or ($region[2] == '-')) {
                     $region = substr($region, 0, 2);
                 }
             }
-            if (isset(Zend_Locale::$_LocaleData[$region])) {
+            if (array_key_exists((string) $region, self::$_localeData)) {
                 $this->_Locale = $region;
             } else {
                 $this->_Locale = 'root';
             }
-            
+
         } else {
             $this->_Locale = $locale;
         }
@@ -661,7 +369,7 @@ class Zend_Locale {
 
     /**
      * Returns the language part of the locale
-     * 
+     *
      * @return language
      */
     public function getLanguage()
@@ -673,7 +381,7 @@ class Zend_Locale {
 
     /**
      * Returns the region part of the locale if avaiable
-     * 
+     *
      * @return region
      */
     public function getRegion()
@@ -682,7 +390,7 @@ class Zend_Locale {
         if (isset($locale[1])) {
             return $locale[1];
         }
-        
+
         return false;
     }
 
@@ -714,7 +422,7 @@ class Zend_Locale {
             } else {
                 $quality = 1.0;
                 $charsets[$accept] = $quality;
-            } 
+            }
 
         }
 
@@ -724,7 +432,7 @@ class Zend_Locale {
 
     /**
      * Returns true if both locales are equal
-     * 
+     *
      * @return boolean
      */
     public function equals($object)
@@ -746,17 +454,32 @@ class Zend_Locale {
      * 'timezone', 'currency', 'currency_sign', 'currency_detail', 'territory_detail'
      * 'language_detail', 'characters'
      * For detailed information about the types look into the documentation
-     * 
+     *
      * @param  string         $type    OPTIONAL Type of information to return
      * @param  string|locale  $locale  OPTIONAL Locale|Language for which this informations should be returned
      * @return array                   Array with the wished information in the given language
      */
     public function getTranslationList($type = null, $locale = null)
     {
+        // load class within method for speed
+        require_once 'Zend/Locale/Data.php';
+
         if ($locale === null) {
             $locale = $this->_Locale;
         }
 
+        if ($locale == 'auto') {
+            $locale = self::$_auto;
+        }
+        if ($locale == 'browser') {
+            $locale = self::$_browser;
+        }
+        if ($locale == 'environment') {
+            $locale = self::$_environment;
+        }
+        if (is_array($locale)) {
+            $locale = key($locale);
+        }
         switch (strtolower($type)) {
             case 'language' :
                 return Zend_Locale_Data::getContent($locale, 'languagelist');
@@ -767,7 +490,7 @@ class Zend_Locale {
             case 'country' :
                 $list = Zend_Locale_Data::getContent($locale, 'territorylist');
                 foreach ($list as $key => $entry) {
-                    if (is_numeric($key) or ($key == "QO")) {
+                    if (is_numeric($key)) {
                         unset($list[$key]);
                     }
                 }
@@ -776,7 +499,7 @@ class Zend_Locale {
             case 'territory' :
                 $list = Zend_Locale_Data::getContent($locale, 'territorylist');
                 foreach ($list as $key => $entry) {
-                    if (!is_numeric($key) and ($key != "QO")) {
+                    if (!is_numeric($key)) {
                         unset($list[$key]);
                     }
                 }
@@ -864,7 +587,7 @@ class Zend_Locale {
 
     /**
      * Returns an array with the name of all languages translated to the given language
-     * 
+     *
      * @param   string  $locale  OPTIONAL locale for language translation
      * @return  array
      */
@@ -876,7 +599,7 @@ class Zend_Locale {
 
     /**
      * Returns an array with the name of all scripts translated to the given language
-     * 
+     *
      * @param   string  $locale  OPTIONAL locale for script translation
      * @return  array
      */
@@ -888,7 +611,7 @@ class Zend_Locale {
 
     /**
      * Returns an array with the name of all countries translated to the given language
-     * 
+     *
      * @param   string  $locale  OPTIONAL locale for country translation
      * @return  array
      */
@@ -901,7 +624,7 @@ class Zend_Locale {
     /**
      * Returns an array with the name of all territories translated to the given language
      * All territories contains other countries.
-     * 
+     *
      * @param   string  $locale  OPTIONAL locale for territory translation
      * @return  array
      */
@@ -913,13 +636,13 @@ class Zend_Locale {
 
     /**
      * Returns a localized information string, supported are several types of informations.
-     * 
+     *
      * Supported types are:
      * 'language', 'script', 'country', 'territory', 'calendar', 'month', 'month_short',
      * 'month_narrow', 'day', 'day_short', 'day_narrow', 'dateformat', 'timeformat',
      * 'timezone', 'currency', 'currency_sign', 'currency_detail', 'territory_detail', 'language_detail', 'characters'
      * For detailed information about the types look into the documentation
-     * 
+     *
      * @param  string         $what    Name to get detailed information about
      * @param  string         $type    OPTIONAL Type of information to return
      * @param  string|locale  $locale  OPTIONAL Locale|Language for which this informations should be returned
@@ -927,10 +650,25 @@ class Zend_Locale {
      */
     public function getTranslation($what, $type = null, $locale = null)
     {
+        // load class within method for speed
+        require_once 'Zend/Locale/Data.php';
+
         if ($locale === null) {
             $locale = $this->_Locale;
         }
 
+        if ($locale == 'auto') {
+            $locale = self::$_auto;
+        }
+        if ($locale == 'browser') {
+            $locale = self::$_browser;
+        }
+        if ($locale == 'environment') {
+            $locale = self::$_environment;
+        }
+        if (is_array($locale)) {
+            $locale = key($locale);
+        }
         switch (strtolower($type)) {
             case 'language' :
                 $list = Zend_Locale_Data::getContent($locale, 'language', $what);
@@ -1062,7 +800,7 @@ class Zend_Locale {
 
     /**
      * Returns the localized language name
-     * 
+     *
      * @param   string  $what    Name to get detailed information about
      * @param   string  $locale  OPTIONAL locale for language translation
      * @return  array
@@ -1075,7 +813,7 @@ class Zend_Locale {
 
     /**
      * Returns the localized script name
-     * 
+     *
      * @param   string  $what    Name to get detailed information about
      * @param   string  $locale  OPTIONAL locale for script translation
      * @return  array
@@ -1088,7 +826,7 @@ class Zend_Locale {
 
     /**
      * Returns the localized country name
-     * 
+     *
      * @param   string  $what    Name to get detailed information about
      * @param   string  $locale  OPTIONAL locale for country translation
      * @return  array
@@ -1102,7 +840,7 @@ class Zend_Locale {
     /**
      * Returns the localized territory name
      * All territories contains other countries.
-     * 
+     *
      * @param   string  $what    Name to get detailed information about
      * @param   string  $locale  OPTIONAL locale for territory translation
      * @return  array
@@ -1115,24 +853,39 @@ class Zend_Locale {
 
     /**
      * Returns an array with translated yes strings
-     * 
+     *
      * @param  string  $locale  OPTIONAL locale for language translation (defaults to $this locale)
      * @return array
      */
     public function getQuestion($locale = null)
     {
+        // load class within method for speed
+        require_once 'Zend/Locale/Data.php';
+
         if ($locale === null) {
             $locale = $this->_Locale;
         }
 
-        return Zend_Locale_Data::getContent($locale, 'questionstrings');
+        if ($locale == 'auto') {
+            $locale = self::$_auto;
+        }
+        if ($locale == 'browser') {
+            $locale = self::$_browser;
+        }
+        if ($locale == 'environment') {
+            $locale = self::$_environment;
+        }
+        if (is_array($locale)) {
+            $locale = key($locale);
+        }
+        $quest = Zend_Locale_Data::getContent($locale, 'questionstrings');
         $yes = explode(':', $quest['yes']);
         $no  = explode(':', $quest['no']);
         $quest['yes']     = $yes[0];
         $quest['yesabbr'] = $yes[1];
         $quest['no']      = $no[0];
         $quest['noabbr']  = $no[1];
-        
+
         return $quest;
     }
 
@@ -1142,7 +895,7 @@ class Zend_Locale {
      * Examples:
      * "en_XX" refers to "en", which returns true
      * "XX_yy" refers to "root", which returns false
-     * 
+     *
      * @param  string|Zend_Locale  $locale  Locale to check for
      * @param  boolean             $create  If true, create a default locale, if $locale is empty
      * @return false|string   false if given locale is not a locale, else the locale identifier is returned
@@ -1158,15 +911,58 @@ class Zend_Locale {
         if (!is_string($locale)) {
             return false;
         }
+        if (empty(self::$_auto)) {
+            $temp = new Zend_Locale($locale);
+            self::$_auto        = $temp->getDefault(null, false);
+            self::$_browser     = $temp->getDefault(self::BROWSER, false);
+            self::$_environment = $temp->getDefault(self::ENVIRONMENT, false);
+        }
+        if ($locale == 'auto') {
+            $locale = self::$_auto;
+        }
+        if ($locale == 'browser') {
+            $locale = self::$_browser;
+        }
+        if ($locale == 'environment') {
+            $locale = self::$_environment;
+        }
+        if (is_array($locale)) {
+            $locale = key($locale);
+        }
 
-        if (array_key_exists($locale, self::$_LocaleData)) {
+        if (array_key_exists($locale, self::$_localeData)) {
             return $locale;
         } else {
             $locale = explode('_', $locale);
-            if (array_key_exists($locale[0], self::$_LocaleData)) {
+            if (array_key_exists($locale[0], self::$_localeData)) {
                 return $locale[0];
             }
         }
         return false;
+    }
+
+
+    /**
+     * Returns a list of all known locales where the locale is the key
+     * 
+     * @return  array
+     */
+    public static function getLocaleList()
+    {
+        return self::$_localeData;
+    }
+
+
+    /**
+     * Sets a cache
+     *
+     * @param Zend_Cache_Core $cache
+     */
+    public static function setCache(Zend_Cache_Core $cache)
+    {
+        // load class within method for speed
+        require_once 'Zend/Locale/Data.php';
+
+        Zend_Locale_Data::setCache($cache);
     }
 }

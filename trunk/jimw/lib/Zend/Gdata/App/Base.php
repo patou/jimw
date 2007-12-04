@@ -19,6 +19,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
+
 /**
  * Abstract class for all XML elements
  *
@@ -112,13 +113,13 @@ abstract class Zend_Gdata_App_Base
     }
 
     /**
-     * Retrieves a DOMElement which corresponds to this element and all 
+     * Retrieves a DOMElement which corresponds to this element and all
      * child properties.  This is used to build an entry back into a DOM
      * and eventually XML text for sending to the server upon updates, or
-     * for application storage/persistence.  
+     * for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
-     * @return DOMElement The DOMElement representing this element and all 
+     * @return DOMElement The DOMElement representing this element and all
      * child properties.
      */
     public function getDOM($doc = null)
@@ -126,7 +127,7 @@ abstract class Zend_Gdata_App_Base
         if (is_null($doc)) {
             $doc = new DOMDocument('1.0', 'utf-8');
         }
-        if ($this->_rootNamespaceURI != null) { 
+        if ($this->_rootNamespaceURI != null) {
             $element = $doc->createElementNS($this->_rootNamespaceURI, $this->_rootElement);
         } elseif ($this->_rootNamespace !== null) {
             if (strpos($this->_rootElement, ':') === false) {
@@ -164,13 +165,13 @@ abstract class Zend_Gdata_App_Base
         } else {
             $extensionElement = new Zend_Gdata_App_Extension_Element();
             $extensionElement->transferFromDOM($child);
-            $this->_extensionElements[] = $extensionElement; 
+            $this->_extensionElements[] = $extensionElement;
         }
     }
 
     /**
      * Given a DOMNode representing an attribute, tries to map the data into
-     * instance members.  If no mapping is defined, the name and value are 
+     * instance members.  If no mapping is defined, the name and value are
      * stored in an array.
      *
      * @param DOMNode $attribute The DOMNode attribute needed to be handled
@@ -246,6 +247,16 @@ abstract class Zend_Gdata_App_Base
     {
         return $this->saveXML();
     }
+    
+    /**
+     * Alias for saveXML()
+     * Can be overridden by children to provide more complex representations
+     * of entries.
+     */
+    public function encode()
+    {
+        return $this->saveXML();
+    }
 
     /**
      * Get the full version of a namespace prefix
@@ -300,20 +311,20 @@ abstract class Zend_Gdata_App_Base
         } else {
             require_once 'Zend/Gdata/App/InvalidArgumentException.php';
             throw new Zend_Gdata_App_InvalidArgumentException(
-                    'Property ' . $name . '  does not exist');
+                    'Property ' . $name . ' does not exist');
         }
     }
 
     /**
-     * Magic setter to allow acces like $entry->foo='bar' to call 
-     * $entry->setFoo('bar') automatically.  
+     * Magic setter to allow acces like $entry->foo='bar' to call
+     * $entry->setFoo('bar') automatically.
      *
      * Alternatively, if no setFoo() is defined, but a $_foo protected variable
      * is defined, this is returned.
      *
      * TODO Remove ability to bypass getFoo() methods??
      *
-     * @param string $name 
+     * @param string $name
      * @param string $value
      */
     public function __set($name, $val)
@@ -331,9 +342,9 @@ abstract class Zend_Gdata_App_Base
     }
 
     /**
-     * Magic __isset method 
+     * Magic __isset method
      *
-     * @param string $name 
+     * @param string $name
      */
     public function __isset($name)
     {
@@ -361,9 +372,9 @@ abstract class Zend_Gdata_App_Base
     }
 
     /**
-     * Magic __unset method 
+     * Magic __unset method
      *
-     * @param string $name 
+     * @param string $name
      */
     public function __unset($name)
     {

@@ -5,9 +5,9 @@
  * LICENSE
  *
  * This source file is subject to version 1.0 of the Zend Framework
- * license, that is bundled with this package in the file LICENSE, and
+ * license, that is bundled with this package in the file LICENSE.txt, and
  * is available through the world-wide-web at the following URL:
- * http://www.zend.com/license/framework/1_0.txt. If you did not receive
+ * http://framework.zend.com/license/new-bsd. If you did not receive
  * a copy of the Zend Framework license and are unable to obtain it
  * through the world-wide-web, please send a note to license@zend.com
  * so we can mail you a copy immediately.
@@ -15,7 +15,7 @@
  * @package    Zend_XmlRpc
  * @subpackage Server
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://www.zend.com/license/framework/1_0.txt Zend Framework License version 1.0
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /**
@@ -27,23 +27,23 @@ require_once 'Zend/XmlRpc/Fault.php';
 /**
  * XMLRPC Server Faults
  *
- * Encapsulates an exception for use as an XMLRPC fault response. Valid 
- * exception classes that may be used for generating the fault code and fault 
- * string can be attached using {@link attachFaultException()}; all others use a 
+ * Encapsulates an exception for use as an XMLRPC fault response. Valid
+ * exception classes that may be used for generating the fault code and fault
+ * string can be attached using {@link attachFaultException()}; all others use a
  * generic '404 Unknown error' response.
  *
- * You may also attach fault observers, which would allow you to monitor 
- * particular fault cases; this is done via {@link attachObserver()}. Observers 
+ * You may also attach fault observers, which would allow you to monitor
+ * particular fault cases; this is done via {@link attachObserver()}. Observers
  * need only implement a static 'observe' method.
  *
- * To allow method chaining, you may use the {@link getInstance()} factory 
+ * To allow method chaining, you may use the {@link getInstance()} factory
  * to instantiate a Zend_XmlRpc_Server_Fault.
  *
  * @category   Zend
  * @package    Zend_XmlRpc
  * @subpackage Server
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://www.zend.com/license/framework/1_0.txt Zend Framework License version 1.0
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_XmlRpc_Server_Fault extends Zend_XmlRpc_Fault
 {
@@ -64,8 +64,8 @@ class Zend_XmlRpc_Server_Fault extends Zend_XmlRpc_Fault
 
     /**
      * Constructor
-     * 
-     * @param Exception $e 
+     *
+     * @param Exception $e
      * @return Zend_XmlRpc_Server_Fault
      */
     public function __construct(Exception $e)
@@ -75,9 +75,12 @@ class Zend_XmlRpc_Server_Fault extends Zend_XmlRpc_Fault
         $message          = 'Unknown error';
         $exceptionClass   = get_class($e);
 
-        if (isset(self::$_faultExceptionClasses[$exceptionClass])) {
-            $code    = $e->getCode();
-            $message = $e->getMessage();
+        foreach (array_keys(self::$_faultExceptionClasses) as $class) {
+            if ($e instanceof $class) {
+                $code    = $e->getCode();
+                $message = $e->getMessage();
+                break;
+            }
         }
 
         parent::__construct($code, $message);
@@ -92,8 +95,8 @@ class Zend_XmlRpc_Server_Fault extends Zend_XmlRpc_Fault
 
     /**
      * Return Zend_XmlRpc_Server_Fault instance
-     * 
-     * @param Exception $e 
+     *
+     * @param Exception $e
      * @return Zend_XmlRpc_Server_Fault
      */
     public static function getInstance(Exception $e)
@@ -103,7 +106,7 @@ class Zend_XmlRpc_Server_Fault extends Zend_XmlRpc_Fault
 
     /**
      * Attach valid exceptions that can be used to define xmlrpc faults
-     * 
+     *
      * @param string|array $classes Class name or array of class names
      * @return void
      */
@@ -122,7 +125,7 @@ class Zend_XmlRpc_Server_Fault extends Zend_XmlRpc_Fault
 
     /**
      * Detach fault exception classes
-     * 
+     *
      * @param string|array $classes Class name or array of class names
      * @return void
      */
@@ -143,12 +146,12 @@ class Zend_XmlRpc_Server_Fault extends Zend_XmlRpc_Fault
      * Attach an observer class
      *
      * Allows observation of xmlrpc server faults, thus allowing logging or mail
-     * notification of fault responses on the xmlrpc server. 
+     * notification of fault responses on the xmlrpc server.
      *
      * Expects a valid class name; that class must have a public static method
      * 'observe' that accepts an exception as its sole argument.
-     * 
-     * @param string $class 
+     *
+     * @param string $class
      * @return boolean
      */
     public static function attachObserver($class)
@@ -169,8 +172,8 @@ class Zend_XmlRpc_Server_Fault extends Zend_XmlRpc_Fault
 
     /**
      * Detach an observer
-     * 
-     * @param string $class 
+     *
+     * @param string $class
      * @return boolean
      */
     public static function detachObserver($class)
@@ -185,7 +188,7 @@ class Zend_XmlRpc_Server_Fault extends Zend_XmlRpc_Fault
 
     /**
      * Retrieve the exception
-     * 
+     *
      * @access public
      * @return Exception
      */

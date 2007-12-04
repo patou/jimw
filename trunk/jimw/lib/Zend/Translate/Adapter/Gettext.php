@@ -47,10 +47,11 @@ class Zend_Translate_Adapter_Gettext extends Zend_Translate_Adapter {
      * @param  string              $data     Translation data
      * @param  string|Zend_Locale  $locale   OPTIONAL Locale/Language to set, identical with locale identifier,
      *                                       see Zend_Locale for more information
+     * @param  array               $options  OPTIONAL Options to set
      */
-    public function __construct($data, $locale = null)
+    public function __construct($data, $locale = null, array $options = array())
     {
-        parent::__construct($data, $locale);
+        parent::__construct($data, $locale, $options);
     }
 
 
@@ -80,6 +81,7 @@ class Zend_Translate_Adapter_Gettext extends Zend_Translate_Adapter {
      */
     protected function _loadTranslationData($filename, $locale, array $options = array())
     {
+        $this->_bigEndian = false;
         $options = array_merge($this->_options, $options);
 
         if ($options['clear']  ||  !isset($this->_translate[$locale])) {
@@ -90,17 +92,19 @@ class Zend_Translate_Adapter_Gettext extends Zend_Translate_Adapter {
         if (!$this->_file) {
             throw new Zend_Translate_Exception('Error opening translation file \'' . $filename . '\'.');
         }
-
-        // get Endian
-        $input = $this->_readMOData(1);
-        if (($input[1] == -1794895138) or ($input[1] == 18446744071914656478)) {
-            $this->_bigEndian = FALSE;
-        } else if ($input[1] == -569244523) {
-            $this->_bigEndian = TRUE;
-        } else {
+        if (@filesize($filename) < 10) {
             throw new Zend_Translate_Exception('\'' . $filename . '\' is not a gettext file');
         }
 
+        // get Endian
+        $input = $this->_readMOData(1);
+        if (strtolower(substr(dechex($input[1]), -8)) == "950412de") {
+            $this->_bigEndian = false;
+        } else if (strtolower(substr(dechex($input[1]), -8)) == "de120495") {
+            $this->_bigEndian = true;
+        } else {
+            throw new Zend_Translate_Exception('\'' . $filename . '\' is not a gettext file');
+        }
         // read revision - not supported for now
         $input = $this->_readMOData(1);
 

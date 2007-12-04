@@ -18,7 +18,7 @@
  * @subpackage Profiler
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Query.php 4779 2007-05-11 18:28:57Z darby $
+ * @version    $Id: Query.php 6289 2007-09-11 01:21:38Z bkarwin $
  */
 
 
@@ -61,6 +61,15 @@ class Zend_Db_Profiler_Query
     protected $_endedMicrotime = null;
 
     /**
+     * @var array
+     */
+    protected $_boundParams = array();
+
+    /**
+     * @var array
+     */
+
+    /**
      * Class constructor.  A query is about to be started, save the query text ($query) and its
      * type (one of the Zend_Db_Profiler::* constants).
      *
@@ -72,6 +81,31 @@ class Zend_Db_Profiler_Query
     {
         $this->_query = $query;
         $this->_queryType = $queryType;
+        // by default, and for backward-compatibility, start the click ticking
+        $this->start();
+    }
+
+    /**
+     * Clone handler for the query object.
+     * @return void
+     */
+    public function __clone()
+    {
+        $this->_boundParams = array();
+        $this->_endedMicrotime = null;
+        $this->start();
+    }
+
+    /**
+     * Starts the elapsed time click ticking.
+     * This can be called subsequent to object creation,
+     * to restart the clock.  For instance, this is useful
+     * right before executing a prepared query.
+     *
+     * @return void
+     */
+    public function start()
+    {
         $this->_startedMicrotime = microtime(true);
     }
 
@@ -113,6 +147,39 @@ class Zend_Db_Profiler_Query
     public function getQueryType()
     {
         return $this->_queryType;
+    }
+
+    /**
+     * @param string $param
+     * @param mixed $variable
+     * @return void
+     */
+    public function bindParam($param, $variable)
+    {
+        $this->_boundParams[$param] = $variable;
+    }
+
+    /**
+     * @param array $param
+     * @return void
+     */
+    public function bindParams(array $params)
+    {
+        if (array_key_exists(0, $params)) {
+            array_unshift($params, null);
+            unset($params[0]);
+        }
+        foreach ($params as $param => $value) {
+            $this->bindParam($param, $value);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getQueryParams()
+    {
+        return $this->_boundParams;
     }
 
     /**

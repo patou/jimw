@@ -16,7 +16,7 @@
  * @package    Zend_Log
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 5112 2007-06-04 23:28:58Z mike $
+ * @version    $Id: Log.php 6312 2007-09-11 20:46:42Z bkarwin $
  */
 
 /** Zend_Log_Filter_Priority */
@@ -27,8 +27,8 @@ require_once 'Zend/Log/Filter/Priority.php';
  * @package    Zend_Log
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Log.php 5112 2007-06-04 23:28:58Z mike $
- */ 
+ * @version    $Id: Log.php 6312 2007-09-11 20:46:42Z bkarwin $
+ */
 class Zend_Log
 {
     const EMERG   = 0;  // Emergency: system is unusable
@@ -44,22 +44,22 @@ class Zend_Log
      * @var array of priorities where the keys are the
      * priority numbers and the values are the priority names
      */
-    private $_priorities = array();
+    protected $_priorities = array();
 
     /**
      * @var array of Zend_Log_Writer_Abstract
      */
-    private $_writers = array();
+    protected $_writers = array();
 
     /**
      * @var array of Zend_Log_Filter_Interface
      */
-    private $_filters = array();
+    protected $_filters = array();
 
     /**
      * @var array of extra log event
      */
-    private $_extras = array();
+    protected $_extras = array();
 
     /**
      * Class constructor.  Create a new logger
@@ -172,7 +172,7 @@ class Zend_Log
      * Add a filter that will be applied before all log writers.
      * Before a message will be received by any of the writers, it
      * must be accepted by all filters added with this method.
-     * 
+     *
      * @param  Zend_Log_Filter_Interface  $filter
      * @return void
      */
