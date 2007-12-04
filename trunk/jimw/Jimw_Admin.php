@@ -71,4 +71,12 @@ else
     //Zend_Debug::dump($frontcontroller);//Zend_Debug::dump($controler->getRequest(), 'Request : ');} // Display exceptionscatch (Exception $e) {
     Jimw_Debug::display_exception($e);
 }
+if (JIMW_DEBUG_MODE) {
+	$db = Zend_Registry::get('db');
+	Jimw_Debug::profile_db($db);
+	Jimw_Debug::profile_db(Zend_Registry::get('db_global'));
+	$totalTime = microtime(true) - $startTime;
+	//calculate the time difference
+	Jimw_Debug::display("\ntotal execution time: $totalTime .");
+}
 ?>

@@ -20,6 +20,8 @@ class TreeController extends Jimw_Admin_Action
 
 	public function listAction () {
 		$tree = new Jimw_Site_Tree();
+		$tree->updateAllChildren(101, array('tree_editiondate' => new Zend_Db_Expr('NOW()'), 'tree_creationdate' => new Zend_Db_Expr('NOW()')), 'module_id = 3');
+		$tree->fetchAllChildren(101, null, 'tree_alias DESC');
 		$session = new Zend_Session_Namespace('Admin');
 		if (isset($session->site) && isset($session->site->tree_id))
 			$parentid = $tree->find($session->site->tree_id)->current();
@@ -104,8 +106,8 @@ class TreeController extends Jimw_Admin_Action
 		$save->param = '';
 		$save->icon = '';
 		$save->image = '';
-		$save->creationdate = '1900-01-01 00:00:00';
-		$save->editiondate = '1900-01-01 00:00:00';
+		//$save->creationdate = '1900-01-01 00:00:00';
+		//$save->editiondate = '1900-01-01 00:00:00';
 		$save->alias = $req->alias;
 		$save->description = $req->description;
 		//Zend_Debug::dump($save);

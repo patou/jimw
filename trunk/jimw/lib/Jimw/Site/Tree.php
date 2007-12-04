@@ -244,10 +244,10 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 			$data['tree_type'] = 0;
 		}
 		if (empty($data['tree_creationdate'])) {
-			$data['tree_creationdate'] = time();
+			$data['tree_creationdate'] = new Zend_Db_Expr('NOW()');
 		}
 		if (empty($data['tree_editiondate'])) {
-			$data['tree_editiondate'] = time();
+			$data['tree_editiondate'] = new Zend_Db_Expr('NOW()');;
 		}
 		return parent::insert($data);
 	}
@@ -272,6 +272,49 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 		return parent::createRow($data);
 	}
 
+	public function fetchAllChildren($parent, $where = null, $order = null, $count = null, $offset = null) {
+		if (!($parent instanceof  Jimw_Site_Tree)) {
+			$parent = $this->find($parent)->current();
+		}
+		if (empty($order)) {
+            $order = array('tree_lft');
+        }
+        if (!$parent) { // Root
+			return $this->fetchAll($where, $order, $count);
+		}
+		else {
+			return $this->fetchAll($this->_buildWhere($parent->lft, $parent->rgt, $where), $order, $count, $offset);
+		}
+	}
+	
+	
+	public function updateAllChildren($parent, $data, $where = null) {
+		if (!($parent instanceof  Jimw_Site_Tree)) {
+			$parent = $this->find($parent)->current();
+		}
+		if (!$parent) {
+			return $this->update($data, $where);
+		}
+		else {
+			return $this->update($data, $this->_buildWhere($parent->lft, $parent->rgt, $where));
+		}
+	}
+	
+	public function _buildWhere($lft, $rgt, $where = null, $col = false) {
+		$where_array = array($this->_db->quoteInto($this->_db->quoteIdentifier(($col) ? $col : 'tree_lft', true) . ' >= ?', $lft), 
+							 $this->_db->quoteInto($this->_db->quoteIdentifier(($col) ? $col : 'tree_rgt', true) . ' <= ?', $rgt));
+		if (empty($where)) {
+			return $where_array;
+		}
+		elseif (is_array($where)) {
+			return array_merge($where, $where_array);
+		}
+		else {
+			$where_array[] = $where;
+			return $where_array;
+		}
+	}
+	
 	public function delete($where) {
 			    /*def before_destroy
 301 	          return if self[acts_as_nested_set_options[:right_column]].nil? || self[acts_as_nested_set_options[:left_column]].nil?
@@ -289,7 +332,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	{
 		// add a timestamp
 		if (empty($data['tree_editiondate'])) {
-			$data['tree_editiondate'] = time();
+			$data['tree_editiondate'] = new Zend_Db_Expr('NOW()');
 		}
 		return parent::update($data, $where);
 	}
@@ -309,11 +352,11 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 			//throw new Jimw_Exception('Not found');
 			if ($position == self::LEFT) {
 				//Move on LEFT of last Root
-				$target = $this->fetchRow(array('tree_parent = ?' => 0), 'tree_rgt ASC');
+				$target = $this->fetchRow(array('tree_parentid = ?' => 0), 'tree_rgt ASC');
 			}
 			else {
 				//Move on RIGHT of first Root
-				$target = $this->fetchRow(array('tree_parent = ?' => 0), 'tree_rgt DESC');
+				$target = $this->fetchRow(array('tree_parentid = ?' => 0), 'tree_rgt DESC');
 				$position = self::RIGHT;
 			}
 		}
@@ -322,10 +365,10 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 		if ((($cur_left <= $target_left) && ($target_left <= $cur_right)) || (($cur_left <= $target_right) && ($target_right <= $cur_right))) {
 			throw new Jimw_Exception('Ilegal tree move');
 		}
-		$tree->parent_id = $target->parent_id;
+		$tree->parent_id = $target->parentid;
 		switch ($position) {
 			case self::CHILD:
-				$tree->parent_id = $target->id;
+				$tree->parentid = $target->id;
 				if ($target_left < $cur_left) {
 					$new_left = $target_left + 1;
 					$new_right = $target_right + $extent;	
@@ -365,10 +408,10 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 		$updown = ($shift > 0) ? -$extent : $extent;
 		// Transaction for all update
 		$this->_db->beginTransaction();
-		$this->update(array('tree_lft' => new Zend_Db_Expr('tree_lft + ' . $shift)), array('? <= tree_lft' => $cur_left, 'tree_rgt <= ?' => $cur_right));
-		$this->update(array('tree_lft' => new Zend_Db_Expr('tree_lft + ' . $updown)), array('? <= tree_lft' => $b_left, 'tree_rgt <= ?' => $b_right));
-		$this->update(array('tree_rgt' => new Zend_Db_Expr('tree_rgt + ' . $shift)), array('? <= tree_rgt' => $cur_left, 'tree_rgt <= ?' => $cur_right));
-		$this->update(array('tree_rgt' => new Zend_Db_Expr('tree_rgt + ' . $updown)), array('? <= tree_rgt' => $b_left, 'tree_rgt <= ?' => $b_right));
+		$this->update(array('tree_lft' => new Zend_Db_Expr('tree_lft + ' . $shift)), $this->_buildWhere($cur_left, $cur_right, null, 'tree_lft'));
+		$this->update(array('tree_lft' => new Zend_Db_Expr('tree_lft + ' . $updown)), $this->_buildWhere($b_left, $b_right, null, 'tree_lft'));
+		$this->update(array('tree_rgt' => new Zend_Db_Expr('tree_rgt + ' . $shift)), $this->_buildWhere($cur_left, $cur_right, null, 'tree_rgt'));
+		$this->update(array('tree_rgt' => new Zend_Db_Expr('tree_rgt + ' . $updown)), $this->_buildWhere($b_left, $b_right, null, 'tree_rgt'));
 		$tree->save();
 		$this->_db->commit();
 	}
@@ -584,7 +627,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 207 	            end
 208 	          end                                   
 209 	        end
-210 	       
+210 	         
 211 	        # Returns root
 212 	        def root
 213 	            self.class.find(:first, :conditions => "#{acts_as_nested_set_options[:scope]} AND (#{acts_as_nested_set_options[:parent_column]} IS NULL)")
