@@ -107,7 +107,7 @@ class Jimw_Debug extends Zend_Debug {
 	public static function profile_db($db, $echo = true)
 	{
 		if ($db && ($profiler = $db->getProfiler ())) {
-			$output = '';			
+			$output = '';
 			$totalTime    = $profiler->getTotalElapsedSecs();
 			$queryCount   = $profiler->getTotalNumQueries();
 			$longestTime  = 0;
@@ -119,9 +119,8 @@ class Jimw_Debug extends Zend_Debug {
 				}
 				$output .= 'Query : '. $query->getElapsedSecs(). ' for '. $query->getQuery(). "<br />\n";
 			}
-		
-			$output .= 'Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "<br />\n";
-			$output .= 'Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br />\n";
+		    $output = 'Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "<br />\n" . $output;			
+			$output .= '<br />Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br />\n";
 			$output .= 'Queries per second: ' . $queryCount / $totalTime . "<br />\n";
 			$output .= 'Longest query length: ' . $longestTime . "<br />\n";
 			$output .= "Longest query: <br />\n" . $longestQuery . "<br />\n";
