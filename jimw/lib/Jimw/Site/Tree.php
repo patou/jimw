@@ -133,7 +133,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 * @param int|array $id
 	 * @return Jimw_Db_Rowset
 	 */
-	public function find () {
+	public function find ($key) {
 		$args = func_get_args();
 		$this->_loadTree();
 		$list = array();
