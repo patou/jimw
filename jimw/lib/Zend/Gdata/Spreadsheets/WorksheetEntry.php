@@ -16,7 +16,7 @@
  * @category     Zend
  * @package      Zend_Gdata
  * @copyright    Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @license      http://framework.zend.com/license/new-bsd         New BSD License
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /**
@@ -40,13 +40,13 @@ require_once 'Zend/Gdata/Spreadsheets/Extension/ColCount.php';
  * @category     Zend
  * @package        Zend_Gdata
  * @copyright    Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @license        http://framework.zend.com/license/new-bsd         New BSD License
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
 {
 
     protected $_entryClassName = 'Zend_Gdata_Spreadsheets_WorksheetEntry';
-    
+
     protected $_rowCount = null;
     protected $_colCount = null;
 
@@ -61,7 +61,7 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
         }
         parent::__construct($element);
     }
-    
+
     public function getDOM($doc = null)
     {
         $element = parent::getDOM($doc);
@@ -73,7 +73,7 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
         }
         return $element;
     }
-    
+
     protected function takeChildFromDOM($child)
     {
         $absoluteNodeName = $child->namespaceURI . ':' . $child->localName;
@@ -93,8 +93,8 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
                 break;
         }
     }
-    
-    
+
+
     /**
      * Gets the row count for this entry.
      * @return string The row count for the entry.
@@ -103,7 +103,7 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
     {
         return $this->_rowCount;
     }
-    
+
     /**
      * Gets the column count for this entry.
      * @return string The column count for the entry.
@@ -112,7 +112,7 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
     {
         return $this->_colCount;
     }
-    
+
     /**
      * Sets the row count for this entry.
      * @param string $rowCount The new row count for the entry.
@@ -122,7 +122,7 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
         $this->_rowCount = $rowCount;
         return $this;
     }
-    
+
     /**
      * Sets the column count for this entry.
      * @param string $colCount The new column count for the entry.

@@ -5,16 +5,16 @@
  * LICENSE
  *
  * This source file is subject to version 1.0 of the Zend Framework
- * license, that is bundled with this package in the file LICENSE, and
+ * license, that is bundled with this package in the file LICENSE.txt, and
  * is available through the world-wide-web at the following URL:
- * http://www.zend.com/license/framework/1_0.txt. If you did not receive
+ * http://framework.zend.com/license/new-bsd. If you did not receive
  * a copy of the Zend Framework license and are unable to obtain it
  * through the world-wide-web, please send a note to license@zend.com
  * so we can mail you a copy immediately.
  *
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://www.zend.com/license/framework/1_0.txt Zend Framework License version 1.0
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /**
@@ -25,7 +25,7 @@ require_once 'Zend/Mail/Protocol/Exception.php';
 /**
  * @package    Zend_Mail
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://www.zend.com/license/framework/1_0.txt Zend Framework License version 1.0
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Protocol_Imap
 {
@@ -172,6 +172,8 @@ class Zend_Mail_Protocol_Imap
                 "foo" baz {3}<NL>bar ("f\\\"oo" bar)
             would be returned as:
                 array('foo', 'baz', 'bar', array('f\\\"oo', 'bar'));
+            
+            // TODO: add handling of '[' and ']' to parser for easier handling of response text
         */
         //  replace any trailling <NL> including spaces with a single space
         $line = rtrim($line) . ' ';
@@ -183,9 +185,9 @@ class Zend_Mail_Protocol_Imap
                 $token = substr($token, 1);
             }
             if ($token[0] == '"') {
-                if (preg_match('%^"((.|\\\\|\\")*?)"%', $line, $matches)) {
+                if (preg_match('%^"((.|\\\\|\\")*?)" *%', $line, $matches)) {
                     $tokens[] = $matches[1];
-                    $line = substr($line, strlen($matches[0]) + 1);
+                    $line = substr($line, strlen($matches[0]));
                     continue;
                 }
             }

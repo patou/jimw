@@ -15,8 +15,8 @@
  * @package    Zend_Controller
  * @subpackage Router
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Route.php 4806 2007-05-15 18:06:12Z matthew $
- * @license    http://www.zend.com/license/framework/1_0.txt Zend Framework License version 1.0
+ * @version    $Id: Route.php 6905 2007-11-22 18:47:28Z martel $
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /** Zend_Controller_Router_Exception */
@@ -31,7 +31,7 @@ require_once 'Zend/Controller/Router/Route/Interface.php';
  * @package    Zend_Controller
  * @subpackage Router
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://www.zend.com/license/framework/1_0.txt Zend Framework License version 1.0
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @see        http://manuals.rubyonrails.com/read/chapter/65
  */
 class Zend_Controller_Router_Route implements Zend_Controller_Router_Route_Interface
@@ -128,9 +128,9 @@ class Zend_Controller_Router_Route implements Zend_Controller_Router_Route_Inter
         $defaults = $this->_defaults;
 
         if (count($defaults)) {
-        	$unique = array_combine(array_keys($defaults), array_fill(0, count($defaults), true));
+            $unique = array_combine(array_keys($defaults), array_fill(0, count($defaults), true));
         } else {
-        	$unique = array();
+            $unique = array();
         }
 
         $path = trim($path, $this->_urlDelimiter);
@@ -154,7 +154,7 @@ class Zend_Controller_Router_Route implements Zend_Controller_Router_Route_Inter
                 $part = $this->_parts[$pos];
                 $name = isset($part['name']) ? $part['name'] : null;
                 $pathPart = urldecode($pathPart);
-                
+
                 if ($name === null) {
                     if ($part['regex'] != $pathPart) {
                         return false;
@@ -162,7 +162,7 @@ class Zend_Controller_Router_Route implements Zend_Controller_Router_Route_Inter
                 } elseif ($part['regex'] === null) {
                     if (strlen($pathPart) == 0) {
                         return false;
-                    } 
+                    }
                 } else {
                     $regex = $this->_regexDelimiter . '^' . $part['regex'] . '$' . $this->_regexDelimiter . 'iu';
                     if (!preg_match($regex, $pathPart)) {
@@ -212,7 +212,7 @@ class Zend_Controller_Router_Route implements Zend_Controller_Router_Route_Inter
 
         $url = array();
         $flag = false;
-        
+
         foreach ($this->_parts as $key => $part) {
 
             $resetPart = false;
@@ -251,17 +251,17 @@ class Zend_Controller_Router_Route implements Zend_Controller_Router_Route_Inter
             }
 
         }
-        
+
         $return = '';
-        
+
         foreach (array_reverse($url, true) as $key => $value) {
             if ($flag || !isset($this->_parts[$key]['name']) || $value !== $this->getDefault($this->_parts[$key]['name'])) {
-                $return = '/' . $value . $return;
+                $return = $this->_urlDelimiter . $value . $return;
                 $flag = true;
             }
         }
 
-        return trim($return, '/');
+        return trim($return, $this->_urlDelimiter);
 
     }
 

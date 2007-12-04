@@ -87,6 +87,15 @@ class Zend_Search_Lucene implements Zend_Search_Lucene_Interface
     private static $_defaultSearchField = null;
 
     /**
+     * Result set limit
+     *
+     * 0 means no limit
+     *
+     * @var integer
+     */
+    private static $_resultSetLimit = 0;
+
+    /**
      * File system adapter.
      *
      * @var Zend_Search_Lucene_Storage_Directory
@@ -432,6 +441,30 @@ class Zend_Search_Lucene implements Zend_Search_Lucene_Interface
     }
 
     /**
+     * Set result set limit.
+     *
+     * 0 (default) means no limit
+     *
+     * @param integer $limit
+     */
+    public static function setResultSetLimit($limit)
+    {
+        self::$_resultSetLimit = $limit;
+    }
+
+    /**
+     * Set result set limit.
+     *
+     * 0 means no limit
+     *
+     * @return integer
+     */
+    public static function getResultSetLimit()
+    {
+        return self::$_resultSetLimit;
+    }
+
+    /**
      * Retrieve index maxBufferedDocs option
      *
      * maxBufferedDocs is a minimal number of documents required before
@@ -585,11 +618,15 @@ class Zend_Search_Lucene implements Zend_Search_Lucene_Interface
                     $topScore = $docScore;
                 }
             }
+
+            if (self::$_resultSetLimit != 0  &&  count($hits) >= self::$_resultSetLimit) {
+                break;
+            }
         }
 
         if (count($hits) == 0) {
             // skip sorting, which may cause a error on empty index
-        	return array();
+            return array();
         }
 
         if ($topScore > 1) {

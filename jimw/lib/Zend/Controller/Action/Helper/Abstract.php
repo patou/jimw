@@ -16,7 +16,7 @@
  * @package    Zend_Controller
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- */ 
+ */
 
 
 /** Zend_Controller_Exception */
@@ -33,9 +33,8 @@ require_once 'Zend/Controller/Action.php';
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Controller_Action_Helper_Abstract 
+abstract class Zend_Controller_Action_Helper_Abstract
 {
-
     /**
      * $_actionController
      *
@@ -44,18 +43,9 @@ abstract class Zend_Controller_Action_Helper_Abstract
     protected $_actionController = null;
 
     /**
-     * Request object
-     * 
-     * @var Zend_Controller_Request_Abstract
+     * @var mixed
      */
-    protected $_request;
-
-    /**
-     * Response object
-     * 
-     * @var Zend_Controller_Response_Abstract
-     */
-    protected $_response;
+    protected $_frontController = null;
 
     /**
      * setActionController()
@@ -63,7 +53,7 @@ abstract class Zend_Controller_Action_Helper_Abstract
      * @param Zend_Controller_Action $actionController
      * @return Zend_Controller_ActionHelper_Abstract
      */
-    public function setActionController(Zend_Controller_Action $actionController)
+    public function setActionController(Zend_Controller_Action $actionController = null)
     {
         $this->_actionController = $actionController;
         return $this;
@@ -71,71 +61,87 @@ abstract class Zend_Controller_Action_Helper_Abstract
 
     /**
      * Retrieve current action controller
-     * 
+     *
      * @return Zend_Controller_Action
      */
     public function getActionController()
     {
         return $this->_actionController;
     }
-    
+
+    /**
+     * Retrieve front controller instance
+     * 
+     * @return Zend_Controller_Front
+     */
+    public function getFrontController()
+    {
+        if (null === $this->_frontController) {
+            $this->_frontController = Zend_Controller_Front::getInstance();
+        }
+
+        return $this->_frontController;
+    }
+
     /**
      * Hook into action controller initialization
-     * 
+     *
      * @return void
      */
     public function init()
     {
     }
-    
+
     /**
      * Hook into action controller preDispatch() workflow
-     * 
+     *
      * @return void
      */
     public function preDispatch()
     {
     }
-    
+
     /**
      * Hook into action controller postDispatch() workflow
-     * 
+     *
      * @return void
      */
     public function postDispatch()
     {
     }
-    
+
     /**
-     * getRequest() - 
-     * 
-     * @return Zend_Controller_Request_Abstract $request 
+     * getRequest() -
+     *
+     * @return Zend_Controller_Request_Abstract $request
      */
-    public function getRequest() 
+    public function getRequest()
     {
-        if (null === $this->_request) {
-            $this->_request = $this->_actionController->getRequest();
+        $controller = $this->getActionController();
+        if (null === $controller) {
+            $controller = $this->getFrontController();
         }
 
-        return $this->_request;
+        return $controller->getRequest();
     }
 
     /**
      * getResponse() -
-     * 
-     * @return Zend_Controller_Response_Abstract $response 
+     *
+     * @return Zend_Controller_Response_Abstract $response
      */
     public function getResponse()
     {
-        if (null === $this->_response) {
-            $this->_response = $this->_actionController->getResponse();
+        $controller = $this->getActionController();
+        if (null === $controller) {
+            $controller = $this->getFrontController();
         }
 
-        return $this->_response;
+        return $controller->getResponse();
     }
-    
+
     /**
-     * getName() 
+     * getName()
      *
      * @return string
      */

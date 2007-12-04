@@ -18,7 +18,7 @@
  * @subpackage Table
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 5100 2007-06-04 19:02:22Z bkarwin $
+ * @version    $Id: Abstract.php 6337 2007-09-13 19:57:28Z bkarwin $
  */
 
 /**
@@ -112,7 +112,6 @@ abstract class Zend_Db_Table_Row_Abstract
                 require_once 'Zend/Db/Table/Row/Exception.php';
                 throw new Zend_Db_Table_Row_Exception('Data must be an array');
             }
-            // @todo: use setFromArray(), which employs _transformColumn().
             $this->_data = $config['data'];
         }
         if (isset($config['stored']) && $config['stored'] === true) {
@@ -368,7 +367,6 @@ abstract class Zend_Db_Table_Row_Abstract
         /**
          * Compare the data to the clean data to discover
          * which columns have been changed.
-         * @todo: do this in the __set() and setFromArray() methods.
          */
         $diffData = array_diff_assoc($this->_data, $this->_cleanData);
 
@@ -389,7 +387,12 @@ abstract class Zend_Db_Table_Row_Abstract
                 $pkOld = $this->_getPrimaryKey(false);
                 $thisClass = get_class($this);
                 foreach ($depTables as $tableClass) {
-                    Zend_Loader::loadClass($tableClass);
+                    try {
+                        Zend_Loader::loadClass($tableClass);
+                    } catch (Zend_Exception $e) {
+                        require_once 'Zend/Db/Table/Row/Exception.php';
+                        throw new Zend_Db_Table_Row_Exception($e->getMessage());
+                    }
                     $t = new $tableClass(array('db' => $db));
                     $t->_cascadeUpdate($this->getTableClass(), $pkOld, $pkNew);
                 }
@@ -456,7 +459,12 @@ abstract class Zend_Db_Table_Row_Abstract
             $pk = $this->_getPrimaryKey();
             $thisClass = get_class($this);
             foreach ($depTables as $tableClass) {
-                Zend_Loader::loadClass($tableClass);
+                try {
+                    Zend_Loader::loadClass($tableClass);
+                } catch (Zend_Exception $e) {
+                    require_once 'Zend/Db/Table/Row/Exception.php';
+                    throw new Zend_Db_Table_Row_Exception($e->getMessage());
+                }
                 $t = new $tableClass(array('db' => $db));
                 $t->_cascadeDelete($this->getTableClass(), $pk);
             }
@@ -525,33 +533,44 @@ abstract class Zend_Db_Table_Row_Abstract
     /**
      * Retrieves an associative array of primary keys.
      *
-     * @param bool $dirty
+     * @param bool $useDirty
      * @return array
      */
-    protected function _getPrimaryKey($dirty = true)
+    protected function _getPrimaryKey($useDirty = true)
     {
         $primary = array_flip($this->_primary);
-        if ($dirty) {
-            return array_intersect_key($this->_data, $primary);
+        if ($useDirty) {
+            $array = array_intersect_key($this->_data, $primary);
         } else {
-            return array_intersect_key($this->_cleanData, $primary);
+            $array = array_intersect_key($this->_cleanData, $primary);
         }
+        if (count($primary) != count($array)) {
+            require_once 'Zend/Db/Table/Row/Exception.php';
+            throw new Zend_Db_Table_Row_Exception("The specified Table '$this->_tableClass' does not have the same primary key as the Row");
+        }
+        return $array;
     }
 
     /**
      * Constructs where statement for retrieving row(s).
      *
+     * @param bool $useDirty
      * @return array
      */
-    protected function _getWhereQuery($dirty = true)
+    protected function _getWhereQuery($useDirty = true)
     {
         $where = array();
         $db = $this->_getTable()->getAdapter();
-        $primaryKey = $this->_getPrimaryKey($dirty);
+        $primaryKey = $this->_getPrimaryKey($useDirty);
+        $info = $this->_getTable()->info();
+        $metadata = $info[Zend_Db_Table_Abstract::METADATA];
 
         // retrieve recently updated row using primary keys
-        foreach ($primaryKey as $columnName => $val) {
-            $where[] = $db->quoteInto($db->quoteIdentifier($columnName, true) . ' = ?', $val);
+        $where = array();
+        foreach ($primaryKey as $columnName => $value) {
+            $column = $db->quoteIdentifier($columnName, true);
+            $type = $metadata[$columnName]['DATA_TYPE'];
+            $where[] = $db->quoteInto("$column = ?", $value, $type);
         }
 
         return $where;
@@ -650,18 +669,13 @@ abstract class Zend_Db_Table_Row_Abstract
     {
         $map = $dependentTable->getReference(get_class($parentTable), $ruleKey);
 
-        if (!is_array($map[Zend_Db_Table_Abstract::COLUMNS])) {
-            $map[Zend_Db_Table_Abstract::COLUMNS] = (array) $map[Zend_Db_Table_Abstract::COLUMNS];
-        }
-
         if (!isset($map[Zend_Db_Table_Abstract::REF_COLUMNS])) {
             $parentInfo = $parentTable->info();
-            $map[Zend_Db_Table_Abstract::REF_COLUMNS] = (array) $parentInfo['primary'];
+            $map[Zend_Db_Table_Abstract::REF_COLUMNS] = array_values((array) $parentInfo['primary']);
         }
 
-        if (!is_array($map[Zend_Db_Table_Abstract::REF_COLUMNS])) {
-            $map[Zend_Db_Table_Abstract::REF_COLUMNS] = (array) $map[Zend_Db_Table_Abstract::REF_COLUMNS];
-        }
+        $map[Zend_Db_Table_Abstract::COLUMNS] = (array) $map[Zend_Db_Table_Abstract::COLUMNS];
+        $map[Zend_Db_Table_Abstract::REF_COLUMNS] = (array) $map[Zend_Db_Table_Abstract::REF_COLUMNS];
 
         return $map;
     }
@@ -698,9 +712,15 @@ abstract class Zend_Db_Table_Row_Abstract
 
         $map = $this->_prepareReference($dependentTable, $this->_getTable(), $ruleKey);
 
+        $where = array();
         for ($i = 0; $i < count($map[Zend_Db_Table_Abstract::COLUMNS]); ++$i) {
-            $cond = $db->quoteIdentifier($map[Zend_Db_Table_Abstract::COLUMNS][$i], true) . ' = ?';
-            $where[$cond] = $this->_data[$map[Zend_Db_Table_Abstract::REF_COLUMNS][$i]];
+            $parentColumnName = $db->foldCase($map[Zend_Db_Table_Abstract::REF_COLUMNS][$i]);
+            $value = $this->_data[$parentColumnName];
+            $dependentColumnName = $db->foldCase($map[Zend_Db_Table_Abstract::COLUMNS][$i]);
+            $dependentColumn = $db->quoteIdentifier($dependentColumnName, true);
+            $dependentInfo = $dependentTable->info();
+            $type = $dependentInfo[Zend_Db_Table_Abstract::METADATA][$dependentColumnName]['DATA_TYPE'];
+            $where[] = $db->quoteInto("$dependentColumn = ?", $value, $type);
         }
         return $dependentTable->fetchAll($where);
     }
@@ -737,9 +757,15 @@ abstract class Zend_Db_Table_Row_Abstract
 
         $map = $this->_prepareReference($this->_getTable(), $parentTable, $ruleKey);
 
+        $where = array();
         for ($i = 0; $i < count($map[Zend_Db_Table_Abstract::COLUMNS]); ++$i) {
-            $cond = $db->quoteIdentifier($map[Zend_Db_Table_Abstract::REF_COLUMNS][$i], true) . ' = ?';
-            $where[$cond] = $this->_data[$map[Zend_Db_Table_Abstract::COLUMNS][$i]];
+            $dependentColumnName = $db->foldCase($map[Zend_Db_Table_Abstract::COLUMNS][$i]);
+            $value = $this->_data[$dependentColumnName];
+            $parentColumnName = $db->foldCase($map[Zend_Db_Table_Abstract::REF_COLUMNS][$i]);
+            $parentColumn = $db->quoteIdentifier($parentColumnName, true);
+            $parentInfo = $parentTable->info();
+            $type = $parentInfo[Zend_Db_Table_Abstract::METADATA][$parentColumnName]['DATA_TYPE'];
+            $where[] = $db->quoteInto("$parentColumn = ?", $value, $type);
         }
         return $parentTable->fetchRow($where);
     }
@@ -800,8 +826,8 @@ abstract class Zend_Db_Table_Row_Abstract
         $matchMap = $this->_prepareReference($intersectionTable, $matchTable, $matchRefRule);
 
         for ($i = 0; $i < count($matchMap[Zend_Db_Table_Abstract::COLUMNS]); ++$i) {
-            $interCol = $db->quoteIdentifier('i', true) . '.' . $db->quoteIdentifier($matchMap[Zend_Db_Table_Abstract::COLUMNS][$i], true);
-            $matchCol = $db->quoteIdentifier('m', true) . '.' . $db->quoteIdentifier($matchMap[Zend_Db_Table_Abstract::REF_COLUMNS][$i], true);
+            $interCol = $db->quoteIdentifier('i' . '.' . $matchMap[Zend_Db_Table_Abstract::COLUMNS][$i], true);
+            $matchCol = $db->quoteIdentifier('m' . '.' . $matchMap[Zend_Db_Table_Abstract::REF_COLUMNS][$i], true);
             $joinCond[] = "$interCol = $matchCol";
         }
         $joinCond = implode(' AND ', $joinCond);
@@ -813,9 +839,14 @@ abstract class Zend_Db_Table_Row_Abstract
         $callerMap = $this->_prepareReference($intersectionTable, $this->_getTable(), $callerRefRule);
 
         for ($i = 0; $i < count($callerMap[Zend_Db_Table_Abstract::COLUMNS]); ++$i) {
-            $interCol = $db->quoteIdentifier('i', true) . '.' . $db->quoteIdentifier($callerMap[Zend_Db_Table_Abstract::COLUMNS][$i], true);
-            $value = $this->_data[$callerMap[Zend_Db_Table_Abstract::REF_COLUMNS][$i]];
-            $select->where("$interCol = ?", $value);
+            $callerColumnName = $db->foldCase($callerMap[Zend_Db_Table_Abstract::REF_COLUMNS][$i]);
+            $value = $this->_data[$callerColumnName];
+            $interColumnName = $db->foldCase($callerMap[Zend_Db_Table_Abstract::COLUMNS][$i]);
+            $interCol = $db->quoteIdentifier("i.$interColumnName", true);
+            $matchColumnName = $db->foldCase($matchMap[Zend_Db_Table_Abstract::REF_COLUMNS][$i]);
+            $matchInfo = $matchTable->info();
+            $type = $matchInfo[Zend_Db_Table_Abstract::METADATA][$matchColumnName]['DATA_TYPE'];
+            $select->where($db->quoteInto("$interCol = ?", $value, $type));
         }
         $stmt = $select->query();
 
@@ -827,6 +858,12 @@ abstract class Zend_Db_Table_Row_Abstract
         );
 
         $rowsetClass = $matchTable->getRowsetClass();
+        try {
+            Zend_Loader::loadClass($rowsetClass);
+        } catch (Zend_Exception $e) {
+            require_once 'Zend/Db/Table/Row/Exception.php';
+            throw new Zend_Db_Table_Row_Exception($e->getMessage());
+        }
         $rowset = new $rowsetClass($config);
         return $rowset;
     }
@@ -847,8 +884,9 @@ abstract class Zend_Db_Table_Row_Abstract
          * Recognize methods for Has-Many cases:
          * findParent<Class>()
          * findParent<Class>By<Rule>()
+         * Use the non-greedy pattern repeat modifier e.g. \w+?
          */
-        if (preg_match('/^findParent(\w+)(?:By(\w+))?$/', $method, $matches)) {
+        if (preg_match('/^findParent(\w+?)(?:By(\w+))?$/', $method, $matches)) {
             $class    = $matches[1];
             $ruleKey1 = isset($matches[2]) ? $matches[2] : null;
             return $this->findParentRow($class, $ruleKey1);
@@ -859,8 +897,9 @@ abstract class Zend_Db_Table_Row_Abstract
          * find<Class1>Via<Class2>()
          * find<Class1>Via<Class2>By<Rule>()
          * find<Class1>Via<Class2>By<Rule1>And<Rule2>()
+         * Use the non-greedy pattern repeat modifier e.g. \w+?
          */
-        if (preg_match('/^find(\w+)Via(\w+)(?:By(\w+)(?:And(\w+))?)?$/', $method, $matches)) {
+        if (preg_match('/^find(\w+?)Via(\w+?)(?:By(\w+?)(?:And(\w+))?)?$/', $method, $matches)) {
             $class    = $matches[1];
             $viaClass = $matches[2];
             $ruleKey1 = isset($matches[3]) ? $matches[3] : null;
@@ -872,8 +911,9 @@ abstract class Zend_Db_Table_Row_Abstract
          * Recognize methods for Belongs-To cases:
          * find<Class>()
          * find<Class>By<Rule>()
+         * Use the non-greedy pattern repeat modifier e.g. \w+?
          */
-        if (preg_match('/^find(\w+)(?:By(\w+))?$/', $method, $matches)) {
+        if (preg_match('/^find(\w+?)(?:By(\w+))?$/', $method, $matches)) {
             $class    = $matches[1];
             $ruleKey1 = isset($matches[2]) ? $matches[2] : null;
             return $this->findDependentRowset($class, $ruleKey1);

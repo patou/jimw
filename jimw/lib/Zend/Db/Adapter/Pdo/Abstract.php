@@ -18,7 +18,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2007 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 5139 2007-06-06 21:01:50Z bkarwin $
+ * @version    $Id: Abstract.php 6286 2007-09-10 23:19:32Z bkarwin $
  */
 
 
@@ -83,13 +83,16 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
             return;
         }
 
+        // get the dsn first, because some adapters alter the $_pdoType
+        $dsn = $this->_dsn();
+
         // check for PDO extension
         if (!extension_loaded('pdo')) {
             /**
              * @see Zend_Db_Adapter_Exception
              */
             require_once 'Zend/Db/Adapter/Exception.php';
-            throw new Zend_Db_Adapter_Exception('The PDO extension is required for this adapter but not loaded');
+            throw new Zend_Db_Adapter_Exception('The PDO extension is required for this adapter but the extension is not loaded');
         }
 
         // check the PDO driver is available
@@ -106,7 +109,7 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
 
         try {
             $this->_connection = new PDO(
-                $this->_dsn(),
+                $dsn,
                 $this->_config['username'],
                 $this->_config['password'],
                 $this->_config['driver_options']
@@ -170,7 +173,7 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
      *
      * @param string $tableName   OPTIONAL Name of table.
      * @param string $primaryKey  OPTIONAL Name of primary key column.
-     * @return integer
+     * @return string
      */
     public function lastInsertId($tableName = null, $primaryKey = null)
     {
@@ -218,6 +221,9 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
      */
     protected function _quote($value)
     {
+        if (is_int($value) || is_float($value)) {
+            return $value;
+        }
         $this->_connect();
         return $this->_connection->quote($value);
     }

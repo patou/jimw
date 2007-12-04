@@ -43,7 +43,7 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
      *
      * @var string
      */
-    private $_dirPath = null;
+    protected $_dirPath = null;
 
     /**
      * Cache for Zend_Search_Lucene_Storage_File_Filesystem objects
@@ -52,7 +52,35 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
      * @var array
      * @throws Zend_Search_Lucene_Exception
      */
-    private $_fileHandlers;
+    protected $_fileHandlers;
+
+    /**
+     * Default file permissions
+     *
+     * @var integer
+     */
+    protected static $_defaultFilePermissions = 0666;
+
+
+    /**
+     * Get default file permissions
+     *
+     * @return integer
+     */
+    public static function getDefaultFilePermissions()
+    {
+        return self::$_defaultFilePermissions;
+    }
+
+    /**
+     * Set default file permissions
+     *
+     * @param integer $mode
+     */
+    public static function setDefaultFilePermissions($mode)
+    {
+        self::$_defaultFilePermissions = $mode;
+    }
 
 
     /**
@@ -152,6 +180,15 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
         }
         unset($this->_fileHandlers[$filename]);
         $this->_fileHandlers[$filename] = new Zend_Search_Lucene_Storage_File_Filesystem($this->_dirPath . '/' . $filename, 'w+b');
+
+        global $php_errormsg;
+        $trackErrors = ini_get('track_errors'); ini_set('track_errors', '1');
+        if (!@chmod($this->_dirPath . '/' . $filename, self::$_defaultFilePermissions)) {
+            ini_set('track_errors', $trackErrors);
+            throw new Zend_Search_Lucene_Exception($php_errormsg);
+        }
+        ini_set('track_errors', $trackErrors);
+
         return $this->_fileHandlers[$filename];
     }
 
@@ -224,9 +261,12 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
      * @param string $from
      * @param string $to
      * @return void
+     * @throws Zend_Search_Lucene_Exception
      */
     public function renameFile($from, $to)
     {
+        global $php_errormsg;
+
         if (isset($this->_fileHandlers[$from])) {
             $this->_fileHandlers[$from]->close();
         }
@@ -238,10 +278,23 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
         unset($this->_fileHandlers[$to]);
 
         if (file_exists($this->_dirPath . '/' . $to)) {
-            unlink($this->_dirPath . '/' . $to);
+            if (!unlink($this->_dirPath . '/' . $to)) {
+                throw new Zend_Search_Lucene_Exception('Delete operation failed');
+            }
         }
 
-        return @rename($this->_dirPath . '/' . $from, $this->_dirPath . '/' . $to);
+        $trackErrors = ini_get('track_errors');
+        ini_set('track_errors', '1');
+
+        $success = @rename($this->_dirPath . '/' . $from, $this->_dirPath . '/' . $to);
+        if (!$success) {
+            ini_set('track_errors', $trackErrors);
+            throw new Zend_Search_Lucene_Exception($php_errormsg);
+        }
+
+        ini_set('track_errors', $trackErrors);
+
+        return $success;
     }
 
 
