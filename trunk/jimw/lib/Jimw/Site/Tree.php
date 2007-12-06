@@ -286,8 +286,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 			return $this->fetchAll($this->_buildWhere($parent->lft, $parent->rgt, $where), $order, $count, $offset);
 		}
 	}
-	
-	
+		
 	public function updateAllChildren($parent, $data, $where = null) {
 		if (!($parent instanceof  Jimw_Site_Tree)) {
 			$parent = $this->find($parent)->current();
