@@ -2,7 +2,9 @@
 			<h1><? echo $this->_('System'); ?></h1>
 			<ul>
 				<li><a href="<?php echo $this->url(array('controller' => 'system', 'action' => 'index', 'ext' => 'phtml'), 'ext', true); ?>"><? echo $this->_('Return'); ?></a></li>
-				<li><a href="<?php echo $this->url(array('controller' => 'system', 'action' => 'index', 'ext' => 'phtml'), 'ext', true); ?>"><? echo $this->_('Update Database'); ?></a></li>
+				<li><a href="<?php echo $this->url(array('controller' => 'system', 'action' => 'update', 'ext' => 'phtml'), 'ext', true); ?>"><? echo $this->_('Update Database'); ?></a></li>
+				<li><a href="<?php echo $this->url(array('controller' => 'system', 'action' => 'update_tree', 'ext' => 'phtml'), 'ext', true); ?>"><? echo $this->_('Update Tree'); ?></a></li>
+			</ul>
 			</ul>
 			<h1><? echo $this->_('Module'); ?></h1>
 			<ul>
