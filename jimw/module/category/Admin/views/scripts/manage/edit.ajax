@@ -1,0 +1,10 @@
+<?php
+
+$element = new Jimw_Admin_Element();
+$form = new Jimw_Admin_Element_Form($this->url(array('module' => 'category', 'controller' => 'manage', 'action' => 'save', 'ext' => 'ajax', 'id' => $this->id), 'ext', true));
+$form->addField(new Jimw_Admin_Element_Textbox('Tree Root', 'tree_root', $this->tree_root));
+$form->addField(new Jimw_Admin_Element_Textbox('Number', 'number', $this->number));
+$element->addElement($form);
+
+echo $element, ',';
+?>
