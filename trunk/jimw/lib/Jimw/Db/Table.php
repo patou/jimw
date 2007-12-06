@@ -59,7 +59,7 @@ class Jimw_Db_Table extends Zend_Db_Table
         if (!strpos($this->_name, $this->_prefix)) {
         	$this->_tableName = $this->_name;
         	if (!empty($this->_prefix))
-        		$this->_name = $this->_prefix . '_' . $this->_name;
+        		$this->_name = $this->_prefix . '_' . $this->_tableName;
         }
         else {
         	$this->_tableName = substr($this->_name, strlen($this->_prefix));

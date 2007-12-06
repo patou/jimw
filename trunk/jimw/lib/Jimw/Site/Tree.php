@@ -265,7 +265,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 		$data['tree_type'] = 0;
 		$data['tree_status'] = 3;
 		$select = $this->_db->select();
-		$select->from($this->_tableName, new Zend_Db_Expr('MAX(tree_rgt)'));
+		$select->from($this->_name, new Zend_Db_Expr('MAX(tree_rgt)'));
 		$max = $this->_db->fetchOne($select);
 		$data['tree_lft'] = $max + 1;
 		$data['tree_rgt'] = $max + 2;
