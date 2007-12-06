@@ -84,7 +84,17 @@ class Jimw_Debug extends Zend_Debug {
 			$output .= '</div></div>' . "\n";
 		}
 		if ($echo) {
+			$flush = false;
+			if (ob_get_level()) {
+				$flush = true;
+				$content = ob_get_contents();
+				ob_clean();
+			}
             echo($output);
+            if ($flush) {
+            	ob_flush();
+            	echo $content;
+            }
         }
         return $output;
 	}
