@@ -131,9 +131,14 @@ class Jimw_Site_View_ViewRenderer
         
         // render layout script and append to Response's body
         if ($this->_renderLayout) {
-        	$layoutScript = $this->formatLayoutScript();
-        	$layoutContent = $this->view->render($layoutScript);
-        	$this->getResponse()->appendBody($layoutContent, $name);	
+        	try {
+	        	$layoutScript = $this->formatLayoutScript();
+	        	$layoutContent = $this->view->render($layoutScript);
+	        	$this->getResponse()->appendBody($layoutContent, $name);
+        	}
+        	catch (Zend_View_Exception $e) {
+        		$this->getResponse()->appendBody ($this->view->getContent());
+        	}
         }
         $this->setNoRender();
     }
