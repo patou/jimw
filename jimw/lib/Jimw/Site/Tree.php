@@ -161,7 +161,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 */
 	public function findAlias($alias) {
 		$id = self::$_nodesAlias[$alias];
-		if ($id !== false) {
+		if ($id !== false && isset(self::$_nodes[$id])) {
 			$data  = array(
 			'table'    => $this,
 			'data'     => array(self::$_nodes[$id]),
@@ -171,7 +171,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 			Zend_Loader::loadClass($this->_rowsetClass);
 			return new $this->_rowsetClass($data);
 		}
-		return false;
+		return $this->fetchAll(array('tree_alias = ?' => $alias));
 	}
 	
 	/**

@@ -76,6 +76,7 @@ class Jimw_Global_Controller
 		$view = new Jimw_Site_View();
 		$view->addFilterPath(JIMW_REP_LIB . 'Jimw/Site/View/Filter', 'Jimw_Site_View_Filter_');
 		$view->addHelperPath(JIMW_REP_LIB . 'Jimw/Site/View/Helper', 'Jimw_Site_View_Helper_');
+		$view->addScriptPath(JIMW_REP_LIB . 'Jimw/view/scripts');
 		$view->setTranslate ($this->initTranslate());
 		$viewRenderer = new Jimw_Site_View_ViewRenderer();
 		$viewRenderer->setView($view);

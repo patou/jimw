@@ -35,12 +35,14 @@ if(get_magic_quotes_gpc() == 1){
 	remove_magic_quotes($_FILES);
 	remove_magic_quotes($_COOKIE);
 }
-
+if (!defined('JIMW_ROOT')) {
+	define ('JIMW_ROOT', './');
+}
 if (!defined('JIMW_REP'))
-	if (file_exists('./jimw/'))
-	  define('JIMW_REP', './jimw/');
+	if (file_exists(JIMW_ROOT .'jimw/'))
+	  define('JIMW_REP', JIMW_ROOT .'jimw/');
 	else
-	  define('JIMW_REP', './');
+	  define('JIMW_REP', JIMW_ROOT);
 
 // Load Global Configuration file
 if (file_exists(JIMW_REP. 'config/global.php'))

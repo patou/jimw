@@ -107,8 +107,7 @@
 		if (!$tree)
 			return $url;
         $url = rtrim($tree->alias, self::URI_DELIMITER);
-		/** @todo add parent alias*/
-        $ext = $params[$this->_extKey];
+		$ext = $params[$this->_extKey];
         if (!empty($ext) && $ext !== $this->_defaults[$this->_extKey]) {
         	$url .= self::EXT_DELIMITER . $ext;	
         }
