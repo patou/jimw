@@ -137,6 +137,8 @@ class Jimw_Site_View_ViewRenderer
 	        	$this->getResponse()->appendBody($layoutContent, $name);
         	}
         	catch (Zend_View_Exception $e) {
+        		if ($this->_viewSuffix == 'phtml')
+        			throw $e;
         		$this->getResponse()->appendBody ($this->view->getContent());
         	}
         }

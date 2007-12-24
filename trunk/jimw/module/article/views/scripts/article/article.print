@@ -1,0 +1,7 @@
+<?= (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
+
+<? if (!empty($this->article)): ?>
+<?= $this->article->content ?>
+<? else: ?>
+<p>Article not found</p>
+<? endif; ?>
