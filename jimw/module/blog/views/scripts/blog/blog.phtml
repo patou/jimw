@@ -1,18 +1,46 @@
 <?= (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
 <? if (count($this->messages) > 0): ?>
 <?php
+
+function convertlongdateattime($str) {
+  return substr($str,8,2)." ".convertmonthstr(substr($str,5,2))." ".substr($str,0,4)." à ".substr($str,11,2).":".substr($str,14,2);
+}
+
+function convertlongdatetime($str) {
+  return substr($str,8,2)." ".convertmonthstr(substr($str,5,2))." ".substr($str,0,4)." ".substr($str,11,2).":".substr($str,14,2);
+}
+
+function convertmonthstr($str) {
+  $tabmois = array("00" => "", "01" => "janvier", "02" => "février", "03" => "mars", "04" => "avril",
+    "05" => "mai", "06" => "juin", "07" => "juillet", "08" => "août",
+	"09" => "septembre", "10" => "octobre", "11" => "novembre", "12" => "décembre");
+  return ((isset($tabmois[$str])) ? $tabmois[$str] : $str);
+}
+
+function addcommentform($id) {
+  ?><form id="addcomment<?= $id ?>" method="post" action="/public/rn2007/scripts/addcomment/" style="display: none">		
+  <input type="hidden" name="cid" value="<?= $id ?>">
+  <p><label>Votre nom : </label><input name="cname" value="" type="text" size="50" />
+  <label>Votre commentaire :</label>
+  <textarea name="cmessage" rows="5" cols="5"></textarea><br />
+  <input class="button" type="submit" value="Envoyer" />		
+  </p></form><?php
+}
+
 foreach ($this->messages as $message) {
-  print('<h1>'.$message->title.'</h1>');
+  echo '<h3>'.$message->title.'</h3>';
 
   if ($message->header != '') {
     // There is a header
-    print $message->header;
-    $readmore = '<a href="#" class="readmore">Read more</a>';
+    echo $message->header;
+    $readmore = '<a href="#" class="readmore">Lire la suite...</a>';
   } else {
-    print $message->content;
+    echo $message->content;
   	if ($message->tree_id != NULL) {
       // There is a reference to a tree element
-      $readmore = '<a href="#" class="readmore">Read more</a>';
+      $tree = new Jimw_Site_Tree();
+      $tree_current = $tree->find($message->tree_id)->current();
+      $readmore = '<a href="'.$this->url(array('alias' => $tree_current->alias), 'alias', true).'" class="readmore">Voir les photos</a>';
     } else {
       $readmore = '';
     }
@@ -20,22 +48,29 @@ foreach ($this->messages as $message) {
 
   $comments = $message->getComments();
   
-  print '<p class="post-footer align-right">';
-  print $readmore;
+  echo '<p class="post-footer align-right">';
+  echo $readmore;
 
   if (count($comments) > 0) {
-    print '<a href="#" onclick="javascript:document.getElementById(\'comments'.$message->id.'\').style.display=\'block\';" class="comments">Comments ('.count($comments).')</a>';
+    echo '<a href="#" onclick="javascript:el = document.getElementById(\'comments'.$message->id.'\'); el.style.display=(el.style.display==\'none\') ? \'block\':\'none\'; return false;" class="comments">Commentaires ('.count($comments).')</a>';
+  } else {
+    echo '<a href="#" onclick="javascript:el = document.getElementById(\'addcomment'.$message->id.'\'); el.style.display=(el.style.display==\'none\') ? \'block\':\'none\'; return false;" class="comments">Ajouter un commentaire</a>';
   }
-  print '<span class="date">'.$message->date.'</span></p>';
+  print '<span class="date">'.convertlongdatetime($message->date).'</span></p>';
   if (count($comments) > 0) {
-    print '<div class="post-footer" id="comments'.$message->id.'" style="display: none">';
+    echo '<div class="post-footer" id="comments'.$message->id.'" style="display: none">';
 	foreach($comments as $comment) {
-  	  print('<p><small>Par '.$comment->username.' le '.$comment->date.'<br />'.$comment->content.'</small></p>');
+  	  echo '<p><small>Par '.$comment->username.' le '.convertlongdateattime($comment->date).'<br />'.nl2br($comment->content).'</small></p>';
     }
-    print '</div>';
+    echo '<div id="labeladdcomment'.$message->id.'"><a href="#" onclick="javascript:document.getElementById(\'addcomment'.$message->id.'\').style.display=\'block\'; document.getElementById(\'labeladdcomment'.$message->id.'\').style.display=\'none\'; return false;" class="comments">Ajouter un commentaire</a></div>';
+	echo addcommentform($message->id);
+    echo '</div>';
+  } else {
+    echo addcommentform($message->id);
   }
 }
+
 ?>
 <? else: ?>
-<p>Empty blog.</p>
+<p>Blog vide.</p>
 <? endif; ?>
