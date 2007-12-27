@@ -1,0 +1,21 @@
+<script type="text/javascript" src="<?= $this->path ?>/fckeditor.js"></script>
+<form action="<?php echo $this->url(array('module' => 'article', 'controller' => 'manage', 'action' => 'save', 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
+<input type="hidden" name="id" value="<?= $this->id ?>">
+<table border="0" width="90%">
+<tr><td class="t01"><?php echo $this->_('Content') ?> : </td><td><textarea name="content" rows="20" cols="60"><?= $this->content ?></textarea></td></tr>
+<tr><td colspan="2" align="center"><input type="submit" name="btn" value="<?php echo $this->_('Save') ?>"></td></tr>
+</table></form>
+<br/>
+<p class="t01" style="font-size: 12px;">
+	<a href="<?= $this->request->getBaseUrl() ?>"><?php echo $this->_('Return') ?></a>
+</p>
+<script type="text/javascript">
+      window.onload = function()
+      {
+        var oFCKeditor = new FCKeditor( 'content' ) ;
+        oFCKeditor.BasePath = "<?= $this->path ?>/" ;
+        oFCKeditor.Width = 600;
+		oFCKeditor.Height = 400;
+        oFCKeditor.ReplaceTextarea() ;
+      }
+</script>
