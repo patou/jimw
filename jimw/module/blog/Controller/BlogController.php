@@ -21,7 +21,7 @@ class Blog_BlogController extends Jimw_Module_Action
 		$request = $this->_request;
 		$tree = $request->getTree();
 		$messages = new BlogMessage();
-		$result = $messages->fetchAll(array('tree_parentid = ?' => $tree->id));
+		$result = $messages->fetchAll(array('tree_parentid = ?' => $tree->id), 'blogmessage_id DESC');
 		foreach ($result as $message) {
 			$comments = new BlogComment();
 			$result2 = $comments->fetchAll(array('blogmessage_id = ?' => $message->id));
