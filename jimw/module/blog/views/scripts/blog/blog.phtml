@@ -1,0 +1,41 @@
+<?= (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
+<? if (count($this->messages) > 0): ?>
+<?php
+foreach ($this->messages as $message) {
+  print('<h1>'.$message->title.'</h1>');
+
+  if ($message->header != '') {
+    // There is a header
+    print $message->header;
+    $readmore = '<a href="#" class="readmore">Read more</a>';
+  } else {
+    print $message->content;
+  	if ($message->tree_id != NULL) {
+      // There is a reference to a tree element
+      $readmore = '<a href="#" class="readmore">Read more</a>';
+    } else {
+      $readmore = '';
+    }
+  }
+
+  $comments = $message->getComments();
+  
+  print '<p class="post-footer align-right">';
+  print $readmore;
+
+  if (count($comments) > 0) {
+    print '<a href="#" onclick="javascript:document.getElementById(\'comments'.$message->id.'\').style.display=\'block\';" class="comments">Comments ('.count($comments).')</a>';
+  }
+  print '<span class="date">'.$message->date.'</span></p>';
+  if (count($comments) > 0) {
+    print '<div class="post-footer" id="comments'.$message->id.'" style="display: none">';
+	foreach($comments as $comment) {
+  	  print('<p><small>Par '.$comment->username.' le '.$comment->date.'<br />'.$comment->content.'</small></p>');
+    }
+    print '</div>';
+  }
+}
+?>
+<? else: ?>
+<p>Empty blog.</p>
+<? endif; ?>
