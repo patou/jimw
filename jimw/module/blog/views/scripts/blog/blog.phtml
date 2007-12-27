@@ -23,12 +23,12 @@ function addcommentform($id) {
   <p><label>Votre nom : </label><input name="cname" value="" type="text" size="50" />
   <label>Votre commentaire :</label>
   <textarea name="cmessage" rows="5" cols="5"></textarea><br />
-  <input class="button" type="submit" value="Envoyer" />		
+  <input class="button" type="submit" value="Envoyer" />
   </p></form><?php
 }
 
 foreach ($this->messages as $message) {
-  echo '<h3>'.$message->title.'</h3>';
+  echo '<a name="'.$message->id.'"></a><h3>'.$message->title.'</h3>';
 
   if ($message->header != '') {
     // There is a header
