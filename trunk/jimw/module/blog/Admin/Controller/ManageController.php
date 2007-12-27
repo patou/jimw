@@ -13,7 +13,7 @@ include_once (dirname(__FILE__) . '/../../Controller/Model/BlogMessage.php');
 class Blog_ManageController extends Jimw_Admin_Action
 {
 	public function editAction () {
-		$id = $this->_request->id;
+		/*$id = $this->_request->id;
 		$this->view->request = $this->_request;
 		$blog = new Blog();
 		$result = $news->findByTree($this->view->id);
@@ -28,34 +28,12 @@ class Blog_ManageController extends Jimw_Admin_Action
 			$result = $new;
 		}
 		$this->view->content = $result->content;
-		$this->view->id = $id;
-	}
-
-	public function saveAction () {
-		$id = $this->_request->id;
-		$news = new News();
-		$result = $news->findByTree($id);
-		if (!$result) {
-			$new = $news->fetchNew();
-			$new->content = $this->_request->content;
-			$new->date = '1900-01-01 00:00:00';
-			$new->tree_id = $id;
-			$new->status = 0;
-			$new->revisioninfo = '';
-			$new->save();
-		} else {
-			$result->content = $this->_request->content;
-			$result->date = '1900-01-01 00:00:00';
-			$result->status = 0;
-			$result->revisioninfo = '';
-			$result->save ();
-		}
-		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ');
-		$this->_forward('index', 'tree', 'default', array('id' => $id));
+		$this->view->id = $id;*/
+		$this->_forward('list', 'message');
 	}
 
 	public function deleteAction () {
-		$id = $this->view->id;
+/*		$id = $this->view->id;
 		$article = new Article();
 		$result = $article->findByTree($id);
 		if ($result) {
@@ -64,7 +42,9 @@ class Blog_ManageController extends Jimw_Admin_Action
 		} else {
 			throw new Jimw_Admin_Exception();
 		}
-		$this->_forward('index', 'tree', 'default');
+		$this->_forward('index', 'tree', 'default');*/
+	  // Suppimer tous les mesages d'un blog et ces commentaire
+	  $this->_forward('delete', 'message');
 	}
 }
 ?>
