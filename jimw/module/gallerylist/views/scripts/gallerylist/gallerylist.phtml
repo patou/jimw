@@ -1,0 +1,18 @@
+<p>
+<?= (isset($this->tree->description))? $this->tree->description : ''; ?>
+</p>
+<br />
+<table border="0" width="100%"><tr>
+<?php
+$cpt = 0;
+foreach ($this->galleries as $gallery):
+	$url = $this->url(array('alias' => $gallery['alias'], 'ext' => 'phtml'), 'alias', true);
+?>
+<?= ($cpt % 2 == 0 && $cpt != 0 ? '</tr><tr>' : ''); ?>
+<td align="right"><a href="<? echo $url; ?>"><img src="<?php echo $gallery['thumbnails']; ?>" width="<?php echo $gallery['thumbnails_width']; ?>" height="<?php echo $gallery['thumbnails_height']; ?>" title="<?php echo $gallery['menutitle']; ?>" border="0" class="no-border" /></a></td>
+<td align="left"><a href="<? echo $url; ?>"><?php echo $gallery['menutitle']; ?></a></td>
+<?php
+	 $cpt++;
+endforeach;
+?>
+</tr></table>
