@@ -36,11 +36,11 @@ foreach ($this->messages as $message) {
     $readmore = '<a href="#" class="readmore">Lire la suite...</a>';
   } else {
     echo $message->content;
-  	if ($message->tree_id != NULL) {
+  	if ($message->tree_id != NULL && $message->tree_id != 0) {
       // There is a reference to a tree element
       $tree = new Jimw_Site_Tree();
-      $tree_current = $tree->find($message->tree_id)->current();
-      $readmore = '<a href="'.$this->url(array('alias' => $tree_current->alias), 'alias', true).'" class="readmore">Voir les photos</a>';
+      $result = $tree->find($message->tree_id)->current();
+      $readmore = '<a href="'.$this->url(array('alias' => $result->alias, 'ext' => 'phtml'), 'alias', true).'" class="readmore">Voir les photos</a>';
     } else {
       $readmore = '';
     }
@@ -60,7 +60,7 @@ foreach ($this->messages as $message) {
   if (count($comments) > 0) {
     echo '<div class="post-footer" id="comments'.$message->id.'" style="display: none">';
 	foreach($comments as $comment) {
-  	  echo '<p><small>Par '.$comment->username.' le '.convertlongdateattime($comment->date).'<br />'.nl2br($comment->content).'</small></p>';
+  	  echo '<p><small><b>Par '.$comment->username.' le '.convertlongdateattime($comment->date).'</b><br />'.nl2br($comment->content).'</small></p>';
     }
     echo '<div id="labeladdcomment'.$message->id.'"><a href="#" onclick="javascript:document.getElementById(\'addcomment'.$message->id.'\').style.display=\'block\'; document.getElementById(\'labeladdcomment'.$message->id.'\').style.display=\'none\'; return false;" class="comments">Ajouter un commentaire</a></div>';
 	echo addcommentform($message->id);
