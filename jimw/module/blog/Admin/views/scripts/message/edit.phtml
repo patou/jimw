@@ -1,0 +1,25 @@
+<script type="text/javascript" src="<?= $this->path ?>/fckeditor.js"></script>
+<form action="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'save', 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
+<input type="hidden" name="id" value="<?= $this->id ?>">
+<input type="hidden" name="treeparentid" value="<?= $this->message->tree_parentid ?>">
+<table border="0" width="90%">
+<tr><td class="t01"><?php echo $this->_('Read more') ?> : </td><td><input type="text" name="treeid" value="<?= $this->message->tree_id ?>"></td></tr>
+<tr><td class="t01"><?php echo $this->_('Date') ?> : </td><td><input type="text" name="date" value="<?= $this->message->date ?>"></td></tr>
+<tr><td class="t01"><?php echo $this->_('Title') ?> : </td><td><input type="text" name="title" value="<?= $this->message->title ?>"></td></tr>
+<tr><td class="t01"><?php echo $this->_('Content') ?> : </td><td><textarea name="content" rows="20" cols="60"><?= $this->message->content ?></textarea></td></tr>
+<tr><td colspan="2" align="center"><input type="submit" name="btn" value="<?php echo $this->_('Save') ?>"></td></tr>
+</table></form>
+<br/>
+<p class="t01" style="font-size: 12px;">
+	<a href="<?= $this->request->getBaseUrl() ?>"><?php echo $this->_('Return') ?></a>
+</p>
+<script type="text/javascript">
+      window.onload = function()
+      {
+        var oFCKeditor = new FCKeditor( 'content' ) ;
+        oFCKeditor.BasePath = "<?= $this->path ?>/" ;
+        oFCKeditor.Width = 600;
+		oFCKeditor.Height = 400;
+        oFCKeditor.ReplaceTextarea() ;
+      }
+</script>
