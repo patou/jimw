@@ -12,11 +12,13 @@
 class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 
 	public function __construct(array $config = array ()) {
-		if (isset($config['data']['active'])) {
+		//if (!is_array($config))
+			//throw new Exception(Jimw_Debug::dump($config, '', false));
+		if (is_array ($config['data']) && isset($config['data']['active'])) {
 			$this->_active = true;
 			unset($config['data']['active']);
 		}
-		if (isset($config['data']['expanded'])) {
+		if (is_array ($config['data']) && isset($config['data']['expanded'])) {
 			$this->_expanded = true;
 			unset($config['data']['expanded']);
 		}

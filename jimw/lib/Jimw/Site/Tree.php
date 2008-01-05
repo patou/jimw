@@ -65,12 +65,15 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 					self::$_nodesAlias[$node['tree_alias']] = $node['tree_id']; 
 					self::$_children[$node['tree_parentid']][] = $node['tree_id'];
 				}
+				
 				if (self::$_currentid >= 0) {
 					$this->_setExpandTree();
 				}
 			}
+			
 		}
 	}
+	
 	private function _setExpandTree () {
 		$newid = self::$_nodes[self::$_currentid]['tree_parentid'];
 		self::$_nodes[self::$_currentid]['expanded'] = true;
@@ -157,21 +160,23 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 * Find a Tree Item by alias by using the cache
 	 * 
 	 * @param string $alias
-	 * @return boolean|Jimw_Site_Tree_Row
+	 * @return boolean|Jimw_Site_Tree_Rowset
 	 */
 	public function findAlias($alias) {
 		$id = self::$_nodesAlias[$alias];
 		if ($id !== false) {
+			$node = isset (self::$_nodes[$id]) ? array(self::$_nodes[$id]) : array ();
 			$data  = array(
 			'table'    => $this,
-			'data'     => array(self::$_nodes[$id]),
+			'data'     => $node,
 			'rowClass' => $this->_rowClass,
 			'stored'   => true
 			);
 			Zend_Loader::loadClass($this->_rowsetClass);
 			return new $this->_rowsetClass($data);
 		}
-		return false;
+		//return $this->fetchAll(array('tree_alias = ?' => $alias));
+		return $false;
 	}
 	
 	/**
