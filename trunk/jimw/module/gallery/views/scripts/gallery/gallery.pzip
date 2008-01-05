@@ -1,7 +1,15 @@
 <?php
 $request = $this->request;
-$files = $request->files;
-$dir = $request->dir;
+if (isset($request->dir)) {
+  $files = $request->files;
+  $dir = $request->dir;
+}
+else {
+  $files = array();
+  foreach ($this->photos as $photo)
+	$files[] = $photo['file'];
+  $dir = $this->photos_path;
+}
 $zipfile = new Jimw_Zip();
 
 // add the subdirectory ... important!
