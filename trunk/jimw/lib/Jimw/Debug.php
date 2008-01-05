@@ -109,7 +109,8 @@ class Jimw_Debug extends Zend_Debug {
 		$stack = $e->getTrace();
 		//Zend_Debug::dump($stack);
 		foreach ($stack as $item) {
-			$output .= '<acronym class="backtrace" title="' . $item['file'] . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. '()">'. self::cropScriptPath($item['file']) . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. "()\n<br />";
+			if ($item && isset($item['file']) && $item['line'])
+				$output .= '<acronym class="backtrace" title="' . $item['file'] . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. '()">'. self::cropScriptPath($item['file']) . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. "()\n<br />";
 		}
         return self::display($output, 'red', $echo);
 	}

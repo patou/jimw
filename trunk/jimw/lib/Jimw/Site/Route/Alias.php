@@ -103,9 +103,14 @@
         
         $url = '';
         $trees = new Jimw_Site_Tree();
-   		$tree = $trees->findAlias($params[$this->_aliasKey])->current ();
+        if (!isset($params[$this->_aliasKey]))
+        	throw new Jimw_Exception('The alias key didn\'t exist');
+   		$tree = $trees->findAlias($params[$this->_aliasKey]);
 		if (!$tree)
 			return $url;
+		if (!$tree->exists ())
+			$tree = $trees->fetchAll(array('tree_alias = ?' => $params[$this->_aliasKey]));
+		$tree = $tree->current ();
         $url = rtrim($tree->alias, self::URI_DELIMITER);
 		$ext = $params[$this->_extKey];
         if (!empty($ext) && $ext !== $this->_defaults[$this->_extKey]) {
