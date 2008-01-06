@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Gallery_ManageController extends Jimw_Admin_Action
+class Gallerylist_ManageController extends Jimw_Admin_Action
 {
 	public function editAction () {
 		$id = $this->_request->id;
