@@ -14,7 +14,7 @@ include_once('Model/BlogMessage.php');
 include_once('Model/BlogMessage/Row.php');
 include_once('Model/BlogMessage/Rowset.php');
 include_once('Model/BlogComment.php');
-class Blog_BlogController extends Jimw_Module_Action
+class Blog_BlogController extends Jimw_Module_Action_Alias
 {
 	public function viewModule ($alias)
 	{

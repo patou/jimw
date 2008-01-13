@@ -10,7 +10,7 @@
  * @version    $Id$
  */
 
-class Category_CategoryController extends Jimw_Module_Action
+class Category_CategoryController extends Jimw_Module_Action_Alias
 {
 	public function viewModule ($alias)
 	{

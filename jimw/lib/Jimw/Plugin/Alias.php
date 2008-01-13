@@ -20,7 +20,7 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract {
 			$tree = new Jimw_Site_Tree ();
 			$result = $tree->findByAliasWithModuleAndSite($alias);
 			if (!$result) {
-				throw new Jimw_Exception("This $alias page didn't exist");
+				throw new Jimw_Site_Exception_AliasNotFound($alias);
 			}
 			Jimw_Site_Tree::setCurrent($result->id);
 			$request->setTree($result);
@@ -36,7 +36,7 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract {
 			$treeFactory = new Jimw_Site_Tree();
 			$tree = $treeFactory->findBySite($site);
 			if (!$tree) {
-				throw new Jimw_Exception("This $site->tree_id page didn't exist");
+				throw new Jimw_Site_Exception_SiteTreeNotFound($site->tree_id);
 			}
 			Jimw_Site_Tree::setCurrent($tree->id);
 			$request->setTree($tree);

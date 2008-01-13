@@ -11,7 +11,7 @@
  */
 
 
-class Gallery_GalleryController extends Jimw_Module_Action
+class Gallery_GalleryController extends Jimw_Module_Action_Alias
 {
 	public function viewModule ($alias)
 	{
