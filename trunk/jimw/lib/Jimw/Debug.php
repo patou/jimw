@@ -50,15 +50,15 @@ class Jimw_Debug extends Zend_Debug {
 		$infos .= $file . ' on line ';
 		$infos .= $details[3] . '</span>';		
 		
-		self::display($infos, $color);
+		self::display($infos, $details[1], $color);
 	}
 	
-	public static function dump($var, $label=null, $echo=true)
+	public static function dump($var, $label = null, $echo = true)
 	{
-		return self::display(parent::dump($var, null, false), 'yellow',$echo);
+		return self::display(parent::dump($var, null, false), $label, 'yellow', $echo);
 	}
 	
-	public static function display ($message, $color = '#00E600',$echo = true)
+	public static function display ($message, $title = '', $color = '#00E600',$echo = true)
 	{
 		static $id = 0;
 		$div_id = 'debug'.$id++;
@@ -66,13 +66,24 @@ class Jimw_Debug extends Zend_Debug {
 			$output = "\n<!--\n";
 		}
 		else {
+			if (empty($title)) {
+				$pos = strpos($message, "\n");
+				if ($pos === false || $pos < 1) 
+					$title = $message;
+				else {
+					if ($pos > 80)
+						$pos = 80;
+					$title = substr($message, 0, $pos) . ' ...';
+					$message = substr($message, strlen($title));
+				}
+			}
 			$output = '<div style="border: 1px solid ' .$color . ';
         	border-left: 5px solid ' .$color . ';
         	background-color: white;
         	padding: 3px;
         	margin: 5px 3px;">' . "\n";
 			$output .= '<a href="" onclick="el = document.getElementById(\''.$div_id.'\'); el.style.display = (el.style.display == \'none\') ? \'block\' : \'none\'; return false;">';
-			$output .= substr($message, 0, 60) . ' ...';
+			$output .= $title;
 			$output .= '</a><div id="'.$div_id.'" style="display:none;">';
 		}
 		$output .= $message . "\n";
@@ -101,21 +112,20 @@ class Jimw_Debug extends Zend_Debug {
 	
 	public static function display_exception (Exception $e, $echo = true)
 	{
-		$output = 'Exception ['. get_class($e). '-'. $e->getCode(). '] : ';
-		$output .= $e->getMessage();
-
+		$title = 'Exception ['. get_class($e). '-'. $e->getCode(). '] : ' . $e->getMessage();
 		$file = $e->getFile();
-		$output .= '<acronym class="backtrace" title="' . $e->getFile() . ' on line ' . $e->getLine() . '">'. self::cropScriptPath($e->getFile()) . ' on line ' . $e->getLine() . "\n<br />";
+		$output = $title;
+		$output .= ' in <acronym class="backtrace" title="' . $file . ' on line ' . $e->getLine() . '">'. self::cropScriptPath($e->getFile()) . ' on line ' . $e->getLine() . "\n<br />";
 		$stack = $e->getTrace();
 		//Zend_Debug::dump($stack);
 		foreach ($stack as $item) {
 			if ($item && isset($item['file']) && $item['line'])
 				$output .= '<acronym class="backtrace" title="' . $item['file'] . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. '()">'. self::cropScriptPath($item['file']) . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. "()\n<br />";
 		}
-        return self::display($output, 'red', $echo);
+        return self::display($output, $title, 'red', $echo);
 	}
 	
-	public static function profile_db($db, $echo = true)
+	public static function profile_db($db, $title = '',$echo = true)
 	{
 		if ($db && ($profiler = $db->getProfiler ())) {
 			$output = '';
@@ -130,12 +140,13 @@ class Jimw_Debug extends Zend_Debug {
 				}
 				$output .= 'Query : '. $query->getElapsedSecs(). ' for '. $query->getQuery(). "<br />\n";
 			}
-		    $output = 'Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds' . "<br />\n" . $output;			
+			$title .= ': executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds';
+		    $output =  $title . "<br />\n" . $output;			
 			$output .= '<br />Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br />\n";
 			$output .= 'Queries per second: ' . $queryCount / $totalTime . "<br />\n";
 			$output .= 'Longest query length: ' . $longestTime . "<br />\n";
 			$output .= "Longest query: <br />\n" . $longestQuery . "<br />\n";
-			return self::display($output, 'blue', $echo);
+			return self::display($output, $title, 'blue', $echo);
 		}
 	}
 	

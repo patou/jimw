@@ -11,7 +11,7 @@
  */
 
 include_once('Model/Article.php');
-class Article_ArticleController extends Jimw_Module_Action
+class Article_ArticleController extends Jimw_Module_Action_Alias
 {
 	public function viewModule ($alias)
 	{

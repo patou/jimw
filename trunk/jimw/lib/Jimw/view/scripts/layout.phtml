@@ -11,7 +11,7 @@
 
 
 <head>
-<title><?php echo $this->request->getDomainName (); ?> - <?= $this->tree->menutitle; ?></title>
+<title><?php echo $this->request->getDomainName (); ?> - <?= $this->title; ?></title>
 <link rel="stylesheet" type="text/css" href="<?= $this->path ?>/jesusway.css">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="Content-Language" content="fr">
@@ -43,7 +43,7 @@ function load_page(url) {
 	<td>
 <table border="0" cellpadding="0" cellspacing="0" width="780">
 <tr>
-	<td align="center" width="150"><img src="<?= $this->path ?>/images/logo.png" alt="Logo Jimw.fr" border="0"></td><td class="title"><?= $this->tree->pagetitle; ?></td>
+	<td align="center" width="150"><img src="<?= $this->path ?>/images/logo.png" alt="Logo Jimw.fr" border="0"></td><td class="title"><?= $this->title; ?></td>
 
 	<td align="center" class="citation"></td>
 

@@ -75,11 +75,14 @@ else
     Jimw_Debug::display_exception($e);
 }
 if (JIMW_DEBUG_MODE) {
-	$db = Zend_Registry::get('db');
-	Jimw_Debug::profile_db($db);
-	Jimw_Debug::profile_db(Zend_Registry::get('db_global'));
-	$totalTime = microtime(true) - $startTime;
-	//calculate the time difference
-	Jimw_Debug::display("\ntotal execution time: $totalTime .");
+	$ext = Zend_Registry::get('ext');
+	if (!empty($ext) && $ext == 'phtml') {
+		$db = Zend_Registry::get('db');
+		Jimw_Debug::profile_db($db, 'Database');
+		Jimw_Debug::profile_db(Zend_Registry::get('db_global'), 'Global');
+		$totalTime = microtime(true) - $startTime;
+		//calculate the time difference
+		Jimw_Debug::display("\ntotal execution time: $totalTime .");
+	}
 }
 ?>

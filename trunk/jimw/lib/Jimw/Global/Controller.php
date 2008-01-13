@@ -68,7 +68,8 @@ class Jimw_Global_Controller
 	}
 
 	public function initTranslate () {
-		$trans = new Zend_Translate('array', array(), 'fr');
+		include (JIMW_REP . '/lang/fr/common.php');
+		$trans = new Zend_Translate('array', $lang, 'fr');
 		return $trans;
 	}
 
@@ -132,7 +133,7 @@ class Jimw_Global_Controller
 		$this->request = $this->router->route($this->request);
 		$this->initView();
 		$this->frontcontroller = Zend_Controller_Front::getInstance();
-		$this->frontcontroller->throwExceptions(true);
+//		$this->frontcontroller->throwExceptions(true);
 		$this->frontcontroller->setRequest($this->request);
 		$router = new Jimw_Site_Router();
 		$router->removeDefaultRoutes();

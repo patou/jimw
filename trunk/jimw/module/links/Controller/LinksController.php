@@ -11,7 +11,7 @@
  */
 
 
-class Links_LinksController extends Jimw_Module_Action
+class Links_LinksController extends Jimw_Module_Action_Alias
 {
 	public function viewModule ($alias)
 	{

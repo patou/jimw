@@ -44,4 +44,8 @@ $lang['Enable'] = 'Activer';
 $lang['Gestion of all your system'] = 'Gestion de votre syt&egrave;me (Module)';
 $lang['Read more'] = 'Lire la suite';
 $lang['Comments'] = 'Commentaires';
+$lang['The page "%s" didn\'t exist in this website'] = 'La page "%s" n\'existe pas sur ce site';
+$lang['Error 404'] = 'Erreur 404';
+$lang['Error'] = 'Erreur';
+$lang['Page not found'] = 'Page inexistante'; 
 ?>
