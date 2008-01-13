@@ -30,7 +30,8 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract {
 			$request->setModuleName($module);
 			$request->setActionName($alias);
     	}
-    	else {
+    	elseif ($request->getModuleName() == 'default') {
+    		Jimw_Debug::display($request->getModuleName());
     		$request = $this->_request;
 			$site = Zend_Registry::get('site');
 			$treeFactory = new Jimw_Site_Tree();
