@@ -35,11 +35,14 @@ class ErrorController extends Jimw_Admin_Action {
         		catch (Jimw_Site_Exception_SiteTreeNotFound $e) {
                 	$render = '404';
                 }
+        		catch (Jimw_Admin_Exception $e) {
+                	$render = 'admin-error';
+                }
                 catch (Jimw_Exception $e) {
-                	$render = 'site_error';
+                	$render = 'site-error';
                 }
         		catch (Zend_Exception $e) {
-                	$render = 'framework_error';
+                	$render = 'framework-error';
                 }
         		catch (Exception $e) {
                 	$render = 'php_error';

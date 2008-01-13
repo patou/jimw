@@ -41,13 +41,13 @@ class ErrorController extends Jimw_Module_Action {
                 	$render = '404';
                 }
                 catch (Jimw_Exception $e) {
-                	$render = 'site_error';
+                	$render = 'site-error';
                 }
         		catch (Zend_Exception $e) {
-                	$render = 'framework_error';
+                	$render = 'framework-error';
                 }
         		catch (Exception $e) {
-                	$render = 'php_error';
+                	$render = 'php-error';
                 }
                 $this->view->message = $errors->exception->getMessage ();
                 break;
