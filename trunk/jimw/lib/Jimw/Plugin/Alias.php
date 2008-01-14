@@ -26,12 +26,14 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract {
 			$request->setTree($result);
 			$request->setParam('site_path', $result->site->path);
 			$module = $result->module->path;
-			$request->setControllerName($module);
-			$request->setModuleName($module);
-			$request->setActionName($alias);
+			if ($request->getModuleName() == 'default')
+				$request->setModuleName($module);
+			if ($request->getControllerName() == 'index')
+				$request->setControllerName($module);
+			if ($request->getActionName() == 'index')
+				$request->setActionName($alias);
     	}
     	elseif ($request->getModuleName() == 'default') {
-    		Jimw_Debug::display($request->getModuleName());
     		$request = $this->_request;
 			$site = Zend_Registry::get('site');
 			$treeFactory = new Jimw_Site_Tree();
@@ -44,9 +46,12 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract {
 			$request->setPageAlias($tree->alias);
 			$module = $tree->module->path;
 			$request->setParam('site_path', $tree->site->path);
-			$request->setControllerName($module);
-			$request->setModuleName($module);
-			$request->setActionName($alias);
+			if ($request->getModuleName() == 'default')
+				$request->setModuleName($module);
+			if ($request->getControllerName() == 'index')
+				$request->setControllerName($module);
+			if ($request->getActionName() == 'index')
+				$request->setActionName($alias);
     	}
 	}
 }

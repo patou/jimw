@@ -46,7 +46,7 @@ foreach ($this->messages as $message) {
     }
   }
 
-  $comments = $message->getComments();
+  $comments = $message->findBlogComment();
   
   echo '<p class="post-footer align-right">';
   echo $readmore;

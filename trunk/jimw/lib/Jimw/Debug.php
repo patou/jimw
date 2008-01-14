@@ -68,8 +68,10 @@ class Jimw_Debug extends Zend_Debug {
 		else {
 			if (empty($title)) {
 				$pos = strpos($message, "\n");
-				if ($pos === false || $pos < 1) 
+				if ($pos === false || $pos < 1) { 
 					$title = $message;
+					$message = '';
+				}
 				else {
 					if ($pos > 80)
 						$pos = 80;
@@ -140,8 +142,7 @@ class Jimw_Debug extends Zend_Debug {
 				}
 				$output .= 'Query : '. $query->getElapsedSecs(). ' for '. $query->getQuery(). "<br />\n";
 			}
-			$title .= ': executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds';
-		    $output =  $title . "<br />\n" . $output;			
+			$title .= ': executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds';			
 			$output .= '<br />Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br />\n";
 			$output .= 'Queries per second: ' . $queryCount / $totalTime . "<br />\n";
 			$output .= 'Longest query length: ' . $longestTime . "<br />\n";
