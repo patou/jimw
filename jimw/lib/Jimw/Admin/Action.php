@@ -15,7 +15,9 @@ abstract class Jimw_Admin_Action extends Zend_Controller_Action
 	public function init() {
 		$request = $this->getRequest ();
 		$tree = $request->getTree ();
-		$this->getHelper('ViewRenderer')->setViewSuffix($request->getParam('ext', 'ajax'));
+		$ext = $request->getParam('ext', 'phtml');
+		Zend_Registry::set('ext', $ext);
+		$this->getHelper('ViewRenderer')->setViewSuffix($ext);
 		$this->view->request = $request;
 		$this->view->path = $request->getBaseUrl() . '/public';
 		$this->view->tree = $tree;

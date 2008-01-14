@@ -14,9 +14,8 @@ include_once (dirname(__FILE__) . '/BlogMessage/Rowset.php');
 class BlogMessage extends Jimw_Db_Table
 {
 	protected $_name = 'blogmessage';
-	protected $_rowClass = 'BlogMessage_Row';
-	protected $_rowsetClass = 'BlogMessage_Rowset';
-
+	protected $_dependentTables = array('BlogComment');
+	
 	/**
 	 * Find all blog messages by the tree_id field
 	 *

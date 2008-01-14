@@ -19,6 +19,9 @@ class Jimw_Admin_Element extends Jimw_Admin_Element_Base
     public function addAlert($message) {
         $this->elements[] = array('type' => 'alert', 'message' => $this->urlEncode($message));
     }
+    public function addException(Exception $e, $type = 'admin-error') {
+        $this->elements[] = array('type' => 'error', 'message' => $this->urlEncode($e->getMessage()), 'code' => $e->getCode(), 'type' => $type);
+    }
     public function addReloadTree() {
         $this->elements[] = array('type' => 'reloadtree');
     }

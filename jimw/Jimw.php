@@ -99,7 +99,7 @@ catch (Exception $e) {
 }
 
 if (JIMW_DEBUG_MODE) {
-	$ext = Zend_Registry::get('ext');
+	$ext = (Zend_Registry::isRegistered('ext')) ? Zend_Registry::get('ext') : 'phtml';
 	if (!empty($ext) && $ext == 'phtml') {
 		$db = Zend_Registry::get('db');
 		Jimw_Debug::profile_db($db, 'Database');
