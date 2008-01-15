@@ -34,12 +34,12 @@ class Jimw_Site_Dispatch extends Zend_Controller_Dispatcher_Standard
      * @param string $unformatted
      * @return string
      */
-    public function formatActionName($unformatted)
+ /*   public function formatActionName($unformatted)
     {
         $formatted = $this->_formatName($unformatted, true);
         return strtolower($formatted);
     }
-
+*/
     
 }
 ?>

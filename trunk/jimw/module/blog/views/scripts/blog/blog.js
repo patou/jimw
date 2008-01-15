@@ -13,4 +13,3 @@ if (count($this->messages) > 0) {
   }
   echo "document.write ('</ul>');\n";
 }
-?>
