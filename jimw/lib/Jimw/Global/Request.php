@@ -5,7 +5,7 @@
  * @author	    Patou
  * @category   Jimw_Core
  * @package    Jimw
- * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @copyright  Copyright (c) 2006-2008 jimw.fr
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
@@ -40,11 +40,11 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	public  function getExtKey () {
 		return $this->_extKey;
 	}
-	
+
 	public  function getAliasKey () {
 		return $this->_aliasKey;
 	}
-	
+
 	/**
 	 * Return the sub domains name
 	 *
@@ -211,25 +211,25 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 		$this->_domainProtocol = ($this->get("HTTPS") == "on") ? "https" : "http";
 		return $this;
 	}
-	
+
 	    /**
      * Returns everything between the BaseUrl and QueryString.
      * This value is calculated instead of reading PATH_INFO
      * directly from $_SERVER due to cross-platform differences.
      *
      * @return string
-     */ 
-    public function getPathInfo() 
-    { 
+     */
+    public function getPathInfo()
+    {
         if (empty($this->_pathInfo)) {
         	$pathInfo = null;
         	if (defined('JIMW_NO_REWRITE_URL')) {
-	        	$baseUrl = substr($this->getBaseUrl(), strlen($this->getBasePath()));      
+	        	$baseUrl = substr($this->getBaseUrl(), strlen($this->getBasePath()));
 	            if ((null !== $baseUrl)
-	                && (false === ($pathInfo = substr($_SERVER['QUERY_STRING'], strlen($baseUrl))))) 
+	                && (false === ($pathInfo = substr($_SERVER['QUERY_STRING'], strlen($baseUrl)))))
 	            {
-	                // If substr() returns false then PATH_INFO is set to an empty string 
-	                $pathInfo = ''; 
+	                // If substr() returns false then PATH_INFO is set to an empty string
+	                $pathInfo = '';
 	            } elseif (null === $baseUrl) {
 	                $pathInfo = $_SERVER['QUERY_STRING'];
 	            }
@@ -240,11 +240,14 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	                parse_str($query, $vars);
 	                $_GET = $vars;
 	            }
+		    Jimw_Debug::message($baseUrl);
+		    Jimw_Debug::dump($_GET);
         	}
-            $this->setPathInfo($pathInfo); 
-        } 
-         
-        return $this->_pathInfo; 
+            $this->setPathInfo($pathInfo);
+	    Jimw_Debug::dump($this->_pathInfo);
+        }
+
+        return $this->_pathInfo;
     }
 }
 ?>
