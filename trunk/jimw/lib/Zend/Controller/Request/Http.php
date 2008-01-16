@@ -529,7 +529,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
             if ($pos = strpos($requestUri, '?')) {
                 $requestUri = substr($requestUri, 0, $pos);
             }
-
+	    Jimw_Debug::display($requestUri);
             if ((null !== $baseUrl)
                 && (false === ($pathInfo = substr($requestUri, strlen($baseUrl)))))
             {
@@ -539,7 +539,6 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
                 $pathInfo = $requestUri;
             }
         }
-
         $this->_pathInfo = (string) $pathInfo;
         return $this;
     }
