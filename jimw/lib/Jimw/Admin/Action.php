@@ -21,6 +21,7 @@ abstract class Jimw_Admin_Action extends Zend_Controller_Action
 		$this->view->request = $request;
 		$this->view->path = $request->getBaseUrl() . '/public';
 		$this->view->tree = $tree;
+		$this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages ();
 		$this->initModule();
 	}
 

@@ -5,17 +5,17 @@
 <? if (!empty($this->id)): ?>
 <tr><td class="t01"><?php echo $this->_('Id'); ?> :</td><td class="t01"><?= $this->id ?></td></tr>
 <? endif; ?>
-<tr><td class="t01"><?php echo $this->formLabel('protocol', $this->_('Protocol')); ?> :</td><td><?php echo $this->formText('protocol', $this->domain->protocol); ?></td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('subdomain', $this->_('Subdomain')); ?> :</td><td><?php echo $this->formText('subdomain', $this->domain->subdomain); ?></td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('name', $this->_('DomainName')); ?> :</td><td><?php echo $this->formText('name', $this->domain->name); ?></td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('port', $this->_('Port')); ?> :</td><td><?php echo $this->formText('port', $this->domain->port); ?>
+<tr><td class="t01"><?= $this->formLabel('protocol', $this->_('Protocol')); ?> :</td><td><?= $this->formText('protocol', $this->domain->protocol); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('subdomain', $this->_('Subdomain')); ?> :</td><td><?= $this->formText('subdomain', $this->domain->subdomain); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('name', $this->_('DomainName')); ?> :</td><td><?= $this->formText('name', $this->domain->name); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('port', $this->_('Port')); ?> :</td><td><?= $this->formText('port', $this->domain->port); ?>
 </td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('path', $this->_('Path')); ?> : </td><td><?php echo $this->formText('path', $this->domain->path); ?></td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('status', $this->_('Status')); ?> : </td><td><?php echo $this->escape($this->domain->status); ?></td></tr>
-<tr><td colspan="2" align="center"><?php echo $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td>
+<tr><td class="t01"><?= $this->formLabel('path', $this->_('Path')); ?> : </td><td><?= $this->formText('path', $this->domain->path); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('status', $this->_('Status')); ?> : </td><td><?= $this->escape($this->domain->status); ?></td></tr>
+<tr><td colspan="2" align="center"><?= $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td>
 </tr>
 </table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
-<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Return') ?></a>
+<a href="<?= $this->url(array('controller' => 'domain', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>"><?= $this->_('Return') ?></a>
 </p>

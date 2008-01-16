@@ -5,17 +5,17 @@
 <? if (!empty($this->id)): ?>
 <tr><td class="t01"><?php echo $this->_('Id'); ?> :</td><td class="t01"><?= $this->id ?></td></tr>
 <? endif; ?>
-<tr><td class="t01"><?php echo $this->_('Title'); ?> :</td><td><input type="text" name="pagetitle" size="40" value="<?= $this->tree->pagetitle?>"></td></tr>
-<tr><td class="t01"><?php echo $this->_('Menu Title'); ?> :</td><td><input type="text" name="menutitle" size="40" value="<?= $this->tree->menutitle?>"></td></tr>
-<tr><td class="t01"><?php echo $this->_('Menu Order'); ?> :</td><td><input type="text" name="order" size="40" value="<?= $this->tree->order?>"></td></tr>
-<tr><td class="t01"><?php echo $this->_('Parent'); ?> :</td><td>
+<tr><td class="t01"><?= $this->formLabel('title', $this->_('Title')); ?> :</td><td><?= $this->formText('pagetitle', $this->tree->pagetitle, array('size' => 40)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('menutitle', $this->_('Menu Title')); ?> :</td><td><?= $this->formText('menutitle', $this->tree->menutitle, array('size' => 40)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('order', $this->_('Menu Order')); ?> :</td><td><?= $this->formText('order', $this->tree->order); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('parentid', $this->_('Parent')); ?> :</td><td>
 <?php echo $this->selectTree('parentid', $this->tree->parentid) ?>
 </td></tr>
-<tr><td class="t01"><?php echo $this->_('Alias'); ?> : </td><td><input type="text" name="alias" size="40" value="<?= $this->tree->alias?>"></td></tr>
+<tr><td class="t01"><?= $this->formLabel('alias', $this->_('Alias')); ?> : </td><td><?= $this->formText('alias', $this->tree->alias, array('size' => 40)); ?></td></tr>
 <?php
 	if (isset($this->modules)):
 ?>
-<tr><td class="t01"><?php echo $this->_('Module Type'); ?> : </td><td><select name="module">
+<tr><td class="t01"><?= $this->formLabel('module', $this->_('Module Type')); ?> : </td><td><select name="module">
 <?php
 	foreach ($this->modules as $module)
 		echo '<option value="', $module->id,'">',$module->name,'</option>';
@@ -24,8 +24,8 @@
 <?php
 	endif;
 ?>
-<tr><td class="t01"><?php echo $this->_('Description'); ?> : </td><td><textarea name="description" rows="4" cols="37"><?= $this->tree->description?></textarea></td></tr>
-<tr><td colspan="2" align="center"><input type="submit" name="btn" value="<?php echo $this->_(ucfirst($this->form_type))?>"></td>
+<tr><td class="t01"><?= $this->formLabel('description', $this->_('Description')); ?> : </td><td><?= $this->formTextarea('description', $this->tree->description, array('rows' => 4, 'cols' => 40)); ?></td></tr>
+<tr><td colspan="2" align="center"><?= $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td>
 </tr>
 </table></form>
 <br/>
