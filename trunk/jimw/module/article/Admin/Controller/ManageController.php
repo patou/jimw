@@ -55,7 +55,7 @@ class Article_ManageController extends Jimw_Admin_Action
 	}
 
 	public function deleteAction () {
-		$id = $this->view->id;
+		$id = $this->getRequest()->id;
 		$article = new Article();
 		$result = $article->findByTree($id);
 		if ($result) {

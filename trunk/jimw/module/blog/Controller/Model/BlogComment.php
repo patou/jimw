@@ -31,4 +31,3 @@ class BlogComment extends Jimw_Db_Table
 		return $this->fetchAll(array('blogmessage_id = ?' => $id));
 	}
 }
-?>
