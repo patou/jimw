@@ -42,6 +42,7 @@ class FileController extends Jimw_Admin_Action {
 			if (!$d->isDot () && $filename[0] != '.') {
 				$files['Files'][] = array('name' => $filename,
 										'size' => $file->getSize (),
+										'edit' => $this->get_edit($filename),
 										'lastChange' => date('D M  j h:i:s Y', $file->getATime ()),
 										'path' => '/' . trim($dir . '/' . $filename, '/'),
 										'cls' => ($file->isDir () ? 'folder' : $this->get_ext($filename)));
@@ -67,6 +68,7 @@ class FileController extends Jimw_Admin_Action {
 				$files[] = array('text' => $filename,
 								'path' => $filename,
 								'leaf' => !$file->isDir (),
+								'edit' => $this->get_edit($filename),
 								'disabled' => false,
 								'id' => '/' . trim($dir . '/' . $filename, '/'),
 								'cls' => ($file->isDir () ? 'folder' : $this->get_ext($filename)));
@@ -142,7 +144,51 @@ class FileController extends Jimw_Admin_Action {
 		$this->view->file_path = (!is_dir($path)) ? substr($this->getRequest()->path, 0, strrpos($this->getRequest()->path, '/')) : $this->getRequest()->path;
 		$this->render('list');
 	}
-	
+
+	public function editAction () {
+		$filename = $this->get_dir($this->getRequest()->file);
+		$ext = substr($this->get_ext($filename), 5);
+		$editmode = $this->get_edit($filename);
+		if ($editmode == 'edit_area') {
+			$this->view->filename = $this->getRequest()->file;
+			$this->view->file = file_get_contents($filename);
+			if (in_array($ext, array('html', 'htm', 'phtml', 'rhtml')))
+				$filetype = 'html';
+			elseif (in_array($ext, array('php', 'php3', 'php4', 'php5', 'php6', 'inc')))
+				$filetype = 'php';
+			elseif ($ext == 'js')
+				$filetype = 'js';
+			elseif ($ext == 'css')
+				$filetype = 'css';
+			elseif ($ext == 'rb')
+				$filetype = 'ruby';
+			elseif ($ext == 'py')
+				$filetype = 'python';
+			elseif ($ext == 'c' || $ext == 'h')
+				$filetype = 'c';
+			elseif ($ext == 'cpp' || $ext == 'hpp' || $ext == 'cc' || $ext == 'hh')
+				$filetype = 'cpp';
+			elseif ($ext == 'sql')
+				$filetype = 'sql';
+			elseif ($ext == 'vb')
+				$filetype = 'vb';
+			elseif ($ext == 'xml')
+				$filetype = 'xml';
+			elseif ($ext == 'bas')
+				$filetype = 'basic';
+			else
+				$filetype = 'txt';
+			$this->view->filetype = $filetype;
+			$this->getHelper('ViewRenderer')->noRenderLayout();
+			$this->getHelper('ViewRenderer')->noRenderLayout();
+			$this->render('edit_area');
+		}
+	}
+	public function saveAction() {
+		$this->view->filename = $this->getRequest()->filename;
+		$filename = $this->get_dir($this->view->filename);
+		file_put_contents($filename, $this->getRequest()->file);
+	}
 	private function get_dir ( $dir ) {
 		$session = new Zend_Session_Namespace('Admin');
 		$path = (isset($session->site->path) ? trim($session->site->path, '/') : 'public');
@@ -150,6 +196,12 @@ class FileController extends Jimw_Admin_Action {
 	}
 	
 	private function get_ext ( $file ) {
-		return preg_replace('/^.*\.([^\.]*)$/', 'file-$1', $file);
+		return preg_replace('/^.*\.([^\.]*)$/', 'file-$1', strtolower($file));
+	}
+	private function get_edit ( $file ) {
+		$ext = strtolower(preg_replace('/^.*\.([^\.]*)$/', '$1', $file));
+		if (in_array($ext, array('html', 'htm', 'phtml', 'xml', 'rhtml', 'rxml', 'rjs', 'rb', 'js', 'css', 'php', 'py', 'c', 'java', 'h', 'txt', 'sh', 'sql')))
+			return 'edit_area';
+		return 'none';
 	}
 }

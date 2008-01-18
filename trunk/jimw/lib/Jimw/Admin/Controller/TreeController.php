@@ -41,7 +41,7 @@ class TreeController extends Jimw_Admin_Action
 		$this->view->tree = $result;
 		$this->view->form_type = 'save';
 		$this->view->id = $id;
-		$this->getHelper('ViewRenderer')->noRenderLayout();
+		$this->getHelper('ViewRenderer')->noRenderLayout()->setAppendBody(true);
 		$this->render('form');
 		$this->_forward('edit', 'manage', $result->findParentJimw_Site_Module()->path);
 	}
