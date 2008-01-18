@@ -13,7 +13,7 @@
 	</fieldset>
 </form>
 <script type="text/javascript">
-      document.getElementById('file').value = "<?= addcslashes($this->file, "'\"\\\n\t\r"); ?>";
+      document.getElementById('file').value = "<?= str_replace('</script>', '</"+"script>', addcslashes($this->file, "'\"\\\n\t\r")); ?>";
       function save_file(id, value) {
           var textarea = document.getElementById(id);
           textarea.value = value;
