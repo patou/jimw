@@ -39,6 +39,7 @@ class Jimw_Site_View_ViewRenderer
     public function setLayoutScript($script)
     {
         $this->_layoutScript = $script;
+        return $this;
     }
     
     /**
@@ -59,6 +60,7 @@ class Jimw_Site_View_ViewRenderer
     public function setRenderLayout($renderLayout = true)
     {
         $this->_renderLayout = ($renderLayout) ? true : false;
+        return $this;
     }
 
     /**
@@ -69,6 +71,7 @@ class Jimw_Site_View_ViewRenderer
     public function setAppendBody($appendBody = true)
     {
         $this->_appendBody = ($appendBody) ? true : false;
+        return $this;
     }
  
     /**
@@ -79,6 +82,7 @@ class Jimw_Site_View_ViewRenderer
     public function noRenderLayout()
     {
         $this->_renderLayout = false;
+        return $this;
     }
     
     /**

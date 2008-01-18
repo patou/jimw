@@ -1,7 +1,7 @@
 // set blank image to local file
 Ext.BLANK_IMAGE_URL = path + '/javascripts/extjs/resources/images/default/s.gif';
 
-Ext.override(Ext.grid.Grid, {
+Ext.override(Ext.grid.GridPanel, {
         getDragDropText: function(){
             var sel = this.selModel.getSelected();
             if (sel)
@@ -14,10 +14,10 @@ Ext.override(Ext.grid.Grid, {
 Ext.override(Ext.ux.FileTreePanel, {
 	onNodeDragOver: function(e) {
              if(e.target.disabled || e.dropNode && e.dropNode.parentNode === e.target.parentNode && e.target.isLeaf()) {
-                e.cancel = true;
+		 e.cancel = true;
              }
         },
-        onBeforeNodeDrop: function (e) {
+	    onBeforeNodeDrop: function (e) {
             var s = e.dropNode;
             var d = e.target.leaf ? e.target.parentNode : e.target;
             var oldName = '';
@@ -56,9 +56,9 @@ Ext.override(Ext.ux.FileTreePanel, {
 
 var Rged = function() {
     // All Panel
-    this.northPanel = null;
-    this.westPanel = null;
-    this.centerPanel = null;
+    //this.northPanel = null;
+    //this.westPanel = null;
+    //this.centerPanel = null;
     this.menu = null;
     this.tree = null;
     this.grid = null;
@@ -75,8 +75,9 @@ Rged.prototype =  {
 
            // tree in the panel
 
-	this.tree = new Ext.ux.FileTreePanel('tree', {
-		animate: true
+	this.tree = new Ext.ux.FileTreePanel({
+        el: 'tree'
+		, animate: true
 		, dataUrl: basename + '/file/get'
         , renameUrl: basename + '/file/rename'
         , deleteUrl: basename + '/file/delete'
@@ -88,14 +89,17 @@ Rged.prototype =  {
 		, readOnly: false
 		, containerScroll: true
 		, enableDD: true
-        , ddGroup: 'TreeDD'
+                , ddGroup: 'TreeDD'
 		, enableUpload: true
 		, enableRename: true
 		, enableDelete: true
-        , enableDownload: true
+                , enableDownload: true
 		, enableNewDir: true
-		, uploadPosition: 'menu'
+                , enableEdit: true
+		, uploadPosition: 'floating'
 		, edit: true
+                , height:'auto'
+                , width:'auto'
 		, maxFileSize: 1048575
 		, hrefPrefix: '/public/'
 		, pgCfg: {
@@ -106,26 +110,31 @@ Rged.prototype =  {
 			, maxPgErrors: 10
 			, interval: 1000
 			, options: {
-				url: '/file/upload'
+				url: basename + '/file/upload'
 				, method: 'post'
 			}
 		}
+        , root: new Ext.tree.AsyncTreeNode({text:'root', path: '/', id: '/', allowDrag:false})
 	});
 
-	var root = new Ext.tree.AsyncTreeNode({text:'root', path: '/', id: '/', allowDrag:false});
-	this.tree.setRootNode(root);
 	this.tree.render();
+        this.tree.getRootNode().expand();
         this.tree.on('click', this.tree_onClick, this);
         this.tree.on('renamesuccess', function(tree, node, newname, oldname) { this.change_path(this.path)}, this);
         this.tree.on('beforeopen', this.tree_onDownload, this);
-        root.expand();
+        this.tree.on('edit', this.tree_onEdit, this);
+
     },
- 
+
     tree_onDownload: function(tree, node, mode) {
-        window.location = basename + '/file/download/?file=' + node.id;
+        window.location = basename + '?controller=file&action=download&file=' + node.id;
         return false;
     },
     
+    tree_onEdit: function(tree, node) {
+        this.editFile(node.id, node.text);
+    },
+
     tree_onClick: function (node, elt) {
         var path = '/';
         if (node.isLeaf())
@@ -161,22 +170,33 @@ Rged.prototype =  {
         var sel = this.grid.selModel.getSelected();
         this.downloadFile(sel);
     },
+    menu_onEdit: function(o, e) {
+        var sel = this.grid.selModel.getSelected();
+        if (sel.get('edit') != 'none')
+            this.editFile(sel.get('path'), sel.get('name'), sel.get('cls'));
+    },
     menu_onRefresh: function(o, e) {
         this.change_path(this.path);
     },
-    
+
     menu_DropDelete: function(n, dd, e, data){
        if (e.selections)
            this.deleteFile(e.selections[0]);
        else
            this.tree.deleteNode(e.node);
    },
-   
+
    menu_DropRename: function(n, dd, e, data){
        if (e.selections)
            this.renameFile(e.selections[0]);
    },
    
+   menu_DropEdit: function(n, dd, e, data){
+   	   var edit = e.selections ? e.selections[0].get('edit') : undefined;
+       if (edit != undefined && edit != 'none')
+           this.editFile(e.selections[0].get('path'), e.selections[0].get('name'), e.selections[0].get('cls'));
+   },
+
    menu_DropDownload: function(n, dd, e, data){
        if (e.selections)
            this.downloadFile(e.selections[0]);
@@ -185,63 +205,102 @@ Rged.prototype =  {
    },
     // Initialize the menu
     init_menu: function () {
-
-       this.menu = new Ext.Toolbar('menu');
-       this.menu.addButton({id: 'rename',
-           text: 'Rename', cls: 'x-btn-text-icon menu-rename', handler: this.menu_onRename, scope: this});
-       this.menu.addButton({id: 'delete',
-           text: 'Delete', cls: 'x-btn-text-icon menu-delete', handler: this.menu_onDelete, scope: this});
-       this.menu.addButton({id: 'download',
-           text: 'Download', cls: 'x-btn-text-icon menu-download', handler: this.menu_onDownload, scope: this});
-       this.menu.addButton({id: 'refresh',
-           text: 'Refresh', cls: 'x-btn-text-icon menu-refresh', handler: this.menu_onRefresh, scope: this});
-       this.textBox = new Ext.form.TextField ({cls : 'rged-adress', width: 500});
+       this.menu = new Ext.Toolbar()
+       this.menu.render('menu')
+       this.menu.addButton({
+           id: 'rename',
+           text: 'Rename',
+           cls: 'x-btn-text-icon menu-rename',
+           handler: this.menu_onRename,
+           scope: this
+           });
+       this.menu.addButton({
+           id: 'delete',
+           text: 'Delete',
+            cls: 'x-btn-text-icon menu-delete',
+            handler: this.menu_onDelete,
+            scope: this});
+       this.menu.addButton({
+           id: 'download',
+           text: 'Download',
+           cls: 'x-btn-text-icon menu-download',
+           handler: this.menu_onDownload,
+           scope: this});
+       this.menu.addButton({
+           id: 'refresh',
+           text: 'Refresh',
+           cls: 'x-btn-text-icon menu-refresh',
+           handler: this.menu_onRefresh,
+           scope: this});
+       this.menu.addButton({
+           id: 'edit',
+           text: 'Edit',
+           cls: 'x-btn-text-icon menu-edit',
+           handler: this.menu_onEdit,
+           scope: this});
+       this.textBox = new Ext.form.TextField ({
+           cls: 'rged-adress',
+           width: 500});
        this.textBox.on('change', this.menu_onChange, this);
        this.textBox.on('specialkey', this.menu_onSpecialKey, this);
        this.menu.addField(this.textBox);
        this.menu.addFill ();
+       this.menu.addButton({
+           text: 'Logout',
+           cls: 'x-btn-text-icon menu-logout',
+           handler: function(o, e) {
+               window.location = basename + '/index/index';
+           }
+       });
     },
 
     // Initilize the global layout
     init_layout: function () {
-       var mainLayout = new Ext.BorderLayout(document.body, {
-            north: {
+            this.mainLayout = new Ext.Viewport({
+                layout:'border',
+                items: [
+                {
+                region: 'north',
+                contentEl: 'menu',
                 split:false,
                 initialSize: 32,
-                titlebar: false
-            },
-            west: {
+                titlebar: false,
+                fitToFrame: true,
+                closable: false
+                },
+                {
+                region: 'west',
+                contentEl:'tree',
                 split:true,
-                initialSize: 250,
-                minSize: 175,
-                maxSize: 400,
+                width: 250,
+                minWidth: 175,
+                maxWidth: 400,
                 titlebar: true,
                 collapsible: true,
                 animate: true,
                 useShim: true,
                 autoScroll: true,
-                cmargins: {top:2,bottom:2,right:2,left:2}
+                cmargins: {top:2,bottom:2,right:2,left:2},
+                fitToFrame: true,
+                closable: false,
+                title: 'Folders'
             },
-            center: {
-                titlebar: true,
-                title: 'Files',
+            {
+                xtype:'tabpanel',
+                region: 'center',
+                border:false,
+                titlebar: false,
                 autoScroll:false,
+                activeTab:0,
                 tabPosition: 'top',
                 closeOnTab: true,
-                resizeTabs: true
+                resizeTabs: true,
+                fitToFrame: true,
+                autoScroll: true,
+                items: [this.grid]
             }
-        });
-        mainLayout.beginUpdate();
-        mainLayout.add('north', this.northPanel = new Ext.ContentPanel('menu', {
-            fitToFrame: true, closable: false
-        }));
-        mainLayout.add('west', this.westPanel = new Ext.ContentPanel('tree', {
-            fitToFrame: true, closable: false, title: 'Folders'
-        }));
-        mainLayout.add('center', this.centerPanel = new Ext.ContentPanel('grid', {
-            fitToFrame: true, autoScroll: true, resizeEl: this.grid, title: 'Files'
-        }));
-        mainLayout.endUpdate();
+            ]
+            });
 
     },
 
@@ -258,6 +317,7 @@ Rged.prototype =  {
                 {name: 'name', mapping: 'name'},
                 {name: 'path', mapping: 'path'},
                 {name: 'cls', mapping: 'cls'},
+                {name: 'edit', mapping: 'edit'},
                 {name: 'size', mapping: 'size', type: 'int'},
                 {name: 'lastChange', mapping: 'lastChange', type: 'date', dateFormat: 'D M  j h:i:s Y'}
             ])
@@ -287,34 +347,66 @@ Rged.prototype =  {
 
         // Display the icon for file type
         function icon(val){
-            if (val == 'folder')
-                return '<img width="16" height="18" class="folder" src="'+path+'/javascripts/extjs/resources/images/default/tree/folder.gif"/>';
-            else
-                return '<img width="16" height="18" src="'+path+'/javascripts/extjs/resources/images/default/tree/leaf.gif"/>';
+             return '<div class="x-tree-node-el x-tree-node-leaf x-unselectable '+val+'" unselectable="on"><img width="16" height="18" class="x-tree-node-icon" src="'+Ext.BLANK_IMAGE_URL+'"/></div>';
         }
 	// Column Model of the grid
-        var colModel = new Ext.grid.ColumnModel([
-                        {id: 'icon', header: '<img src="'+path+'/images/icons/arrow_up.png" width="16" height="18"/>', width: 25, sortable: false, renderer: icon, dataIndex: 'cls', fixed : true},
-			{id:'name',header: "Name", width: 160, sortable: true, locked:false, dataIndex: 'name'
-                            , editor: new Ext.grid.GridEditor(new Ext.form.TextField({
-                                allowBlank: false}))},
-			{header: "Size", width: 75, sortable: true, renderer: size, dataIndex: 'size'},
-                        {header: "Last Updated", width: 85, sortable: true, renderer: Ext.util.Format.dateRenderer('m/d/Y'), dataIndex: 'lastChange'}
-		]);
+//        var colModel = new Ext.grid.ColumnModel([
+//                        {id: 'icon', header: '<img src="/images/icons/arrow_up.png" width="16" height="18"/>', width: 25, sortable: false, renderer: icon, dataIndex: 'cls', fixed : true},
+//			{id:'name',header: "Name", width: 160, sortable: true, locked:false, dataIndex: 'name'
+//                            , editor: new Ext.grid.GridEditor(new Ext.form.TextField({
+//                                allowBlank: false}))},
+//			{header: "Size", width: 75, sortable: true, renderer: size, dataIndex: 'size'},
+//                        {header: "Last Updated", width: 85, sortable: true, renderer: Ext.util.Format.dateRenderer('m/d/Y'), dataIndex: 'lastChange'}
+//		]);
 
 
         // create the Grid
-        this.grid = new Ext.grid.Grid('grid', {
-            ds: this.ds,
-            cm: colModel,
-            selModel:  new Ext.grid.RowSelectionModel({singleSelect: true}),
+        this.grid = new Ext.grid.GridPanel({
+            title: 'Files',
+            closable:false,
+            store: this.ds,
+            columns: [
+               {
+                   id: 'icon',
+                   header: '<img src="'+path+'/images/icons/arrow_up.png" width="16" height="18"/>',
+                   width: 25, sortable: false, renderer: icon, dataIndex: 'cls',
+                   fixed : true
+               },
+               {
+                   id:'name',
+                   header: "Name",
+                   width: 160,
+                   sortable: true,
+                   locked:false,
+                   dataIndex: 'name',
+                   editor: new Ext.grid.GridEditor(new Ext.form.TextField({
+                                allowBlank: false}))},
+                {
+                    header: "Size",
+                    width: 75,
+                    sortable: true,
+                    renderer: size,
+                    dataIndex: 'size'},
+                {
+                    header: "Last Updated",
+                    width: 85,
+                    sortable: true,
+                    renderer: Ext.util.Format.dateRenderer('m/d/Y'),
+                    dataIndex: 'lastChange'
+
+                }
+            ],
+            autoHeight:true,
+            sm:  new Ext.grid.RowSelectionModel({singleSelect: true}),
             enableDragDrop : true,
             ddGroup: 'TreeDD',
             autoExpandColumn: 'name',
-            loadMask: true
+            loadMask: true,
+            renderTo: 'grid'
         });
 
-        this.grid.render();
+        //this.grid.render('grid');
+        //this.grid.getSelectionModel().selectFirstRow();
         this.grid.on('celldblclick', this.grid_onCellDblClick, this);
         this.grid.on('cellclick', this.grid_onCellClick, this);
         this.grid.on('cellcontextmenu', this.grid_onCellContextMenu, this);
@@ -324,7 +416,7 @@ Rged.prototype =  {
 
     grid_onCellDblClick: function( grid, rowIndex, columnIndex, e )
     {
-        var rec = grid.getDataSource().getAt(rowIndex);
+        var rec = grid.getStore().getAt(rowIndex);
         var path = rec.get('path');
         var folder = rec.get('cls');
         if (folder == 'folder') {
@@ -332,17 +424,17 @@ Rged.prototype =  {
         }
         //this.tree.expandPath(path.substrsub, 'path', function (success, node) { if (success) node.select()});
     },
-    
-    
+
+
     grid_onCellClick: function( grid, rowIndex, columnIndex, e )
     {
-        var rec = grid.getDataSource().getAt(rowIndex);
+        var rec = grid.getStore().getAt(rowIndex);
         var p = "/root" + rec.get('path');
         if (p.substr(p.length - 1, 1) == '/')
             p = p.substr(0, p.length - 1)
         this.tree.selectPath(p, 'text', function (success, node) { if (success) node.expand() });
     },
-    
+
     //When the user click on the arrox up in the first column
     grid_onHeaderClick: function( grid, columnIndex, e )
     {
@@ -372,6 +464,12 @@ Rged.prototype =  {
                                         , scope:this
                                         , handler:this.onContextMenuItem
                                 }
+                                , {	id:'edit'
+                                        , text:this.tree.editText
+                                        , icon:this.tree.editIcon
+                                        , scope:this
+                                        , handler:this.onContextMenuItem
+                                }
                                 , {	id:'delete'
                                         , text:this.tree.deleteText + ' (' + this.tree.deleteKeyName + ')'
                                         , icon:this.tree.deleteIcon
@@ -387,15 +485,32 @@ Rged.prototype =  {
                         ]
                 });
         }
+        this.grid.selModel.selectRow(rowIndex);
         var sel = this.grid.selModel.getSelected();
         // save current node to context menu and open submenu
         var menu = this.contextMenu;
         menu.item = sel;
-
-        // set menu item text to node text
+        var itemEdit = menu.items.get('edit');
         var itemNodename = menu.items.get('nodename');
-        itemNodename.setText(Ext.util.Format.ellipsis(sel.get('name'), 25));
+        if (sel) {
+            
+            var edit = sel.get('edit');
+            itemEdit.setDisabled(!(edit && edit != 'none'));
 
+            // set menu item text to node text
+            
+            itemNodename.setText(Ext.util.Format.ellipsis(sel.get('name'), 25));
+            menu.items.get('delete').setDisabled(false);
+            menu.items.get('rename').setDisabled(false);
+            menu.items.get('download').setDisabled(false);
+        }
+        else {
+            itemNodename.setText('');
+            itemEdit.setDisabled(true);
+            menu.items.get('delete').setDisabled(true);
+            menu.items.get('rename').setDisabled(true);
+            menu.items.get('download').setDisabled(true);
+        }
         menu.showAt(menu.getEl().getAlignToXY(e.target, 'tl-tl?', [0, 18]));
         itemNodename.container.setStyle('opacity', 1);
 
@@ -427,6 +542,11 @@ Rged.prototype =  {
                 break;
                 // }}}
                 // {{{
+                case 'edit':
+                        this.editFile(sel.get('path'), sel.get('name'), sel.get('cls'));
+                break;
+                // }}}
+                // {{{
                 case 'download':
                         this.downloadFile(sel);
                 break;
@@ -436,12 +556,15 @@ Rged.prototype =  {
     },
 
     renameFile: function(sel) {
+        // set focus to no button to avoid accidental deletions
+        var msgdlg = Ext.Msg.getDialog();
+        msgdlg.defaultButton = msgdlg.buttons[2];//.focus();
         Ext.Msg.prompt(this.tree.renameText
                 , this.tree.renameText + ' <b>' + sel.get('name') + '</b> to ?'
                 , function(response, newname) {
                         var conn;
                         // do nothing if answer is not yes
-                        if('ok' !== response) {
+                        if ('ok' !== response) {
                                 return;
                         }
                         // answer is yes
@@ -451,10 +574,6 @@ Rged.prototype =  {
                 }
                 , this
         );
-
-        // set focus to no button to avoid accidental deletions
-        var msgdlg = Ext.Msg.getDialog();
-        msgdlg.setDefaultButton(msgdlg.buttons[2]).focus();
     },
 
     rename: function (newname, oldname) {
@@ -475,6 +594,9 @@ Rged.prototype =  {
     },
     deleteFile: function(sel) {
         // display confirmation message
+        // set focus to no button to avoid accidental deletions
+        var msgdlg = Ext.Msg.getDialog();
+        msgdlg.defaultButton = msgdlg.buttons[2];//.focus();
         Ext.Msg.confirm(this.tree.deleteText
                 , this.tree.reallyWantText + ' ' + this.tree.deleteText.toLowerCase() + ' <b>' + sel.get('name') + '</b>?'
                 , function(response) {
@@ -502,14 +624,34 @@ Rged.prototype =  {
                 }
                 , this
         );
-
-        // set focus to no button to avoid accidental deletions
-        var msgdlg = Ext.Msg.getDialog();
-        msgdlg.setDefaultButton(msgdlg.buttons[2]).focus();
     },
-    
+
+    editFile: function(path, name, cls) {
+        var tab = this.mainLayout.layout.center.panel;
+        var href = basename + '?controller=file&action=edit&ext=ajax&file=' + path;
+        if (!name)
+            name = '';
+        var TabId = cls;
+        var tabEl = tab.getComponent(TabId);
+        if(tabEl){
+            tab.setActiveTab(tabEl);
+        }else{
+            var autoLoad = {url: href};
+            var p = tab.add(new Ext.Panel({
+                closable: true,
+                autoScroll:true,
+                id: TabId,
+                title: name,
+                //autoLoad: autoLoad,
+                html: '<iframe width="100%" height="100%" src="'+href+'" style="border: 0;"></iframe>',
+                iconCls: 'x-tree-node-icon '+ cls
+            }));
+            tab.setActiveTab(p);
+        }
+    },
+
     downloadFile: function(sel) {
-        window.location = basename + '/file/download/?file=' + sel.get('path');
+        window.location = basename + '?controller=file&action=download&file=' + sel.get('path');
     },
 
     cmdCallback: function (options, bSuccess, response) {
@@ -533,7 +675,7 @@ Rged.prototype =  {
 
 
                     // open
-                    { 
+                    {
                             key: Ext.EventObject.ENTER // F2 key = edit
                             , scope: this
                             , fn: function(key, e) {
@@ -541,9 +683,9 @@ Rged.prototype =  {
                                     this.downloadFile(sel);
                     }}
 
-                    // edit
-                   , { 
-                            key: 113 // F2 key = edit
+                    // rename
+                   , {
+                            key: 113 // F2 key = rename
                             , scope: this
                             , fn: function(key, e) {
                                     var sel = this.grid.selModel.getSelected();
@@ -572,7 +714,25 @@ Rged.prototype =  {
             ]);
     },
 
-     init_drop: function() {
+    // Manage browser history
+    init_history: function () {
+        var bookmarkedSection = Ext.ux.History.getBookmarkedState( "dir" );
+        var init = bookmarkedSection || '';
+
+        Ext.ux.History.register( "dir", init, function( state ) {
+        // This is called after calling YAHOO.util.History.navigate, or after the user
+        // has trigerred the back/forward button. We cannot discrminate between
+        // these two situations.
+            var cur = Ext.ux.History.getCurrentState ("dir");
+            //if (cur != state)
+                //this.change_path(path);
+        }, this, true );
+
+        Ext.ux.History.initialize();
+        //this.load_path (init);
+    },
+
+    init_drop: function() {
         ddel = new Ext.dd.DropZone('delete', {ddGroup: 'TreeDD', notifyOver: function(dd, e, data)
            {
               return 'x-dd-drop-ok';
@@ -595,10 +755,18 @@ Rged.prototype =  {
        ddown.notifyDrop = function(n, dd, e, data){
           rged.menu_DropDownload.apply(rged, arguments);
        };
+       var ddown = new Ext.dd.DropZone('edit', {ddGroup: 'TreeDD', notifyOver: function(dd, e, data)
+           {
+              var edit = (data.selections) ? data.selections[0].data.edit : data.node.attributes.edit;
+              return (edit != 'none')?'x-dd-drop-ok':'x-dd-drop-nodrop';
+           }});
+       ddown.notifyDrop = function(n, dd, e, data){
+          rged.menu_DropEdit.apply(rged, arguments);
+       };
        var ddgrid = new Ext.dd.DropTarget(this.grid.getView().mainBody, {
            ddGroup: 'TreeDD',
-           notifyDrop: function(dd, e, data) 
-           { 
+           notifyDrop: function(dd, e, data)
+           {
                rged.grid_notifyDrop.apply(rged, arguments);
            },
 
@@ -606,23 +774,23 @@ Rged.prototype =  {
            {
               var drop=dd.getDragData(e).selections[0];
               return (drop.data.cls == 'folder')?'x-dd-drop-ok-add':'x-dd-drop-nodrop';
-           } });       
+           } });
     },
-    
-   grid_notifyDrop: function(dd, e, data) 
-   { 
+
+   grid_notifyDrop: function(dd, e, data)
+   {
       var drop=dd.getDragData(e).selections[0];
       var drag=data.selections[0];
       if (drop.data.cls == 'folder')
         this.rename(drop.id + "/" + drag.data.name, drag.id);
    },
-    
+
     init : function() {
        Ext.QuickTips.init();
        this.init_tree();
        this.init_menu ();
-       this.init_layout ();
        this.init_grid ();
+       this.init_layout ();
        this.init_drop ();
        var local = this;
        unFocus.History.addEventListener('historyChange', function(path) {local.change_path(path);});
@@ -653,6 +821,8 @@ Rged.prototype =  {
 Ext.onReady(function() {
     var rged = new Rged ();
     rged.init ();
+    Ext.get('loading').remove();
+    Ext.get('loading-mask').fadeOut({remove:true});
 });
 
 

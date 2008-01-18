@@ -94,9 +94,9 @@
 }
 .file-html .x-tree-node-icon 
 , .file-htm .x-tree-node-icon 
+, .file-phtml .x-tree-node-icon 
 , .file-sgml .x-tree-node-icon 
-, .file-xhtml .x-tree-node-icon
-, .file-phtml .x-tree-node-icon  
+, .file-xhtml .x-tree-node-icon 
 , .file-xml .x-tree-node-icon 
 {
 	background-image: url(../images/icons/mime/html.png);
@@ -122,7 +122,7 @@
 , .file-wmp .x-tree-node-icon
 , .file-wmv .x-tree-node-icon
 {
-	background-image: url(../images/icons/mime/video.png);
+	background-image: url(../images/icons/mime/film.png);
 }
 .file-ttf .x-tree-node-icon 
 , .file-otf .x-tree-node-icon
@@ -151,9 +151,8 @@
 {
 	background-image: url(../images/icons/mime/spreadsheet_document.png);
 }
-.file-js .x-tree-node-icon
-, .file-ajax .x-tree-node-icon {
-	background-image: url(../images/icons/mime/source_js.png);
+.file-js .x-tree-node-icon {
+	background-image: url(../images/icons/mime/source_j.png);
 }
 .file-css .x-tree-node-icon {
 	background-image: url(../images/icons/mime/css.png);
@@ -168,6 +167,7 @@
 , .file-php5 .x-tree-node-icon
 , .file-php4 .x-tree-node-icon
 , .file-php3 .x-tree-node-icon
+, .file-phtml .x-tree-node-icon
  {
 	background-image: url(../images/icons/mime/source_php.png);
 }
@@ -252,7 +252,7 @@
 , .file-wv .x-tree-node-icon
 , .file-wvc .x-tree-node-icon
 {
-	background-image: url(../images/icons/mime/sound.png);
+	background-image: url(../images/icons/mime/music.png);
 }
 .file-asc .x-tree-node-icon
 , .file-cer .x-tree-node-icon
@@ -294,7 +294,7 @@
 , .file-mov .x-tree-node-icon
 , .file-qt .x-tree-node-icon
 {
-	background-image: url(../images/icons/mime/video.png);
+	background-image: url(../images/icons/mime/quicktime.png);
 }
 
 

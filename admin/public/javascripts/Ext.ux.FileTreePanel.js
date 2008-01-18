@@ -64,7 +64,7 @@ Ext.namespace('Ext.ux');
 	* @cfg {String} uploadText Text to use for menu upload message(s)
 	* @cfg {String} uploadUrl url to upload to. dataUrl is used if not set
   */
-Ext.ux.FileTreePanel = function(el, config) {
+Ext.ux.FileTreePanel = function(config) {
 
 	// {{{
 	// create tree loaeder if it doesn't exist in config
@@ -96,7 +96,8 @@ Ext.ux.FileTreePanel = function(el, config) {
 	// }}}
 	// {{{
 	// call parent constructor
-	Ext.ux.FileTreePanel.superclass.constructor.call(this, el, config);
+	Ext.ux.FileTreePanel.superclass.constructor.call(this, 
+            config);
 	// }}}
 	// {{{
 	// icons
@@ -134,6 +135,10 @@ Ext.ux.FileTreePanel = function(el, config) {
 	// open icon
 	this.openIcon = config && config.openIcon ? config.openIcon : 'application_go.png';
 	this.openIcon = this.iconPath + '/' + this.openIcon;
+         
+        // open icon
+	this.editIcon = config && config.openIcon ? config.editIcon : 'edit.png';
+	this.editIcon = this.iconPath + '/' + this.editIcon;
 
 	// open in popup icon
 	this.openPopupIcon = config && config.openPopupIcon ? config.openPopupIcon : 'application_double.png';
@@ -309,6 +314,16 @@ Ext.ux.FileTreePanel = function(el, config) {
 		, open: true
 
 		// }}}
+                // {{{
+		/**
+		* Fires when click on Edit Node
+		* @event edit
+		* @param {Ext.ux.FileTreePanel} this
+		* @param {AsyncTreeNode} node 
+		*/
+		, edit: true
+
+		// }}}
 		// {{{
 		/**
 			* Fires before node rename
@@ -366,6 +381,7 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 	, enableNewDir: true
 	, enableRename: true
 	, enableUpload: true
+        , enableEdit: false
 	, errorText: 'Error'
 	, existsText: 'File <b>{0}</b> already exists'
 	, expandText: 'Expand all'
@@ -381,6 +397,7 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 	, openPopupText: 'Open in popup'
 	, openSelfText: 'Open in this window'
 	, openText: 'Open'
+        , editText: 'Edit' 
 	, overwriteText: 'Do you want to overwrite it?'
 	, popupFeatures: 'width=640,height=480,dependent=1,scrollbars=1,resizable=1,toolbar=1'
 	, rarrowKeyName: 'Right Arrow'
@@ -581,7 +598,7 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 					  { id:'nodename', disabled:true, cls:'x-filetree-nodename'}
 					, {
 						id: 'open'
-						, text: this.downloadText + ' (Enter)'
+						, text: this.openText + ' (Enter)'
 						, icon: this.openIcon
 						, scope: this
 						, handler: this.onContextMenuItem
@@ -606,7 +623,7 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 								, handler: this.onContextMenuItem
 							}
 							]
-						}*/
+						} */
 					}
 
 					, new Ext.menu.Separator({id:'sep-open'})
@@ -632,6 +649,12 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 					, {	id:'rename'
 						, text:this.renameText + ' (F2)'
 						, icon:this.renameIcon
+						, scope:this
+						, handler:this.onContextMenuItem
+					}
+                                        , {	id:'edit'
+						, text:this.editText
+						, icon:this.editIcon
 						, scope:this
 						, handler:this.onContextMenuItem
 					}
@@ -691,7 +714,7 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 		// save current node to context menu and open submenu
 		var menu = this.contextMenu;
 		menu.node = node;
-		//menu.items.get('open').menu.node = node;
+//		menu.items.get('open').menu.node = node;
 
 		// set menu item text to node text
 		var itemNodename = menu.items.get('nodename');
@@ -703,6 +726,9 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 
 		var itemRename = menu.items.get('rename');
 		itemRename.setDisabled(node === this.root || node.disabled);
+                 
+                var itemEdit = menu.items.get('edit');
+		itemEdit.setDisabled(!(node.isLeaf() && node.attributes.edit != 'none'));
 
 		var itemNewDir = menu.items.get('newdir');
 		itemNewDir.setDisabled(node.isLeaf() ? node.parentNode.disabled : node.disabled);
@@ -719,6 +745,12 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 		// delete
 		if(false === this.enableDelete) {
 			itemDelete.hide();
+		}
+                 
+                // hide/show logic
+		// delete
+		if(false === this.enableEdit) {
+			itemEdit.hide();
 		}
 
 		// newdir
@@ -781,6 +813,11 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 			// {{{
 			case 'rename':
 				treeEditor.triggerEdit(node);
+			break;
+			// }}}
+                        // {{{
+			case 'edit':
+				this.fireEvent('edit', this, node)
 			break;
 			// }}}
 			// {{{
@@ -1160,6 +1197,8 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 		}
 
 		// display confirmation message
+       		var msgdlg = Ext.Msg.getDialog();
+		msgdlg.defaultButton = msgdlg.buttons[2];//.focus();
 		Ext.Msg.confirm(this.deleteText
 			, this.reallyWantText + ' ' + this.deleteText.toLowerCase() + ' <b>' + node.text + '</b>?'  
 			, function(response) {
@@ -1192,11 +1231,7 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 				}
 			}
 			, this
-		);
-
-		// set focus to no button to avoid accidental deletions
-		var msgdlg = Ext.Msg.getDialog();
-		msgdlg.setDefaultButton(msgdlg.buttons[2]).focus();
+		);		
 	}
 	// }}}
 	// {{{
@@ -1250,6 +1285,8 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 		* @param {Object} scope Scope for callback (defaults to this)
 		*/
 	, confirmOverwrite: function(filename, callback, scope) {
+       		var msgdlg = Ext.Msg.getDialog();
+		msgdlg.defaultButton = msgdlg.buttons[2];//focus();
 		Ext.Msg.confirm(this.confirmText
 		, String.format(this.existsText, filename) 
 			+ '. ' + this.overwriteText
@@ -1259,8 +1296,6 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 			}	
 		}
 		, this);
-		var msgdlg = Ext.Msg.getDialog();
-		msgdlg.setDefaultButton(msgdlg.buttons[2]).focus();
 		msgdlg.setZIndex(16000);
 	}
 	// }}}
@@ -1274,19 +1309,28 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 			// create container for upload form
 			switch(this.uploadPosition) {
 				case 'menu':
-					uploadFormCt = Ext.DomHelper.append(document.body, {
-						tag: 'div', id: 'uf-ct-' + this.id, style: 'margin-left:30px;margin-bottom:4px;width:154px'
+					uploadFormCt = Ext.DomHelper.append(
+                                            document.body, {
+                                                tag: '',
+                                                 id: 'uf-ct-' + this.id, 
+                                                 style: 'margin-left:30px;margin-bottom:4px;width:154px'
 						, children: [
-							{tag:'div', html:this.uploadFileText + ' (Ctrl+U)'}
-							, {tag:'br'}
+                                                    {
+                                                        tag:'div', 
+                                                        html:this.uploadFileText + ' (Ctrl+U)'}, 
+                                                        {tag:'br'}
 						]
-					}, true);
+                                                }, 
+                                                true);
 				break;
 
 				case 'floating':
-					uploadFormCt = Ext.DomHelper.append(document.body, {
-						tag:'div', id:'uf-ct-' + this.id
-					}, true);
+					uploadFormCt = Ext.DomHelper.append(
+                                            document.body, {
+                                                tag:'', 
+                                                id:'uf-ct-' + this.id
+					}, 
+                                        true);
 					uploadFormCt.on({click:{stopEvent:true,fn:Ext.emptyFn}});
 				break;
 			}
@@ -1299,6 +1343,7 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 				, iconPath: this.iconPath
 				, pgCfg: this.pgCfg
 				, floating: 'floating' === this.uploadPosition
+                                
 			});
 
 			// hide form on body click
@@ -1398,7 +1443,7 @@ Ext.extend(Ext.ux.FileTreePanel, Ext.tree.TreePanel, {
 			// }}}
 			// {{{
 			// edit
-		       , { 
+			, { 
 				key: 113 // F2 key = edit
 				, scope: this
 				, fn: function(key, e) {

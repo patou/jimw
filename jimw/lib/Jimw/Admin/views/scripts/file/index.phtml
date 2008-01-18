@@ -10,43 +10,68 @@
 
 	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/filetree.css">
     <link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/rged.css">
-    <link id="theme" rel="stylesheet" type="text/css" href="<?= $this->path ?>/javascripts/extjs/resources/css/xtheme-default.css">
-	<link rel="shortcut icon" href="/img/silk/icons/page_white_stack.png" type="image/png">
+	<link rel="shortcut icon" href="<?= $this->path ?>/images/icons/page_white_stack.png" type="image/png">
 	<script type="text/javascript">
-		var path = "<?= $this->path ?>";
-		var basename = "<?= $this->url(array(), 'default', true); ?>";
+		var path = "<?= rtrim($this->path, '/') ?>";
+		var basename = "<?= rtrim($this->url(array(), 'default', true), '/'); ?>";
 	</script>
-	<script type="text/javascript" src="<?= $this->path ?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
-	<script type="text/javascript" src="<?= $this->path ?>/javascripts/extjs/ext-all.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.UploadForm.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.FileTreePanel.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/rged.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/history.js"></script>
 <style type="text/css">
-#acc-ct {
-	width: 240px;
-	position: relative;
+.loading-indicator {
+    font-size:11px;
+    background-image:url('/javascripts/extjs/resources/images/default/grid/loading.gif');
+    background-repeat: no-repeat;
+    background-position:top left;
+    padding-left:20px;
+	height:18px;
+	text-align:left;
 }
-#acc-wrap {
-	border: 1px solid silver;
-	background-color: white;
+#loading-mask{
+	position:absolute;
+	left:0;
+	top:0;
+    width:100%;
+    height:100%;
+    z-index:20000;
+    background-color:white;
 }
-#adsense-top, #adsense-bottom {
-	margin: 10px;
+#loading{
+	position:absolute;
+	left:45%;
+	top:40%;
+	padding:2px;
+	z-index:20001;
+    height:auto;
 }
-.x-dock-panel .x-dock-panel-body {
-	background-color: #ffffc8;
+#loading img {
+    margin-bottom:5px;
+}
+#loading .loading-indicator{
+	background:white;
+	color:#555;
+	font:bold 13px tahoma,arial,helvetica;
+	padding:10px;
+	margin:0;
+    text-align:center;
+    height:auto;
 }
 </style>
 </head>
 
 <body>
+  <div id="loading-mask" style=""></div>
+  <div id="loading">
+    <div class="loading-indicator"><img src="<?= $this->path ?>/javascripts/extjs/resources/images/default/shared/blue-loading.gif" width="32" height="32" style="margin-right:8px;" align="absmiddle"/>Loading...</div>
+  </div>
+	<script type="text/javascript" src="<?= $this->path ?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
+	<script type="text/javascript" src="<?= $this->path ?>/javascripts/extjs/ext-all-debug.js"></script>
+	<script type="text/javascript" src="<?= $this->path ?>/javascripts/edit_area/edit_area_full.js"></script>
+    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.UploadForm.js"></script>
+    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.FileTreePanel.js"></script>
+    <script type="text/javascript" src="<?= $this->path ?>/javascripts/rged.js"></script>
+    <script type="text/javascript" src="<?= $this->path ?>/javascripts/history.js"></script>
     <div id="menu"></div>
     <div id="tree"></div>
     <div id="grid"></div>
-    <div id="menu-div"></div>
-    <div id="tree-div"></div>
-    <div id="grid-div"></div>
     </body>
 </html>
 
