@@ -1,6 +1,6 @@
 <?php
 /**
- * Jimw_Site_Tree
+ * Jimw_Site_Tree_Row
  *
  * @author	    Patou
  * @category   Jimw_Core
@@ -65,7 +65,7 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 	 */
 	protected function _loadParam () {
 		if ($this->_param === null) {
-			$this->_param = unserialize($this->param);
+			$this->_param = unserialize($this->tree_param);
 		}
 	}
 
@@ -75,7 +75,7 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 	 */
 	protected function _saveParam () {
 		if ($this->_param !== null) {
-			$this->param = serialize($this->_param);
+			$this->tree_param = serialize($this->_param);
 		}
 	}
 
@@ -129,7 +129,19 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 		$this->_saveParam();
 	}
 
-
+	/**
+	 * If the name is 'param', return the Tree param class
+	 *
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get($name) {
+		if ($name == 'param') {
+			return new Jimw_Site_Tree_Param($this);
+		}
+		else
+			return parent::__get($name);
+	}
 	/**
 	 * Get the url of the tree
 	 * @deprecated 
@@ -161,7 +173,8 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 	 * @return boolean
 	 */
 	public function hasChildren () {
-		return $this->_table->hasChildren ($this->id);
+		//return $this->_table->hasChildren ($this->id);
+		return $this->rgt - $this->lft > 1;
 	}
 
 	/**
@@ -171,6 +184,46 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 	 */
 	public function getParent () {
 		return $this->_table->find ($this->parentid);
+	}
+
+	public function _insert() {
+		$this->_table->move_to($this, $this->parentid, Jimw_Site_Tree::CHILD);
+	}
+	
+	public function _update() {
+		if ($this->_data['tree_parentid'] != $this->_cleanData['tree_parentid']) {
+			$parent = $this->_data['tree_parentid'];
+			$this->_data['tree_parentid'] = $this->_cleanData['tree_parentid'];
+			$this->_table->move_to($this, $parent, Jimw_Site_Tree::CHILD);
+			$this->_data['tree_parentid'] = $parent;
+		}
+	}
+	
+	public function delete($type = null) {
+		$rgt = $this->rgt;
+		$lft = $this->lft;
+		if ($type !== null) {
+			//move all child to $type parent
+			$parent = ($type === -1) ? $this->parentid : $type;
+			foreach ($this->getChildren() as $child) {
+				$this->_table->move_to($this, $parent, Jimw_Site_Tree::CHILD);
+			}
+			$this->_refresh();
+		}
+		else {
+			// Delete all children
+			$db = $this->_getTable()->getAdapter();
+        	$info = $this->_getTable()->info();
+        	$metadata = $info[Zend_Db_Table_Abstract::METADATA];
+			$this->_table->delete(array($db->quoteInto($db->quoteIdentifier('tree_lft', true) . ' > ?', $lft, $metadata['tree_lft']['DATA_TYPE'])
+										, $db->quoteInto($db->quoteIdentifier('tree_rgt', true) . ' < ?', $rgt, $metadata['tree_rgt']['DATA_TYPE'])));
+		}
+		$diff = $rgt - $lft + 1;
+		parent::delete();
+		$this->_table->update_old(array('tree_lft' => new Zend_Db_Expr('CASE WHEN tree_lft >= ' . $rgt . ' THEN tree_lft - ' . $diff
+															. ' ELSE tree_lft END'),
+							 'tree_rgt' => new Zend_Db_Expr('CASE WHEN tree_rgt >= ' . $rgt . ' THEN tree_rgt - ' . $diff
+															. ' ELSE tree_rgt END')), null);
 	}
 }
 ?>

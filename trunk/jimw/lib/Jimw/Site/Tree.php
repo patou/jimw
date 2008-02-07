@@ -56,7 +56,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 */
 	private function _loadTree () {
 		if (self::$_children === null || self::$_nodes === null || self::$_nodesAlias === null) {
-			$result = $this->_fetch(null, array('tree_order', 'tree_alias'));
+			$result = $this->_fetch(null, array('tree_lft', 'tree_alias'));
 			if ($result === false) {
 				return;
 			} else {
@@ -338,6 +338,12 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 		if (empty($data['tree_editiondate'])) {
 			$data['tree_editiondate'] = new Zend_Db_Expr('NOW()');
 		}
+		unset($data['tree_lft']);
+		unset($data['tree_rgt']);
+		return parent::update($data, $where);
+	}
+	public function update_old(array $data, $where)
+	{
 		return parent::update($data, $where);
 	}
 	
@@ -349,75 +355,64 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 		$cur_left = $tree->lft;
 		$cur_right = $tree->rgt;
 		$extent = $cur_right - $cur_left + 1;
-		if (!is_a($target,'Jimw_Site_Tree_Row') && $target != 0) {
-			$target = $this->find($target);
+		if (!($target instanceof Jimw_Site_Tree_Row) && $target != 0) {
+			$target = $this->find($target)->current();
 		}
 		if (!$target) { //Root
 			//throw new Jimw_Exception('Not found');
-			if ($position == self::LEFT) {
+			if ($position == self::RIGHT) {
 				//Move on LEFT of last Root
-				$target = $this->fetchRow(array('tree_parentid = ?' => 0), 'tree_rgt ASC');
+				$target = $this->fetchRow(array('tree_parentid = ?' => 0), 'tree_lft ASC');
 			}
 			else {
 				//Move on RIGHT of first Root
 				$target = $this->fetchRow(array('tree_parentid = ?' => 0), 'tree_rgt DESC');
-				$position = self::RIGHT;
+				$position = self::LEFT;
 			}
+			if (!$target)
+				throw new Jimw_Exception('Target not found');
 		}
 		$target_left = $target->lft;
 		$target_right = $target->rgt;
-		if ((($cur_left <= $target_left) && ($target_left <= $cur_right)) || (($cur_left <= $target_right) && ($target_right <= $cur_right))) {
+		if (($target_left >= $cur_left) && ($target_right <= $cur_right)) {
 			throw new Jimw_Exception('Ilegal tree move');
 		}
-		$tree->parent_id = $target->parentid;
+		$tree->parentid = $target->parentid;
+	
 		switch ($position) {
-			case self::CHILD:
-				$tree->parentid = $target->id;
-				if ($target_left < $cur_left) {
-					$new_left = $target_left + 1;
-					$new_right = $target_right + $extent;	
-				}
-				else {
-					$new_left = $target_left - $extent + 1;
-					$new_right = $target_left;
-				}
-				break;
-			case self::LEFT:
-				if ($target_left < $cur_left) {
-					$new_left = $target_left;
-					$new_right = $target_left + $extent;
-				}
-				else {
-					$new_left = $target_left - $extent;
-					$new_right = $target_left - 1;
-				}
-				break;
-			case self::RIGHT:
-				if ($target_right < $cur_right) {
-					$new_left = $target_right + 1;
-					$new_right = $target_right + $extent;
-				}
-				else {
-					$new_left = $target_right - $extent + 1;
-					$new_right = $target_right;
-				}
-				break;
-			default:
-				throw new Jimw_Exception('Position should be either child, left or right ('.$position.' received)');
+		case self::CHILD:
+			$bound = $target_right;
+			break;
+		case self::LEFT:
+			$bound = $target_left;
+			break;
+		case self::RIGHT:
+			$bound = $target_right + 1;
+			break;
+		default:
+			throw new Jimw_Exception('Position should be either child, left or right ('.$position.' received)');
 		}
-		
-		$b_left = min($cur_left, $new_left);
-		$b_right = min($cur_right, $new_right);
-		$shift = $new_left - $cur_left;
-		$updown = ($shift > 0) ? -$extent : $extent;
+		if ($bound > $cur_right) {
+			$bound -= 1;
+			$other_bound = $cur_right + 1;
+		}
+		else {
+			$other_bound = $cur_left - 1;
+		}
+		if ($bound == $cur_left || $bound == $cur_right) {
+			return ;
+		}
+		$tab = array($cur_left, $cur_right, $bound, $other_bound);
+		sort($tab);
+		list($a, $b, $c, $d) = $tab;
 		// Transaction for all update
-		$this->_db->beginTransaction();
-		$this->update(array('tree_lft' => new Zend_Db_Expr('tree_lft + ' . $shift)), $this->_buildWhere($cur_left, $cur_right, null, 'tree_lft'));
-		$this->update(array('tree_lft' => new Zend_Db_Expr('tree_lft + ' . $updown)), $this->_buildWhere($b_left, $b_right, null, 'tree_lft'));
-		$this->update(array('tree_rgt' => new Zend_Db_Expr('tree_rgt + ' . $shift)), $this->_buildWhere($cur_left, $cur_right, null, 'tree_rgt'));
-		$this->update(array('tree_rgt' => new Zend_Db_Expr('tree_rgt + ' . $updown)), $this->_buildWhere($b_left, $b_right, null, 'tree_rgt'));
-		$tree->save();
-		$this->_db->commit();
+		parent::update(array('tree_lft' => new Zend_Db_Expr('CASE WHEN tree_lft BETWEEN ' . $a . ' AND ' . $b . ' THEN tree_lft + ' . ($d - $b)
+															. ' WHEN tree_lft BETWEEN ' . $c . ' AND ' . $d . ' THEN tree_lft + ' . ($a - $c)
+															. ' ELSE tree_lft END'),
+							 'tree_rgt' => new Zend_Db_Expr('CASE WHEN tree_rgt BETWEEN ' . $a . ' AND ' . $b . ' THEN tree_rgt + ' . ($d - $b)
+															. ' WHEN tree_rgt BETWEEN ' . $c . ' AND ' . $d . ' THEN tree_rgt + ' . ($a - $c)
+															. ' ELSE tree_rgt END')), null);
+		self::$_nodes = null;
 	}
 }
 

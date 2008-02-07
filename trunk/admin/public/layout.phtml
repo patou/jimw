@@ -24,7 +24,7 @@
 		<div class="navigation">
 			<a href="<?= $this->url(array('controller' => 'index', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Intro'); ?></a>
 			<a href="<?= $this->url(array('controller' => 'tree', 'action' => 'list', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Pages'); ?></a>
-			<a href="<?= $this->url(array('controller' => 'file', 'action' => 'list', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Files'); ?></a>
+			<a href="<?= $this->url(array('controller' => 'file', 'action' => 'index', 'ext' => 'ajax'), 'ext', true) ?>"><?= $this->_('Files'); ?></a>
 			<a href="<?= $this->url(array('controller' => 'system', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('System'); ?></a>
 			<div class="clearer"><span></span></div>
 		</div>

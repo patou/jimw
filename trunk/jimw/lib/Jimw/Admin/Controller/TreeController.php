@@ -82,7 +82,7 @@ class TreeController extends Jimw_Admin_Action
 		$save->parentid = $req->parentid;
 		$save->alias = $req->alias;
 		$save->description = $req->description;
-		$save->save ();
+		$save->save();
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ' . $req->pagetitle);
 		$this->_forward('index');
 	}
@@ -120,9 +120,19 @@ class TreeController extends Jimw_Admin_Action
 		
 		$tree = new Jimw_Site_Tree();
 		$save = $tree->find($this->_request->id)->current();
-		$save->order += ($this->_request->direction == 'up') ? -1 : 1;
-		// Todo: chercher si un noeux à le même order et switcher
-		$save->save ();
+		if ($this->_request->dir == 'down') {
+			$where = array('tree_lft = ?' => $save->rgt + 1 );
+			$direction = Jimw_Site_Tree::RIGHT;
+		}
+		else {
+			$where = array('tree_rgt = ?' => $save->lft - 1 );
+			$direction = Jimw_Site_Tree::LEFT;
+		}
+		$sibling = $tree->fetchAll($where);
+		if ($sibling->exists())
+			$tree->move_to($save, $sibling->current(), $direction);
+		else
+			throw new Jimw_Admin_Exception('Illegal move');
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Move successful ' . $save->pagetitle); 
 		$this->_forward('index');
 	}
