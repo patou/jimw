@@ -1,3 +1,26 @@
+<?php
+function size($val){
+            if($val < 1024){
+                return round($val) . ' o';
+            } else  {
+                $val = round($val / 1024);
+                if($val < 1024){
+                return $val . ' ko';
+                }
+                else {
+                    $val = round( $val / 1024);
+                    if($val < 1024){
+                        return $val . ' mo';
+                    }
+                    else {
+                        return round( $val / 1024) . ' go';
+                    }
+                }
+            }
+            return $val . ' o';
+}
+?>
+<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/filetree.css" media="screen"/>
 <div class="content">
 		<p><?php echo $this->_('Edit files') ?></p>
 <?php if (isset($this->files['Files'])): ?>
@@ -13,7 +36,7 @@
 			}
 		}
 	?>
-	<table cellpadding="0" cellspacing="0">
+	<table cellpadding="0" cellspacing="0" class="list">
 	<thead>
 		<tr>
 			<th style="width:16px">&nbsp;</th>
@@ -24,21 +47,25 @@
 	</thead>
 	<?php if (isset($this->file_path_up)): ?>
 	<tr>
-		<td><img width="16" height="18" class="folder" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/tree/folder.gif"/></td>
+		<td>
+		<span class="x-tree-node-el x-tree-node-leaf x-unselectable folder" unselectable="on"><img width="16" height="18" class="x-tree-node-icon" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/s.gif"/></span>
 		<td colspan="3">
+		&nbsp;
 			<a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'ext' => 'phtml', 'path' => '/' . trim($this->file_path_up, '/')), 'get', true); ?>">&nbsp;..&nbsp;</a>
 		</td>
 	</tr>
 	<?php endif; 
 		foreach ($this->files['Files'] as $file): ?>
 		<tr>
-			<td><img width="16" height="18" class="folder" src="<?php echo $this->path . ($file['cls'] == 'folder' ? '/javascripts/extjs/resources/images/default/tree/folder.gif' : '/javascripts/extjs/resources/images/default/tree/leaf.gif') ?>"/></td>
 			<td>
+			<div class="x-tree-node-el x-tree-node-leaf x-unselectable <?= $file['cls'] ?>" unselectable="on"><img width="16" height="18" class="x-tree-node-icon" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/s.gif"/></div>
+			<td>
+			&nbsp;
 			<?php if ($file['cls'] == 'folder') { ?>
 				<a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'ext' => 'phtml', 'path' => $file['path']), 'get', true); ?>"><?php echo $file['name'] ?></a>
 			<?php } else { echo $file['name']; }?>
 			</td>
-			<td><?php echo $file['size']; ?></td>
+			<td><?php echo size($file['size']); ?></td>
 			<td align="right">
 				<a href="#" onclick="if (confirm('<?php echo $this->escape($this->_('Do you realy want to delete this file ?')) ?>')) window.location = '<?php echo $this->url(array('controller' => 'file', 'action' => 'delete', 'ext' => 'phtml', 'file' => $file['path']), 'get', true); ?>'">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>

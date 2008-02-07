@@ -7,7 +7,6 @@
 <? endif; ?>
 <tr><td class="t01"><?= $this->formLabel('title', $this->_('Title')); ?> :</td><td><?= $this->formText('pagetitle', $this->tree->pagetitle, array('size' => 40)); ?></td></tr>
 <tr><td class="t01"><?= $this->formLabel('menutitle', $this->_('Menu Title')); ?> :</td><td><?= $this->formText('menutitle', $this->tree->menutitle, array('size' => 40)); ?></td></tr>
-<tr><td class="t01"><?= $this->formLabel('order', $this->_('Menu Order')); ?> :</td><td><?= $this->formText('order', $this->tree->order); ?></td></tr>
 <tr><td class="t01"><?= $this->formLabel('parentid', $this->_('Parent')); ?> :</td><td>
 <?php echo $this->selectTree('parentid', $this->tree->parentid) ?>
 </td></tr>
