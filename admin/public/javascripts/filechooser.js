@@ -1,0 +1,334 @@
+/*
+ * Ext JS Library 2.0
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
+Ext.BLANK_IMAGE_URL = path + '/javascripts/extjs/resources/images/default/s.gif';
+
+var ImageChooser = function(config){
+	this.config = config;
+}
+
+ImageChooser.prototype = {
+    // cache data by image name for easy lookup
+    lookup : {},
+    cancel: function () {
+		var callback = this.callback;
+		this.win.hide(this.animateTarget, function(){
+            if(callback){
+				callback('');
+			}
+		});
+	},
+	show : function(el, callback){
+		if(!this.win){
+			this.initTemplates();
+			
+			this.store = new Ext.data.JsonStore({
+			    url: basename + '/?controller=file&action=list&ext=ajax',
+			    root: 'Files',
+				totalProperty: 'FilesCount',
+                id: 'path',
+			    fields: [
+			        {name: 'name', mapping: 'name'},
+                	{name: 'path', mapping: 'path'},
+                	{name: 'cls', mapping: 'cls'},
+                	{name: 'edit', mapping: 'edit'},
+					{name: 'url', mapping: 'url'},
+					{name: 'thumb', mapping: 'thumb'},
+                	{name: 'size', mapping: 'size', type: 'int'},
+                	{name: 'lastChange', mapping: 'lastChange', type: 'date', dateFormat: 'D M  j h:i:s Y'}
+			    ],
+			    listeners: {
+			    	'load': {fn:function(){ this.view.select(0); }, scope:this, single:true}
+			    }
+			});
+			
+			
+			var formatSize = function(data){
+		        if(data.size < 1024) {
+		            return data.size + " bytes";
+		        } else {
+		            return (Math.round(((data.size*10) / 1024))/10) + " KB";
+		        }
+		    };
+			
+			var formatData = function(data){
+		    	data.shortName = data.name.ellipse(15);
+		    	data.sizeString = formatSize(data);
+		    	data.dateString = new Date(data.lastChange).format(lang.dateFormat);
+				if (data.thumb == '')
+					data.thumb = Ext.BLANK_IMAGE_URL;
+		    	this.lookup[data.name] = data;
+		    	return data;
+		    };
+			
+		    this.view = new Ext.DataView({
+				tpl: this.thumbTemplate,
+				singleSelect: true,
+				overClass:'x-view-over',
+				itemSelector: 'div.thumb-wrap',
+				emptyText : '<div style="padding:10px;">'+lang.emptyText+'</div>',
+				store: this.store,
+				listeners: {
+					'selectionchange': {fn:this.showDetails, scope:this, buffer:100},
+					'dblclick'       : {fn:this.onDblClick, scope:this},
+					'loadexception'  : {fn:this.onLoadException, scope:this},
+					'beforeselect'   : {fn:function(view){
+				        return view.store.getRange().length > 0;
+				    }}
+				},
+				prepareData: formatData.createDelegate(this)
+			});
+			
+			this.treeloader = new Ext.tree.TreeLoader({
+				dataUrl: basename + '/file/get'
+			});
+			this.treeloader.baseParams.cmd = 'get';
+			this.treeloader.baseParams.folder = 1;
+	
+			// do not rely on node.id attribute send path instead
+			this.treeloader.on({
+				beforeload:{
+					scope: this
+					, fn: function(loader, node) {
+						loader.baseParams.path = node.id;
+					}
+				}
+			});
+			
+			this.tree = new Ext.tree.TreePanel({
+				root: new Ext.tree.AsyncTreeNode({text:lang.root, path: default_path, id: default_path, allowDrag:false}),
+				loader: this.treeloader
+			});
+			
+			this.tree.on('click', function(node, e) {
+						this.loadPath(node.id);
+					}, this);
+		    
+			var cfg = {
+				renderTo: document.body,
+		    	title: lang.title,
+		    	id: 'img-chooser-dlg',
+		    	layout: 'border',
+				border: true,
+				closable: true,
+				//autoHeight: true,
+				autoWidth: true,
+				draggable: false,
+				expandOnShow: true,
+				resizable: false, 
+				items:[{
+					id: 'img-tree-panel',
+					region: 'west',
+					split: true,
+					width: 150,
+					minWidth: 150,
+					maxWidth: 250,
+					xtype: 'panel',
+					titlebar: true,
+	                collapsible: true,
+	                animate: true,
+	                useShim: true,
+	                autoScroll: true,
+	                cmargins: {top:2,bottom:2,right:2,left:2},
+	                fitToFrame: true,
+	                closable: false,
+	                title: lang.folderTitle,
+					items: this.tree
+					},
+					{
+					id: 'img-chooser-view',
+					region: 'center',
+					autoScroll: true,
+					items: this.view,
+                    tbar:[{
+						xtype: 'button',
+						id: 'return_root',
+                    	text: lang.root,
+						listeners: {
+							'click': {
+								scope: this,
+								fn: function() { this.loadPath(default_path);}
+							}
+						}
+                    },{
+                    	text: lang.filter
+                    },{
+                    	xtype: 'textfield',
+                    	id: 'filter',
+                    	selectOnFocus: true,
+                    	width: 100,
+                    	listeners: {
+                    		'render': {fn:function(){
+						    	Ext.getCmp('filter').getEl().on('keyup', function(){
+						    		this.filter();
+						    	}, this, {buffer:500});
+                    		}, scope:this}
+                    	}
+                    }, ' ', '-', {
+                    	text: lang.sortBy
+                    }, {
+                    	id: 'sortSelect',
+                    	xtype: 'combo',
+				        typeAhead: true,
+				        triggerAction: 'all',
+				        width: 100,
+				        editable: false,
+				        mode: 'local',
+				        displayField: 'desc',
+				        valueField: 'name',
+				        lazyInit: false,
+				        value: 'name',
+				        store: new Ext.data.SimpleStore({
+					        fields: ['name', 'desc'],
+					        data : [['name', lang.name],['size', lang.fileSize],['lastChange', lang.lastModified]]
+					    }),
+					    listeners: {
+							'select': {fn:this.sortImages, scope:this}
+					    }
+				    }]
+				},{
+					id: 'img-detail-panel',
+					region: 'east',
+					split: true,
+					width: 150,
+					minWidth: 150,
+					maxWidth: 250
+				}],
+				buttons: [{
+					id: 'ok-btn',
+					text: lang.OK,
+					handler: this.doCallback,
+					scope: this
+				},{
+					text: lang.cancel,
+					handler: this.cancel,
+					scope: this
+				}],
+				keys: {
+					key: 27, // Esc key
+					handler: this.cancel,
+					scope: this
+				}
+			};
+			Ext.apply(cfg, this.config);
+		    this.win = new Ext.Window(cfg);
+			this.win.on('close', this.cancel, this);
+		}
+		
+		this.loadPath('/');
+	    this.win.show(el);
+		this.win.setPosition(0, 0);
+		this.win.fitContainer();
+		this.callback = callback;
+		this.animateTarget = el;
+	},
+	
+	initTemplates : function(){
+		this.thumbTemplate = new Ext.XTemplate(
+			'<tpl for=".">',
+				'<div class="thumb-wrap" id="{name}">',
+				'<div class="thumb {cls}"><img class="x-view-thumb-icon" src="{thumb}" title="{name}"></div>',
+				'<span>{shortName}</span></div>',
+			'</tpl>'
+		);
+		this.thumbTemplate.compile();
+		
+		this.detailsTemplate = new Ext.XTemplate(
+			'<div class="details">',
+				'<tpl for=".">',
+					'<div class="details-thumb">',
+					'<div class="thumb-wrap" id="{name}">',
+					'<div class="thumb {cls}"><img class="x-view-thumb-icon" src="{thumb}"></div>',
+					'</div></div>',
+					'<div class="details-info">',
+					'<b>', lang.name,'</b>',
+					'<span>{name}</span>',
+					'<b>', lang.size, '</b>',
+					'<span>{sizeString}</span>',
+					'<b>', lang.lastModified, '</b>',
+					'<span>{dateString}</span></div>',
+				'</tpl>',
+			'</div>'
+		);
+		this.detailsTemplate.compile();
+	},
+	
+	showDetails : function(){
+	    var selNode = this.view.getSelectedNodes();
+	    var detailEl = Ext.getCmp('img-detail-panel').body;
+		if(selNode && selNode.length > 0){
+			selNode = selNode[0];
+			Ext.getCmp('ok-btn').enable();
+		    var data = this.lookup[selNode.id];
+            detailEl.hide();
+            this.detailsTemplate.overwrite(detailEl, data);
+            detailEl.slideIn('l', {stopFx:true,duration:0.2});
+		}else{
+		    detailEl.update('');
+		}
+	},
+	
+	filter : function(){
+		var filter = Ext.getCmp('filter');
+		this.view.store.filter('name', filter.getValue());
+		this.view.select(0);
+	},
+	
+	sortImages : function(){
+		var v = Ext.getCmp('sortSelect').getValue();
+    	this.view.store.sort(v, v == 'name' ? 'asc' : 'desc');
+    	this.view.select(0);
+    },
+	
+	reset : function(){
+		if(this.win.rendered){
+			Ext.getCmp('filter').reset();
+			this.view.getEl().dom.scrollTop = 0;
+		}
+	    this.view.store.clearFilter();
+		this.view.select(0);
+	},
+	
+	loadPath : function(path){
+		this.store.load({params : {path: path}});
+		this.reset();
+		this.tree.selectPath( default_path+'root' + path, 'text', function (success, node) { if (success) node.expand() });
+	},	
+	
+	onDblClick : function(){
+		var selNode = this.view.getSelectedNodes()[0];
+		var data = this.lookup[selNode.id];
+		if (data.cls != 'folder')
+			this.doCallback();
+		else
+			this.loadPath(data.path);
+	},
+	
+	doCallback : function(){
+        var selNode = this.view.getSelectedNodes()[0];
+		var callback = this.callback;
+		var lookup = this.lookup;
+		this.win.hide(this.animateTarget, function(){
+            if(selNode && callback){
+				var data = lookup[selNode.id];
+				callback(data.url);
+			}
+		});
+    },
+	
+	onLoadException : function(v,o){
+	    this.view.getEl().update('<div style="padding:10px;">'+lang.errorLoading+'</div>'); 
+	}
+};
+
+String.prototype.ellipse = function(maxLength){
+    if(this.length > maxLength){
+        return this.substr(0, maxLength-3) + '...';
+    }
+    return this;
+};

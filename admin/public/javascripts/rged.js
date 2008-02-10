@@ -123,7 +123,6 @@ Rged.prototype =  {
         this.tree.on('renamesuccess', function(tree, node, newname, oldname) { this.change_path(this.path)}, this);
         this.tree.on('beforeopen', this.tree_onDownload, this);
         this.tree.on('edit', this.tree_onEdit, this);
-
     },
 
     tree_onDownload: function(tree, node, mode) {
