@@ -29,6 +29,14 @@ class FileController extends Jimw_Admin_Action {
 		$this->render ( 'index' ) ;
 	}
 	
+	/**
+	 * The default action - show the home page
+	 */
+	public function chooserAction () {
+		$this->getHelper ( 'ViewRenderer' )->noRenderLayout ()->setAppendBody ();
+		$this->render ( 'chooser' ) ;
+	}
+	
 	public function listAction () {
 		$dir = $this->getRequest()->path;
 		if (empty($dir))
@@ -44,7 +52,9 @@ class FileController extends Jimw_Admin_Action {
 										'size' => $file->getSize (),
 										'edit' => $this->get_edit($filename),
 										'lastChange' => date('D M  j h:i:s Y', $file->getATime ()),
+										'thumb' => ($file->isDir () ? '' : $this->get_thumb($filename, $dir)),
 										'path' => '/' . trim($dir . '/' . $filename, '/'),
+										'url' => $this->get_url($dir . '/' . $filename),
 										'cls' => ($file->isDir () ? 'folder' : $this->get_ext($filename)));
 			}
 		}
@@ -58,13 +68,14 @@ class FileController extends Jimw_Admin_Action {
 	
 	public function getAction () {
 		$dir = $this->getRequest()->path;
+		$folder = isset($this->getRequest()->folder) ? true : false;
 		$path = $this->get_dir($dir);
 		date_default_timezone_set('Europe/Paris');
 		$d = new DirectoryIterator($path);
 		$files = array ();
 		foreach ($d as $file) {
 			$filename = $file->getFilename();
-			if (!$d->isDot () && $filename[0] != '.') {
+			if (!$d->isDot () && $filename[0] != '.' && (!$folder || $file->isDir ())) {
 				$files[] = array('text' => $filename,
 								'path' => $filename,
 								'leaf' => !$file->isDir (),
@@ -198,6 +209,23 @@ class FileController extends Jimw_Admin_Action {
 	private function get_ext ( $file ) {
 		return preg_replace('/^.*\.([^\.]*)$/', 'file-$1', strtolower($file));
 	}
+	
+	private function get_url ($path) {
+		$dir = $this->_request->getBaseUrl ();
+		$dir = '/' . trim(substr($dir, 0, strpos($dir, 'admin')), '/');
+		$thumb_path = $this->get_dir($path);
+		$file = str_replace('../', $dir, $thumb_path);
+		return $file;
+	}	
+	private function get_thumb ($file, $path) {
+		$dir = $this->_request->getBaseUrl ();
+		$dir = '/' . trim(substr($dir, 0, strpos($dir, 'admin')), '/');
+		$thumb = preg_replace('/^(.*)\.([^\.]*)$/', $path.'/thumbnails/$1.jpg', $file);
+		$thumb_path = $this->get_dir($thumb);
+		$file = str_replace('../', $dir, $thumb_path);
+		return file_exists($thumb_path) ? $file : '';
+	}
+	
 	private function get_edit ( $file ) {
 		$ext = strtolower(preg_replace('/^.*\.([^\.]*)$/', '$1', $file));
 		if (in_array($ext, array('html', 'htm', 'phtml', 'xml', 'rhtml', 'rxml', 'rjs', 'rb', 'js', 'css', 'php', 'py', 'c', 'java', 'h', 'txt', 'sh', 'sql')))

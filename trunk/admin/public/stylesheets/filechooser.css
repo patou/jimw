@@ -1,0 +1,349 @@
+@CHARSET "ISO-8859-1";
+
+
+/*
+ * Ext JS Library 2.0
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
+#img-chooser-dlg .details{ 
+    padding: 10px; 
+    text-align: center; 
+} 
+#img-chooser-dlg .details-info{ 
+    border-top: 1px solid #cccccc; 
+    font: 11px Arial, Helvetica, sans-serif; 
+    margin-top: 5px; 
+    padding-top: 5px; 
+    text-align: left; 
+} 
+#img-chooser-dlg .details-info b{ 
+    color: #555555; 
+    display: block; 
+    margin-bottom: 4px; 
+} 
+#img-chooser-dlg .details-info span{ 
+    display: block; 
+    margin-bottom: 5px; 
+    margin-left: 5px; 
+} 
+
+#img-chooser-view{ 
+    background: white; 
+    font: 11px Arial, Helvetica, sans-serif;
+} 
+#img-chooser-view .thumb, #img-chooser-dlg .thumb{ 
+    background: #dddddd; 
+    padding: 3px; 
+} 
+#img-chooser-view .thumb img, #img-chooser-dlg .thumb img{ 
+    height: 60px; 
+    width: 80px; 
+} 
+#img-chooser-view .thumb-wrap, #img-chooser-dlg .thumb-wrap{ 
+    float: left; 
+    margin: 4px; 
+    margin-right: 0; 
+    padding: 5px;
+} 
+#img-chooser-view .thumb-wrap span{ 
+    display: block; 
+    overflow: hidden; 
+    text-align: center; 
+} 
+#img-chooser-view .x-view-over{
+    border:1px solid #dddddd; 
+    background: #efefef url(../../resources/images/default/grid/row-over.gif) repeat-x left top; 
+    padding: 4px; 
+}
+#img-chooser-view .x-view-selected{ 
+    background: #DFEDFF; 
+    border: 1px solid #6593cf; 
+    padding: 4px; 
+} 
+#img-chooser-view .x-view-selected .thumb{ 
+    background:transparent; 
+}
+#img-chooser-view .x-view-selected span{ 
+    color:#1A4D8F;
+}
+#img-chooser-view .loading-indicator { 
+    font-size:11px; 
+    background-image:url('../../resources/images/grid/loading.gif'); 
+    background-repeat: no-repeat; 
+    background-position: left; 
+    padding-left:20px; 
+    margin:10px; 
+}
+.x-view-thumb-icon {
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+	white-space: nowrap;
+	padding: 0;
+}
+/* mime type icons */
+.folder .x-view-thumb-icon {
+	background-image: url(../images/icons/mime64/folder.png);
+	background-repeat: no-repeat;
+}
+
+.file-pdf .x-view-thumb-icon 
+, .file-ai .x-view-thumb-icon 
+{
+	background-image: url(../images/icons/mime64/pdf_document.png);
+}
+.file-txt .x-view-thumb-icon {
+	background-image: url(../images/icons/mime64/txt.png);
+}
+.file-bmp .x-view-thumb-icon 
+, .file-cgm .x-view-thumb-icon 
+, .file-dcm .x-view-thumb-icon 
+, .file-dds .x-view-thumb-icon 
+, .file-exr .x-view-thumb-icon 
+, .file-gif .x-view-thumb-icon 
+, .file-hdr .x-view-thumb-icon 
+, .file-ico .x-view-thumb-icon 
+, .file-jng .x-view-thumb-icon 
+, .file-jp2 .x-view-thumb-icon 
+, .file-jpeg .x-view-thumb-icon 
+, .file-jpg .x-view-thumb-icon 
+, .file-pbm .x-view-thumb-icon 
+, .file-pbmraw .x-view-thumb-icon 
+, .file-pcd .x-view-thumb-icon 
+, .file-pcx .x-view-thumb-icon 
+, .file-pgm .x-view-thumb-icon 
+, .file-pgmraw .x-view-thumb-icon 
+, .file-pic .x-view-thumb-icon 
+, .file-png .x-view-thumb-icon 
+, .file-pnm .x-view-thumb-icon 
+, .file-psd .x-view-thumb-icon 
+, .file-raw .x-view-thumb-icon 
+, .file-rgb .x-view-thumb-icon 
+, .file-rgba .x-view-thumb-icon 
+, .file-tga .x-view-thumb-icon 
+, .file-tif .x-view-thumb-icon 
+, .file-tiff .x-view-thumb-icon 
+, .file-xbm .x-view-thumb-icon 
+, .file-xcf .x-view-thumb-icon 
+, .file-xpm .x-view-thumb-icon 
+{
+	background-image: url(../images/icons/mime64/image.png);
+}
+.file-conf .x-view-thumb-icon 
+, .file-vim .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/source.png);
+}
+.file-html .x-view-thumb-icon 
+, .file-htm .x-view-thumb-icon 
+, .file-phtml .x-view-thumb-icon 
+, .file-sgml .x-view-thumb-icon 
+, .file-xhtml .x-view-thumb-icon 
+, .file-xml .x-view-thumb-icon 
+{
+	background-image: url(../images/icons/mime64/html.png);
+}
+.file-sh .x-view-thumb-icon {
+	background-image: url(../images/icons/mime64/shellscript.png);
+}
+.file-3g2 .x-view-thumb-icon
+, .file-3gp .x-view-thumb-icon
+, .file-asf .x-view-thumb-icon
+, .file-asx .x-view-thumb-icon 
+, .file-avi .x-view-thumb-icon 
+, .file-flc .x-view-thumb-icon
+, .file-fli .x-view-thumb-icon
+, .file-flv .x-view-thumb-icon
+, .file-mkv .x-view-thumb-icon
+, .file-mng .x-view-thumb-icon
+, .file-mp4 .x-view-thumb-icon
+, .file-mpeg .x-view-thumb-icon
+, .file-mpg .x-view-thumb-icon
+, .file-ogm .x-view-thumb-icon
+, .file-rv .x-view-thumb-icon
+, .file-wmp .x-view-thumb-icon
+, .file-wmv .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/film.png);
+}
+.file-ttf .x-view-thumb-icon 
+, .file-otf .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/font_truetype.png);
+}
+.file-exe .x-view-thumb-icon 
+, .file-dll .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/exec_wine.png);
+}
+.file-doc .x-view-thumb-icon 
+, .file-odt .x-view-thumb-icon
+, .file-rtf .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/wordprocessing.png);
+}
+.file-xls .x-view-thumb-icon 
+, .file-ods .x-view-thumb-icon
+, .file-xlc .x-view-thumb-icon
+, .file-xll .x-view-thumb-icon
+, .file-xlm .x-view-thumb-icon
+, .file-xlw .x-view-thumb-icon
+, .file-wpd .x-view-thumb-icon
+, .file-abw .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/spreadsheet_document.png);
+}
+.file-js .x-view-thumb-icon {
+	background-image: url(../images/icons/mime64/source_j.png);
+}
+.file-css .x-view-thumb-icon {
+	background-image: url(../images/icons/mime64/source_css.png);
+}
+.file-c .x-view-thumb-icon {
+	background-image: url(../images/icons/mime64/source_c.png);
+}
+.file-h .x-view-thumb-icon {
+	background-image: url(../images/icons/mime64/source_h.png);
+}
+.file-php .x-view-thumb-icon
+, .file-php5 .x-view-thumb-icon
+, .file-php4 .x-view-thumb-icon
+, .file-php3 .x-view-thumb-icon
+, .file-phtml .x-view-thumb-icon
+ {
+	background-image: url(../images/icons/mime64/source_php.png);
+}
+.file-swf .x-view-thumb-icon
+, .file-fla .x-view-thumb-icon {
+	background-image: url(../images/icons/mime64/source_flash.png);
+}
+.file-7z .x-view-thumb-icon
+, .file-a .x-view-thumb-icon
+, .file-ace .x-view-thumb-icon
+, .file-arj .x-view-thumb-icon 
+, .file-bz .x-view-thumb-icon
+, .file-bz2 .x-view-thumb-icon
+, .file-cpio .x-view-thumb-icon 
+, .file-gz .x-view-thumb-icon
+, .file-rar .x-view-thumb-icon
+, .file-tgz .x-view-thumb-icon
+, .file-tnf .x-view-thumb-icon
+, .file-z .x-view-thumb-icon 
+, .file-zip .x-view-thumb-icon 
+, .file-zoo .x-view-thumb-icon 
+{
+	background-image: url(../images/icons/mime64/zip.png);
+}
+.file-ppt .x-view-thumb-icon 
+, .file-odp .x-view-thumb-icon
+, .file-ppz .x-view-thumb-icon
+, .file-ppt .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/pps.png);
+}
+.file-msg .x-view-thumb-icon {
+	background-image: url(../images/icons/mime64/message.png);
+}
+.file-dwg .x-view-thumb-icon 
+, .file-sxd .x-view-thumb-icon
+, .file-dhw .x-view-thumb-icon
+, .file-svg .x-view-thumb-icon
+, .file-ps .x-view-thumb-icon
+, .file-eps .x-view-thumb-icon
+, .file-wmf .x-view-thumb-icon
+, .file-fig .x-view-thumb-icon
+, .file-msod .x-view-thumb-icon 
+, .file-qpic .x-view-thumb-icon 
+{
+	background-image: url(../images/icons/mime64/vectorgfx.png);
+}
+.file-ics .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/vcalendar.png);
+}
+.file-chm .x-view-thumb-icon
+, .file-info .x-view-thumb-icon
+, .file-hlp .x-view-thumb-icon
+, .file-help .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/info.png);
+}
+.file-aac .x-view-thumb-icon
+, .file-ac3 .x-view-thumb-icon
+, .file-aifc .x-view-thumb-icon
+, .file-aiff .x-view-thumb-icon
+, .file-ape .x-view-thumb-icon
+, .file-au .x-view-thumb-icon
+, .file-flac .x-view-thumb-icon
+, .file-m3u .x-view-thumb-icon
+, .file-m4a .x-view-thumb-icon
+, .file-mac .x-view-thumb-icon
+, .file-mid .x-view-thumb-icon
+, .file-midi .x-view-thumb-icon
+, .file-mp2 .x-view-thumb-icon
+, .file-mp3 .x-view-thumb-icon
+, .file-ogg .x-view-thumb-icon
+, .file-psid .x-view-thumb-icon
+, .file-ra .x-view-thumb-icon
+, .file-ram .x-view-thumb-icon
+, .file-sf .x-view-thumb-icon
+, .file-sid .x-view-thumb-icon
+, .file-spx .x-view-thumb-icon
+, .file-wav .x-view-thumb-icon
+, .file-wma .x-view-thumb-icon
+, .file-wv .x-view-thumb-icon
+, .file-wvc .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/music.png);
+}
+.file-asc .x-view-thumb-icon
+, .file-cer .x-view-thumb-icon
+, .file-cert .x-view-thumb-icon
+, .file-crt .x-view-thumb-icon
+, .file-der .x-view-thumb-icon
+, .file-gpg .x-view-thumb-icon
+, .file-gpg .x-view-thumb-icon
+, .file-p10 .x-view-thumb-icon
+, .file-p12 .x-view-thumb-icon
+, .file-p7c .x-view-thumb-icon
+, .file-p7m .x-view-thumb-icon
+, .file-p7s .x-view-thumb-icon
+, .file-pem .x-view-thumb-icon
+, .file-sig .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/file_locked.png);
+}
+.file-bin .x-view-thumb-icon
+, .file-cue .x-view-thumb-icon
+, .file-img .x-view-thumb-icon
+, .file-iso .x-view-thumb-icon
+, .file-mdf .x-view-thumb-icon
+, .file-nrg .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/cdimage.png);
+}
+.file-jar .x-view-thumb-icon
+, .file-java .x-view-thumb-icon
+, .file-class .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/source_java.png);
+}
+.file-sql .x-view-thumb-icon
+{
+	background-image: url(../images/icons/mime64/source_sql.png);
+}
+.file-moov .x-view-thumb-icon
+, .file-mov .x-view-thumb-icon
+, .file-qt .x-view-thum-icon
+{
+	background-image: url(../images/icons/mime64/quicktime.png);
+}
+
+
+/* end of file */
+

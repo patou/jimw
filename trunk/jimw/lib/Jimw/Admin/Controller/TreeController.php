@@ -95,7 +95,7 @@ class TreeController extends Jimw_Admin_Action
 		$save = $tree->fetchNew();
 		$save->pagetitle = $req->pagetitle;
 		$save->menutitle = $req->menutitle;
-		$save->order = $req->order;
+		$save->order = 0;
 		$save->parentid = $req->parentid;
 		$save->module_id = $req->getPost('module');
 		$save->site_id = 1;

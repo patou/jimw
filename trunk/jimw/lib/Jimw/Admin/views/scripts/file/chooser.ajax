@@ -6,14 +6,29 @@
 	<meta name="keywords" content="extjs,ext,ux,javascript,library,web development,web design,dhtml,widget,webdev,component,control,tree,file,gui,interface,effect,example,demo,download,howto,yui-ext,theme,aero,vista,skin,animation">
 	<title><?php echo $this->request->getDomainName (); ?> - Administration</title>
 	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/javascripts/extjs/resources/css/ext-all.css">
-	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/uploadform.css">
-
+	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/filechooser.css">
 	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/filetree.css">
-    <link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/rged.css">
 	<link rel="shortcut icon" href="<?= $this->path ?>/images/icons/page_white_stack.png" type="image/png">
 	<script type="text/javascript">
 		var path = "<?= rtrim($this->path, '/') ?>";
+		var default_path = "/";
 		var basename = "<?= rtrim($this->url(array(), 'default', true), '/'); ?>";
+		var lang = {
+			emptyText: "<?= $this->_('No files match the specified filter'); ?>",
+			title: "<?=$this->_('Choose a File'); ?>",
+			folderTitle: "<?= $this->_('Folders'); ?>",
+			filter: "<?= $this->_('Filter:'); ?>",
+			sortBy: "<?= $this->_('Sort By:'); ?>",
+			name: "<?= $this->_('Name'); ?>",
+			fileSize: "<?= $this->_('File Size'); ?>",
+			size: "<?= $this->_('Size'); ?>",
+			lastModified: "<?= $this->_('Last Modified'); ?>",
+			OK: "<?= $this->_('OK'); ?>",
+			cancel: "<?= $this->_('Cancel'); ?>",
+			errorLoading: "<?= $this->_('Error loading file.'); ?>",
+			root: "<?= $this->_('root'); ?>",
+			dateFormat: "<?= $this->_('m/d/Y g:i a') ?>"
+		};
 	</script>
 <style type="text/css">
 .loading-indicator {
@@ -60,17 +75,25 @@
 <body>
   <div id="loading-mask" style=""></div>
   <div id="loading">
-    <div class="loading-indicator"><img src="<?= $this->path ?>/javascripts/extjs/resources/images/default/shared/blue-loading.gif" width="32" height="32" style="margin-right:8px;" align="absmiddle"/>Loading...</div>
+    <div class="loading-indicator"><img src="<?= $this->path ?>/javascripts/extjs/resources/images/default/shared/blue-loading.gif" width="32" height="32" style="margin-right:8px;" align="absmiddle"/><?= $this->_('Loading...'); ?></div>
   </div>
 	<script type="text/javascript" src="<?= $this->path ?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
 	<script type="text/javascript" src="<?= $this->path ?>/javascripts/extjs/ext-all<?= (JIMW_DEBUG_MODE) ? '-debug' : '' ?>.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.UploadForm.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.FileTreePanel.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/rged.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/history.js"></script>
-    <div id="menu"></div>
-    <div id="tree"></div>
-    <div id="grid"></div>
+    <script type="text/javascript" src="<?= $this->path ?>/javascripts/filechooser.js"></script>
+    <div id="chooser-dlg" style="width: 100%; height: 100%"></div>
+    <script type="text/javascript">
+    Ext.onReady(function() {
+    var imageChooser = new ImageChooser({});
+	imageChooser.show(document.body, function (url)
+	{
+		window.top.opener.SetUrl( encodeURI( url ) ) ;
+		window.top.close() ;
+		window.top.opener.focus() ;
+	});
+    Ext.get('loading').remove();
+    Ext.get('loading-mask').fadeOut({remove:true});
+	});
+    </script>
     </body>
 </html>
 
