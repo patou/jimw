@@ -202,7 +202,8 @@ class FileController extends Jimw_Admin_Action {
 	}
 	private function get_dir ( $dir ) {
 		$session = new Zend_Session_Namespace('Admin');
-		$path = (isset($session->site->path) ? trim($session->site->path, '/') : 'public');
+		$site = Zend_Registry::get('site');
+		$path = (isset($site->path) ? trim($site->path, '/') : 'public');
 		return rtrim('../' . $path . '/' . trim($dir, '/'), '/');
 	}
 	
