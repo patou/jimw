@@ -13,3 +13,20 @@ if (isset($_GET['test'])) {
 	echo '<h1>', $_GET['test'] , '</h1>';
 	include('./'.str_replace('_', '/', $_GET['test']).'Test.php');
 }
+else {
+	function parc_dir($dir) {
+		$d = opendir($dir);
+		while (($file = readdir($d)) !== false) {
+			if ($file[0] == '.')
+				continue;
+			if (is_dir($dir.'/'.$file)) {
+				parc_dir($dir.'/'.$file);
+			}
+			elseif ('Test.php' == substr($file, strlen($file) - 8)) {
+				$test = trim(str_replace(array('/', '.'), array('_', ''), $dir).'_'.substr($file, 0, strlen($file) - 8), '_');
+				echo '<a href="test.php?test=',$test,'">', $test, '</a><br />';
+			}
+		}
+	}
+	parc_dir('.');
+}

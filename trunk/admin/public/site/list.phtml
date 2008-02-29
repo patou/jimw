@@ -1,4 +1,5 @@
 <div class="content">
+	<h1><img width="16" height="16" border="0" title="<?php echo $this->_('Site') ?>" alt="<?php echo $this->_('Site') ?>" class="folder" border="0" src="<?php echo $this->path; ?>/images/icons/application.png"/>&nbsp;<?php echo $this->_('Site') ?></h1>
 	<table cellpadding="0" cellspacing="0" class="list">
 	<thead>
 		<tr>
@@ -29,10 +30,10 @@
 			</td>
 			<td align="right">
 				<a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'edit', 'ext' => 'phtml', 'id' => $site->id), 'ext', true); ?>">
-					<img width="16" height="18" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/pencil.png"/>
+					<img width="16" height="18" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/application_edit.png"/>
 				</a>
 				<a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'delete', 'ext' => 'phtml', 'id' => $site->id), 'ext', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Site ?')); ?>');">
-					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>
+					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/application_delete.png"/>
 				</a>
 			</td>
 		</tr>
