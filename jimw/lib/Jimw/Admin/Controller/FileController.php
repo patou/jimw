@@ -227,7 +227,7 @@ class FileController extends Jimw_Admin_Action {
 		return file_exists($thumb_path) ? $file : '';
 	}
 	
-	private function get_edit ( $file ) {
+	private function get_edit ($file) {
 		$ext = strtolower(preg_replace('/^.*\.([^\.]*)$/', '$1', $file));
 		if (in_array($ext, array('html', 'htm', 'phtml', 'xml', 'rhtml', 'rxml', 'rjs', 'rb', 'js', 'css', 'php', 'py', 'c', 'java', 'h', 'txt', 'sh', 'sql')))
 			return 'edit_area';

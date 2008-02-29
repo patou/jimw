@@ -1,3 +1,4 @@
+<h1><img width="16" height="18" border="0" title="<?php echo $this->_('Database') ?>" alt="<?php echo $this->_('Database') ?>" class="folder" border="0" src="<?php echo $this->path; ?>/images/icons/database.png"/>&nbsp;<?php echo $this->_('Database') ?></h1>
 <form action="<?php echo $this->url(array('controller' => 'database', 'action' => $this->form_type, 'ext' => 'phtml'), 'ext', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
 <input type="hidden" name="sub" value="1">
@@ -18,5 +19,6 @@
 </table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
-<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Return') ?></a>
+<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>">
+<img width="16" height="16" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_undo.png"/>&nbsp;<?php echo $this->_('Return'); ?></a>
 </p>
