@@ -1,0 +1,69 @@
+<?php foreach ($this->flashmessenger as $document) echo $document . '<br />'; ?>
+	<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th style="width:32px">&nbsp;</th>
+			<th style="width:230px"><?php echo $this->_('Title') ?></th>
+			<th style="width:150px"><?php echo $this->_('Date') ?></th>
+			<th style="width:200px"><?php echo $this->_('File') ?></th>
+			<th style="width:80px" align="right"><?php echo $this->_('Action') ?></th>
+		</tr>
+	</thead>
+	<?php
+		$item = 1;
+		$count = $this->documents_list->count();
+		foreach ($this->documents_list as $document): ?>
+		<tr>
+			<td>
+			<?php echo $this->escape($document->id); ?></td>
+			<td>
+			<a href="<?= $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => 'edit', 'id' => $document->id), 'ext'); ?>">
+			<?php echo $this->escape($document->title); ?>
+			</a>
+			</td>
+			<td>
+			<?php echo $this->escape($document->editiondate); ?>
+			</td>
+			<td>
+			<?php echo $this->escape($document->file); ?>
+			</td>
+			<td align="right">
+				<a href="<?php echo $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => 'edit', 'ext' => 'phtml', 'id' => $document->id), 'ext', true); ?>">
+					<img width="16" height="16" border="0" title="<?php echo $this->_('Edit'); ?>" alt="<?php echo $this->_('Edit'); ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/pencil.png"/>
+				</a>
+				<a href="<?php echo $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => 'delete', 'ext' => 'phtml', 'id' => $document->id), 'ext', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this document ?')); ?>');">
+					<img width="16" height="16" border="0" title="<?php echo $this->_('Delete'); ?>" alt="<?php echo $this->_('Delete'); ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>
+				</a>
+				<?php
+					if ($item > 1) {
+				?>
+					<a href="<?php echo $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => 'move', 'dir' => 'up', 'ext' => 'phtml', 'id' => $document->id), 'ext', true); ?>">
+					<img width="16" height="16" border="0" title="<?php echo $this->_('Move Up'); ?>" alt="<?php echo $this->_('Move Up'); ?>" class="folder" src="<? echo $this->path; ?>/images/icons/arrow_up.png" /></a>
+				<?php
+					}
+					else {
+				?>
+					<img src="<?php echo $this->path; ?>/images/px1.gif" width="16" height="16" alt="" border="0" class="folder" />
+				<?php
+					}
+					if ($item < $count) {
+				?>
+					<a href="<?php echo $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => 'move', 'dir' => 'down', 'ext' => 'phtml', 'id' => $document->id), 'ext', true); ?>">
+					<img width="16" height="16" alt="<?php echo $this->_('Move Down'); ?>" title="<?php echo $this->_('Move Down'); ?>" border="0" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_down.png" /></a>
+				<?php
+					}
+					else {
+				?>
+					<img src="<?php echo $this->path; ?>/images/px1.gif" width="16" height="16" alt="" border="0" class="folder" />
+				<?php
+					}
+					$item++;
+				?>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
+<br />
+<a href="<?php echo $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => 'add', 'id' => $this->id, 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Add'); ?></a>
+<hr />
+<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Return'); ?></a>
