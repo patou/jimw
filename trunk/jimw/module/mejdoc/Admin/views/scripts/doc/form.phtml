@@ -1,0 +1,36 @@
+<script type="text/javascript" src="<?= $this->path ?>/fckeditor.js"></script>
+<form enctype="multipart/form-data" action="<?php echo $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => $this->form_type, 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
+<input type="hidden" name="id" value="<?= $this->id ?>" />
+<input type="hidden" name="treeid" value="<?= $this->document->tree_id ?>" />
+<table border="0" width="90%">
+<? if (!empty($this->id)): ?>
+<tr><td class="t01"><?php echo $this->_('Id'); ?> :</td><td class="t01"><?= $this->id ?></td></tr>
+<? endif; ?>
+<tr><td class="t01"><?= $this->formLabel('title', $this->_('Title')); ?> : </td><td><?= $this->formText('title', $this->document->title, array('size' => 60)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('editiondate', $this->_('Modified on')); ?> : </td><td><?= $this->formText('editiondate', $this->document->editiondate, array('size' => 30)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('publishdate', $this->_('Published on')); ?> : </td><td><?= $this->formText('publishdate', $this->document->publishdate, array('size' => 30)); ?></td></tr>
+<? if ($this->document->file == ''): ?>
+<tr><td class="t01"><?= $this->formLabel('file', $this->_('File')); ?> : </td><td><input type="file" name="file" /></td></tr>
+<? else: ?>
+<tr><td class="t01"><?= $this->formLabel('file', $this->_('File')); ?> : </td>
+<td><?= $this->document->file ?> &nbsp; 
+<a href="<?= $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => 'deletefile', 'id' => $this->document->id), 'ext') ?>" onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this file ?')); ?>');">
+<img width="16" height="16" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/></td></tr>
+<? endif; ?>
+<tr><td class="t01"><?= $this->formLabel('comment', $this->_('Description')); ?> : </td><td><?= $this->formTextarea('comment', $this->document->comment, array('rows' => 20, 'cols' => 60)); ?></td></tr>
+<tr><td colspan="2" align="center"><?= $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td></tr>
+</table></form>
+<br/>
+<p class="t01" style="font-size: 12px;">
+	<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'edit', 'id' => $this->document->tree_id), 'ext'); ?>"><?php echo $this->_('Return') ?></a>
+</p>
+<script type="text/javascript">
+      window.onload = function()
+      {
+        var oFCKeditor = new FCKeditor( 'comment' ) ;
+        oFCKeditor.BasePath = "<?= $this->path ?>/" ;
+        oFCKeditor.Width = 600;
+		oFCKeditor.Height = 300;
+        oFCKeditor.ReplaceTextarea() ;
+      }
+</script>
