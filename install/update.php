@@ -190,10 +190,10 @@ foreach ($databases as $database) {
 		$module_name = $module['module_path'];
 		$module_dir = JIMW_REP_MODULE . '/' . $module_name . '/install/sql/' . get_database_type($database['database_type']) . '/';
 		if (file_exists($module_dir)) {
-			echo "<br />-- Update database for module {$module['module_name']}--<br />";
+			echo "<br />-- Update database for module {$module_name}--<br />";
 			$module_version = (isset($local_version[$module_name])) ? $local_version[$module_name] : DEFAULT_VERSION;				
 			install_version($module_name, $module_dir, $module_version, $db, $prefix);
-			echo "<br />-- End Update database for module {$module->module_name}--<br />";
+			echo "<br />-- End Update database for module {$module_name}--<br />";
 		}
 	}
 	
