@@ -15,7 +15,7 @@ class Jimw_Admin_Dispatch extends Zend_Controller_Dispatcher_Standard
      * Default Extention
      * @var string
      */
-    protected $_defaultExt = 'ajax';
+    protected $_defaultExt = 'phtml';
 	
 	/**
 	 * @return string

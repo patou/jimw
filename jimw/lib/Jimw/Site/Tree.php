@@ -254,6 +254,8 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 		if (empty($data['tree_editiondate'])) {
 			$data['tree_editiondate'] = new Zend_Db_Expr('NOW()');;
 		}
+		/*unset($data['tree_lft']);
+		unset($data['tree_rgt']);*/
 		return parent::insert($data);
 	}
 
