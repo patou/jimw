@@ -4,6 +4,7 @@
  *
  */
 class Jimw_Debug extends Zend_Debug {
+	static public $output = '';
 	public static function initDebug ()
 	{
 		$errorhandler = array (
@@ -11,9 +12,22 @@ class Jimw_Debug extends Zend_Debug {
 			'errorHandlerCallback'
 		);
 		
+		$displayEnd = array(
+			new Jimw_Debug (),
+			'displayEnd'
+		);
+		
+		register_shutdown_function($displayEnd);
 		//set_error_handler($errorhandler);
 	}
 
+	/**
+	 * 
+	 * 
+	 */
+	public function displayEnd() {
+		echo self::$output;
+	}
 		/**
 	 * callback method for PHP errorhandling
 	 * 
@@ -97,17 +111,7 @@ class Jimw_Debug extends Zend_Debug {
 			$output .= '</div></div>' . "\n";
 		}
 		if ($echo) {
-			$flush = false;
-			if (ob_get_level()) {
-				$flush = true;
-				$content = ob_get_contents();
-				ob_clean();
-			}
-            echo($output);
-            if ($flush) {
-            	ob_flush();
-            	echo $content;
-            }
+			self::$output .= $output;
         }
         return $output;
 	}

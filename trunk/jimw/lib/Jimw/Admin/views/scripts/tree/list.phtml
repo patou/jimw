@@ -2,23 +2,39 @@
 $path = $this->path;
 
 $baseurl = $this->request->getBaseUrl();
-function list_tree($list, $view, $path, $baseurl) {
+function module_name($module_id) {
+	static $_list = null;
+	if ($_list === null) {
+		$module = new Jimw_Site_Module();
+		$modules = $module->fetchAll();
+		foreach ($modules as $mod) {
+			$_list[$mod->id] = $mod->path;
+		}
+	}
+	return (isset($_list[$module_id])) ? $_list[$module_id] : '';
+}
+
+function list_tree($list, $view, $path, $baseurl, $prof = 0) {
 
 ?>
-<ul style='list-style:none; margin-left: 15px; padding:0;'>
 <?php
 	$item = 0;
 	$length = count($list);
 	foreach ($list as $tree):
 		?>
-		<li>
-			<img src="<?= $path ?>/images/dot_g.gif" width="5" height="5" alt="" border="0" class="absmiddle"> <?= $tree->order?>)
-				<?= $tree->menutitle?> ( <?= $tree->alias?> : <?= $tree->id?>)
-				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>">
-				<img src="<?= $path ?>/images/edit.gif" width="16" height="16" alt="<?php echo $view->_('Edit'); ?>" title="<?php echo $view->_('Edit'); ?>" border="0" class="absmiddle" /></a> -
+		<tr>
+			 <td><?= $tree->id?></td>
+				<td style="padding-left: <?= $prof * 16 ?>px;">
+				<img src="<?= $path ?>/images/icons/module/<?php
+				$module = module_name($tree->module_id);
+				echo (is_readable('./public/images/icons/module/' . $module . '.png')) ? $module : 'article';
+				?>.png" width="16" height="16" alt="" border="0"/>
+				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>" class="no_decoration"><?= $tree->menutitle?></a>
+				&nbsp;(<a href="/<?= trim(trim(str_replace('admin', '/', $view->baseUrl), '/') . $tree->alias, '/')?>/" target="_new" class="no_decoration"><?= $tree->alias?></a> : <?= $tree->lft?> : <?= $tree->rgt?>)</td>
+				<td align="right"><a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>">
+				<img src="<?= $path ?>/images/icons/page_white_edit.png" width="16" height="16" alt="<?php echo $view->_('Edit'); ?>" title="<?php echo $view->_('Edit'); ?>" border="0" class="absmiddle" /></a>
 				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>" onclick="return confirm('<?php echo $view->escape($view->_('Do you really want to delete this Page ?')); ?>');">
-				<img src="<?= $path ?>/images/delete.gif" width="16" height="16" alt="<?php echo $view->_('Delete'); ?>" title="<?php echo $view->_('Delete'); ?>" border="0" class="absmiddle" /></a>
-
+				<img src="<?= $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="<?php echo $view->_('Delete'); ?>" title="<?php echo $view->_('Delete'); ?>" border="0" class="absmiddle" /></a>
 				<?php
 					if ($item > 0) {
 				?>
@@ -44,17 +60,17 @@ function list_tree($list, $view, $path, $baseurl) {
 					}
 					$item++;
 				?>
-				</li>
+				</td>
+		</tr>
 		<?php
 		if ($tree->hasChildren ()) {
-			list_tree($tree->getChildren (), $view, $path, $baseurl);
+			list_tree($tree->getChildren (), $view, $path, $baseurl, $prof + 1);
 		}
 		?>
 
 		<?php
-	endforeach;
-?>
-</ul>
+		endforeach;
+		?>
 <?php
 }
 ?>
@@ -63,8 +79,17 @@ function list_tree($list, $view, $path, $baseurl) {
 foreach ($this->flashmessenger as $message)
 echo $message . '<br />'; ?>
 <p class="list">
+<table width="100%" cellspacing="0" cellpadding="0" class="list">
+<thead>
+<tr><th width="20px"><img src="<?php echo $this->path ?>/images/icons/page_white_stack.png" /></th><th width="80%"><?= $this->_('Pages') ?></th><th align="right"><?= $this->_('Action') ?></th></th>
+</thead>
+<tbody>
 <?php
 list_tree($this->list_tree, $this, $path, $baseurl);
 ?>
+</tbody>
+</table>
 </p>
+<hr />
+<br />
 <p class="t01"><a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Add new Page') ?></a></p>
