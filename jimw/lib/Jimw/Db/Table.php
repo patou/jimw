@@ -67,14 +67,23 @@ class Jimw_Db_Table extends Zend_Db_Table
     }
 
     /**
-     * Get the real table name without the prefix
+     * Get the table name without the prefix
      *
      * @return string
      */
     public function getTableName () {
     	return $this->_tableName;
     }
-
+    
+    /**
+     * Get the real table name with the prefix
+     *
+     * @return string
+     */
+    public function getRealTableName () {
+    	return $this->_name;
+    }
+    
     /**
      * Transform a column name from the user-specified form
      * to the physical form used in the database.
