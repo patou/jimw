@@ -85,7 +85,7 @@ ImageChooser.prototype = {
 			});
 			
 			this.treeloader = new Ext.tree.TreeLoader({
-				dataUrl: basename + '/file/get'
+				dataUrl: basename + '/file/get.ajax'
 			});
 			this.treeloader.baseParams.cmd = 'get';
 			this.treeloader.baseParams.folder = 1;
