@@ -75,7 +75,11 @@ class Jimw_Site_View_Helper_Menu
 	{
 		$html = '<ul' . ((isset($option['ulClassName']))? ' class="' . $option['ulClassName'] . '">' : '>');
 		foreach ($menu as $menuitem) {
-			$html .= '<li' . ((isset($option['ulClassName']))? ' class="' . $option['ulClassName'] . '">' : '>');
+			$liClass = '';
+			if (isset($option['liCurrentClassName']) && $menuitem->getActive ()) {
+				$liClass = ' ' . $option['liCurrentClassName'];
+			}
+			$html .= '<li' . ((isset($option['ulClassName']))? ' class="' . $option['ulClassName'] . $liClass . '">' : '>');
 			$aClass = (isset($option['aClassName'])) ? $option['aClassName'] : '';
 			if (isset($option['currentClassName']) && $menuitem->getActive ()) {
 				$aClass .= ' ' . $option['currentClassName'];
