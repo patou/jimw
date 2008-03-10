@@ -1,0 +1,18 @@
+<?php if(!empty($this->message)) :?>
+	<div id="message">
+		<?php echo $this->escape($this->message);?>
+	</div>
+<?php endif; ?>
+<form action="<?php echo $this->url(array('controller' => 'auth', 'action' => 'login', 'ext' => 'phtml'), 'ext', true); ?>" method="post">
+<div>
+	<?php echo $this->formLabel('login', $this->_('UserName')); ?> :
+	<?php echo $this->formText('login', ''); ?>
+</div>
+<div>
+	<?php echo $this->formLabel('password', $this->_('Password')); ?> :
+	<?php echo $this->formPassword('password', ''); ?>
+</div>
+<div id="formbutton">
+	<?php echo $this->formSubmit('btn', $this->_('Login')); ?>
+</div>
+</form>

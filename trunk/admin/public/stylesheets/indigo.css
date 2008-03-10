@@ -27,7 +27,6 @@ a.no_decoration:hover {
 	color: #466;
 }
 body {
-	background: #0094D6 url(../images/bg.gif) repeat-x;
 	color: #466;
 	font: normal 62.5% "Lucida Sans Unicode",sans-serif;
 	margin: 0;
@@ -77,11 +76,38 @@ hr {
 }
 
 /* structure */
+.toolbar {
+	background-color:threedface;
+	border-bottom:1px solid threedshadow;
+	border-top:1px solid threedhighlight;
+	color:buttontext;
+	font-family:"Microsoft sans serif",sans-serif,Arial,Helvetica;
+	font-size:11px;
+	height:21px;
+	left:0px;
+	margin:0pt;
+	position:fixed;
+	text-align:left;
+	top:0px;
+	width:100%;
+	z-index:99;
+}
+
+.toolbar_left {
+	float: left;
+}
+
+.toolbar_right {
+	float: right;
+}
+
 .container {
-	background: url(../images/topleft.png) no-repeat;
+	margin-top: 23px;
+	background: #0094D6 url(../images/bg.gif) repeat-x;	
 }
 
 .header {
+	background: url(../images/topleft.png) no-repeat;
 	height: 92px;
 }
 
@@ -114,6 +140,7 @@ hr {
 	background-color: #4A91C3;
 	color: #FFF;
 }
+
 
 /* main */
 .main {
