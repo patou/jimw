@@ -78,13 +78,13 @@ Rged.prototype =  {
 	this.tree = new Ext.ux.FileTreePanel({
         el: 'tree'
 		, animate: true
-		, dataUrl: basename + '/file/get'
-        , renameUrl: basename + '/file/rename'
-        , deleteUrl: basename + '/file/delete'
-        , downloadUrl: basename + '/file/download'
+		, dataUrl: basename + '/file/get.ajax'
+        , renameUrl: basename + '/file/rename.ajax'
+        , deleteUrl: basename + '/file/delete.ajax'
+        , downloadUrl: basename + '/file/download.ajax'
         , downloadText: 'Download'
-        , newdirUrl: basename + '/file/newdir'
-        , uploadUrl: basename + '/file/upload'
+        , newdirUrl: basename + '/file/newdir.ajax'
+        , uploadUrl: basename + '/file/upload.ajax'
         , iconPath: path + '/images/icons/'
 		, readOnly: false
 		, containerScroll: true
@@ -110,7 +110,7 @@ Rged.prototype =  {
 			, maxPgErrors: 10
 			, interval: 1000
 			, options: {
-				url: basename + '/file/upload'
+				url: basename + '/file/upload.ajax'
 				, method: 'post'
 			}
 		}
@@ -307,7 +307,7 @@ Rged.prototype =  {
     init_grid: function () {
             // Grid Data Store
         this.ds = new Ext.data.Store({
-            proxy: new Ext.data.HttpProxy({url: basename + '/file/list'}),
+            proxy: new Ext.data.HttpProxy({url: basename + '/file/list.ajax'}),
             reader: new Ext.data.JsonReader({
                 root: 'Files',
                 totalProperty: 'FilesCount',
