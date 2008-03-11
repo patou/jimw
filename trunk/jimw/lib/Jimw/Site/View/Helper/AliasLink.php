@@ -32,7 +32,7 @@ class Jimw_Site_View_Helper_AliasLink
         }
 
         // With text
-        $count = preg_match_all('/\[\[([^\[\]\s]+)\s([^\[\]]+)\]\]/', $text, $matches);
+        $count = preg_match_all('/\[\[([^\[\]\s\|]+)[\s\|]([^\[\]]+)\]\]/', $text, $matches);
         for ($i=0; $i<$count; $i++) {
         	//$url = $urlHelper->url(array('alias' => $matches[1][$i]), 'alias', true);
 			$page = $tree->fetchRow(array('tree_alias = ?' => $matches[1][$i]));
