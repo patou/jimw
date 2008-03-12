@@ -14,9 +14,9 @@ class Jimw_Version
 	/** @var string Product */
 	public $product = 'JIMW';
 	/** @var string Product long */
-	public $product_long = 'Just Immagine My Website';
+	public $product_long = 'Just Imagine My Website';
 	/** @var string Compagny name */
-	public $company = 'JesusWay.fr';
+	public $company = 'JIMW.fr';
 	/** @var int Major version number */
 	public $major_version = 2;
 	/** @var int Minor version number */
@@ -53,7 +53,7 @@ class Jimw_Version
 	 */
 	public function getCopyright()
 	{
-		return 'Copyright (C) 2006 ' . $this->company . '. All rights Reserved.';
+		return 'Copyright (C) 2008 ' . $this->company . '. All rights reserved.';
 	}
 	
 	/**

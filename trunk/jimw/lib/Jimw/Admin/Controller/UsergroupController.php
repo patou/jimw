@@ -5,7 +5,7 @@
  * @author	   Patou
  * @category   Jimw_Admin
  * @package    Jimw
- * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @copyright  Copyright (c) 2006-2008 jimw.fr
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
@@ -31,7 +31,7 @@ class UsergroupController extends Jimw_Admin_Action
 		$usergroup = $sites->find($id);
 		if (!$usergroup->exists()) {
 			Jimw_Debug::dump($usergroup);
-			throw new Jimw_Admin_Exception("The usergroup $id didn't exist");
+			throw new Jimw_Admin_Exception("The usergroup $id doesn't exist");
 		}
 		$usergroup = $usergroup->current();
 		$this->view->usergroup = $usergroup;
@@ -79,7 +79,7 @@ class UsergroupController extends Jimw_Admin_Action
 		$usergroups = new Jimw_Site_Usergroup();
 		$usergroup = $usergroups->find($id);
 		if (!$usergroup->exists()) {
-			throw new Jimw_Admin_Exception("The site $id didn't exist");
+			throw new Jimw_Admin_Exception("The usergroup $id doesn't exist");
 		}
 		$usergroup = $usergroup->current();
 		$url = $usergroup->id;

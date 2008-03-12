@@ -19,7 +19,7 @@ class ErrorController extends Jimw_Admin_Action {
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
                 // 404 error -- controller or action not found
-                $this->view->message = $this->_("This page didn't exist");
+                $this->view->message = $this->_("This page doesn't exist");
 				$render = '404';
                 // ... get some output to display...
                 break;

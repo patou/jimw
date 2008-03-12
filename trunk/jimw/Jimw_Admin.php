@@ -44,19 +44,25 @@ if (! defined('JIMW_REP')) {
     else
         define('JIMW_REP', '../');
 }
-// Load Global Configuration fileif (file_exists(JIMW_REP . 'config/global.php'))
-    include (JIMW_REP . 'config/global.php'); 
+// Load Global Configuration file
+if (file_exists(JIMW_REP . 'config/global.local.php'))
+    include (JIMW_REP . 'config/global.local.php'); 
+if (file_exists(JIMW_REP . 'config/global.default.php'))
+    include (JIMW_REP . 'config/global.default.php'); 
 else {
-    /** Module directory */
-    define('JIMW_REP_MODULE', JIMW_REP . 'module/');
-    /** Lib directory */
-    define('JIMW_REP_LIB', JIMW_REP . 'lib/');
+	/** JIWM lang */
+	if (!defined('JIMW_LANG')) define('JIMW_LANG', 'en');
+	/** Module directory */
+	if (!defined('JIMW_REP_MODULE')) define('JIMW_REP_MODULE', JIMW_REP . 'module/');
+	/** Lib directory */
+	if (!defined('JIMW_REP_LIB')) define('JIMW_REP_LIB', JIMW_REP . 'lib/');
 }
 if (! defined('JIMW_DEBUG_MODE'))
     define('JIMW_DEBUG_MODE', false);
 else
     error_reporting(E_ALL | E_STRICT);
-    // Autoload initialisationset_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
+    // Autoload initialisation
+set_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
 require_once ('Zend/Loader.php');
 spl_autoload_register(array('Zend_Loader' , 'autoload'));
 if (JIMW_DEBUG_MODE) {
@@ -64,14 +70,19 @@ if (JIMW_DEBUG_MODE) {
 }
 // Session
 $session = new Zend_Session_Namespace('Admin');
-// Global configurationif (isset($jimw_config_db))
+// Global configuration
+if (isset($jimw_config_db))
     Zend_Registry::set('config_db', $jimw_config_db); 
 else
     Zend_Registry::set('config_db', array('type' => 'PDO_SQLITE' , 'dbname' => JIMW_REP . 'config/config.db'));
-    // Call the Global Controlertry {
+    // Call the Global Controler
+try {
     $controler = new Jimw_Admin_Controller();
     $controler->run();
-    //Zend_Debug::dump($frontcontroller);//Zend_Debug::dump($controler->getRequest(), 'Request : ');} // Display exceptionscatch (Exception $e) {
+    //Zend_Debug::dump($frontcontroller);
+//Zend_Debug::dump($controler->getRequest(), 'Request : ');
+} // Display exceptions
+catch (Exception $e) {
     Jimw_Debug::display_exception($e);
 }
 if (JIMW_DEBUG_MODE) {

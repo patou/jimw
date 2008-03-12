@@ -5,7 +5,7 @@
  * @author	   Patou
  * @category   Jimw_Admin
  * @package    Jimw
- * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @copyright  Copyright (c) 2006-2008 jimw.fr
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
@@ -31,7 +31,7 @@ class UserController extends Jimw_Admin_Action
 		$user = $users->find($id);
 		if (!$user->exists()) {
 			Jimw_Debug::dump($user);
-			throw new Jimw_Admin_Exception("The user $id didn't exist");
+			throw new Jimw_Admin_Exception("The user $id doesn't exist");
 		}
 		$user = $user->current();
 		$this->view->user = $user;
@@ -87,7 +87,7 @@ class UserController extends Jimw_Admin_Action
 		$users = new Jimw_Site_User();
 		$user = $users->find($id);
 		if (!$user->exists()) {
-			throw new Jimw_Admin_Exception("The site $id didn't exist");
+			throw new Jimw_Admin_Exception("The site $id doesn't exist");
 		}
 		$user = $user->current();
 		$url = $user->login;

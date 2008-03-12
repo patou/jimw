@@ -5,7 +5,7 @@
  * @author	   Patou
  * @category   Jimw_Core
  * @package    Jimw
- * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @copyright  Copyright (c) 2006-2008 jimw.fr
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
@@ -69,15 +69,15 @@ class Jimw_Admin_Controller
 	}
 
 	public function initTranslate () {
-		include (JIMW_REP . '/lang/fr/common.php');
-		$trans = new Zend_Translate('array', $lang, 'fr');
+		include (JIMW_REP_LANG . JIMW_LANG . '/common.php');
+		$trans = new Zend_Translate('array', $lang, JIMW_LANG);
 		return $trans;
 	}
 
 	public function initView() {
 		$view = new Jimw_Site_View();
 		$view->addBasePath(JIMW_REP_LIB . 'Jimw/Admin/views/', 'Jimw_Admin_View');
-		$view->addScriptPath('./public/');
+		$view->addScriptPath(JIMW_REP_PUBLIC);
 		$view->setTranslate ($this->initTranslate());
 		$viewRenderer = new Jimw_Site_View_ViewRenderer();
 		$viewRenderer->setView($view);
@@ -132,7 +132,7 @@ class Jimw_Admin_Controller
 		$this->request = $this->router->route($this->request);
 		$this->initView();
 		$this->frontcontroller = Zend_Controller_Front::getInstance();
-		$this->frontcontroller->setBaseUrl('/admin');
+		$this->frontcontroller->setBaseUrl(JIMW_URL_ADMIN_PATH);
 		$router = $this->frontcontroller->getRouter();
 //		$this->frontcontroller->throwExceptions(true);
 		$this->frontcontroller->setRequest($this->request);
