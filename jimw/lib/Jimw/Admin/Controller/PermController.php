@@ -5,7 +5,7 @@
  * @author	   Patou
  * @category   Jimw_Admin
  * @package    Jimw
- * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @copyright  Copyright (c) 2006-2008 jimw.fr
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
@@ -92,7 +92,7 @@ class PermController extends Jimw_Admin_Action
 		$perms = new Jimw_Site_Perm();
 		$perm = $perms->find($id);
 		if (!$perm->exists()) {
-			throw new Jimw_Admin_Exception("The site $id didn't exist");
+			throw new Jimw_Admin_Exception("The site $id doesn't exist");
 		}
 		$perm = $perm->current();
 		if ($perm->type == 1) {

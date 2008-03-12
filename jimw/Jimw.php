@@ -45,15 +45,19 @@ if (!defined('JIMW_REP'))
 	  define('JIMW_REP', JIMW_ROOT);
 
 // Load Global Configuration file
-if (file_exists(JIMW_REP. 'config/global.php'))
-	include(JIMW_REP. 'config/global.php');
+if (file_exists(JIMW_REP. 'config/global.local.php'))
+	include(JIMW_REP. 'config/global.local.php');
+if (file_exists(JIMW_REP. 'config/global.default.php'))
+	include(JIMW_REP. 'config/global.default.php');
 else {
+	/** JIWM lang */
+	if (!defined('JIMW_LANG')) define('JIMW_LANG', 'en');
 	/** Module directory */
-	define('JIMW_REP_MODULE', JIMW_REP . 'module/');
+	if (!defined('JIMW_REP_MODULE')) define('JIMW_REP_MODULE', JIMW_REP . 'module/');
 	/** Lib directory */
-	define('JIMW_REP_LIB', JIMW_REP . 'lib/');
+	if (!defined('JIMW_REP_LIB')) define('JIMW_REP_LIB', JIMW_REP . 'lib/');
 	/** Cache directory */
-	define('JIMW_CACHE_LIB', './cache/');
+	if (!defined('JIMW_REP_CACHE')) define('JIMW_REP_CACHE', './cache/');
 }
 if (!defined('JIMW_DEBUG_MODE'))
 define('JIMW_DEBUG_MODE', false);

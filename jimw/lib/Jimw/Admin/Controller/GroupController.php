@@ -5,7 +5,7 @@
  * @author	   Patou
  * @category   Jimw_Admin
  * @package    Jimw
- * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @copyright  Copyright (c) 2006-2008 jimw.fr
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
@@ -31,7 +31,7 @@ class GroupController extends Jimw_Admin_Action
 		$group = $sites->find($id);
 		if (!$group->exists()) {
 			Jimw_Debug::dump($group);
-			throw new Jimw_Admin_Exception("The group $id didn't exist");
+			throw new Jimw_Admin_Exception("The group $id doesn't exist");
 		}
 		$group = $group->current();
 		if ($group->type == 1) {
@@ -83,7 +83,7 @@ class GroupController extends Jimw_Admin_Action
 		$groups = new Jimw_Site_Group();
 		$group = $groups->find($id);
 		if (!$group->exists()) {
-			throw new Jimw_Admin_Exception("The site $id didn't exist");
+			throw new Jimw_Admin_Exception("The site $id doesn't exist");
 		}
 		$group = $group->current();
 		if ($group->type == 1) {

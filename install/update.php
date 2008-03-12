@@ -14,8 +14,10 @@ define('JIMW_REP', '../jimw/');
 // Configuration
 define('DEFAULT_VERSION', 1);
 // End Configuration
-if (file_exists(JIMW_REP. 'config/global.php'))
-include(JIMW_REP. 'config/global.php');
+if (file_exists(JIMW_REP. 'config/global.local.php'))
+    include(JIMW_REP. 'config/global.local.php');
+if (file_exists(JIMW_REP. 'config/global.default.php'))
+    include(JIMW_REP. 'config/global.default.php');
 else {
 	/** Module directory */
 	define('JIMW_REP_MODULE', JIMW_REP . 'module/');
@@ -144,7 +146,7 @@ function install_version ($module, $path, $cur_version = 0, Zend_Db_Adapter_Abst
 	$list = get_version_list($module, $path);
 	$version = $cur_version;
 	for (; isset($list[$version]); $version++) {
-		echo "Install Version $version ... ";
+		echo "Install version $version ... ";
 		if (install_sql ($list[$version], $db, $prefix))
 			echo "<font color=green>OK</font><br />";
 		else
@@ -162,9 +164,9 @@ $version = get_schema_version($db_global);
 $dir = './sql/' . get_database_type($jimw_config_db['type']) . '/';
 echo "<br />--- Update global database ---<br />";
 install_version('global', $dir, $version['global'], $db_global);
-echo "<br />--- End Update global database ---<br />";
+echo "<br />--- End update global database ---<br />";
 
-echo "<br />--- Update All databases ---<br />";
+echo "<br />--- Update all databases ---<br />";
 $select = $db_global->select();
 $select->from('jimw_database');
 $databases = $db_global->fetchAll($select);
@@ -193,11 +195,11 @@ foreach ($databases as $database) {
 			echo "<br />-- Update database for module {$module_name}--<br />";
 			$module_version = (isset($local_version[$module_name])) ? $local_version[$module_name] : DEFAULT_VERSION;				
 			install_version($module_name, $module_dir, $module_version, $db, $prefix);
-			echo "<br />-- End Update database for module {$module_name}--<br />";
+			echo "<br />-- End update database for module {$module_name}--<br />";
 		}
 	}
 	
-	echo "<br />-- End Update database {$database['database_id']}--";
+	echo "<br />-- End update database {$database['database_id']}--";
 	if (JIMW_DEBUG_MODE) {
 		$debug .= "<hr />Database {$database['database_id']} : <br />";
 		if ($db) {
@@ -223,9 +225,9 @@ foreach ($databases as $database) {
 		}
 	}
 }
-echo "<br />--- End Update All databases ---<br />";
+echo "<br />--- End update all databases ---<br />";
 if (JIMW_DEBUG_MODE) {
-	echo "<hr />Debug Mode : <br />", $debug, "<br /> Global Database : <br />";
+	echo "<hr />Debug mode : <br />", $debug, "<br />Global Database : <br />";
 	if ($db_global) {
 		$profiler = $db_global->getProfiler ();
 		$totalTime    = $profiler->getTotalElapsedSecs();

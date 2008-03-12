@@ -5,7 +5,7 @@
  * @author	   Patou
  * @category   Jimw_Admin
  * @package    Jimw
- * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @copyright  Copyright (c) 2006-2008 jimw.fr
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
@@ -31,7 +31,7 @@ class DatabaseController extends Jimw_Admin_Action
 		$result = $databases->find($id);
 		if (!$result->exists()) {
 			Jimw_Debug::dump($result);
-			throw new Jimw_Admin_Exception("The Database $id didn't exist");
+			throw new Jimw_Admin_Exception("The database $id doesn't exist");
 		}
 		$result = $result->current();
 		$this->view->database = $result;
@@ -91,7 +91,7 @@ class DatabaseController extends Jimw_Admin_Action
 		$databases = new Jimw_Global_Database();
 		$database = $databases->find($id);
 		if (!$database->exists()) {
-			throw new Jimw_Admin_Exception("The database $id didn't exist");
+			throw new Jimw_Admin_Exception("The database $id doesn't exist");
 		}
 		$database = $database->current();
 		$url = $database->id;

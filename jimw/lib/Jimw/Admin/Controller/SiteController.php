@@ -31,7 +31,7 @@ class SiteController extends Jimw_Admin_Action
 		$result = $sites->find($id);
 		if (!$result->exists()) {
 			Jimw_Debug::dump($result);
-			throw new Jimw_Admin_Exception("The Site $id didn't exist");
+			throw new Jimw_Admin_Exception("The site $id doesn't exist");
 		}
 		$result = $result->current();
 		$this->view->site = $result;
@@ -85,7 +85,7 @@ class SiteController extends Jimw_Admin_Action
 		$sites = new Jimw_Site_Site();
 		$site = $sites->find($id);
 		if (!$site->exists()) {
-			throw new Jimw_Admin_Exception("The site $id didn't exist");
+			throw new Jimw_Admin_Exception("The site $id doesn't exist");
 		}
 		$site = $site->current();
 		$url = $site->id;

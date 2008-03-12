@@ -82,8 +82,15 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
         if ($path != '') {
 
             $path = explode(self::URI_DELIMITER, $path);
+            
+            /*if ($path[0] == JIMW_URL_MODULE_PATH) {
+                array_shift($path);
+            } else {
+                return false;
+            }*/
 			
-            if ($this->_dispatcher && $this->_dispatcher->isValidModule($path[0])) {
+            if ($this->_dispatcher && $path[0] == JIMW_URL_MODULE_PATH && $this->_dispatcher->isValidModule($path[1])) {
+                array_shift($path);
                 $values[$this->_moduleKey] = array_shift($path);
                 $this->_moduleValid = true;
             }
@@ -174,7 +181,11 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
 
         if (isset($module)) {        
             $url = self::URI_DELIMITER . $module . $url;
+            if ($module != JIMW_URL_DEFAULT_PATH) {
+		       $url = self::URI_DELIMITER . JIMW_URL_MODULE_PATH . $url;
+		    }
         }
+        
 		
         $url = rtrim($url, self::URI_DELIMITER);
         

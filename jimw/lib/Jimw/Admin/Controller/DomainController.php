@@ -32,7 +32,7 @@ class DomainController extends Jimw_Admin_Action
 		$result = $domains->find($id);
 		if (!$result->exists()) {
 			Jimw_Debug::dump($result);
-			throw new Jimw_Admin_Exception("The Domain $id didn't exist");
+			throw new Jimw_Admin_Exception("The domain $id doesn't exist");
 		}
 		$result = $result->current();
 		$this->view->domain = $result;
@@ -94,7 +94,7 @@ class DomainController extends Jimw_Admin_Action
 		$domains = new Jimw_Site_Domain();
 		$domain = $domains->find($id);
 		if (!$domain->exists()) {
-			throw new Jimw_Admin_Exception("The domain $id didn't exist");
+			throw new Jimw_Admin_Exception("The domain $id doesn't exist");
 		}
 		$domain = $domain->current();
 		$url = $domain->__toString();

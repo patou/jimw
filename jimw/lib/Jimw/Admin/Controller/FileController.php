@@ -42,7 +42,7 @@ class FileController extends Jimw_Admin_Action {
 		if (empty($dir))
 			$dir = '/'; 
 		$path = $this->get_dir($dir);
-		date_default_timezone_set('Europe/Paris');
+		date_default_timezone_set(JIMW_TIMEZONE);
 		$d = new DirectoryIterator($path);
 		$files['Files'] = array ();
 		foreach ($d as $file) {
@@ -70,7 +70,7 @@ class FileController extends Jimw_Admin_Action {
 		$dir = $this->getRequest()->path;
 		$folder = isset($this->getRequest()->folder) ? true : false;
 		$path = $this->get_dir($dir);
-		date_default_timezone_set('Europe/Paris');
+		date_default_timezone_set(JIMW_TIMEZONE);
 		$d = new DirectoryIterator($path);
 		$files = array ();
 		foreach ($d as $file) {
@@ -96,11 +96,11 @@ class FileController extends Jimw_Admin_Action {
 				$this->view->files = array('success' => true);	
 			}		
 			else {
-				$this->view->files = array('success' => false, 'error' => "the file $file can't be deleted");
-			}			
+				$this->view->files = array('success' => false, 'error' => "The file $file can't be deleted");
+			}
 		}
 		else {
-			$this->view->files = array('success' => false, 'error' => "the file $file didn't exist");
+			$this->view->files = array('success' => false, 'error' => "The file $file doesn't exist");
 		}
 		$this->view->file_path = substr($this->getRequest()->file, 0, strrpos($this->getRequest()->file, '/'));
 		$this->render('list');
@@ -113,7 +113,7 @@ class FileController extends Jimw_Admin_Action {
 			$this->view->files = array('success' => true);		
 		}
 		else {
-			$this->view->files = array('success' => false, 'error' => "the file $oldname can't be renamed to $newname");
+			$this->view->files = array('success' => false, 'error' => "The file $oldname can't be renamed to $newname");
 		}
 		$this->view->file_path = (!is_dir($oldname)) ? substr($this->getRequest()->oldname, 0, strrpos($this->getRequest()->oldname, '/')) : $this->getRequest()->oldname;
 		$this->render('list');
@@ -122,7 +122,7 @@ class FileController extends Jimw_Admin_Action {
 	public function newdirAction () {
 		$dir = $this->get_dir($this->getRequest()->dir);
 		if (!@mkdir($dir, 0755, true))
-			$this->view->files = array('success' => false, 'error' => "the directory $dir can't be create");
+			$this->view->files = array('success' => false, 'error' => "The directory $dir can't be created");
 		else
 			$this->view->files = array('success' => true);
 		$this->view->file_path = (!is_dir($dir)) ? substr($this->getRequest()->dir, 0, strrpos($this->getRequest()->dir, '/')) : $this->getRequest()->dir;

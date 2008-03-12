@@ -30,11 +30,10 @@
 		</div>
 
 		<div class="navigation">
-			<a href="<?= $this->url(array('controller' => 'index', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Intro'); ?>
-			</a>
+			<a href="<?= $this->url(array('controller' => 'index', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Intro'); ?></a>
 			<a href="<?= $this->url(array('controller' => 'tree', 'action' => 'list', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Pages'); ?></a>
 			<a href="<?= $this->url(array('controller' => 'file', 'action' => 'index', 'ext' => 'ajax'), 'ext', true) ?>"><?= $this->_('Files'); ?></a>
-			<a href="<?= $this->url(array('controller' => 'user', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('User'); ?></a>
+			<a href="<?= $this->url(array('controller' => 'user', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Users'); ?></a>
 			<a href="<?= $this->url(array('controller' => 'system', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('System'); ?></a>
 			<div class="clearer"><span></span></div>
 		</div>
@@ -69,9 +68,9 @@
 
 </div>
 
-<div class="footer">&copy; 2006-2007 <a href="http://www.jimw.fr">JIMW</a> / 
-<a href="http://www.logisim.com" target="_blank">Simon LEPRINCE</a> / 
-<a href="http://www.lesgrumels.fr" target="_blank">lesgrumels</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer">XHTML</a>. Template design by <a href="http://arcsin.se">Arcsin</a>. <a href="<?php echo $this->request->getBaseUrl() ?>/">Ajax version</a>
+<div class="footer">&copy; 2006-2008 <a href="http://www.jimw.fr">JIMW</a> / 
+<a href="http://www.logisim.fr" target="_blank">Simon LEPRINCE</a> / 
+<a href="http://www.lesgrumels.fr" target="_blank">lesgrumels</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer">XHTML</a>. Template design by <a href="http://arcsin.se">Arcsin</a>. <a href="<?php echo $this->request->getBaseUrl() ?>/">AJAX version</a>
 </div>
 
 </body>

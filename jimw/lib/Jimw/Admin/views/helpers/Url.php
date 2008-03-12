@@ -21,7 +21,7 @@ class Jimw_Admin_View_Helper_Url {
         
         $request = $ctrl->getRequest();
         
-        if (defined('JIMW_NO_REWRITE_URL')) {
+        if (!JIMW_URL_REWRITING) {
         	$basePath = $request->getBaseUrl();
         	$baseUrl = substr($request->getBaseUrl(), strlen($basePath));
         	$url = rtrim($basePath, '/') . '/?' . ltrim($baseUrl, '/');
