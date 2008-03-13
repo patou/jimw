@@ -32,13 +32,13 @@
 	/** Module directory */
 	if (!defined('JIMW_REP_MODULE')) define('JIMW_REP_MODULE', JIMW_REP . 'module/');
 	/** Public directory */
-	if (!defined('JIMW_REP_PUBLIC')) define('JIMW_REP_PUBLIC', './public/');
+	if (!defined('JIMW_REP_PUBLIC')) define('JIMW_REP_PUBLIC', JIMW_ROOT . 'public/');
 	/** Lib directory */
 	if (!defined('JIMW_REP_LIB')) define('JIMW_REP_LIB', JIMW_REP . 'lib/');
 	/** Lang directory */
 	if (!defined('JIMW_REP_LANG')) define('JIMW_REP_LANG', JIMW_REP . 'lang/');
 	/** Cache directory */
-	if (!defined('JIMW_REP_CACHE')) define('JIMW_REP_CACHE', './cache/');
+	if (!defined('JIMW_REP_CACHE')) define('JIMW_REP_CACHE', JIMW_ROOT . 'cache/');
 	
 	/** Module path in URL */
 	if (!defined('JIMW_URL_MODULE_PATH')) define('JIMW_URL_MODULE_PATH', 'module');
@@ -46,8 +46,10 @@
 	if (!defined('JIMW_URL_DEFAULT_PATH')) define('JIMW_URL_DEFAULT_PATH', 'default');
 	/** Admin path in URL */
 	if (!defined('JIMW_URL_ADMIN_PATH')) define('JIMW_URL_ADMIN_PATH', '/admin');
+	/** Public path in URL */
+	if (!defined('JIMW_URL_PUBLIC_PATH')) define('JIMW_URL_PUBLIC_PATH', '/public');
 
-	/** Default extension */
+	/** Default extension (phtml or ajax) */
 	if (!defined('JIMW_DEFAULT_EXT')) define('JIMW_DEFAULT_EXT', 'phtml');
 
 	/** URL rewriting */
