@@ -33,6 +33,8 @@
 	if (!defined('JIMW_REP_MODULE')) define('JIMW_REP_MODULE', JIMW_REP . 'module/');
 	/** Public directory */
 	if (!defined('JIMW_REP_PUBLIC')) define('JIMW_REP_PUBLIC', JIMW_ROOT . 'public/');
+	/** Public directory */
+	if (!defined('JIMW_REP_ADMIN_PUBLIC')) define('JIMW_REP_ADMIN_PUBLIC', JIMW_ADMIN_ROOT . 'public/');
 	/** Lib directory */
 	if (!defined('JIMW_REP_LIB')) define('JIMW_REP_LIB', JIMW_REP . 'lib/');
 	/** Lang directory */

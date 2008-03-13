@@ -38,6 +38,9 @@ if (get_magic_quotes_gpc() == 1){
 if (!defined('JIMW_ROOT')) {
 	define ('JIMW_ROOT', '../');
 }
+if (!defined('JIMW_ADMIN_ROOT')) {
+	define ('JIMW_ADMIN_ROOT', './');
+}
 if (! defined('JIMW_REP')) {
     if (file_exists('../jimw/'))
         define('JIMW_REP', '../jimw/'); 

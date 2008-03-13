@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+<meta name="description" content="description"/>
+<meta name="keywords" content="keywords"/> 
+<meta name="author" content="author"/> 
+<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/indigo.css" media="screen"/>
+<title><?php echo $this->request->getDomainName (); ?> - Administration</title>
+</head>
+
+<body>
+
+<div class="container">
+
+	<div class="header">
+		
+		<div class="title">
+			<h1><?php echo $this->request->getDomainName (); ?> - Administration</h1>
+		</div>
+
+
+	</div>
+
+	<div class="main">
+		
+<div class="content" align="center">
+
+<?php if(!empty($this->message)) :?>
+	<div id="message">
+		<?php echo $this->escape($this->message);?>
+	</div>
+<?php endif; ?>
+<form action="<?php echo $this->url(array('controller' => 'auth', 'action' => 'login', 'ext' => 'phtml'), 'ext', true); ?>" method="post">
+<div>
+	<?php echo $this->formLabel('login', $this->_('UserName')); ?> :
+	<?php echo $this->formText('login', ''); ?>
+</div>
+<div>
+	<?php echo $this->formLabel('password', $this->_('Password')); ?> :
+	<?php echo $this->formPassword('password', ''); ?>
+</div>
+<div id="formbutton">
+	<?php echo $this->formSubmit('btn', $this->_('Login')); ?>
+</div>
+</form>
+</div>
+
+		<div class="clearer"><span></span></div>
+
+	</div>
+
+</div>
+
+<div class="footer">&copy; 2006-2008 <a href="http://www.jimw.fr">JIMW</a> / 
+<a href="http://www.logisim.fr" target="_blank">Simon LEPRINCE</a> / 
+<a href="http://www.lesgrumels.fr" target="_blank">lesgrumels</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer">XHTML</a>. Template design by <a href="http://arcsin.se">Arcsin</a>. <a href="<?php echo $this->request->getBaseUrl() ?>/">AJAX version</a>
+</div>
+
+</body>
+
+</html>
