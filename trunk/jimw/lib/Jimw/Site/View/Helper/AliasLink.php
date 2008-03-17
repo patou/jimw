@@ -20,7 +20,7 @@ class Jimw_Site_View_Helper_AliasLink
         $result = $text;
         
         // Without text
-        $count = preg_match_all('/\[\[([^\[\]\s]+)\]\]/', $text, $matches);
+        $count = preg_match_all('/\[\[([^\[\]\s\|]+)\]\]/', $text, $matches);
         for ($i=0; $i<$count; $i++) {
 			$page = $tree->fetchRow(array('tree_alias = ?' => $matches[1][$i]));
         	if ($page) {
