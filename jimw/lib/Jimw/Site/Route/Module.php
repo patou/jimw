@@ -89,9 +89,12 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
                 return false;
             }
 			
-            if ($this->_dispatcher && $this->_dispatcher->isValidModule($path[1])) {
+            if ($this->_dispatcher && $this->_dispatcher->isValidModule($path[0])) {
                 $values[$this->_moduleKey] = array_shift($path);
                 $this->_moduleValid = true;
+            //} else if ($this->_dispatcher) {
+            //	$values[$this->_moduleKey] = JIMW_URL_DEFAULT_PATH;
+            //    $this->_moduleValid = true;
             }
             
         	if (($l = count($path)) > 0 && ($pos = strrpos($path[$l -1], self::EXT_DELIMITER)) !== false && $pos >= 0) {
@@ -180,6 +183,8 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
             if ($module != JIMW_URL_DEFAULT_PATH) {
 		       $url = self::URI_DELIMITER . JIMW_URL_MODULE_PATH . $url;
 		    }
+		} else {
+		    $url = self::URI_DELIMITER . JIMW_URL_DEFAULT_PATH . $url;
         }
         
 		
