@@ -82,7 +82,6 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
         if ($path != '') {
 
             $path = explode(self::URI_DELIMITER, $path);
-            Jimw_Debug::dump($path);
             if ($path[0] == JIMW_URL_MODULE_PATH || $path[0] == JIMW_URL_DEFAULT_PATH) {
                 array_shift($path);
             } else {
