@@ -84,6 +84,7 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
         			$this->testConnection($database->current());
         			$site = $domain->findParentJimw_Site_Site();
 					Zend_Registry::set('site', $site);
+					Zend_Registry::set('site_path', $site->path);
 					$request->setParam('site_path', $site->path);
         			return $request;
         		}
