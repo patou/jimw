@@ -21,9 +21,10 @@ function list_tree($list, $view, $path, $baseurl, $prof = 0) {
 	$item = 0;
 	$length = count($list);
 	foreach ($list as $tree):
+		$colorlist = array('#446666', '#0000FF', '#FF0000', '#FF8C00', '#008000', '#FFA500');
 		?>
 		<tr>
-			 <td><?= $tree->id?></td>
+			 <td style="color: <?= $colorlist[$tree->status] ?>"><?= $tree->id?></td>
 				<td style="padding-left: <?= $prof * 16 ?>px;">
 				<img src="<?= $path ?>/images/icons/module/<?php
 				$module = module_name($tree->module_id);
