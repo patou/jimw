@@ -11,6 +11,7 @@ $lang['Add new Page'] = 'Ajouter une nouvelle page';
 $lang['Alias'] = 'Alias';
 $lang['Author'] = 'Auteur';
 $lang['Authors'] = 'Auteurs';
+$lang['Authentification'] = 'Identification';
 $lang['Choose a File'] = 'Choisir un fichier';
 $lang['Collapse all'] = 'Tout r&eacute;duire';
 $lang['Comment'] = 'Information';
@@ -99,6 +100,13 @@ $lang['Yes'] = 'Oui';
 $lang['Your comment'] = 'Votre commentaire';
 $lang['Your message'] = 'Votre message';
 $lang['Your name'] = 'Votre nom';
+
+$lang['Unpublished'] = 'Non publi&eacute;';
+$lang['Draft'] = 'Brouillon';
+$lang['Correcting'] = 'En correction';
+$lang['To be published'] = 'A publier';
+$lang['Published'] = 'Publi&eacute;';
+$lang['Archive'] = 'Archiv&eacute;';
 
 $lang['Delete successful'] = 'Suppression r&eacute;ussie';
 $lang['Insert successful'] = 'Ajout r&eacute;ussi';

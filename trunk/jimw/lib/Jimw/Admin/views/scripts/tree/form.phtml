@@ -24,7 +24,15 @@
 <?php
 	endif;
 ?>
-<tr><td class="t01"><?= $this->formLabel('description', $this->_('Description')); ?> : </td><td><?= $this->formTextarea('description', $this->tree->description, array('rows' => 4, 'cols' => 40)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('status', $this->_('Status')); ?> : </td><td><select name="status">
+<?php
+$statuslist = array('Unpublished', 'Draft', 'Correcting', 'To be published', 'Published', 'Archive');
+for ($i=0; $i<count($statuslist); $i++) {
+	echo '<option value="'.$i.'"'.($this->tree->status == $i ? ' selected' : '').'>'.$this->_($statuslist[$i]).'</option>'."\n";
+}
+?>
+</select></td></tr>
+<tr><td class="t01"><?= $this->formLabel('description', $this->_('Description')); ?> : </td><td><?= $this->formTextarea('description', $this->tree->description, array('rows' => 3, 'cols' => 40)); ?></td></tr>
 <tr><td colspan="2" align="center"><?= $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td>
 </tr>
 </table></form>

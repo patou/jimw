@@ -1,11 +1,11 @@
 <?php
 /**
- * treeController.php
+ * TreeController.php
  *
- * @author	    Patou
+ * @author	   Patou
  * @category   Jimw_Admin
  * @package    Jimw
- * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @copyright  Copyright (c) 2006-2008 jimw.fr
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
@@ -35,7 +35,7 @@ class TreeController extends Jimw_Admin_Action
 		$result = $tree->find($id);
 		if (!$result->exists()) {
 			Zend_Debug::dump($result);
-			throw new Jimw_Admin_Exception("The tree $id didn't exist");
+			throw new Jimw_Admin_Exception("The tree $id doesn't exist");
 		}
 		$result = $result->current();
 		$this->view->tree = $result;
@@ -61,7 +61,7 @@ class TreeController extends Jimw_Admin_Action
 		$tree = new Jimw_Site_Tree();
 		$result = $tree->find($id);
 		if (!$result->exists()) {
-			throw new Jimw_Admin_Exception("The tree $id didn't exist");
+			throw new Jimw_Admin_Exception("The tree $id doesn't exist");
 		}
 		$result = $result->current();
 		$module_path = $result->findParentJimw_Site_Module()->path;
@@ -82,6 +82,7 @@ class TreeController extends Jimw_Admin_Action
 		$save->parentid = $req->parentid;
 		$save->alias = $req->alias;
 		$save->description = $req->description;
+		$save->status = $req->status;
 		$save->save();
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ' . $req->pagetitle);
 		$this->_forward('index');
@@ -100,7 +101,7 @@ class TreeController extends Jimw_Admin_Action
 		$save->module_id = $req->getPost('module');
 		$save->site_id = 1;
 		$save->version = 0;
-		$save->status = 0;
+		$save->status = 4;
 		$save->param = '';
 		$save->icon = '';
 		$save->image = '';
