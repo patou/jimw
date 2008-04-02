@@ -78,13 +78,13 @@ Rged.prototype =  {
 	this.tree = new Ext.ux.FileTreePanel({
         el: 'tree'
 		, animate: true
-		, dataUrl: basename + '/file/get.ajax'
-        , renameUrl: basename + '/file/rename.ajax'
-        , deleteUrl: basename + '/file/delete.ajax'
-        , downloadUrl: basename + '/file/download.ajax'
+		, dataUrl: basename + '/default/file/get.ajax'
+        , renameUrl: basename + '/default/file/rename.ajax'
+        , deleteUrl: basename + '/default/file/delete.ajax'
+        , downloadUrl: basename + '/default/file/download.ajax'
         , downloadText: 'Download'
-        , newdirUrl: basename + '/file/newdir.ajax'
-        , uploadUrl: basename + '/file/upload.ajax'
+        , newdirUrl: basename + '/default/file/newdir.ajax'
+        , uploadUrl: basename + '/default/file/upload.ajax'
         , iconPath: path + '/images/icons/'
 		, readOnly: false
 		, containerScroll: true
@@ -110,7 +110,7 @@ Rged.prototype =  {
 			, maxPgErrors: 10
 			, interval: 1000
 			, options: {
-				url: basename + '/file/upload.ajax'
+				url: basename + '/default/file/upload.ajax'
 				, method: 'post'
 			}
 		}
@@ -307,7 +307,7 @@ Rged.prototype =  {
     init_grid: function () {
             // Grid Data Store
         this.ds = new Ext.data.Store({
-            proxy: new Ext.data.HttpProxy({url: basename + '/file/list.ajax'}),
+            proxy: new Ext.data.HttpProxy({url: basename + '/default/file/list.ajax'}),
             reader: new Ext.data.JsonReader({
                 root: 'Files',
                 totalProperty: 'FilesCount',
@@ -325,19 +325,19 @@ Rged.prototype =  {
         // Convert a file size in Kilo/Mega/Giga Octet
         function size(val){
             if(val < 1024){
-                return Math.round( val) + ' o';
+                return Math.round( val) + ' b';
             } else  {
                 val = Math.round( val / 1024);
                 if(val < 1024){
-                return val + ' ko';
+                return val + ' Kb';
                 }
                 else {
                     val = Math.round( val / 1024);
                     if(val < 1024){
-                        return val + ' mo';
+                        return val + ' Mb';
                     }
                     else {
-                        return Math.round( val / 1024) + ' go';
+                        return Math.round( val / 1024) + ' Gb';
                     }
                 }
             }
