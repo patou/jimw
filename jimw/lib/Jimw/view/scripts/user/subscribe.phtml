@@ -1,0 +1,37 @@
+<h2><?php echo $this->_('Registration'); ?></h2>
+<?php if(!empty($this->message)) :?>
+	<div id="message">
+		<?php echo $this->escape($this->message);?>
+	</div>
+<?php endif; ?>
+<form action="<?php echo $this->url(array('controller' => 'user', 'action' => 'subscribe', 'ext' => 'phtml'), 'ext', true); ?>" method="post">
+<table border="0">
+<tr>
+	<td><?php echo $this->formLabel('login', $this->_('User name')); ?>&nbsp;:</td>
+	<td><?php echo $this->formText('login', @$_REQUEST['login']); ?></td>
+</tr>
+<tr>
+	<td><?php echo $this->formLabel('password1', $this->_('Password')); ?>&nbsp;:</td>
+	<td><?php echo $this->formPassword('password1', @$_REQUEST['password1']); ?></td>
+</tr>
+<tr>
+	<td><?php echo $this->formLabel('password2', $this->_('Confirm password')); ?>&nbsp;:</td>
+	<td><?php echo $this->formPassword('password2', @$_REQUEST['password2']); ?></td>
+</tr>
+<tr>
+	<td><?php echo $this->formLabel('lastname', $this->_('Last name')); ?>&nbsp;:</td>
+	<td><?php echo $this->formText('lastname', @$_REQUEST['lastname']); ?></td>
+</tr>
+<tr>
+	<td><?php echo $this->formLabel('firstname', $this->_('First name')); ?>&nbsp;:</td>
+	<td><?php echo $this->formText('firstname', @$_REQUEST['firstname']); ?></td>
+</tr>
+<tr>
+	<td><?php echo $this->formLabel('email', $this->_('E-mail')); ?>&nbsp;:</td>
+	<td><?php echo $this->formText('email', @$_REQUEST['email']); ?></td>
+</tr>
+<tr><td colspan="2" id="formbutton">
+	<?php echo $this->formSubmit('btn', $this->_('Subscribe')); ?>
+</td></tr>
+</table>
+</form>
