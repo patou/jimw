@@ -42,7 +42,7 @@ class UserController extends Jimw_Module_Action {
 				} else {
 					$user = $users->fetchNew();
 					$user->login = $login;
-					$user->password = $password1;
+					$user->password = md5($password1);
 					$user->status = 1;
 					$user->lastname = $lastname;
 					$user->firstname = $firstname;

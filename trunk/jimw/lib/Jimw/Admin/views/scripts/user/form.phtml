@@ -7,7 +7,7 @@
 <tr><td class="t01"><?php echo $this->_('Id'); ?> :</td><td class="t01"><?= $this->id ?></td></tr>
 <? endif; ?>
 <tr>
-	<td class="t01"><?php echo $this->formLabel('login', $this->_('UserName')); ?> :</td>
+	<td class="t01"><?php echo $this->formLabel('login', $this->_('User name')); ?> :</td>
 	<td><?php echo $this->formText('login', $this->user->login); ?></td>
 </tr>
 <tr>
@@ -15,15 +15,15 @@
 	<td><?php echo $this->formPassword('password', ''); ?></td>
 </tr>
 <tr>
-	<td class="t01"><?php echo $this->formLabel('firstname', $this->_('FirstName')); ?> :</td>
+	<td class="t01"><?php echo $this->formLabel('firstname', $this->_('First name')); ?> :</td>
 	<td><?php echo $this->formText('firstname', $this->user->firstname); ?></td>
 </tr>
 <tr>
-	<td class="t01"><?php echo $this->formLabel('lastname', $this->_('LastName')); ?> :</td>
+	<td class="t01"><?php echo $this->formLabel('lastname', $this->_('Last name')); ?> :</td>
 	<td><?php echo $this->formText('lastname', $this->user->lastname); ?></td>
 </tr>
 <tr>
-	<td class="t01"><?php echo $this->formLabel('email', $this->_('Email')); ?> :</td>
+	<td class="t01"><?php echo $this->formLabel('email', $this->_('E-mail')); ?> :</td>
 	<td><?php echo $this->formText('email', $this->user->email); ?></td>
 </tr>
 <tr><td colspan="2" align="center"><?php echo $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td>

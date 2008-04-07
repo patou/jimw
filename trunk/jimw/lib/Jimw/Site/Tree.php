@@ -123,8 +123,9 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 */
 	private function getRewriteString($sString)
 	{
-		$string = strtolower( htmlentities( strtr($sString, array("?"=>"Ae", "?"=>"Ue", "?"=>"Oe", "?"=>"ae", "?"=>"ue", "?"=>"oe")) ) );
-		$string = preg_replace("/&(.)(acute|cedil|circ|ring|tilde|uml);/", "$1", $string);
+		//$string = strtolower( htmlentities( strtr($sString, array("?"=>"Ae", "?"=>"Ue", "?"=>"Oe", "?"=>"ae", "?"=>"ue", "?"=>"oe")) ) );
+		$string = strtolower( htmlentities( $sString));
+		$string = preg_replace("/&(.)(acute|cedil|circ|ring|tilde|uml|grave);/", "$1", $string);
 		$string = preg_replace("/([^a-z0-9]+)/", "-", html_entity_decode($string));
 		$string = trim($string, "-");
 		return $string;
@@ -243,7 +244,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 			$data['tree_alias'] = $this->getRewriteString($data['tree_menutitle']);
 		}
 		if (empty($data['tree_status'])) {
-			$data['tree_status'] = 3;
+			$data['tree_status'] = 4;
 		}
 		if (empty($data['tree_type'])) {
 			$data['tree_type'] = 0;
@@ -270,7 +271,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 		$data['tree_creationdate'] = time();
 		$data['tree_editiondate'] = time();
 		$data['tree_type'] = 0;
-		$data['tree_status'] = 3;
+		$data['tree_status'] = 4;
 		$select = $this->_db->select();
 		$select->from($this->_name, new Zend_Db_Expr('MAX(tree_rgt)'));
 		$max = $this->_db->fetchOne($select);
