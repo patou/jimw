@@ -34,7 +34,7 @@ class Mejdoc_ManageController extends Jimw_Admin_Action
 
 	public function deleteAction () {
 		$documents = new Mejdoc();
-		$list = $documents->fetchAll(array('tree_parentid = ?' => $this->getRequest()->id));
+		$list = $documents->fetchAll(array('tree_id = ?' => $this->getRequest()->id));
 		foreach ($list as $documents) {
 			$document->delete();
 		}
