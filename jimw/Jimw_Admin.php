@@ -68,7 +68,11 @@ else
 set_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
 require_once ('Zend/Loader.php');
 spl_autoload_register(array('Zend_Loader' , 'autoload'));
-if (JIMW_DEBUG_MODE) {
+if (!JIMW_DEBUG_MODE) {
+	$cache = Zend_Cache::factory('Core', 'File', array('automatic_serialization' => true), array('cache_dir' => JIMW_REP_CACHE.'db'));
+	Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
+}
+else {
 	Jimw_Debug::initDebug();
 }
 // Session
