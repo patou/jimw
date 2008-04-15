@@ -75,19 +75,7 @@ Zend_Registry::set('config_db', array('type' => 'PDO_SQLITE', 'dbname' => JIMW_R
 
 
 if (!JIMW_DEBUG_MODE) {
-	$frontendOptions = array(
-	'automatic_serialization' => true
-	);
-
-	$backendOptions  = array(
-	'cacheDir'                => './cache/db'
-	);
-
-	$cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
-
-
-	// Next, set the cache to be used with all table objects
-
+	$cache = Zend_Cache::factory('Core', 'File', array('automatic_serialization' => true), array('cache_dir' => JIMW_REP_CACHE.'db'));
 	Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
 }
 else {
