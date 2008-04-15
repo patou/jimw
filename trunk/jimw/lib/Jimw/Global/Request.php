@@ -240,11 +240,8 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	                parse_str($query, $vars);
 	                $_GET = $vars;
 	            }
-		    Jimw_Debug::message($baseUrl);
-		    Jimw_Debug::dump($_GET);
-        	}
+		    }
             $this->setPathInfo($pathInfo);
-	    Jimw_Debug::dump($this->_pathInfo);
         }
 
         return $this->_pathInfo;

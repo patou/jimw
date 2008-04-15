@@ -14,6 +14,12 @@ class Jimw_Admin_View_Helper_Url {
                 if ($router->hasRoute('default')) {
                     $name = 'default';
                 }
+                else if ($router->hasRoute('get')) {
+                    $name = 'default';
+                }
+                else {
+                    Jimw_Debug::display_exception($e);
+                }
             }
         } 
 

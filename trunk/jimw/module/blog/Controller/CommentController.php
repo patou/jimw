@@ -18,13 +18,15 @@ class Blog_CommentController extends Jimw_Module_Action
   {
     $request = $this->_request;
     $tree = $request->getTree();
-    if ($tree->param->comment) {
+    $messages = new BlogMessage();
+    $message = $messages->find($request->cid);
+    if ($tree->param->comment || (count($message) && $message->current()->comment)) {
       $comments = new BlogComment();
       $comment = $comments->fetchNew();
       $comment->username = $request->cname;
       $comment->blogmessage_id = $request->cid;
       $comment->content = $request->cmessage;
-      $comment->date = new Zend_Db_Expr('NOW()');
+      $comment->date = Zend_Date::now()->getIso();//new Zend_Db_Expr('NOW()');
       $comment->save();
     }
     else {

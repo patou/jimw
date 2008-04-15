@@ -9,7 +9,8 @@
 	 * @license    http://www.jimw.fr
 	 * @version    $Id$
 	 */
-	 /** @var jimw_config_db_name The name of the global database */
+	if (!isset($jimw_config_db)) $jimw_config_db = array(); 
+	/** @var jimw_config_db_name The name of the global database */
 	if (!isset($jimw_config_db['dbname'])) $jimw_config_db['dbname'] = 'jimw_global';
 	/** @var jimw_config_db_name The name of the global database */
 	if (!isset($jimw_config_db['host'])) $jimw_config_db['host'] = 'localhost';
@@ -21,6 +22,9 @@
 	/** @var jimw_config_db_password The password of the global database */
 	if (!isset($jimw_config_db['password'])) $jimw_config_db['password'] = '';
 
+	/** Admin root directory */
+	if (!defined('JIMW_ADMIN_ROOT')) define('JIMW_ADMIN_ROOT', JIMW_ROOT . 'admin/');
+	
 	/** JIMW lang */
 	if (!defined('JIMW_LANG')) define('JIMW_LANG', 'fr');
 	/** JIMW timezone */
@@ -34,9 +38,13 @@
 	/** Public directory */
 	if (!defined('JIMW_REP_PUBLIC')) define('JIMW_REP_PUBLIC', JIMW_ROOT . 'public/');
 	/** Public directory */
+	if (!defined('JIMW_REP_INSTALL')) define('JIMW_REP_INSTALL', JIMW_ROOT . 'install/');
+	/** Public directory */
 	if (!defined('JIMW_REP_ADMIN_PUBLIC')) define('JIMW_REP_ADMIN_PUBLIC', JIMW_ADMIN_ROOT . 'public/');
 	/** Lib directory */
 	if (!defined('JIMW_REP_LIB')) define('JIMW_REP_LIB', JIMW_REP . 'lib/');
+	/** Config directory */
+	if (!defined('JIMW_REP_CONFIG')) define('JIMW_REP_CONFIG', JIMW_REP . 'config/');
 	/** Lang directory */
 	if (!defined('JIMW_REP_LANG')) define('JIMW_REP_LANG', JIMW_REP . 'lang/');
 	/** Cache directory */
@@ -50,11 +58,23 @@
 	if (!defined('JIMW_URL_ADMIN_PATH')) define('JIMW_URL_ADMIN_PATH', '/admin');
 	/** Public path in URL */
 	if (!defined('JIMW_URL_PUBLIC_PATH')) define('JIMW_URL_PUBLIC_PATH', '/public');
+	/** Install path in URL */
+	if (!defined('JIMW_URL_INSTALL_PATH')) define('JIMW_URL_INSTALL_PATH', '/install');
 
 	/** Default extension (phtml or ajax) */
 	if (!defined('JIMW_DEFAULT_EXT')) define('JIMW_DEFAULT_EXT', 'phtml');
+	
+	if (!defined('JIMW_PREFIX')) define('JIMW_PREFIX', 'jimw');
 
 	/** URL rewriting */
 	if (!defined('JIMW_URL_REWRITING')) define('JIMW_URL_REWRITING', true);
 	
+	/** Install Protect file path*/
+	if (!defined('JIMW_INSTALL_PROTECTDIR')) define('JIMW_INSTALL_PROTECTDIR', 'protect/');
+	
+	/** Install Protect file prefix*/
+	if (!defined('JIMW_INSTALL_PROTECTPREFIX')) define('JIMW_INSTALL_PROTECTPREFIX', 'install');
+	
+	/** Protect Install administration for a single domain */
+	//define('JIMW_INSTALL_PROTECT_DOMAIN', 'www.jimw.fr');
 ?>

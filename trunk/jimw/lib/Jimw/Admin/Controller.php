@@ -136,11 +136,11 @@ class Jimw_Admin_Controller
 		$router = $this->frontcontroller->getRouter();
 //		$this->frontcontroller->throwExceptions(true);
 		$this->frontcontroller->setRequest($this->request);
-		$this->frontcontroller->setControllerDirectory(JIMW_REP_LIB . 'Jimw/Admin/Controller/');
 		$this->frontcontroller->setResponse($this->response);
 		$this->frontcontroller->setDispatcher($this->dispatch);
 		$this->_registerPlugins();
 		$this->_registerModulePlugin();
+		$this->frontcontroller->addControllerDirectory(JIMW_REP_LIB . 'Jimw/Admin/Controller/', 'default');
 		$router->addRoute('ext', new Jimw_Site_Route_Module(array(), $this->dispatch, $this->request, false));
 		$router->addRoute('get', new Jimw_Site_Route_Get(array()));
 		$this->frontcontroller->dispatch($this->request, $this->response);

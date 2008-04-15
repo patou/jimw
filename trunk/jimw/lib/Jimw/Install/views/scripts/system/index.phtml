@@ -1,0 +1,5 @@
+<h1><?= $this->_('Server System'); ?></h1>
+<a href="<?= $this->url(array('controller' => 'system', 'action' => 'phpinfo'), 'get', true) ?>"><?= $this->_('PHP Information'); ?></a>
+<a href="<?= $this->url(array('controller' => 'system', 'action' => 'permission'), 'get', true) ?>"><?= $this->_('Directory permission'); ?></a>
+<a href="<?= $this->url(array('controller' => 'system', 'action' => 'configuration'), 'get', true) ?>"><?= $this->_('Configuration'); ?></a>
+

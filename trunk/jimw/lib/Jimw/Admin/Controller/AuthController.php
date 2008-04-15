@@ -33,17 +33,17 @@ class AuthController extends Jimw_Admin_Action
 				$this->view->message = $this->_('Please provide a username.');
 			} else {
 				// setup Zend_Auth adapter for a database table
-				$dbAdapter = Zend_Registry::get('db'); // @TODO correct to change user table
 				$user = new Jimw_Site_User();
 				$authAdapter = new Zend_Auth_Adapter_DbTable($user->getAdapter());
 				$authAdapter->setTableName($user->getRealTableName());
 				$authAdapter->setIdentityColumn('user_login');
 				$authAdapter->setCredentialColumn('user_password');
-				$authAdapter->setCredentialTreatment('MD5(?)');
+				//$authAdapter->setCredentialTreatment('MD5(?)');
 
 				// Set the input credential values to authenticate against
+				$md5 = md5($password);
 				$authAdapter->setIdentity($username);
-				$authAdapter->setCredential($password);
+				$authAdapter->setCredential($md5);
 
 				// do the authentication
 				$auth = Zend_Auth::getInstance();

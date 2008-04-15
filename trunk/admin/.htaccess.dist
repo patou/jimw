@@ -1,11 +1,6 @@
 #Activate the Rewrite Engine (you must have the rewrite_mode enabled)
 RewriteEngine on
-#RewriteBase /jimw
+RewriteBase /admin
 #Rewrite all url to the main index file
 # Change the main url file with the server configuration
-RewriteRule !(\.php|\.gif)$ /jimw/admin/index.php
-#Protect the website by authentification
-AuthType Basic
-AuthName "Administration"
-AuthUserFile "C:/Users/patou/Documents/projet/jimw/admin/.htpasswd"
-Require valid-user
+RewriteRule !(\.php|\.gif)$ /admin/index.php

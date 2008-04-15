@@ -52,6 +52,7 @@ class ErrorController extends Jimw_Module_Action {
                 $this->view->message = $errors->exception->getMessage ();
                 break;
         }
+        $this->getHelper('ViewRenderer')->setViewSuffix('phtml');
         $this->render($render);
     }
 }
