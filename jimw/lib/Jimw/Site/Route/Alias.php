@@ -108,7 +108,7 @@
    		$tree = $trees->findAlias($params[$this->_aliasKey]);
 		if (!$tree)
 			return $url;
-		if (!$tree->exists ())
+		if (!count($tree))
 			$tree = $trees->fetchAll(array('tree_alias = ?' => $params[$this->_aliasKey]));
 		$tree = $tree->current ();
         $url = rtrim($tree->alias, self::URI_DELIMITER);

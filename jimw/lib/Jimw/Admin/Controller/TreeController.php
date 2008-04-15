@@ -33,7 +33,7 @@ class TreeController extends Jimw_Admin_Action
 		$id = $this->_request->getParam('id');
 		$tree = new Jimw_Site_Tree();
 		$result = $tree->find($id);
-		if (!$result->exists()) {
+		if (!count($result)) {
 			Zend_Debug::dump($result);
 			throw new Jimw_Admin_Exception("The tree $id doesn't exist");
 		}
@@ -60,7 +60,7 @@ class TreeController extends Jimw_Admin_Action
 		$id = $this->_request->id;
 		$tree = new Jimw_Site_Tree();
 		$result = $tree->find($id);
-		if (!$result->exists()) {
+		if (!count($result)) {
 			throw new Jimw_Admin_Exception("The tree $id doesn't exist");
 		}
 		$result = $result->current();
@@ -78,7 +78,7 @@ class TreeController extends Jimw_Admin_Action
 		$save->id = $id;
 		$save->pagetitle = $req->pagetitle;
 		$save->menutitle = $req->menutitle;
-		$save->order = $req->order;
+		$save->order = 0;
 		$save->parentid = $req->parentid;
 		$save->alias = $req->alias;
 		$save->description = $req->description;
@@ -117,7 +117,7 @@ class TreeController extends Jimw_Admin_Action
 		//$this->_forward('index');
 	}
 	
-	public function moveAction () {
+    public function moveAction () {
 		
 		$tree = new Jimw_Site_Tree();
 		$save = $tree->find($this->_request->id)->current();
@@ -130,7 +130,7 @@ class TreeController extends Jimw_Admin_Action
 			$direction = Jimw_Site_Tree::LEFT;
 		}
 		$sibling = $tree->fetchAll($where);
-		if ($sibling->exists())
+		if (count($sibling))
 			$tree->move_to($save, $sibling->current(), $direction);
 		else
 			throw new Jimw_Admin_Exception('Illegal move');

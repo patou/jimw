@@ -73,6 +73,8 @@ class Blog_MessageController extends Jimw_Admin_Action
 		$message->content = $this->_request->content;
 		$message->date = $this->_request->date;
 		$message->tree_id = $this->_request->treeid;
+		$message->comment = true;
+		Jimw_Debug::dump($message);
 		$message->user_id = 0;
 		$message->save();
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Insert successful');

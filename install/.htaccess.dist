@@ -1,0 +1,2 @@
+#Activate the Rewrite Engine (you must have the rewrite_mode enabled)
+RewriteEngine off

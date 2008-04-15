@@ -1,0 +1,20 @@
+<?php
+$entries = array();
+$tree = new Jimw_Site_Tree();
+foreach ($this->messages as $message) {
+	$result = $tree->find($message->tree_parentid)->current();
+	$entries[] = array('title' => utf8_encode($message->title),
+						'link' => $this->url(array('alias' => $result->alias), 'alias'),
+						'description' => utf8_encode($this->troncate($message->content)));
+}
+
+$builder = array('title' => $this->tree->pagetitle,
+			'charset' => 'UTF-8',
+			 'link' => $this->url(array('alias' => $this->tree->alias, 'ext' => 'rss'), 'alias'),
+			 'entries' => $entries);
+			 Jimw_Debug::dump($builder);
+			 
+$rss = Zend_Feed::importArray($builder, 'rss');
+$response = Zend_Controller_Front::getInstance()->getResponse();
+$response->setHeader('Content-type', 'application/rss+xml; charset: UTF-8');
+echo $rss->saveXML();

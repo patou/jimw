@@ -68,6 +68,7 @@ public function bbCode($text) {
 </script>",
     "<a href=\"#\" onclick=\"javascript:s1.innerHTML=''; s1.addVariable('file','/public/rn2007/videos/$2.flv'); s1.addVariable('image','/public/rn2007/videos/$2.jpg'); s1.write('player$1'); return false;\">$3</a>"
   );
+  return preg_replace($bbcode,$htmlcode,typofr($text));
 	}
-	return preg_replace($bbcode,$htmlcode,typofr($text));
+	
 }

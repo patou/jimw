@@ -75,11 +75,12 @@ class UserController extends Jimw_Module_Action {
 				$authAdapter->setTableName($user->getRealTableName());
 				$authAdapter->setIdentityColumn('user_login');
 				$authAdapter->setCredentialColumn('user_password');
-				$authAdapter->setCredentialTreatment('MD5(?)');
+				//$authAdapter->setCredentialTreatment('MD5(?)');
 
+				$md5 = md5($password);
 				// Set the input credential values to authenticate against
 				$authAdapter->setIdentity($username);
-				$authAdapter->setCredential($password);
+				$authAdapter->setCredential($md5);
 
 				// do the authentication
 				$auth = Zend_Auth::getInstance();

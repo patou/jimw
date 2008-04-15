@@ -31,7 +31,7 @@ class Jimw_Site_View_Helper_Menu
 		$menu = new Jimw_Site_Menu();
 		$tree = new Jimw_Site_Tree();
 		$result = $menu->getMenu($name);
-		if (!$result->exists()) {
+		if (!count($result)) {
 			return $tree->getChildren(0);
 		} else {
 			$list = null;

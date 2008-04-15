@@ -56,7 +56,9 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 */
 	private function _loadTree () {
 		if (self::$_children === null || self::$_nodes === null || self::$_nodesAlias === null) {
-			$result = $this->_fetch(null, array('tree_lft', 'tree_alias'));
+		    $select = $this->select()->order(array('tree_lft', 'tree_alias'));
+		    $result = $this->_fetch($select);
+			//ZF1.0 : $result = $this->_fetch(null, array('tree_lft', 'tree_alias'));
 			if ($result === false) {
 				return;
 			} else {
@@ -137,7 +139,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 * @param int|array $id
 	 * @return Jimw_Db_Rowset
 	 */
-	public function find ($key) {
+	public function find () {
 		$args = func_get_args();
 		$this->_loadTree();
 		$list = array();
@@ -177,7 +179,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 			return new $this->_rowsetClass($data);
 		}
 		//return $this->fetchAll(array('tree_alias = ?' => $alias));
-		return $false;
+		return false;
 	}
 	
 	/**
@@ -187,7 +189,12 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	 * @return boolean|Jimw_Site_Tree_Row
 	 */
 	public function findByAliasWithModuleAndSite($alias) {
-		$list = $this->_fetch(array('tree_alias = ?' => $alias), array('tree_version DESC'));
+	    $select = $this->select()
+	                   ->where('tree_alias = ?', $alias)
+	                   ->where('tree_status = ?', 4)
+	                   ->order(array('tree_version DESC'));
+	                   
+		$list = $this->_fetch($select);
 		if ($list) {
 			$list = $list[0];
 			$module = new Jimw_Site_Module();
@@ -250,10 +257,10 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 			$data['tree_type'] = 0;
 		}
 		if (empty($data['tree_creationdate'])) {
-			$data['tree_creationdate'] = new Zend_Db_Expr('NOW()');
+			$data['tree_creationdate'] = Zend_Date::now()->getIso();//new Zend_Db_Expr('NOW()');
 		}
 		if (empty($data['tree_editiondate'])) {
-			$data['tree_editiondate'] = new Zend_Db_Expr('NOW()');;
+			$data['tree_editiondate'] = Zend_Date::now()->getIso();//new Zend_Db_Expr('NOW()');;
 		}
 		/*unset($data['tree_lft']);
 		unset($data['tree_rgt']);*/
@@ -308,7 +315,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	}
 	
 	public function _buildWhere($lft, $rgt, $where = null, $col = false) {
-		$where_array = array($this->_db->quoteInto($this->_db->quoteIdentifier(($col) ? $col : 'tree_lft', true) . ' >= ?', $lft), 
+	    $where_array = array($this->_db->quoteInto($this->_db->quoteIdentifier(($col) ? $col : 'tree_lft', true) . ' >= ?', $lft), 
 							 $this->_db->quoteInto($this->_db->quoteIdentifier(($col) ? $col : 'tree_rgt', true) . ' <= ?', $rgt));
 		if (empty($where)) {
 			return $where_array;
@@ -339,7 +346,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 	{
 		// add a timestamp
 		if (empty($data['tree_editiondate'])) {
-			$data['tree_editiondate'] = new Zend_Db_Expr('NOW()');
+			$data['tree_editiondate'] = Zend_Date::now()->getIso();//new Zend_Db_Expr('NOW()');
 		}
 		unset($data['tree_lft']);
 		unset($data['tree_rgt']);

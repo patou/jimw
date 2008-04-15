@@ -11,6 +11,12 @@
  */
 $startTime = microtime(true);
 define('JIMW_REP', '../jimw/');
+if (!defined('JIMW_ROOT')) {
+	define ('JIMW_ROOT', '../');
+}
+if (!defined('JIMW_ADMIN_ROOT')) {
+	define ('JIMW_ADMIN_ROOT', '../admin/');
+}
 // Configuration
 define('DEFAULT_VERSION', 1);
 // End Configuration

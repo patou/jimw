@@ -1,0 +1,7 @@
+<h1><?= $this->_('Server System'); ?></h1>
+<?= $this->_('Directory permission'); ?>
+<ul>
+<? foreach ($this->directory as $dir => $perm): ?>
+	<li><?= $dir ?> <?= (($perm[0]) ? '<font color=green>OK</font>' : '<font color=red>KO</font>') ?> <?= (($perm[1]) ? '<font color=green>Writable</font>' : '<font color=red>Non Writable</font>') ?></li>
+<? endforeach; ?>
+</ul>

@@ -1,0 +1,19 @@
+<h1><?= $this->_('Install JIMW'); ?></h1>
+<form name='configuration' action= '<?=$this->url(array('controller' => 'install', 'action' => 'configuration'), 'get')?>' method='post'>
+<h3><?= $this->_('You must configure a global database'); ?></h3>
+<?= $this->formLabel('database[type]', $this->_('Type of database')) ?> : <?= $this->formSelect('database[type]', $this->database['type'], array(), array('PDO_MYSQL' => 'Mysql (PDO)', 'MYSQLI' => 'Mysql (Mysqli)', 'PDO_SQLITE' => 'Sqlite (PDO)')) ?><br />
+<?= $this->formLabel('database[host]', $this->_('Host of database')) ?> : <?= $this->formText('database[host]', $this->database['host']) ?><br />
+<?= $this->formLabel('database[username]', $this->_('Username of database')) ?> : <?= $this->formText('database[username]', $this->database['username']) ?><br />
+<?= $this->formLabel('database[password]', $this->_('Password of database')) ?> : <?= $this->formPassword('database[password]', $this->database['password']) ?><br />
+<?= $this->formLabel('database[dbname]', $this->_('Name of database')) ?> : <?= $this->formText('database[dbname]', $this->database['dbname']) ?><br />
+<br />
+
+<h3><?= $this->_('Other configuration'); ?></h3>
+<?= $this->formLabel('default_lang', $this->_('Default language')) ?> : <?= $this->formSelect('default_lang', JIMW_LANG, array(), array('fr' => 'French', 'en' => 'English')) ?><br />
+
+<?= $this->formCheckBox('debug', JIMW_DEBUG_MODE) ?> <?= $this->formLabel('debug', $this->_('Debug mode')) ?><br />
+<?= $this->formCheckBox('install_protect', $this->install_protect) ?> <?= $this->formLabel('install_protect', $this->_('Use only this domain for access to this install administration (recommanded)')) ?><br />
+<?= $this->formCheckBox('rewrite', JIMW_URL_REWRITING) ?> <?= $this->formLabel('rewrite', $this->_('Use rewriting mode')) ?><br />
+
+<?= $this->formSubmit('submit', $this->_('Submit')); ?>
+</form>

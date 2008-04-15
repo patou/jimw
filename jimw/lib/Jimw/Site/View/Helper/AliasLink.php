@@ -18,7 +18,7 @@ class Jimw_Site_View_Helper_AliasLink
         $tree = new Jimw_Site_Tree();
         $urlHelper = new Jimw_Site_View_Helper_Url();
         $result = $text;
-        
+        $matches = array();
         // Without text
         $count = preg_match_all('/\[\[([^\[\]\s\|]+)\]\]/', $text, $matches);
         for ($i=0; $i<$count; $i++) {

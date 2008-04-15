@@ -8,8 +8,8 @@
 <? endif; ?>
 <tr><td class="t01"><?= $this->formLabel('date', $this->_('Date')); ?> : </td><td><?= $this->formText('date', $this->message->date); ?></td></tr>
 <tr><td class="t01"><?= $this->formLabel('title', $this->_('Title')); ?> : </td><td><?= $this->formText('title', $this->message->title, array('size' => 40)); ?></td></tr>
-<tr><td class="t01"><?= $this->formLabel('parentid', $this->_('Read more')); ?> : </td><td>
-<?php echo $this->selectTree('parentid', $this->message->tree_id) ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('treeid', $this->_('Read more')); ?> : </td><td>
+<?php echo $this->selectTree('treeid', $this->message->tree_id) ?></td></tr>
 <tr><td class="t01"><?= $this->formLabel('content', $this->_('Content')); ?> : </td><td><?= $this->formTextarea('content', $this->message->content, array('rows' => 20, 'cols' => 60)); ?></td></tr>
 <tr><td colspan="2" align="center"><?= $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td></tr>
 </table></form>
