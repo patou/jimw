@@ -1,14 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<?php
+$this->headLink(array('rel' => 'stylesheet', 'type' => 'text/css', 'href'=> $this->path . '/stylesheets/indigo.css'));
+$this->headTitle()->prepend($this->request->getDomainName (). ' - Administration');
+if (isset($this->tree->menutitle))
+    $this->headTitle()->append(' - ' . $this->tree->menutitle);
+echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
+?>
 <html>
-
 <head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
-<meta name="description" content="description"/>
-<meta name="keywords" content="keywords"/> 
-<meta name="author" content="author"/> 
-<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/indigo.css" media="screen"/>
-<title><?php echo $this->request->getDomainName (); ?> - Administration</title>
+<?= $this->headTitle(); ?>
+<?= $this->headMeta(); ?>
+<?= $this->headLink(); ?>
+<?= $this->headStyle(); ?>
+<?= $this->headScript(); ?>
 </head>
 
 <body>
@@ -43,7 +46,7 @@
 	<div class="main">
 		
 <div class="content">
-			<?php echo $this->getContent(); ?>
+			<?php echo $this->layout()->content; ?>
 </div>
 
 <?php

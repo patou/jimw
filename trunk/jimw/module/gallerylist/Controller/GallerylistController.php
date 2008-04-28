@@ -52,6 +52,6 @@ class Gallerylist_GallerylistController extends Jimw_Module_Action_Alias
     	}
 		$this->view->galleries = $galleries;
 		//$this->view->photos_path = $dir;
-		$this->render('gallerylist', 'body');
+		$this->render('gallerylist');
 	}
 }

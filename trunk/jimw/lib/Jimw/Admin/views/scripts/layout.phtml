@@ -1,14 +1,17 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-
+<?php
+$this->headLink(array('rel' => 'stylesheet', 'type' => 'text/css', 'href'=> $this->path . '/jimw.css'));
+$this->headTitle()->prepend($this->request->getDomainName (). ' - Administration');
+if (isset($this->tree->menutitle))
+    $this->headTitle()->append(' - ' . $this->tree->menutitle);
+echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_TRANSITIONAL);
+?>
 <html>
-
-
 <head>
-<title><?php echo $this->request->getDomainName (); ?> - Administration</title>
-<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/jimw.css">
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta http-equiv="Content-Language" content="fr">
-
+<?= $this->headTitle(); ?>
+<?= $this->headMeta(); ?>
+<?= $this->headLink(); ?>
+<?= $this->headStyle(); ?>
+<?= $this->headScript(); ?>
 </head>
 
 
@@ -78,7 +81,7 @@
 <tr bgcolor="#AFC0D0" valign="top">
 	<td width="487">
 	
-	<?php echo $this->getContent(); ?>
+	<?php echo $this->layout()->content; ?>
 	</td>
 	<td width="2" class="dotsw"><img src="<?= $this->path ?>/images/px1.gif" alt="" width="1" height="1" border="0"></td>
 </tr>

@@ -21,7 +21,7 @@ class Category_CategoryController extends Jimw_Module_Action_Alias
 		$result = $trees->fetchAllChildren($parent, 'module_id = 1', array('tree_editiondate DESC', 'tree_lft ASC'), $tree->getParam('number', 5));
 		$this->view->list_article = $result;
 		$this->view->tree = $tree;
-		$this->render('category', 'body');
+		$this->render('category');
 	}
 }
 ?>

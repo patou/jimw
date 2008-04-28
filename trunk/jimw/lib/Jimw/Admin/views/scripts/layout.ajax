@@ -1,8 +1,8 @@
 <?php
 	if (!($this->request->getControllerName() == 'index' && $this->request->getActionName() == 'index' && $this->request->getModuleName() == 'default')) {
 		echo '[';
-		echo trim(trim($this->getContent()), ',');
+		echo trim(trim($this->layout()->content), ',');
 		echo ']';
 	}
 	else
-		echo $this->getContent();
+		echo $this->layout()->content;

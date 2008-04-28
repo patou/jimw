@@ -3,7 +3,7 @@ class Jimw_Site_View_ViewRenderer
     extends Zend_Controller_Action_Helper_ViewRenderer
 {
     /**
-     * Name of layout script to render. Defaults to 'site.tpl.php'.
+     * Name of layout script to render. Defaults to 'layout'.
      *
      * @var string
      */
@@ -38,6 +38,7 @@ class Jimw_Site_View_ViewRenderer
      */
     public function setLayoutScript($script)
     {
+        Jimw_Debug::deprecated('Jimw_Site_View_ViewRenderer->setLayoutScript()', 'layout()->setLayout()');
         $this->_layoutScript = $script;
         return $this;
     }
@@ -59,6 +60,8 @@ class Jimw_Site_View_ViewRenderer
      */
     public function setRenderLayout($renderLayout = true)
     {
+        Jimw_Debug::deprecated('Jimw_Site_View_ViewRenderer->setRenderLayout()', 'layout()->setMvcSuccessfulActionOnly()');
+        Zend_Layout::getMvcInstance()->setMvcSuccessfulActionOnly($renderLayout);
         $this->_renderLayout = ($renderLayout) ? true : false;
         return $this;
     }
@@ -70,6 +73,7 @@ class Jimw_Site_View_ViewRenderer
      */
     public function setAppendBody($appendBody = true)
     {
+        Jimw_Debug::deprecated('Jimw_Site_View_ViewRenderer->setAppendBody()', 'layout()->setMvcSuccessfulActionOnly()');
         $this->_appendBody = ($appendBody) ? true : false;
         return $this;
     }
@@ -81,6 +85,8 @@ class Jimw_Site_View_ViewRenderer
      */
     public function noRenderLayout()
     {
+        Jimw_Debug::deprecated('Jimw_Site_View_ViewRenderer->noRenderLayout()', 'layout()->setMvcSuccessfulActionOnly()');
+        Zend_Layout::getMvcInstance()->setMvcSuccessfulActionOnly(false);
         $this->_renderLayout = false;
         return $this;
     }
@@ -120,7 +126,7 @@ class Jimw_Site_View_ViewRenderer
      * @param string $script
      * @param string $name
      */
-    public function renderScript($script, $name = null)
+    /*public function renderScript($script, $name = null)
     {
         $this->view->baseUrl = $this->getRequest()->getBaseUrl();
         if (null === $name) {
@@ -128,13 +134,13 @@ class Jimw_Site_View_ViewRenderer
         }
         
         // assign action script name to view.
-        if ($this->_appendBody)
-        	$this->getResponse()->appendBody ($this->view->render($script));
-        else
-        	$this->view->appendContent ($this->view->render($script));
+        //if ($this->_appendBody)
+        	//$this->getResponse()->appendBody ($this->view->render($script), null);
+        //else
+        	//$this->view->appendContent ($this->view->render($script));
         
         // render layout script and append to Response's body
-        if ($this->_renderLayout) {
+        /*if ($this->_renderLayout) {
         	try {
 	        	$layoutScript = $this->formatLayoutScript();
 	        	$layoutContent = $this->view->render($layoutScript);
@@ -145,8 +151,10 @@ class Jimw_Site_View_ViewRenderer
         			throw $e;
         		$this->getResponse()->appendBody ($this->view->getContent());
         	}
-        }
-        $this->setNoRender();
-    }
+        }* /
+        //$this->setNoRender();
+        parent::renderScript($script, $name);
+        Jimw_Debug::dump($this->getResponse());
+    }*/
 }
 
