@@ -143,6 +143,7 @@ class Jimw_Admin_Controller
 		$this->frontcontroller->addControllerDirectory(JIMW_REP_LIB . 'Jimw/Admin/Controller/', 'default');
 		$router->addRoute('ext', new Jimw_Site_Route_Module(array(), $this->dispatch, $this->request, false));
 		$router->addRoute('get', new Jimw_Site_Route_Get(array()));
+		Jimw_Global_Layout::startMvc();
 		$this->frontcontroller->dispatch($this->request, $this->response);
 		//Zend_Debug::dump($this->frontcontroller);
 	}

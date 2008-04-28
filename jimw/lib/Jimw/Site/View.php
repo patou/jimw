@@ -19,15 +19,21 @@ class Jimw_Site_View extends Zend_View
 	protected $_content = '';
 	
 	public function getContent () {
-		return $this->_content;
+	    Jimw_Debug::deprecated('Jimw_Site_View->getContent()', '$this->layout()->content');
+		//return $this->_content;
+		return $this->layout()->content;
 	}
 	
 	public function setContent ($content) {
-		$this->_content = $content;
+	    Jimw_Debug::deprecated('Jimw_Site_View->setContent()', '$this->layout()->content');
+		//$this->_content = $content;
+		$this->layout()->content = $content;
 	}
 	
 	public function appendContent ($content) {
-		$this->_content .= $content;
+	    Jimw_Debug::deprecated('Jimw_Site_View->appendContent()', '$this->layout()->content');
+		//$this->_content .= $content;
+		$this->layout()->content .= $content;
 	}
 	
 	/**

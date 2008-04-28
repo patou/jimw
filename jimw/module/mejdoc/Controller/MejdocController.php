@@ -36,7 +36,7 @@ class Mejdoc_MejdocController extends Jimw_Module_Action_Alias
 		$this->view->subdocuments = $subdocs;
 
 		$this->view->tree = $tree;
-		$this->render('mejdoc', 'body');
+		$this->render('mejdoc');
 	}
 }
 ?>

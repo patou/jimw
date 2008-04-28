@@ -21,6 +21,7 @@ abstract class Jimw_Module_Action_Abstract extends Zend_Controller_Action
 		$ext = $request->getParam('ext', 'phtml');
 		Zend_Registry::set('ext', $ext);
 		$this->getHelper('ViewRenderer')->setViewSuffix($ext);
+		$this->getHelper('Layout')->setViewSuffix($ext);
 		$this->view->addScriptPath($site_path . '/template');
 		$module = $request->getModuleName();
 		$this->view->addScriptPath($site_path . '/template/' . $module);

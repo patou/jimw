@@ -19,12 +19,7 @@ class Jimw_Db_Rowset extends Zend_Db_Table_Rowset
      */
     public function exists()
     {
-        try {
-            throw new Jimw_Exception('Zend_Db_Rowset->exists is deprecated');
-        }
-        catch (Exception $e) {
-            Jimw_Debug::display_exception($e);
-        }
+        Jimw_Debug::deprecated('Zend_Db_Rowset->exists()', 'cout($row)');
         return $this->_count > 0;
     }
 }

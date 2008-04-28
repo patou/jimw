@@ -24,7 +24,7 @@ class Blog_BlogController extends Jimw_Module_Action_Alias
 		$result = $messages->fetchAll(array('tree_parentid = ?' => $tree->id), 'blogmessage_date DESC');
 		$this->view->messages = $result;
 		$this->view->tree = $tree;
-		$this->render('blog', 'body');
+		$this->render('blog');
 	}
 }
 ?>

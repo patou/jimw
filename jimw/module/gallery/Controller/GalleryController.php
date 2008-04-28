@@ -40,6 +40,6 @@ class Gallery_GalleryController extends Jimw_Module_Action_Alias
 			exit ("$dir isn't a valid directory");
 		$this->view->photos = $photos;
 		$this->view->photos_path = $dir;
-		$this->render('gallery', 'body');
+		$this->render('gallery');
 	}
 }

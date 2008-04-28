@@ -21,7 +21,7 @@ class Article_ArticleController extends Jimw_Module_Action_Alias
 		$result = $article->fetchRow(array('tree_id = ?' => $tree->id));
 		$this->view->article = $result;
 		$this->view->tree = $tree;
-		$this->render('article', 'body');
+		$this->render('article');
 	}
 }
 ?>

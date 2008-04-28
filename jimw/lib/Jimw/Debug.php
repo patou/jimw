@@ -90,7 +90,7 @@ class Jimw_Debug extends Zend_Debug {
 					if ($pos > 80)
 						$pos = 80;
 					$title = substr($message, 0, $pos) . ' ...';
-					$message = substr($message, strlen($title));
+					$message = substr($message, strlen($title) - 4);
 				}
 			}
 			$output = '<div style="border: 1px solid ' .$color . ';
@@ -129,6 +129,30 @@ class Jimw_Debug extends Zend_Debug {
 				$output .= '<acronym class="backtrace" title="' . $item['file'] . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. '()">'. self::cropScriptPath($item['file']) . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. "()\n<br />";
 		}
         return self::display($output, $title, 'red', $echo);
+	}
+	
+    public static function deprecated ($function, $instead = '', $echo = true)
+	{
+	    $output = $function . ' is deprecated';
+	    if (!empty($instead)) {
+	        $output .= ' use ' . $instead . ' instead.';
+	    }
+	    $output .= "\n";
+	    try {
+            throw new Exception();
+        }
+        catch (Exception $e) {
+            
+		
+		$stack = $e->getTrace();
+		array_shift($stack);
+		//Zend_Debug::dump($stack);
+		    foreach ($stack as $item) {
+			    if ($item && isset($item['file']) && $item['line'])
+				    $output .= '<acronym class="backtrace" title="' . $item['file'] . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. '()">'. self::cropScriptPath($item['file']) . ' on line ' . $item['line'] . ' ' .(isset($item['class']) ? $item['class']. $item['type'] : '').  $item['function']. "()\n<br />";
+		    }
+        }
+        return self::display($output, '', 'yellow', $echo);
 	}
 	
 	public static function profile_db($db, $title = '',$echo = true)

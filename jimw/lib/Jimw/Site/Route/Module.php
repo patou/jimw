@@ -80,7 +80,10 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
         $params = array();
         $path   = trim($path, self::URI_DELIMITER);
         if ($path != '') {
-
+            if (($pos = strrpos($path, self::EXT_DELIMITER)) !== false && $pos >= 0) {
+            	$values[$this->_extKey] = substr($path, $pos + 1);
+            	$path = substr($path, 0, $pos);
+            }
             $path = explode(self::URI_DELIMITER, $path);
             if ($path[0] == JIMW_URL_MODULE_PATH || $path[0] == JIMW_URL_DEFAULT_PATH) {
                 array_shift($path);
@@ -88,17 +91,12 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
                 return false;
             }
 			
-            if ($this->_dispatcher && $this->_dispatcher->isValidModule($path[0])) {
+            if (count($path) && $this->_dispatcher && $this->_dispatcher->isValidModule($path[0])) {
                 $values[$this->_moduleKey] = array_shift($path);
                 $this->_moduleValid = true;
             //} else if ($this->_dispatcher) {
             //	$values[$this->_moduleKey] = JIMW_URL_DEFAULT_PATH;
             //    $this->_moduleValid = true;
-            }
-            
-        	if (($l = count($path)) > 0 && ($pos = strrpos($path[$l -1], self::EXT_DELIMITER)) !== false && $pos >= 0) {
-            	$values[$this->_extKey] = substr($path[$l - 1], $pos + 1);
-            	$path[$l - 1] = substr($path[$l - 1], 0, $pos);
             }
             
             if (count($path) && !empty($path[0])) {
