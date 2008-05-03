@@ -66,6 +66,9 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 	protected function _loadParam () {
 		if ($this->_param === null) {
 			$this->_param = unserialize($this->tree_param);
+			if (empty($this->_param)) {
+			    $this->_param = array();
+			}
 		}
 	}
 
@@ -105,6 +108,15 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 		return $this->_param;
 	}
 
+	/**
+	 * Check if the param exist
+	 *
+	 * @return boolean
+	 */
+	public function issetParam($name) {
+		$this->_loadParam();
+		return isset($this->_param[$name]);
+	}
 
 	/**
 	 * Set a specific value of the param table
@@ -117,6 +129,18 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 		$this->_param[$name] = $value;
 		$this->_saveParam();
 	}
+	
+	/**
+	 * Unset a specific value of the param table
+	 *
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	public function unsetParam($name) {
+		$this->_loadParam();
+		unset($this->_param[$name]);
+		$this->_saveParam();
+	}
 
 	/**
 	 * Set the complet param field by merging with the last param field
@@ -125,7 +149,7 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 	 */
 	public function setParams(array $values) {
 		$this->_loadParam();
-		array_merge($this->_param, $values);
+		$this->_param = array_merge($this->_param, $values);
 		$this->_saveParam();
 	}
 
@@ -142,6 +166,16 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
 		else
 			return parent::__get($name);
 	}
+	
+    public function __sleep() {
+        parent::__sleep();
+        $this->_saveParam();
+    }
+    
+    public function __wakeup() {
+        parent::__wakeup();
+        $this->_loadParam();
+    }
 	/**
 	 * Get the url of the tree
 	 * @deprecated 

@@ -22,14 +22,6 @@ class Jimw_Global_Layout extends Zend_Layout {
         return self::$_mvcInstance;
     }
     
-    /*public function render($name = null) {
-        //Jimw_Debug::display('TOTO');
-        try {
-            parent::render($name);
-        } catch (Zend_View_Exception $e) {
-            
-        }
-    }*/
 }
 
 ?>

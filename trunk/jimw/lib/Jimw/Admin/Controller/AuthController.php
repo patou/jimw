@@ -62,7 +62,8 @@ class AuthController extends Jimw_Admin_Action
 				}
 			}
 		}
-		$this->getHelper('ViewRenderer')->noRenderLayout()->setAppendBody(true);
+		
+		$this->getHelper('Layout')->disableLayout();
 		$this->render();
     }
     

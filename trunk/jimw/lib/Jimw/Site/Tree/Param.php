@@ -14,14 +14,52 @@
  * This class permit to use $tree->param->name access to tree params instead of $tree->getParam($name);
  *
  */
-class Jimw_Site_Tree_Param {
+class Jimw_Site_Tree_Param implements ArrayAccess {
 	private $_tree;
+
 	/**
 	 * 
 	 * @param Jimw_Site_Tree_Row $tree The parent Tree Row
 	 */
 	function __construct (Jimw_Site_Tree_Row $tree) {
 		$this->_tree = $tree;		
+	}
+	
+	/**
+	 * @see ArrayAccess::offsetExists()
+	 *
+	 * @param offset $offset
+	 */
+	public function offsetExists($offset) {
+	    return $this->_tree->issetParam($offset);
+	}
+	
+	/**
+	 * @see ArrayAccess::offsetGet()
+	 *
+	 * @param offset $offset
+	 */
+	public function offsetGet($offset) {
+	    return $this->_tree->getParam($offset);
+	}
+	
+	/**
+	 * @see ArrayAccess::offsetSet()
+	 *
+	 * @param offset $offset
+	 * @param value $value
+	 */
+	public function offsetSet($offset, $value) {
+	    return $this->_tree->setParam($offset, $value);
+	}
+	
+	/**
+	 * @see ArrayAccess::offsetUnset()
+	 *
+	 * @param offset $offset
+	 */
+	public function offsetUnset($offset) {
+	    return $this->_tree->unsetParam($offset);
 	}
 	
 	/**
@@ -64,6 +102,26 @@ class Jimw_Site_Tree_Param {
 	 */
 	public function set($name, $value) {
 		return $this->_tree->setParam($name, $value);
+	}
+	
+	/**
+	 * Unset a specific value of the param table
+	 *
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	public function __unset($name) {
+		return $this->_tree->unsetParam($name);
+	}
+	
+	/**
+	 * Check if a specific value exist
+	 *
+	 * @param string $name
+	 * @param mixed $value
+	 */
+	public function __isset($name) {
+		return $this->_tree->issetParam($name);
 	}
 	
 	/**
