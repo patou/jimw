@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <!--
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2007 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2008 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -23,10 +23,11 @@
  * of the current folder.
 -->
 <html>
-<head>
-<link href="browser.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="js/common.js"></script>
-<script language="javascript">
+	<head>
+		<link href="browser.css" type="text/css" rel="stylesheet">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script type="text/javascript" src="js/common.js"></script>
+		<script language="javascript">
 
 var sActiveFolder ;
 
@@ -166,7 +167,7 @@ function GetFoldersCallBack( fckXml )
 	for ( var i = 0 ; i < oNodes.length ; i++ )
 	{
 		var sFolderName = oNodes[i].attributes.getNamedItem('name').value ;
-		oListManager.AddItem( sFolderName, sCurrentFolderPath + sFolderName + "/" ) ;
+		oListManager.AddItem( sFolderName, sCurrentFolderPath + sFolderName + '/' ) ;
 	}
 
 	OpenFolder( sActiveFolder ) ;
@@ -184,16 +185,13 @@ window.onload = function()
 	LoadFolders( '/' ) ;
 }
 		</script>
-</head>
-<body class="FileArea" bottomMargin="10" leftMargin="10" topMargin="10"
-	rightMargin="10">
-<table id="tableFiles" cellSpacing="0" cellPadding="0" width="100%"
-	border="0">
-	<tr id="trUp" style="DISPLAY: none">
-		<td width="16"><a id="linkUpIcon" href="#"><img alt=""
-			src="images/FolderUp.gif" width="16" height="16" border="0"></a></td>
-		<td nowrap width="100%">&nbsp;<a id="linkUp" href="#">..</a></td>
-	</tr>
-</table>
-</body>
+	</head>
+	<body class="FileArea" bottomMargin="10" leftMargin="10" topMargin="10" rightMargin="10">
+		<table id="tableFiles" cellSpacing="0" cellPadding="0" width="100%" border="0">
+			<tr id="trUp" style="DISPLAY: none">
+				<td width="16"><a id="linkUpIcon" href="#"><img alt="" src="images/FolderUp.gif" width="16" height="16" border="0"></a></td>
+				<td nowrap width="100%">&nbsp;<a id="linkUp" href="#">..</a></td>
+			</tr>
+		</table>
+	</body>
 </html>
