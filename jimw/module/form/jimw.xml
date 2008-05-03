@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jimwModule>
+	<name>Jimw Form</name>
+	<comment>Display a contact form</comment>
+	<version>1.0</version>
+	<author>Patrice De Saint Steban</author>
+	<module>
+		<params>
+			<elements>
+				<form_file>
+					<type>text</type>
+					<options>
+						<label>Form file</label>
+						<description>
+							Set the form definition file
+						</description>
+					</options>
+				</form_file>
+				<database>
+					<type>text</type>
+					<options>
+						<label>Database Name</label>
+						<description>
+							Set the database to save the form
+						</description>
+					</options>
+				</database>
+				<email>
+					<type>text</type>
+					<options>
+						<label>Email</label>
+						<description>
+							Set the email to send the form
+						</description>
+					</options>
+				</email>
+				<email_text>
+					<type>text</type>
+					<options>
+						<label>Email Text</label>
+						<description>
+							The file to render the text mail
+						</description>
+					</options>
+				</email_text>
+			</elements>
+		</params>
+	</module>
+</jimwModule>

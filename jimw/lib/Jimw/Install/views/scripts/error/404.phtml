@@ -1,0 +1,6 @@
+<?php $this->title = $this->_('Error 404'); ?>
+<h1><?php echo $this->_('Page not found'); ?></h1>
+<p>
+<?php echo printf($this->_('The page "%s" didn\'t exist in this website'), $this->message); ?>
+</p>
+<?php Jimw_Debug::display_exception($this->exception); ?>

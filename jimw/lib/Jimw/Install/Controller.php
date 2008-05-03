@@ -71,6 +71,8 @@ class Jimw_Install_Controller
 	public function initTranslate () {
 		include (JIMW_REP_LANG . JIMW_LANG . '/common.php');
 		$trans = new Zend_Translate('array', $lang, JIMW_LANG);
+		Zend_Form::setDefaultTranslator($trans);
+		Zend_Registry::set('Zend_Translate', $trans);
 		return $trans;
 	}
 
@@ -112,9 +114,9 @@ class Jimw_Install_Controller
 		$this->frontcontroller->setResponse($this->response);
 		$this->frontcontroller->setDispatcher($this->dispatch);
 		$this->_registerPlugins();
-		//$router->addRoute('ext', new Jimw_Site_Route_Module(array(), $this->dispatch, $this->request, false));
 		$router->addRoute('get', new Jimw_Site_Route_Get(array()));
 		$this->frontcontroller->addControllerDirectory(JIMW_REP_LIB . 'Jimw/Install/Controller/', 'default');
+		Jimw_Global_Layout::startMvc();
 		$this->frontcontroller->dispatch($this->request, $this->response);
 		//Zend_Debug::dump($this->frontcontroller);
 	}

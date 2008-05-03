@@ -161,13 +161,13 @@ class FileController extends Jimw_Admin_Action
                 $filetype = 'basic'; else
                 $filetype = 'txt';
             $this->view->filetype = $filetype;
-            $this->getHelper('ViewRenderer')->noRenderLayout();
-            $this->getHelper('ViewRenderer')->noRenderLayout();
+            $this->getHelper('Layout')->disableLayout();
             $this->render('edit_area');
         }
     }
     public function saveAction ()
     {
+        $this->getHelper('Layout')->disableLayout();
         $this->view->filename = $this->getRequest()->filename;
         $filename = $this->get_dir($this->view->filename);
         file_put_contents($filename, $this->getRequest()->file);

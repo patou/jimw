@@ -14,6 +14,13 @@ class Jimw_Db_Update
         $this->prefix = $prefix;
     }
     
+    public function update() {
+        $version = get_schema_version($this->db);
+        $dir = './sql/' . get_database_type($jimw_config_db['type']) . '/';
+        echo "<br />--- Update global database ---<br />";
+        install_version('global', $dir, $version[$this->module], $this->db);        
+    }
+    
     public function get_schema_version ($default = 'global')
     {
         $version[$default] = DEFAULT_VERSION;

@@ -111,6 +111,7 @@
 		if (!count($tree))
 			$tree = $trees->fetchAll(array('tree_alias = ?' => $params[$this->_aliasKey]));
 		$tree = $tree->current ();
+		//@TODO : Corrigé si $tree == null
         $url = rtrim($tree->alias, self::URI_DELIMITER);
 		$ext = $params[$this->_extKey];
         if (!empty($ext) && $ext !== $this->_defaults[$this->_extKey]) {
