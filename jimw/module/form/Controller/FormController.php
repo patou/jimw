@@ -90,7 +90,7 @@ class Form_FormController extends Jimw_Module_Action_Alias
 		                ,'options' => array(
 		                    'label' => 'Email'
 		                    ,'required' => true
-		                    , 'validators' => array('email' => array('validator' => 'EmailAdress'))
+		                    , 'validators' => array('email' => array('validator' => 'EmailAddress'))
 		                    )
 		            )
 		            ,'contact' => array(
