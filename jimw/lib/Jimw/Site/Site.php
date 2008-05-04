@@ -11,7 +11,7 @@
  */
 class Jimw_Site_Site extends Jimw_Db_Table {
 	protected $_name = 'site';
-	protected $_dependentTables = array('Jimw_Site_Tree', 'Jimw_Site_Domain', 'Jimw_Site_UserGroup');
+	protected $_dependentTables = array('Jimw_Site_Tree', 'Jimw_Site_Domain', 'Jimw_Site_Usergroup');
 	/**protected $_referenceMap    = array(
 	'root' => array(
 	'columns'           => array('tree_id'),
