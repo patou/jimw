@@ -16,7 +16,7 @@ class Jimw_Form extends Zend_Form {
     {
         parent::__construct($options);
         $this->setMethod('POST');
-        $this->addPrefixPath('Jimw_Form', JIMW_REP_LIB . '/Jimw/Form');    
+        $this->addPrefixPath('Jimw_Form', JIMW_REP_LIB . 'Jimw/Form');   
     }
 }
 
