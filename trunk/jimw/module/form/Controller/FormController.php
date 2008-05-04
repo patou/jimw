@@ -17,18 +17,22 @@ class Form_FormController extends Jimw_Module_Action_Alias
 	{
 	    $req = $this->getRequest();
 	    $tree = $req->getTree();
-		$form_file = $tree->param->form;
-		if (isset($form_file) && file_exists($form_file)) {
+	    $site_path = Zend_Registry::get('site_path', '');
+		$form_file = JIMW_ROOT . $site_path .'/'. $tree->param->form_file;
+		if (!empty($tree->param->form_file) && file_exists($form_file)) {
 		    if (strpos($form_file, '.ini') > 0)
 		        $config = new Zend_Config_Ini($form_file);
 		    else 
 		        $config = new Zend_Config_Xml($form_file);
+		        
+		    Jimw_Debug::dump($config->toArray());
 		}
 		else {
 		    //Default contact form
 		    $config = $this->defaultContactForm();
 		}
 		$form = new Jimw_Form($config);
+		Jimw_Debug::dump($form);
 		if ($req->isPost() && $form->isValid($req->getPost())) {
 		    $this->validForm($form, $tree);
 		    
@@ -82,10 +86,11 @@ class Form_FormController extends Jimw_Module_Action_Alias
 		                )
 		            )
 		            ,'email' => array(
-		                'type' => 'text'
+		                'type' => 'text'//'Jimw_Form_Element_Email'
 		                ,'options' => array(
 		                    'label' => 'Email'
 		                    ,'required' => true
+		                    , 'validators' => array('email' => array('validator' => 'EmailAdress'))
 		                    )
 		            )
 		            ,'contact' => array(

@@ -100,7 +100,7 @@ class Jimw_Debug extends Zend_Debug {
         	margin: 5px 3px;">' . "\n";
 			$output .= '<a href="" onclick="el = document.getElementById(\''.$div_id.'\'); el.style.display = (el.style.display == \'none\') ? \'block\' : \'none\'; return false;">';
 			$output .= $title;
-			$output .= '</a><div id="'.$div_id.'" style="display:none;">';
+			$output .= '</a><div id="'.$div_id.'" style="display:none;text-align:left;">';
 		}
 		$output .= $message . "\n";
 		$output .= self::getTraceback();

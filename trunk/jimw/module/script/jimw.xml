@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jimwModule>
+	<name>Jimw Script</name>
+	<comment>Allow to execute a script that you want</comment>
+	<version>1.0</version>
+	<author>Patrice De Saint Steban</author>
+	<module>
+		<params>
+			<elements>
+				<script_file>
+					<type>text</type>
+					<options>
+						<label>Script file</label>
+						<description>
+							Set the php script file location
+						</description>
+					</options>
+				</script_file>
+			</elements>
+		</params>
+	</module>
+</jimwModule>
