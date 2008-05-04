@@ -67,6 +67,7 @@ error_reporting(E_ALL|E_STRICT);
 set_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP_MODULE . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
 require_once('Zend/Loader.php');
 spl_autoload_register(array('Zend_Loader', 'autoload'));
+date_default_timezone_set(JIMW_TIMEZONE);
 // Global configuration
 if (isset ($jimw_config_db))
 Zend_Registry::set('config_db', $jimw_config_db);
