@@ -4,8 +4,13 @@
 <p>
 <?= (isset($this->tree->description))? $this->tree->description:''; ?>
 </p>
-<script language="Javascript" src="<?php echo $this->path ?>/mootools.v1.11.js" type="text/javascript"></script>
-<script language="javascript" src="<?php echo $this->path ?>/gallery/gallery.js" type="text/javascript"></script>
+<?= $this->headScript()->captureStart(); ?>
+var lang_next = '<?=$this->_('Next'); ?>';
+var lang_prev = '<?=$this->_('Prev'); ?>';
+var lang_loading = '<?=$this->_('Loading...'); ?>';
+<?= $this->headScript()->captureEnd(); ?>
+<?= $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->path . '/mootools.v1.11.js'); ?>
+<?= $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->path . '/gallery/gallery.js'); ?>
 <a name="top"></a>
 <div id="photo_titre"></div>
 <div><span id="photo_prev"></span>
@@ -21,7 +26,7 @@
 <form method="post" action="<?php echo $this->request->getBaseUrl() . '/'. $this->tree->alias . '.pzip'; ?>">
 <div>
 <input type="hidden" name="dir" value="<?php echo $this->photos_path ?>" />
-<div id="download_link"><a href="#" onclick="display_download();">Télécharger les photos</a></div>
+<div id="download_link"><a href="#" onclick="display_download();"><?= $this->_('Download pictures'); ?></a></div>
 <?php
 	endif;
 ?>
@@ -57,7 +62,7 @@
 ?>
 <div id="download_button" class="download_hidden">
 <a href="#" onclick="select_all();">tous</a>
-<input type="submit" value="Télécharger" /></div>
+<input type="submit" value="<?= $this->_('Download') ?>" /></div>
 </div>
 </form>
 <?php

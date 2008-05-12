@@ -28,8 +28,10 @@ class Gallery_GalleryController extends Jimw_Module_Action_Alias
 			if ($dh = opendir($dir)) {
 				while (($img = readdir($dh)) !== false) {
 					if ($img != '.' && $img != '..' && !is_dir($dir . '/' . $img)) {
-						if (($size = @getimagesize($dir . '/thumbnails/' . $img)) !== false) {
-							$photos[] = array ('url' => $base_path . $img, 'title' => '', 'thumbnails' => $base_path . 'thumbnails/' . $img, 'thumbnails_width' => $size[0], 'thumbnails_height' => $size[1], 'file' => $img);
+					    $image = new Jimw_Image($dir . '/' . $img, $base_path);
+					    if ($image->hasThumbnails(true)) {
+					        $size = getimagesize($image->getThumbnailsFilename());
+							$photos[] = array ('url' => $image->getUrl(), 'title' => '', 'thumbnails' => $image->getThumbnailsUrl(), 'thumbnails_width' => $size[0], 'thumbnails_height' => $size[1], 'file' => $image->getFilename());
 						}
 					}
 				}

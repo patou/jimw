@@ -23,7 +23,7 @@ function redim_image(url, height, width)
 {
 	var maxWidth = 600;
 	var maxHeight = 400;
-	$('photo_loading').innerHTML = "Chargement Terminé !";
+	$('photo_loading').innerHTML = "";
 	var h = dH = height;
 	var w = dW = width;
 	if ((h >= maxHeight) || (w >= maxWidth)) {
@@ -48,7 +48,7 @@ function redim_image(url, height, width)
 
 function display_img(url, titre)
 {
-	$('photo_loading').innerHTML = "Chargement de l'image ...";
+	$('photo_loading').innerHTML = lang_loading;
 	$('photo_image').innerHTML = "<img id=\"photo_image_id\" align=\#center\" src=\""+url+"\" Onload=\"redim_image('"+url+"', this.height, this.width);\" style=\"opacity: 0\">";
 	if (navigator.appVersion.indexOf("MSIE") == -1)
 		$('photo_image').style.display = 'none';
@@ -60,11 +60,11 @@ function display_picture(num)
 {
 	display_img(image[num].url, image[num].title);
 	if (num > 0)
-		$('photo_prev').innerHTML = '<a href="#" onclick="display_picture('+(num - 1)+');">Précedente</a>';
+		$('photo_prev').innerHTML = '<a href="#" onclick="display_picture('+(num - 1)+');">' + lang_prev + '</a>';
 	else
 		$('photo_prev').innerHTML = '';
 	if (num + 1 < image.length)
-		$('photo_next').innerHTML = '<a href="#" onclick="display_picture('+(num + 1)+');">Suivante</a>';
+		$('photo_next').innerHTML = '<a href="#" onclick="display_picture('+(num + 1)+');">' + lang_next + '</a>';
 	else
 		$('photo_next').innerHTML = '';
 }
