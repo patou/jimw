@@ -77,4 +77,7 @@
 	
 	/** Protect Install administration for a single domain */
 	//define('JIMW_INSTALL_PROTECT_DOMAIN', 'www.jimw.fr');
+	
+	/** Thumbnails default directory or can be a prefix filename */
+	if (!defined('JIMW_IMAGE_THUMBNAIL')) define('JIMW_IMAGE_THUMBNAIL_DIR', 'thumbnails/')
 ?>

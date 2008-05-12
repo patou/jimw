@@ -287,6 +287,19 @@ class Jimw_Site_Tree extends Jimw_Db_Table {
 		return parent::createRow($data);
 	}
 
+	public function selectChildren($parent) {
+	    if (!($parent instanceof  Jimw_Site_Tree)) {
+			$parent = $this->find($parent)->current();
+		}
+	    if (!$parent) { // Root
+			return $this->select()->order('tree_lft');
+		}
+		else {
+		    return $this->select()->where('tree_lft >= ?', $parent->lft)
+		           ->where('tree_rgt <= ? ', $parent->rgt)->order('tree_lft');
+		}
+	}
+	
 	public function fetchAllChildren($parent, $where = null, $order = null, $count = null, $offset = null) {
 		if (!($parent instanceof  Jimw_Site_Tree)) {
 			$parent = $this->find($parent)->current();
