@@ -1,7 +1,7 @@
 <?php
 $this->headLink(array('rel' => 'stylesheet', 'type' => 'text/css', 'href'=> $this->path . '/images/BrightSide.css'));
 $this->headTitle()->prepend('Jimw');
-$this->headMeta('text/html; charset=UTF8', 'content-type');
+if (JIMW_UTF8) $this->headMeta('text/html; charset=UTF8', 'content-type');
 if (isset($this->tree->menutitle))
     $this->headTitle()->append(' - ' . $this->tree->menutitle);
 echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
