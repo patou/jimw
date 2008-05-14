@@ -64,8 +64,12 @@
 	/** Default extension (phtml or ajax) */
 	if (!defined('JIMW_DEFAULT_EXT')) define('JIMW_DEFAULT_EXT', 'phtml');
 	
+	/** Jimw Database Prefix */
 	if (!defined('JIMW_PREFIX')) define('JIMW_PREFIX', 'jimw');
 
+	/** Use UTF8 for the website **/ 
+	if (!defined('JIMW_UTF8')) define('JIMW_UTF8', false);
+	
 	/** URL rewriting */
 	if (!defined('JIMW_URL_REWRITING')) define('JIMW_URL_REWRITING', true);
 	
