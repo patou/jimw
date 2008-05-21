@@ -1,0 +1,35 @@
+<?php 
+//$trees = new Jimw_Site_Tree();
+//$tree = $trees->fetchRow(array('tree_id = ?' => $this->tree_parentid));
+//$path = $tree->site->path();
+$path = 'public/album2009'
+?>
+<form action="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => $this->form_type, 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
+<input type="hidden" name="id" value="<?= $this->id ?>">
+<input type="hidden" name="treeparentid" value="<?= $this->message->tree_parentid ?>">
+<table border="0" width="90%">
+<? if (!empty($this->id)): ?>
+<tr><td class="t01"><?php echo $this->_('Id'); ?> :</td><td class="t01"><?= $this->id ?></td></tr>
+<? endif; ?>
+<tr><td class="t01"><?= $this->formLabel('date', $this->_('Date')); ?> : </td><td><?= $this->formText('date', $this->message->date); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('title', $this->_('Title')); ?> : </td><td><?= $this->formText('title', $this->message->title, array('size' => 40)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('treeid', $this->_('Read more')); ?> : </td><td>
+<?php echo $this->selectTree('treeid', $this->message->tree_id) ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('name', $this->_('Name')); ?> : </td><td><?= $this->formText('name', $this->message->name, array('size' => 40)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('firstname', $this->_('First name')); ?> : </td><td><?= $this->formText('firstname', $this->message->firstname, array('size' => 40)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('phone', $this->_('Phone')); ?> : </td><td><?= $this->formText('phone', $this->message->phone, array('size' => 40)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('email', $this->_('Email')); ?> : </td><td><?= $this->formText('email', $this->message->email, array('size' => 40)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('mp3', $this->_('MP3 file')); ?> : </td><td>
+<object type="application/x-shockwave-flash" data="<?= JIMW_URL_PUBLIC_COMMON_PATH.'/dewplayer.swf?son=/'.$path.'/blogmp3/'.$this->id.'.mp3' ?>" height="20" width="200">
+<param name="movie" value="<?= JIMW_URL_PUBLIC_COMMON_PATH.'/dewplayer.swf?son=/'.$path.'/blogmp3/'.$this->site->id.'.mp3' ?>">
+</object></td></tr>
+<?php if (file_exists('./../'.$path.'/blogmp3/'.$this->id.'.mp3')): ?>
+<tr><td class="t01"><?= $this->formLabel('pdf', $this->_('PDF file')); ?> : </td><td><a href="<?= '/'.$path.'/blogmp3/'.$this->id.'.pdf' ?>"><?= $this->_('Download') ?></a></td></tr>
+<?php endif; ?>
+<tr><td class="t01"><?= $this->formLabel('content', $this->_('Content')); ?> : </td><td><?= $this->formTextarea('content', $this->message->content, array('rows' => 7, 'cols' => 60)); ?></td></tr>
+<!-- <tr><td colspan="2" align="center"><?= $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td></tr> -->
+</table></form>
+<br/>
+<p class="t01" style="font-size: 12px;">
+	<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'edit', 'id' => $this->message->tree_parentid), 'ext'); ?>"><?php echo $this->_('Return') ?></a>
+</p>

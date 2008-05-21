@@ -37,6 +37,8 @@
 	if (!defined('JIMW_REP_MODULE')) define('JIMW_REP_MODULE', JIMW_REP . 'module/');
 	/** Public directory */
 	if (!defined('JIMW_REP_PUBLIC')) define('JIMW_REP_PUBLIC', JIMW_ROOT . 'public/');
+	/** Common public directory */
+	if (!defined('JIMW_REP_PUBLIC_COMMON')) define('JIMW_REP_PUBLIC_COMMON', JIMW_REP_PUBLIC . 'common/');
 	/** Public directory */
 	if (!defined('JIMW_REP_INSTALL')) define('JIMW_REP_INSTALL', JIMW_ROOT . 'install/');
 	/** Public directory */
@@ -58,6 +60,8 @@
 	if (!defined('JIMW_URL_ADMIN_PATH')) define('JIMW_URL_ADMIN_PATH', '/admin');
 	/** Public path in URL */
 	if (!defined('JIMW_URL_PUBLIC_PATH')) define('JIMW_URL_PUBLIC_PATH', '/public');
+	/** Public path in URL */
+	if (!defined('JIMW_URL_PUBLIC_COMMON_PATH')) define('JIMW_URL_PUBLIC_COMMON_PATH', JIMW_URL_PUBLIC_PATH . '/common');
 	/** Install path in URL */
 	if (!defined('JIMW_URL_INSTALL_PATH')) define('JIMW_URL_INSTALL_PATH', '/install');
 

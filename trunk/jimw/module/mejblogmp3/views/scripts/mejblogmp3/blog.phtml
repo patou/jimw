@@ -1,0 +1,100 @@
+<?= (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
+<? if (count($this->messages) > 0): ?>
+<?php
+function convertlongdateattime($str) {
+  return substr($str,8,2)." ".convertmonthstr(substr($str,5,2))." ".substr($str,0,4)." à ".substr($str,11,2).":".substr($str,14,2);
+}
+
+function convertlongdatetime($str) {
+  return substr($str,8,2)." ".convertmonthstr(substr($str,5,2))." ".substr($str,0,4)." ".substr($str,11,2).":".substr($str,14,2);
+}
+
+function convertmonthstr($str) {
+  $tabmois = array("00" => "", "01" => "janvier", "02" => "février", "03" => "mars", "04" => "avril",
+    "05" => "mai", "06" => "juin", "07" => "juillet", "08" => "août",
+	"09" => "septembre", "10" => "octobre", "11" => "novembre", "12" => "décembre");
+  return ((isset($tabmois[$str])) ? $tabmois[$str] : $str);
+}
+$url = $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'ext' => 'phtml', 'alias' => $this->tree->alias), 'ext');
+function addcommentform($id, $url) {
+  ?>
+  <form id="addcomment<?= $id ?>" method="post" action="<?= $url ?>" style="display: none">		
+  <input type="hidden" name="cid" value="<?= $id ?>">
+  <p><label>Votre nom : </label><br /><input name="cname" value="" type="text" size="50" /><br />
+  <label>Votre commentaire :</label><br />
+  <textarea name="cmessage" rows="5" cols="50"></textarea><br />
+  <input class="button" type="submit" value="Envoyer" />
+  </p></form>
+<?php
+}
+
+foreach ($this->messages as $message) {
+  if ($message->published == true) {
+  echo '<a name="'.$message->id.'"></a><h3>'.$message->title.' - '.$message->firstname.' '.$message->name.'</h3>';
+
+  	echo '<p align="center">
+	  <object type="application/x-shockwave-flash" data="'.JIMW_URL_PUBLIC_COMMON_PATH.'/dewplayer.swf?son=/'.$this->tree->site->path.'/blogmp3/'.$message->id.'.mp3" height="20" width="200">
+	  <param name="movie" value="'.JIMW_URL_PUBLIC_COMMON_PATH.'/dewplayer.swf?son=/'.$this->tree->site->path.'/blogmp3/'.$message->id.'.mp3">
+	  </object>';
+	
+	if (file_exists(rtrim('./' . $this->tree->site->path, '/') . '/blogmp3/'.$message->id.'.pdf')) {
+	   echo '<br /><a href="/'.$this->tree->site->path.'/blogmp3/'.$message->id.'.pdf">Voir les paroles (PDF)</a>';
+	}
+
+	echo '</p>';
+
+    echo $message->content;
+  	if ($message->tree_id != NULL && $message->tree_id != 0) {
+      // There is a reference to a tree element
+      $tree = new Jimw_Site_Tree();
+      $result = $tree->find($message->tree_id)->current();
+      $readmore = '<a href="'.$this->url(array('alias' => $result->alias, 'ext' => 'phtml'), 'alias', true).'" class="readmore">Voir les photos</a>';
+    } else {
+      $readmore = '';
+    }
+
+  $comments = $message->findMejblogmp3Comment();
+  
+  echo '<p class="post-footer align-right">';
+  echo $readmore;
+
+  if (count($comments) > 0) {
+    echo '<a href="#" onclick="javascript:el = document.getElementById(\'comments'.$message->id.'\'); el.style.display=(el.style.display==\'none\') ? \'block\':\'none\'; return false;" class="comments">Commentaires ('.count($comments).')</a>';
+  } else {
+    //echo '<a href="#" onclick="javascript:el = document.getElementById(\'addcomment'.$message->id.'\'); el.style.display=(el.style.display==\'none\') ? \'block\':\'none\'; return false;" class="comments">Ajouter un commentaire</a>';
+  }
+  print '<span class="date">'.convertlongdatetime($message->date).'</span></p>';
+  if (count($comments) > 0) {
+    echo '<div class="post-footer" id="comments'.$message->id.'" style="display: none">';
+	foreach($comments as $comment) {
+  	  echo '<p><small><b>Par '.$comment->username.' le '.convertlongdateattime($comment->date).'</b><br />'.nl2br($comment->content).'</small></p>';
+    }
+    echo '<div id="labeladdcomment'.$message->id.'"><a href="#" onclick="javascript:document.getElementById(\'addcomment'.$message->id.'\').style.display=\'block\'; document.getElementById(\'labeladdcomment'.$message->id.'\').style.display=\'none\'; return false;" class="comments">Ajouter un commentaire</a></div>';
+	echo addcommentform($message->id, $url);
+    echo '</div>';
+  } else {
+    echo addcommentform($message->id, $url);
+  }
+  
+  }
+}
+
+?>
+<? else: ?>
+<p>Blog vide.</p>
+<? endif; ?>
+
+<div id="labeladdmessage"><a href="#" onclick="javascript:document.getElementById('addmessage').style.display='block'; document.getElementById('labeladdmessage').style.display='none'; return false;" class="comments">Poster ma candidature !</a></div>
+<form id="addmessage" method="post" enctype="multipart/form-data" action="<?= $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'add', 'ext' => 'phtml', 'alias' => $this->tree->alias), 'ext'); ?>" style="display: none">
+  <p>Pour envoyer votre création, complétez ce formulaire en y joignant votre fichier au format MP3. L'adresse e-mail et le numéro de téléphone ne seront pas affichés sur le site, mais ils sont indispensables pour que le MEJ puisse vous recontacter.</p>
+  <p><label>Nom : </label><input style="display: inline;" name="mname" value="" type="text" size="30" /><br />
+  <p><label>Prénom : </label><input name="mfirstname" value="" type="text" size="30" /><br />
+  <p><label>N° de téléphone : </label><input name="mphone" value="" type="text" size="30" /><br />
+  <p><label>Courriel : </label><input name="memail" value="" type="text" size="30" /><br />
+  <p><label>Fichier MP3 : </label><input name="mfilemp3" type="file" /><br />
+  <p><label>Fichier PDF : </label><input name="mfilepdf" type="file" /> <small>(pour les paroles, facultatif)</small><br />
+  <p><label>Titre du morceau : </label><input name="mtitle" value="" type="text" size="30" /><br />
+  <label>Commentaire sur votre composition :</label><br />
+  <textarea name="mmessage" style="width: 400px; height: 150px;"></textarea><br />
+  <input class="button" type="submit" value="Envoyer" /></p>
+</form>
