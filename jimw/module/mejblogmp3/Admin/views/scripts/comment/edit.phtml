@@ -1,0 +1,13 @@
+<script type="text/javascript" src="<?= $this->path ?>/fckeditor.js"></script>
+<form action="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'save', 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
+<input type="hidden" name="id" value="<?= $this->id ?>">
+<table border="0" width="90%">
+<tr><td class="t01"><?= $this->formLabel('date', $this->_('Date')); ?> : </td><td><?= $this->formText('date', $this->comment->date); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('username', $this->_('Username')); ?> : </td><td><?= $this->formText('username', $this->comment->username, array('size' => 40)); ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('content', $this->_('Content')); ?> : </td><td><?= $this->formTextarea('content', $this->comment->content, array('cols' => 50, 'rows' => 10)); ?></textarea></td></tr>
+<tr><td colspan="2" align="center"><?= $this->formSubmit('btn', $this->_('Save')) ?></td></tr>
+</table></form>
+<br/>
+<p class="t01" style="font-size: 12px;">
+	<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'list', 'id' => $this->comment->blogmessage_id), 'ext'); ?>"><?php echo $this->_('Return') ?></a>
+</p>
