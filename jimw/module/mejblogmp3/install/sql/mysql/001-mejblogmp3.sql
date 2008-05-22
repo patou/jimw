@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}blogmp3message` (
   `blogmp3message_email` varchar(100) NOT NULL,
   `blogmp3message_phone` varchar(25) NOT NULL,
   `blogmp3message_date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `blogmp3message_content` BOOL NOT NULL DEFAULT '1',
   `blogmp3message_published` BOOL NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`blogmp3message_id`),
