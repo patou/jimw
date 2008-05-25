@@ -2,7 +2,7 @@
 <? if (count($this->messages) > 0): ?>
 <?php
 function convertlongdateattime($str) {
-  return substr($str,8,2)." ".convertmonthstr(substr($str,5,2))." ".substr($str,0,4)." à ".substr($str,11,2).":".substr($str,14,2);
+  return substr($str,8,2)." ".convertmonthstr(substr($str,5,2))." ".substr($str,0,4)." Ã  ".substr($str,11,2).":".substr($str,14,2);
 }
 
 function convertlongdatetime($str) {
@@ -10,9 +10,9 @@ function convertlongdatetime($str) {
 }
 
 function convertmonthstr($str) {
-  $tabmois = array("00" => "", "01" => "janvier", "02" => "février", "03" => "mars", "04" => "avril",
-    "05" => "mai", "06" => "juin", "07" => "juillet", "08" => "août",
-	"09" => "septembre", "10" => "octobre", "11" => "novembre", "12" => "décembre");
+  $tabmois = array("00" => "", "01" => "janvier", "02" => "fÃ©vrier", "03" => "mars", "04" => "avril",
+    "05" => "mai", "06" => "juin", "07" => "juillet", "08" => "aoÃ»t",
+	"09" => "septembre", "10" => "octobre", "11" => "novembre", "12" => "dÃ©cembre");
   return ((isset($tabmois[$str])) ? $tabmois[$str] : $str);
 }
 $url = $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'ext' => 'phtml', 'alias' => $this->tree->alias), 'ext');
@@ -43,7 +43,7 @@ foreach ($this->messages as $message) {
 
 	echo '</p>';
 
-    echo $message->content;
+    echo nl2br($message->content);
   	if ($message->tree_id != NULL && $message->tree_id != 0) {
       // There is a reference to a tree element
       $tree = new Jimw_Site_Tree();
@@ -86,10 +86,10 @@ foreach ($this->messages as $message) {
 
 <div id="labeladdmessage"><a href="#" onclick="javascript:document.getElementById('addmessage').style.display='block'; document.getElementById('labeladdmessage').style.display='none'; return false;" class="comments">Poster ma candidature !</a></div>
 <form id="addmessage" method="post" enctype="multipart/form-data" action="<?= $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'add', 'ext' => 'phtml', 'alias' => $this->tree->alias), 'ext'); ?>" style="display: none">
-  <p>Pour envoyer votre création, complétez ce formulaire en y joignant votre fichier au format MP3. L'adresse e-mail et le numéro de téléphone ne seront pas affichés sur le site, mais ils sont indispensables pour que le MEJ puisse vous recontacter.</p>
+  <p>Pour envoyer votre crÃ©ation, complÃ©tez ce formulaire en y joignant votre fichier au format MP3. L'adresse e-mail et le numÃ©ro de tÃ©lÃ©phone ne seront pas affichÃ©s sur le site, mais ils sont indispensables pour que le MEJ puisse vous recontacter.</p>
   <p><label>Nom : </label><input style="display: inline;" name="mname" value="" type="text" size="30" /><br />
-  <p><label>Prénom : </label><input name="mfirstname" value="" type="text" size="30" /><br />
-  <p><label>N° de téléphone : </label><input name="mphone" value="" type="text" size="30" /><br />
+  <p><label>PrÃ©nom : </label><input name="mfirstname" value="" type="text" size="30" /><br />
+  <p><label>NÂ° de tÃ©lÃ©phone : </label><input name="mphone" value="" type="text" size="30" /><br />
   <p><label>Courriel : </label><input name="memail" value="" type="text" size="30" /><br />
   <p><label>Fichier MP3 : </label><input name="mfilemp3" type="file" /><br />
   <p><label>Fichier PDF : </label><input name="mfilepdf" type="file" /> <small>(pour les paroles, facultatif)</small><br />
