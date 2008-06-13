@@ -48,7 +48,7 @@ class Form_FormController extends Jimw_Module_Action_Alias
 	    $database = $tree->param->get('database', false);
 	    if ($database) {
 	        $db = new form_Form_Table(array('name' => $database));
-	        $new = $db->fetchNew($form->getValues());
+	        /*$new = $db->fetchNew($form->getValues());
 	        $data = array();
 	        
 	        $cols = $db->info('cols');
@@ -56,7 +56,8 @@ class Form_FormController extends Jimw_Module_Action_Alias
 	            $data[$col] = $form->getValue($col);
 	            $new->__set($col, $data[$col]);
 	        }
-	        //$new->setFromArray($data);
+	        //$new->setFromArray($data);*/
+	        $new = $db->createRow($form->getValues());
 	        $new->save();
 	    }
 	    $email = $tree->param->get('email', false);
