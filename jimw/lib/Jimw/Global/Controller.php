@@ -70,7 +70,6 @@ class Jimw_Global_Controller
 	public function initTranslate () {
 		include (JIMW_REP . '/lang/fr/common.php');
 		$trans = new Zend_Translate('array', $lang, 'fr');
-		Zend_View_Helper_Translate::setTranslator($trans);
 		Zend_Form::setDefaultTranslator($trans);
 		Zend_Registry::set('Zend_Translate', $trans);
 		return $trans;
