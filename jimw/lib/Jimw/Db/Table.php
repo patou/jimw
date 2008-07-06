@@ -17,7 +17,7 @@ class Jimw_Db_Table extends Zend_Db_Table
 	const PREFIX = 'prefix';
 	protected $_prefix = 'jimw';
 	protected $_isGlobalDb = false;
-	
+
 	/**
      * Constructor.
      *
@@ -39,7 +39,7 @@ class Jimw_Db_Table extends Zend_Db_Table
     public function __construct($config = array())
     {
     	if ($this->_isGlobalDb) {
-    		$this->_prefix = 'jimw';
+    		$this->_prefix = JIMW_PREFIX;
     		$config[self::ADAPTER] = 'db_global';
     	}
     	else {
@@ -54,7 +54,7 @@ class Jimw_Db_Table extends Zend_Db_Table
 	 */
 	protected function _setupTableName()
     {
-    	
+
     	parent::_setupTableName();
         if (!strpos($this->_name, $this->_prefix)) {
         	$this->_tableName = $this->_name;
@@ -74,7 +74,7 @@ class Jimw_Db_Table extends Zend_Db_Table
     public function getTableName () {
     	return $this->_tableName;
     }
-    
+
     /**
      * Get the real table name with the prefix
      *
@@ -83,7 +83,7 @@ class Jimw_Db_Table extends Zend_Db_Table
     public function getRealTableName () {
     	return $this->_name;
     }
-    
+
     /**
      * Transform a column name from the user-specified form
      * to the physical form used in the database.
