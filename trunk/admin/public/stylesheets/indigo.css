@@ -255,3 +255,51 @@ table.list td {
 table.list tr:hover {
 	background-color: #DDD;
 }
+legend {
+	color: #06C;
+	font-size: 1.2em;
+}
+/* Form */
+dl {
+	position: relative;
+	width: 650px;
+}
+
+dt {
+	clear: both;
+	float: left;
+	width: 200px;
+	padding: 4px 0 2px 0;
+	text-align: left;
+	font-weight: bold;
+}
+
+dd {
+	float: left;
+	width: 400px;
+	margin: 0 0 8px 0;
+	padding-left: 6px;
+}
+
+.hint {
+	display: none;
+	position: absolute;
+	right: -250px;
+	width: 200px;
+	margin-top: -4px;
+	border: 1px solid #c93;
+	padding: 10px 12px;
+	background: #ffc url(pointer.gif) no-repeat -100px -100px;
+}
+
+label.required {
+	text-decoration: underline;
+	background-image: url("/images/form_field_required.png");
+	background-repeat: no-repeat;
+	background-position: right top;
+}
+
+.errors {
+	color: red;
+	list-style: none;
+}

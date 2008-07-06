@@ -7,7 +7,7 @@
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr
- * @version    $Id:$
+ * @version    $Id$
  */
 
 class Jimw_Admin_Element_Form extends Jimw_Admin_Element_Abstract

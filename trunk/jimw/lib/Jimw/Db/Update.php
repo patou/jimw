@@ -4,24 +4,23 @@ define('DEFAULT_VERSION', 1);
 class Jimw_Db_Update
 {
     private $db;
-    private $module;
     private $prefix = JIMW_PREFIX;
-    
-    public function __construct (Zend_Db_Adapter_Abstract $db, $module = 'global', $prefix = JIMW_PREFIX)
+
+    public function __construct (Zend_Db_Adapter_Abstract $db, $prefix = JIMW_PREFIX)
     {
         $this->db = $db;
-        $this->module = $module;
         $this->prefix = $prefix;
     }
-    
-    public function update() {
-        $version = get_schema_version($this->db);
-        $dir = './sql/' . get_database_type($jimw_config_db['type']) . '/';
+
+    public function update_all() {
+        $config = $this->db->getConfig();
+        $dir = JIMW_REP_INSTALL_SQL . $this->get_database_type($config['type']) . '/' . JIMW_INSTALL_SQL_GLOBAL . '/';
+        $version = $this->get_schema_version(JIMW_INSTALL_SQL_GLOBAL, JIMW_REP_INSTALL_SQL);
         echo "<br />--- Update global database ---<br />";
-        install_version('global', $dir, $version[$this->module], $this->db);        
+        $this->install_version(JIMW_INSTALL_SQL_GLOBAL, $dir, $version[JIMW_INSTALL_SQL_GLOBAL], $this->db);
     }
-    
-    public function get_schema_version ($default = 'global')
+
+    public function get_schema_version ($default = 'global', $dir = JIMW_REP_INSTALL_SQL)
     {
         $version[$default] = DEFAULT_VERSION;
         try {
@@ -31,10 +30,12 @@ class Jimw_Db_Update
             }
         } catch (Zend_Db_Exception $e) {
             Jimw_Debug::display_exception($e);
+            Jimw_Debug::display($dir . 'schema.sql');
+            $this->install_sql($dir . 'schema.sql');
         }
         return $version;
     }
-     
+
     public function get_version_list ($path)
     {
         $list = array();
@@ -53,7 +54,7 @@ class Jimw_Db_Update
         }
         return $list;
     }
-    
+
     public function install_sql ($file)
     {
         $sql_file = @file_get_contents($file);
@@ -70,42 +71,46 @@ class Jimw_Db_Update
                     $stm = $this->db->query($sql);
                     //$stm->execute();
                 } catch (Zend_Db_Exception $e) {
-                    display_exception($e);
+                    Jimw_Debug::display_exception($e);
                     return false;
                 }
             }
         }
         return true;
     }
-    
+
     public function update_version ($module, $version)
     {
         try {
             $sel = $this->db->fetchOne($this->db->select()->from($this->get_prefix('schema'), 'schema_version')->where('schema_module = ?', $module));
             echo "** Update $module to version $version **";
             if ($sel)
-                $this->db->update($this->prefix . 'schema', array('schema_version' => $version), $this->db->quoteInto('schema_module = ?', $module)); else
-                $this->db->insert($this->prefix . 'schema', array('schema_version' => $version , 'schema_module' => $module));
+                $this->db->update($this->get_prefix('schema'), array('schema_version' => $version), $this->db->quoteInto('schema_module = ?', $module));
+            else
+                $this->db->insert($this->get_prefix('schema'), array('schema_version' => $version , 'schema_module' => $module));
             return true;
         } catch (Zend_Db_Exception $e) {
             Jimw_Debug::display_exception($e);
         }
         return false;
     }
-    
+
     public function install_version ($module, $path, $cur_version = 0)
     {
         $list = $this->get_version_list($path);
         $version = $cur_version;
-        for (; isset($list[$version]); $version ++) {
+        for (; isset($list[$version]); $version++) {
             echo "Install version $version ... ";
-            if (install_sql($list[$version]))
+            if ($this->install_sql($list[$version]))
                 echo "<font color=green>OK</font><br />"; else
                 return false;
         }
-        return update_version($module, $version);
+        if ($version == $cur_version) {
+            $version = max(array_keys($list)) + 1;
+        }
+        return $this->update_version($module, $version);
     }
-    
+
     private function get_database_type ($type)
     {
         switch (strtoupper($type)) {
@@ -117,13 +122,13 @@ class Jimw_Db_Update
             case 'SQLITE':
                 return 'sqlite';
             default:
-                return $type;
+                return strtolower($type);
         }
     }
-    
+
     private function get_prefix($name) {
         if ($this->prefix != '') {
-            return ltrim($this->prefix, '_') . '_' . rtrim($name, '_'); 
+            return ltrim($this->prefix, '_') . '_' . rtrim($name, '_');
         }
         return $name;
     }
