@@ -1,6 +1,6 @@
 <?php
 /**
- * Jimw_Site_View_Helper_BBCode
+ * Jimw_Site_View_Helper_BbCode
  *
  * @author	   Logisim
  * @category   Jimw_Core
@@ -10,10 +10,19 @@
  * @version    $Id$
  */
 
-class Jimw_Site_View_Helper_BBCode
+class Jimw_Site_View_Helper_BbCode
 {
 	
+public $view;
+
+public function setView(Zend_View_Interface $view)
+{
+	$this->view = $view;
+}
+	
 public function bbCode($text) {
+  
+  $dir = rtrim('/' . $this->view->tree->site->path, '/');
   $bbcode = array(
     "/\[b\](.+?)\[\/b\]/si",
     "/\[i\](.+?)\[\/i\]/si",
@@ -44,31 +53,31 @@ public function bbCode($text) {
     "<span class=\"quote\">$1</span>",
     "<span class=\"quote\">$2</span>",
     "<span style=\"color: $1;\">$2</span>",
-    "<object type=\"application/x-shockwave-flash\" data=\"".$this->path."/dewplayer.swf?son=".$this->path."/$1\" height=\"20\" width=\"200\"><param name=\"movie\" value=\"".$this->path."/dewplayer.swf?son=".$this->path."/$1\"></object>",
-    "<object type=\"application/x-shockwave-flash\" data=\"".$this->path."/dewplayer.swf?son=".$this->path."/$1\" height=\"20\" width=\"200\"><param name=\"movie\" value=\"".$this->path."/dewplayer.swf?son=".$this->path."/$1\"></object><p align=\"center\"><small>$1</small></p>",
+    "<object type=\"application/x-shockwave-flash\" data=\"".JIMW_URL_PUBLIC_COMMON_PATH."/dewplayer.swf?son=".$dir."/$1\" height=\"20\" width=\"200\"><param name=\"movie\" value=\"".JIMW_URL_PUBLIC_COMMON_PATH."/dewplayer.swf?son=".$dir."/$1\"></object>",
+    "<object type=\"application/x-shockwave-flash\" data=\"".JIMW_URL_PUBLIC_COMMON_PATH."/dewplayer.swf?son=".$dir."/$1\" height=\"20\" width=\"200\"><param name=\"movie\" value=\"".JIMW_URL_PUBLIC_COMMON_PATH."/dewplayer.swf?son=".$dir."/$1\"></object><p align=\"center\"><small>$1</small></p>",
     "<p id=\"player$1\">Vous devez t&eacute;l&eacute;charger <a href=\"http://www.macromedia.com/go/getflashplayer\">Flash Player</a> pour voir cette vid&eacute;o.</p>
 <script type=\"text/javascript\">
-	var s1 = new SWFObject(\"".$this->path."/flvplayer.swf\",\"single\",\"$3\",\"$4\",\"7\");
+	var s1 = new SWFObject(\"".JIMW_URL_PUBLIC_COMMON_PATH."/flvplayer.swf\",\"single\",\"$3\",\"$4\",\"7\");
 	s1.addParam(\"allowfullscreen\",\"true\");
-	s1.addVariable(\"file\",\"/public/rn2007/videos/$2.flv\");
-	s1.addVariable(\"image\",\"/public/rn2007/videos/$2.jpg\");
+	s1.addVariable(\"file\",\"$dir/videos/$2.flv\");
+	s1.addVariable(\"image\",\"$dir/videos/$2.jpg\");
 	s1.addVariable(\"width\",\"$3\");
 	s1.addVariable(\"height\",\"$4\");
 	s1.write(\"player$1\");
 </script>",
     "<p id=\"player$1\">Vous devez t&eacute;l&eacute;charger <a href=\"http://www.macromedia.com/go/getflashplayer\">Flash Player</a> pour voir cette vid&eacute;o.</p>
 <script type=\"text/javascript\">
-	var s1 = new SWFObject(\"".$this->path."/flvplayer.swf\",\"single\",\"400\",\"300\",\"7\");
+	var s1 = new SWFObject(\"".JIMW_URL_PUBLIC_COMMON_PATH."/flvplayer.swf\",\"single\",\"400\",\"300\",\"7\");
 	s1.addParam(\"allowfullscreen\",\"true\");
-	s1.addVariable(\"file\",\"/public/rn2007/videos/$2.flv\");
-	s1.addVariable(\"image\",\"/public/rn2007/videos/$2.jpg\");
+	s1.addVariable(\"file\",\"$dir/videos/$2.flv\");
+	s1.addVariable(\"image\",\"$dir/videos/$2.jpg\");
 	s1.addVariable(\"width\",\"400\");
 	s1.addVariable(\"height\",\"300\");
 	s1.write(\"player$1\");
 </script>",
-    "<a href=\"#\" onclick=\"javascript:s1.innerHTML=''; s1.addVariable('file','/public/rn2007/videos/$2.flv'); s1.addVariable('image','/public/rn2007/videos/$2.jpg'); s1.write('player$1'); return false;\">$3</a>"
+    "<a href=\"#\" onclick=\"javascript:s1.innerHTML=''; s1.addVariable('file','$dir/videos/$2.flv'); s1.addVariable('image','$dir/videos/$2.jpg'); s1.write('player$1'); return false;\">$3</a>"
   );
-  return preg_replace($bbcode,$htmlcode,typofr($text));
-	}
+  return preg_replace($bbcode,$htmlcode,$text);
+}
 	
 }
