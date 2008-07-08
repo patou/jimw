@@ -22,21 +22,21 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}tree` (
 `tree_id` INTEGER AUTO_INCREMENT PRIMARY KEY,
 `tree_parentid` INTEGER DEFAULT '0',
 `tree_lft` INT NOT NULL,
-`tree_rgt` INT NOT NULL
+`tree_rgt` INT NOT NULL,
 `tree_order` INTEGER NOT NULL DEFAULT '0',
-`site_id` INTEGER DEFAULT '0',
-`module_id` INTEGER DEFAULT '0',
-`tree_pagetitle` VARCHAR (255)  NOT NULL DEFAULT '',
-`tree_menutitle` VARCHAR (32)  NOT NULL DEFAULT '',
-`tree_icon` VARCHAR (127)  NOT NULL DEFAULT '',
-`tree_image` VARCHAR (127)  NOT NULL DEFAULT '',
-`tree_alias` VARCHAR (255)  NOT NULL DEFAULT '',
+`site_id` INTEGER NOT NULL DEFAULT '0',
+`module_id` INTEGER NOT NULL DEFAULT '0',
+`tree_pagetitle` VARCHAR (255) NOT NULL DEFAULT '',
+`tree_menutitle` VARCHAR (32) NOT NULL DEFAULT '',
+`tree_icon` VARCHAR (127) NOT NULL DEFAULT '',
+`tree_image` VARCHAR (127) NOT NULL DEFAULT '',
+`tree_alias` VARCHAR (255) NOT NULL DEFAULT '',
 `tree_description` MEDIUMTEXT NOT NULL DEFAULT '',
-`user_id` INTEGER DEFAULT '0',
+`user_id` INTEGER NULL DEFAULT '0',
 `tree_status` TINYINT NOT NULL DEFAULT '0',
 `tree_version` INTEGER NOT NULL DEFAULT '0',
 `tree_type` TINYINT NOT NULL DEFAULT '0',
-`tree_param` TINYTEXT  NOT NULL DEFAULT '',
+`tree_param` TINYTEXT NOT NULL DEFAULT '',
 `tree_creationdate` DATETIME NOT NULL DEFAULT '1900-01-01 00:00:00',
 `tree_editiondate` DATETIME NOT NULL DEFAULT '1900-01-01 00:00:00'
 );
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}module_config` (
 `module_config_id` INTEGER AUTO_INCREMENT PRIMARY KEY,
 `module_id` INTEGER DEFAULT '0',
 `module_config_key` VARCHAR (32)  NOT NULL DEFAULT '',
-`module_config_value` MEDIUMTEXT NOT NULL DEFAULT ''
+`module_config_value` MEDIUMTEXT NOT NULL DEFAULT '',
 KEY `module_config_key` (`module_config_key`)
 );
 

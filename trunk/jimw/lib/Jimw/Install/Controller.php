@@ -32,14 +32,14 @@ class Jimw_Install_Controller
 	 * @var Jimw_Admin_Dispatch
 	 */
 	private $dispatch;
-	
+
 	/**
 	 * The global router
 	 *
 	 * @var Jimw_Global_Router
 	 */
 	private $router;
-	
+
 	private $frontcontroller;
 
 	public function __construct() {
@@ -102,11 +102,26 @@ class Jimw_Install_Controller
 			}
 		}
 	}
-	
+
+	public function connect() {
+	    global $jimw_config_db;
+	    try {
+    	    if (JIMW_DEBUG_MODE) {
+    			$jimw_config_db ['profiler'] = true;
+    		}
+    		$db = Zend_Db::factory ( $jimw_config_db ['type'], $jimw_config_db );
+    		Zend_Registry::set ( 'db_global', $db );
+	    }
+	    catch (Zend_Db_Exception $e) {
+	        Jimw_Debug::display_exception($e);
+	    }
+	}
+
 	public function run () {
 		//$this->request = $this->router->route($this->request);
 		$this->initView();
 		$this->frontcontroller = Zend_Controller_Front::getInstance();
+		$this->connect();
 		$this->frontcontroller->setBaseUrl(JIMW_URL_INSTALL_PATH);
 		$router = $this->frontcontroller->getRouter();
 //		$this->frontcontroller->throwExceptions(true);
