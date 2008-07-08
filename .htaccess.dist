@@ -1,9 +1,9 @@
 #Activate the Rewrite Engine (you must have the rewrite_mode enabled)
 RewriteEngine on
-RewriteBase /jimw
+#RewriteBase /jimw
 #Rewrite all url to the main index file
 # Change the main url file with the server configuration
-RewriteRule !\.php$ /jimw/index.php
+RewriteRule !\.php$ /index.php
 
 # Remove # if your apache configuration permit to change php flag
 php_flag magic_quotes_gpc off

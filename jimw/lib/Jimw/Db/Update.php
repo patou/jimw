@@ -6,18 +6,33 @@ class Jimw_Db_Update
     private $db;
     private $prefix = JIMW_PREFIX;
 
-    public function __construct (Zend_Db_Adapter_Abstract $db, $prefix = JIMW_PREFIX)
+    public function __construct (Zend_Db_Adapter_Abstract $db = null, $prefix = '')
     {
+        if (is_null($db) && Zend_Registry::has('db')) {
+            $db = Zend_Registry::get('db');
+        }
         $this->db = $db;
+        if (empty($prefix)) {
+            $prefix = Zend_Registry::has('db_prefix') ? Zend_Registry::get('db_prefix'):JIMW_PREFIX;
+        }
         $this->prefix = $prefix;
     }
 
     public function update_all() {
-        $config = $this->db->getConfig();
-        $dir = JIMW_REP_INSTALL_SQL . $this->get_database_type($config['type']) . '/' . JIMW_INSTALL_SQL_GLOBAL . '/';
+        $dir = JIMW_REP_INSTALL_SQL . $this->get_database_type() . '/' . JIMW_INSTALL_SQL_GLOBAL . '/';
         $version = $this->get_schema_version(JIMW_INSTALL_SQL_GLOBAL, JIMW_REP_INSTALL_SQL);
         echo "<br />--- Update global database ---<br />";
         $this->install_version(JIMW_INSTALL_SQL_GLOBAL, $dir, $version[JIMW_INSTALL_SQL_GLOBAL], $this->db);
+    }
+
+    public function update() {
+        $type = $this->get_database_type();
+        $dir = JIMW_REP_INSTALL_SQL . $type . '/' . JIMW_INSTALL_SQL_DATABASE . '/';
+        Jimw_Debug::display($dir);
+        $version = $this->get_schema_version(JIMW_INSTALL_SQL_DATABASE, JIMW_REP_INSTALL_SQL);
+        Jimw_Debug::dump($version);
+        echo "<br />--- Update database ---<br />";
+        $this->install_version(JIMW_INSTALL_SQL_DATABASE, $dir, $version[JIMW_INSTALL_SQL_DATABASE], $this->db);
     }
 
     public function get_schema_version ($default = 'global', $dir = JIMW_REP_INSTALL_SQL)
@@ -111,18 +126,33 @@ class Jimw_Db_Update
         return $this->update_version($module, $version);
     }
 
-    private function get_database_type ($type)
+    private function get_database_type ()
     {
-        switch (strtoupper($type)) {
-            case 'PDO_MYSQL':
-            case 'MYSQLI':
-            case 'MYSQL':
-                return 'mysql';
-            case 'PDO_SQLITE':
-            case 'SQLITE':
-                return 'sqlite';
-            default:
-                return strtolower($type);
+        $config = $this->db->getConfig();
+        if (isset($config['type'])) {
+            switch (strtoupper($config['type'])) {
+                case 'PDO_MYSQL':
+                case 'MYSQLI':
+                case 'MYSQL':
+                    return 'mysql';
+                case 'PDO_SQLITE':
+                case 'SQLITE':
+                    return 'sqlite';
+                default:
+                    return strtolower($type);
+            }
+        }
+        else {
+            switch (get_class($this->db->getAdapter())) {
+                case 'Zend_Adapter_Pdo_Mysql':
+                case 'Zend_Adapter_Mysqli':
+                    return 'mysql';
+                case 'Zend_Adapter_Pdo_Sqlite':
+                case 'Zend_Adapter_Sqlite':
+                    return 'sqlite';
+                default:
+                    return strtolower($type);
+            }
         }
     }
 

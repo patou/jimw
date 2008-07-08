@@ -62,12 +62,14 @@ class InstallController extends Jimw_Install_Action {
     	        $this->render('success');
 	        }
 	    }
-	    $form->populate($jimw_config_db);
-	    $form->populate(array('debug' => defined('JIMW_DEBUG_MODE')
+	    else {
+	        $form->populate($jimw_config_db);
+	        $form->populate(array('debug' => defined('JIMW_DEBUG_MODE')
 	                          ,'install_protect' => defined('JIMW_INSTALL_PROTECT_DOMAIN')
 	                          ,'rewrite' => defined('JIMW_URL_REWRITING')
 	                          ,'utf8' => defined('JIMW_UTF8')
 	                          ,'default_lang' => defined('JIMW_LANG')));
+	    }
 	    $this->view->form = $form;
 	}
 }
