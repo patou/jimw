@@ -30,7 +30,7 @@ class Mejdoc_MejdocController extends Jimw_Module_Action_Alias
 		foreach ($result as $subtree) {
 			if ($subtree->id != $tree->id) {
 				$subresult = $documents->fetchAll(array('tree_id = ?' => $subtree->id), 'mejdoc_order');
-				if (count($subresult)>0) $subdocs[] = array('title' => $subtree->pagetitle, 'alias' => $subtree->alias, 'documents' => $subresult);
+				if (count($subresult)>0) $subdocs[] = array('title' => $subtree->pagetitle, 'alias' => $subtree->alias, 'description' => $subtree->description, 'documents' => $subresult);
 			}
 		}
 		$this->view->subdocuments = $subdocs;
