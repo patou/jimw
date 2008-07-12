@@ -88,7 +88,10 @@ class Jimw_Site_View_Helper_Menu
 			if (!empty($class)) {
 				$class = ' class="' . $class . '"';
 			}
-			$html .= '<a href="' . $this->view->url (array('alias' => $menuitem->alias, 'ext' => 'phtml'), 'alias', true) . '"'  . $class . '>' . $menuitem->menutitle . '</a></li>';
+			if (isset($option['addSpan']) && $option['addSpan']) $html .= '<span>';
+			$html .= '<a href="' . $this->view->url (array('alias' => $menuitem->alias, 'ext' => 'phtml'), 'alias', true) . '"'  . $class . '>' . $menuitem->menutitle . '</a>';
+			if (isset($option['addSpan']) && $option['addSpan']) $html .= '</span>';
+			$html .= '</li>';
 			if (isset($option['menuDepth']) && $option['menuDepth'] > 1) {
 				if ($menuitem->hasChildren () && ( (isset($option['menuExpanded']) && !$option['menuExpanded']) || $menuitem->getExpanded () )) {
 					$html .= $this->display_menu($menuitem->getChildren(), array_merge($option, array('menuDepth' => $option['menuDepth'] - 1)));
