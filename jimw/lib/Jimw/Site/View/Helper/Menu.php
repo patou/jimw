@@ -83,7 +83,7 @@ class Jimw_Site_View_Helper_Menu
 			if (isset($option['liCurrentIdName']) && $menuitem->getActive ()) {
 				$liId = ' id="' . $option['liCurrentIdName'].'"';
 			}
-			$html .= '<li' . ((isset($option['ulClassName']))? ' class="' . $option['ulClassName'] . $liClass . '"'.$liId.'>' : '>');
+			$html .= '<li' . ((isset($option['ulClassName'])) ? ' class="' . $option['ulClassName'] . $liClass . '"' : '').$liId.'>';
 			$aClass = (isset($option['aClassName'])) ? $option['aClassName'] : '';
 			if (isset($option['currentClassName']) && $menuitem->getActive ()) {
 				$aClass .= ' ' . $option['currentClassName'];
@@ -92,7 +92,6 @@ class Jimw_Site_View_Helper_Menu
 			if (!empty($class)) {
 				$class = ' class="' . $class . '"';
 			}
-			if (isset($option['addSpan']) && $option['addSpan']) $html .= '<span>';
 			$html .= '<a href="' . $this->view->url (array('alias' => $menuitem->alias, 'ext' => 'phtml'), 'alias', true) . '"'  . $class . '>';
 			if (isset($option['addSpan']) && $option['addSpan']) $html .= '<span>'.$menuitem->menutitle.'</span>';
 			else $html .= $menuitem->menutitle;
