@@ -69,7 +69,14 @@ var Rged = function() {
 
 Rged.prototype =  {
     path: '',
-
+	logoutText: 'Logout',
+	foldersText: 'Folders',
+	filesText: 'Fichiers',
+	nameText: 'Name',
+    sizeText: 'Size',
+    lastUpdatedText: 'Last Update',
+    editText: 'Edit',
+    successText: 'Success',
     // Initialize the Tree
     init_tree: function() {
 
@@ -78,7 +85,7 @@ Rged.prototype =  {
 	this.tree = new Ext.ux.FileTreePanel({
         el: 'tree'
 		, animate: true
-		, dataUrl: basename + '/default/file/get.ajax'
+		, url: basename + '/default/file/get.ajax'
         , renameUrl: basename + '/default/file/rename.ajax'
         , deleteUrl: basename + '/default/file/delete.ajax'
         , downloadUrl: basename + '/default/file/download.ajax'
@@ -88,33 +95,22 @@ Rged.prototype =  {
         , iconPath: path + '/images/icons/'
 		, readOnly: false
 		, containerScroll: true
+		, enableSort: false
 		, enableDD: true
-                , ddGroup: 'TreeDD'
+        , ddGroup: 'TreeDD'
 		, enableUpload: true
 		, enableRename: true
 		, enableDelete: true
-                , enableDownload: true
+        , enableDownload: true
 		, enableNewDir: true
-                , enableEdit: true
-		, uploadPosition: 'floating'
+        , enableEdit: true
 		, edit: true
-                , height:'auto'
-                , width:'auto'
+        , height:'auto'
+        , width:'auto'
 		, maxFileSize: 1048575
 		, hrefPrefix: '/public/'
-		, pgCfg: {
-			uploadIdName: 'UPLOAD_IDENTIFIER'
-			, uploadIdValue: 'auto'
-			, progressBar: true
-			, progressTarget: 'qtip'
-			, maxPgErrors: 10
-			, interval: 1000
-			, options: {
-				url: basename + '/default/file/upload.ajax'
-				, method: 'post'
-			}
-		}
-        , root: new Ext.tree.AsyncTreeNode({text:'root', path: '/', id: '/', allowDrag:false})
+		, rootPath:'/'
+        , rootText:'root'
 	});
 
 	this.tree.render();
@@ -174,6 +170,12 @@ Rged.prototype =  {
         if (sel.get('edit') != 'none')
             this.editFile(sel.get('path'), sel.get('name'), sel.get('cls'));
     },
+    menu_onNewdir: function(o, e) {
+        this.newdirFile();
+    },
+    menu_onUpload: function(o, e) {
+        this.uploadFile();
+    },
     menu_onRefresh: function(o, e) {
         this.change_path(this.path);
     },
@@ -208,34 +210,46 @@ Rged.prototype =  {
        this.menu.render('menu')
        this.menu.addButton({
            id: 'rename',
-           text: 'Rename',
+           text: Ext.ux.FileTreeMenu.prototype.renameText,
            cls: 'x-btn-text-icon menu-rename',
            handler: this.menu_onRename,
            scope: this
            });
        this.menu.addButton({
            id: 'delete',
-           text: 'Delete',
+           text: Ext.ux.FileTreeMenu.prototype.deleteText,
             cls: 'x-btn-text-icon menu-delete',
             handler: this.menu_onDelete,
             scope: this});
        this.menu.addButton({
            id: 'download',
-           text: 'Download',
+           text: Ext.ux.FileTreeMenu.prototype.openDwnldText,
            cls: 'x-btn-text-icon menu-download',
            handler: this.menu_onDownload,
            scope: this});
        this.menu.addButton({
            id: 'refresh',
-           text: 'Refresh',
+           text: Ext.ux.FileTreeMenu.prototype.reloadText,
            cls: 'x-btn-text-icon menu-refresh',
            handler: this.menu_onRefresh,
            scope: this});
        this.menu.addButton({
            id: 'edit',
-           text: 'Edit',
+           text: this.editText,
            cls: 'x-btn-text-icon menu-edit',
            handler: this.menu_onEdit,
+           scope: this});
+       this.menu.addButton({
+           id: 'newdir',
+           text: Ext.ux.FileTreeMenu.prototype.newdirText,
+           iconCls: Ext.ux.FileTreeMenu.prototype.newdirIconCls,
+           handler: this.menu_onNewdir,
+           scope: this});
+       this.menu.addButton({
+           id: 'upload',
+           text: Ext.ux.FileTreeMenu.prototype.uploadFileText,
+           iconCls: Ext.ux.FileTreeMenu.prototype.uploadIconCls,
+           handler: this.menu_onUpload,
            scope: this});
        this.textBox = new Ext.form.TextField ({
            cls: 'rged-adress',
@@ -245,7 +259,7 @@ Rged.prototype =  {
        this.menu.addField(this.textBox);
        this.menu.addFill ();
        this.menu.addButton({
-           text: 'Logout',
+           text: this.logoutText,
            cls: 'x-btn-text-icon menu-logout',
            handler: function(o, e) {
                window.location = basename + '/index/index';
@@ -282,7 +296,7 @@ Rged.prototype =  {
                 cmargins: {top:2,bottom:2,right:2,left:2},
                 fitToFrame: true,
                 closable: false,
-                title: 'Folders'
+                title: this.foldersText
             },
             {
                 xtype:'tabpanel',
@@ -315,7 +329,7 @@ Rged.prototype =  {
             }, [
                 {name: 'name', mapping: 'name'},
                 {name: 'path', mapping: 'path'},
-                {name: 'cls', mapping: 'cls'},
+                {name: 'iconCls', mapping: 'iconCls'},
                 {name: 'edit', mapping: 'edit'},
                 {name: 'size', mapping: 'size', type: 'int'},
                 {name: 'lastChange', mapping: 'lastChange', type: 'date', dateFormat: 'D M  j h:i:s Y'}
@@ -346,7 +360,8 @@ Rged.prototype =  {
 
         // Display the icon for file type
         function icon(val){
-             return '<div class="x-tree-node-el x-tree-node-leaf x-unselectable '+val+'" unselectable="on"><img width="16" height="18" class="x-tree-node-icon" src="'+Ext.BLANK_IMAGE_URL+'"/></div>';
+        	return '<img width="16" height="18" class="x-tree-node-icon '+val+'" unselectable="on" src="'+Ext.BLANK_IMAGE_URL+'"/>';
+             //return '<div class="x-tree-node-el x-tree-node-leaf x-unselectable '+val+'" unselectable="on"><img width="16" height="18" class="x-tree-node-icon" src="'+Ext.BLANK_IMAGE_URL+'"/></div>';
         }
 	// Column Model of the grid
 //        var colModel = new Ext.grid.ColumnModel([
@@ -361,19 +376,26 @@ Rged.prototype =  {
 
         // create the Grid
         this.grid = new Ext.grid.GridPanel({
-            title: 'Files',
+            title: this.filesText,
             closable:false,
             store: this.ds,
             columns: [
                {
                    id: 'icon',
                    header: '<img src="'+path+'/images/icons/arrow_up.png" width="16" height="18"/>',
-                   width: 25, sortable: false, renderer: icon, dataIndex: 'cls',
+                   width: 25, 
+                   sortable: false, 
+                   renderer: icon, 
+                   dataIndex: 'iconCls',
+                   locked:true,
+                   resizable: false,
+                   menuDisabled: true,
+                   hideable:false,
                    fixed : true
                },
                {
                    id:'name',
-                   header: "Name",
+                   header: this.nameText,
                    width: 160,
                    sortable: true,
                    locked:false,
@@ -381,13 +403,13 @@ Rged.prototype =  {
                    editor: new Ext.grid.GridEditor(new Ext.form.TextField({
                                 allowBlank: false}))},
                 {
-                    header: "Size",
+                    header: this.sizeText,
                     width: 75,
                     sortable: true,
                     renderer: size,
                     dataIndex: 'size'},
                 {
-                    header: "Last Updated",
+                    header: this.lastUpdatedText,
                     width: 85,
                     sortable: true,
                     renderer: Ext.util.Format.dateRenderer('m/d/Y'),
@@ -417,7 +439,7 @@ Rged.prototype =  {
     {
         var rec = grid.getStore().getAt(rowIndex);
         var path = rec.get('path');
-        var folder = rec.get('cls');
+        var folder = rec.get('iconCls');
         if (folder == 'folder') {
             this.load_path(path);
         }
@@ -455,29 +477,29 @@ Rged.prototype =  {
                 this.contextMenu = new Ext.menu.Menu({
                         items: [
                                         // node name we're working with placeholder
-                                  { id:'nodename', disabled:true, cls:'x-filetree-nodename'}
+                                  { id:'nodename', disabled:true, disabledClass:'', cls:'ux-ftm-nodename'}
                                 , new Ext.menu.Separator({id:'sep-open'})
                                 , {	id:'rename'
-                                        , text:this.tree.renameText + ' (F2)'
-                                        , icon:this.tree.renameIcon
+                                        , text:Ext.ux.FileTreeMenu.prototype.renameText + ' (F2)'
+                                        , iconCls:Ext.ux.FileTreeMenu.prototype.renameIconCls
                                         , scope:this
                                         , handler:this.onContextMenuItem
                                 }
                                 , {	id:'edit'
-                                        , text:this.tree.editText
-                                        , icon:this.tree.editIcon
+                                        , text:this.editText
+                                        , iconCls: 'icon-edit'
                                         , scope:this
                                         , handler:this.onContextMenuItem
                                 }
                                 , {	id:'delete'
-                                        , text:this.tree.deleteText + ' (' + this.tree.deleteKeyName + ')'
-                                        , icon:this.tree.deleteIcon
+                                        , text:Ext.ux.FileTreeMenu.prototype.deleteText + ' (' + this.tree.deleteKeyName + ')'
+                                        , iconCls:Ext.ux.FileTreeMenu.prototype.deleteIconCls
                                         , scope:this
                                         , handler:this.onContextMenuItem
                                 }
                                 , {	id:'download'
-                                        , text:this.tree.downloadText + ' (Enter)'
-                                        , icon:this.tree.openIcon
+                                        , text:Ext.ux.FileTreeMenu.prototype.openDwnldText + ' (Enter)'
+                                        , iconCls:Ext.ux.FileTreeMenu.prototype.openDwnldIconCls
                                         , scope:this
                                         , handler:this.onContextMenuItem
                                 }
@@ -559,7 +581,7 @@ Rged.prototype =  {
         var msgdlg = Ext.Msg.getDialog();
         msgdlg.defaultButton = msgdlg.buttons[2];//.focus();
         Ext.Msg.prompt(this.tree.renameText
-                , this.tree.renameText + ' <b>' + sel.get('name') + '</b> to ?'
+                , Ext.ux.FileTreeMenu.prototype.renameText + ' <b>' + sel.get('name') + '</b> to ?'
                 , function(response, newname) {
                         var conn;
                         // do nothing if answer is not yes
@@ -578,7 +600,7 @@ Rged.prototype =  {
     rename: function (newname, oldname) {
      // setup request options
         options = {
-                url: this.tree.renameUrl || this.tree.dataUrl
+                url: this.tree.renameUrl || this.tree.url
                 , method: this.tree.method
                 , scope: this
                 , callback: this.cmdCallback
@@ -597,7 +619,7 @@ Rged.prototype =  {
         var msgdlg = Ext.Msg.getDialog();
         msgdlg.defaultButton = msgdlg.buttons[2];//.focus();
         Ext.Msg.confirm(this.tree.deleteText
-                , this.tree.reallyWantText + ' ' + this.tree.deleteText.toLowerCase() + ' <b>' + sel.get('name') + '</b>?'
+                , this.tree.reallyWantText + ' ' + Ext.ux.FileTreeMenu.prototype.deleteText.toLowerCase() + ' <b>' + sel.get('name') + '</b>?'
                 , function(response) {
                         var conn;
                         // do nothing if answer is not yes
@@ -649,8 +671,118 @@ Rged.prototype =  {
         }
     },
 
+	newdirFile: function() {
+		// set focus to no button to avoid accidental deletions
+        var msgdlg = Ext.Msg.getDialog();
+        msgdlg.defaultButton = msgdlg.buttons[2];//.focus();
+        Ext.Msg.prompt(this.tree.renameText
+                , Ext.ux.FileTreeMenu.prototype.newdirText
+                , function(response, newname) {
+                        var conn;
+                        // do nothing if answer is not yes
+                        if ('ok' !== response) {
+                                return;
+                        }
+                        // answer is yes
+                        else {
+                               this.newdir(this.path + '/' + newname);
+                        }
+                }
+                , this
+        );
+	},
+	newdir: function(dir) {
+		var options = {
+			 url:this.tree.newdirUrl || this.tree.url
+			,method:this.tree.method
+			,scope:this
+			,callback:this.cmdCallback
+			,params:{
+				 cmd:'newdir'
+				,dir:dir
+			}
+		};
+		Ext.Ajax.request(options);	
+	},
+	uploadFile: function() {
+		var winUpload = new Ext.Window({
+	         width:180
+			,minWidth:165
+	        ,id:'winUpload'
+	        ,height:220
+			,minHeight:200
+	//		,stateful:false
+	        ,layout:'fit'
+	        ,border:false
+	        ,closable:true
+	        ,title:'UploadPanel'
+			,iconCls:'icon-upload'
+			,items:[{
+				  xtype:'uploadpanel'
+				 ,buttonsAt:'tbar'
+				 ,id:'uppanel'
+				 ,url:this.tree.uploadUrl
+				 ,path:this.path
+				 ,maxFileSize:1048576
+	//			 ,enableProgress:false
+	//			 ,singleUpload:true
+			}]
+	    });
+	    winUpload.show.defer(500, winUpload);
+	},
     downloadFile: function(sel) {
-        window.location = basename + '?controller=file&action=download&file=' + sel.get('path');
+        //window.location = basename + '?controller=file&action=download&file=' + sel.get('path');
+        
+		// create hidden target iframe
+		var id = Ext.id();
+		var frame = document.createElement('iframe');
+		frame.id = id;
+		frame.name = id;
+		frame.className = 'x-hidden';
+		if(Ext.isIE) {
+			frame.src = Ext.SSL_SECURE_URL;
+		}
+
+		document.body.appendChild(frame);
+
+		if(Ext.isIE) {
+			document.frames[id].name = id;
+		}
+
+		var form = Ext.DomHelper.append(document.body, {
+			 tag:'form'
+			,method:'post'
+			,action:this.tree.downloadUrl || this.url
+			,target:id
+		});
+
+		document.body.appendChild(form);
+
+		var hidden;
+
+		// append cmd to form
+		hidden = document.createElement('input');
+		hidden.type = 'hidden';
+		hidden.name = 'cmd';
+		hidden.value = 'download';
+		form.appendChild(hidden);
+
+		// append path to form
+		hidden = document.createElement('input');
+		hidden.type = 'hidden';
+		hidden.name = 'path';
+		hidden.value = path;
+		form.appendChild(hidden);
+
+		var callback = function() {
+			Ext.EventManager.removeListener(frame, 'load', callback, this);
+			setTimeout(function() {document.body.removeChild(form);}, 100);
+			setTimeout(function() {document.body.removeChild(frame);}, 110);
+		};
+		
+		Ext.EventManager.on(frame, 'load', callback, this);
+
+		form.submit();
     },
 
     cmdCallback: function (options, bSuccess, response) {
@@ -659,7 +791,7 @@ Rged.prototype =  {
         if (true === bSuccess) {
             o = Ext.decode(response.responseText);
             if (true === o.success) {
-                Ext.Msg.alert('Success', 'OK');
+                Ext.Msg.alert('OK', this.successText);
                 this.change_path(this.path);
             } else {
                     Ext.Msg.alert(this.errorText, o.error);

@@ -80,11 +80,13 @@ class SiteController extends Jimw_Install_Action
                 $sites = new Jimw_Site_Site();
                 $site = $sites->fetchNew();
                 $site->name = $val['title'];
-                $site->path = JIMW_REP_PUBLIC;
+                $site->path = trim(JIMW_REP_PUBLIC, './');
                 $site->tree_id = 1;
                 $site->save();
                 $domain->site_id = $site->id;
                 $domain->save();
+                $this->view->message = 'Create ' . $val['title'] . ' site successful';
+                $this->render('create-success');
             }
             else {
                 $this->view->message = $message;

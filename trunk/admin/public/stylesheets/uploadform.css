@@ -80,7 +80,7 @@
 .x-uf-wait {
 	width: 16px;
 	height: 16px;
-	background: transparent url(../extjs/resources/images/default/grid/wait.gif);
+	background: transparent url(../javascripts/extjs/resources/images/default/grid/wait.gif);
 	background-repeat: no-repeat;
 	position:absolute;
 	right: 56px;
@@ -96,7 +96,7 @@
 }
 .x-uf-progress {
 	height: 6px;
-	background: #e0e8f3 url(../extjs/resources/images/default/qtip/bg.gif) repeat-x;
+	background: #e0e8f3 url(../javascripts/extjs/resources/images/default/qtip/bg.gif) repeat-x;
 }
 .x-uf-progress-bar {
 	height:5px;
