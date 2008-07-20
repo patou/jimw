@@ -3,6 +3,7 @@
 define('DEFAULT_VERSION', 1);
 class Jimw_Db_Update
 {
+	/** @var Zend_Db_Adapter_Abstract $db */
     private $db;
     private $prefix = JIMW_PREFIX;
 
@@ -23,6 +24,26 @@ class Jimw_Db_Update
         $version = $this->get_schema_version(JIMW_INSTALL_SQL_GLOBAL, JIMW_REP_INSTALL_SQL);
         echo "<br />--- Update global database ---<br />";
         $this->install_version(JIMW_INSTALL_SQL_GLOBAL, $dir, $version[JIMW_INSTALL_SQL_GLOBAL], $this->db);
+        $select = $this->db->select();
+		$select->from($this->get_prefix('database'));
+		$databases = $this->db->fetchAll($select);
+		foreach ($databases as $database) {
+			echo "<br />-- Update database {$database['database_id']}--<br />";
+			$options = array('dbname' => $database['database_name'],
+					'host' => $database['database_server'],
+					'port' => $database['database_port'],
+					'username' => $database['database_user'],
+					'password' => $database['database_pass'],
+					'type' => $database['database_type']);
+			if (JIMW_DEBUG_MODE) {
+    			$options['profiler'] = true;
+    		}
+			$db = Zend_Db::factory($database['database_type'], $options);
+			$prefix = $database['database_prefix'];
+			$update = new self($db, $prefix);
+			$update->update();
+			echo "<br />-- End update database {$database['database_id']}--";        
+    	}
     }
 
     public function update() {
@@ -33,6 +54,19 @@ class Jimw_Db_Update
         Jimw_Debug::dump($version);
         echo "<br />--- Update database ---<br />";
         $this->install_version(JIMW_INSTALL_SQL_DATABASE, $dir, $version[JIMW_INSTALL_SQL_DATABASE], $this->db);
+  		$select = $this->db->select();
+		$select->from($this->get_prefix('module'));
+		$modules = $this->db->fetchAll($select);
+		foreach ($modules as $module) {
+			$module_name = $module['module_path'];
+			$module_dir = JIMW_REP_MODULE . '/' . $module_name . '/install/sql/' . $this->get_database_type() . '/';
+			if (file_exists($module_dir)) {
+				echo "<br />-- Update database for module {$module_name}--<br />";
+				$module_version = (isset($version[$module_name])) ? $version[$module_name] : DEFAULT_VERSION;				
+				$this->install_version($module_name, $module_dir, $module_version);
+				echo "<br />-- End update database for module {$module_name}--<br />";
+			}
+		}
     }
 
     public function get_schema_version ($default = 'global', $dir = JIMW_REP_INSTALL_SQL)

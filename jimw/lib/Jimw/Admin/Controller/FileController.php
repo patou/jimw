@@ -21,7 +21,7 @@ class FileController extends Jimw_Admin_Action
         if ($this->getHelper('Layout')->getViewSuffix() == 'ajax') {
             $this->getHelper('Layout')->disableLayout();
         }
-        
+
     }
     /**
      * The default action - show the home page
@@ -49,7 +49,7 @@ class FileController extends Jimw_Admin_Action
         foreach ($d as $file) {
             $filename = $file->getFilename();
             if (! $d->isDot() && $filename[0] != '.') {
-                $files['Files'][] = array('name' => $filename , 'size' => $file->getSize() , 'edit' => $this->get_edit($filename) , 'lastChange' => date('D M  j h:i:s Y', $file->getATime()) , 'thumb' => ($file->isDir() ? '' : $this->get_thumb($filename, $dir)) , 'path' => '/' . trim($dir . '/' . $filename, '/') , 'url' => $this->get_url($dir . '/' . $filename) , 'cls' => ($file->isDir() ? 'folder' : $this->get_ext($filename)));
+                $files['Files'][] = array('name' => $filename , 'size' => $file->getSize() , 'edit' => $this->get_edit($filename) , 'lastChange' => date('D M  j h:i:s Y', $file->getATime()) , 'thumb' => ($file->isDir() ? '' : $this->get_thumb($filename, $dir)) , 'path' => '/' . trim($dir . '/' . $filename, '/') , 'url' => $this->get_url($dir . '/' . $filename) , 'iconCls' => ($file->isDir() ? 'folder' : $this->get_ext($filename)));
             }
         }
         $files['FilesCount'] = count($files['Files']);
@@ -70,7 +70,7 @@ class FileController extends Jimw_Admin_Action
         foreach ($d as $file) {
             $filename = $file->getFilename();
             if (! $d->isDot() && $filename[0] != '.' && (! $folder || $file->isDir())) {
-                $files[] = array('text' => $filename , 'path' => $filename , 'leaf' => ! $file->isDir() , 'edit' => $this->get_edit($filename) , 'disabled' => false , 'id' => '/' . trim($dir . '/' . $filename, '/') , 'cls' => ($file->isDir() ? 'folder' : $this->get_ext($filename)));
+                $files[] = array('text' => $filename , 'path' => $filename , 'leaf' => ! $file->isDir() , 'edit' => $this->get_edit($filename) , 'disabled' => false , 'id' => '/' . trim($dir . '/' . $filename, '/') , 'iconCls' => ($file->isDir() ? 'folder' : $this->get_ext($filename)));
             }
         }
         $this->view->files = $files;
