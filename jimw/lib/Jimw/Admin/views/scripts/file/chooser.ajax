@@ -7,7 +7,7 @@
 	<title><?php echo $this->request->getDomainName (); ?> - Administration</title>
 	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/javascripts/extjs/resources/css/ext-all.css">
 	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/filechooser.css">
-	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/filetree.css">
+	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/filetree2.css">
 	<link rel="shortcut icon" href="<?= $this->path ?>/images/icons/page_white_stack.png" type="image/png">
 	<script type="text/javascript">
 		var path = "<?= rtrim($this->path, '/') ?>";

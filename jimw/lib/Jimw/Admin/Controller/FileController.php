@@ -61,7 +61,7 @@ class FileController extends Jimw_Admin_Action
     }
     public function getAction ()
     {
-        $dir = $this->getRequest()->path;
+        $dir = trim($this->getRequest()->path, '/');
         $folder = isset($this->getRequest()->folder) ? true : false;
         $path = $this->get_dir($dir);
         date_default_timezone_set(JIMW_TIMEZONE);

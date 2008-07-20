@@ -35,12 +35,12 @@ ImageChooser.prototype = {
 			    fields: [
 			        {name: 'name', mapping: 'name'},
                 	{name: 'path', mapping: 'path'},
-                	{name: 'cls', mapping: 'cls'},
+                	{name: 'iconCls', mapping: 'iconCls'},
                 	{name: 'edit', mapping: 'edit'},
 					{name: 'url', mapping: 'url'},
 					{name: 'thumb', mapping: 'thumb'},
                 	{name: 'size', mapping: 'size', type: 'int'},
-                	{name: 'lastChange', mapping: 'lastChange', type: 'date', dateFormat: 'D M  j h:i:s Y'}
+                	{name: 'lastChange', mapping: 'lastChange'/*, type: 'date', dateFormat: 'D M  j h:i:s Y'*/}
 			    ],
 			    listeners: {
 			    	'load': {fn:function(){ this.view.select(0); }, scope:this, single:true}
@@ -59,7 +59,7 @@ ImageChooser.prototype = {
 			var formatData = function(data){
 		    	data.shortName = data.name.ellipse(15);
 		    	data.sizeString = formatSize(data);
-		    	data.dateString = new Date(data.lastChange).format(lang.dateFormat);
+		    	data.dateString = data.lastChange;//new Date(data.lastChange).format(lang.dateFormat);
 				if (data.thumb == '')
 					data.thumb = Ext.BLANK_IMAGE_URL;
 		    	this.lookup[data.name] = data;
@@ -85,7 +85,8 @@ ImageChooser.prototype = {
 			});
 			
 			this.treeloader = new Ext.tree.TreeLoader({
-				dataUrl: basename + '/file/get.ajax'
+				url: basename + '/default/file/get.ajax'//'?controller=file&action=get&cmd=get&ext=ajax'
+				, requestMethod: 'post'
 			});
 			this.treeloader.baseParams.cmd = 'get';
 			this.treeloader.baseParams.folder = 1;
@@ -116,8 +117,6 @@ ImageChooser.prototype = {
 		    	layout: 'border',
 				border: true,
 				closable: true,
-				//autoHeight: true,
-				autoWidth: true,
 				draggable: false,
 				expandOnShow: true,
 				resizable: false, 
@@ -232,7 +231,7 @@ ImageChooser.prototype = {
 		this.thumbTemplate = new Ext.XTemplate(
 			'<tpl for=".">',
 				'<div class="thumb-wrap" id="{name}">',
-				'<div class="thumb {cls}"><img class="x-view-thumb-icon" src="{thumb}" title="{name}"></div>',
+				'<div class="thumb {iconCls}"><img class="x-view-thumb-icon" src="{thumb}" title="{name}"></div>',
 				'<span>{shortName}</span></div>',
 			'</tpl>'
 		);
@@ -243,7 +242,7 @@ ImageChooser.prototype = {
 				'<tpl for=".">',
 					'<div class="details-thumb">',
 					'<div class="thumb-wrap" id="{name}">',
-					'<div class="thumb {cls}"><img class="x-view-thumb-icon" src="{thumb}"></div>',
+					'<div class="thumb {iconCls}"><img class="x-view-thumb-icon" src="{thumb}"></div>',
 					'</div></div>',
 					'<div class="details-info">',
 					'<b>', lang.name,'</b>',
@@ -303,7 +302,7 @@ ImageChooser.prototype = {
 	onDblClick : function(){
 		var selNode = this.view.getSelectedNodes()[0];
 		var data = this.lookup[selNode.id];
-		if (data.cls != 'folder')
+		if (data.iconCls != 'folder')
 			this.doCallback();
 		else
 			this.loadPath(data.path);
