@@ -16,7 +16,7 @@
  * @package    Zend_Session
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Namespace.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Namespace.php 9664 2008-06-11 07:12:40Z stas $
  * @since      Preview Release 0.2
  */
 
@@ -266,7 +266,7 @@ class Zend_Session_Namespace extends Zend_Session_Abstract implements IteratorAg
      * @throws Zend_Session_Exception
      * @return true
      */
-    protected function __set($name, $value)
+    public function __set($name, $value)
     {
         if (isset(self::$_namespaceLocks[$this->_namespace])) {
             /**
@@ -351,7 +351,7 @@ class Zend_Session_Namespace extends Zend_Session_Abstract implements IteratorAg
      * @param string $name - programmatic name of a key, in a <key,value> pair in the current namespace
      * @return bool
      */
-    protected function __isset($name)
+    public function __isset($name)
     {
         if ($name === '') {
             /**
@@ -371,7 +371,7 @@ class Zend_Session_Namespace extends Zend_Session_Abstract implements IteratorAg
      * @param string $name - programmatic name of a key, in a <key,value> pair in the current namespace
      * @return true
      */
-    protected function __unset($name)
+    public function __unset($name)
     {
         if ($name === '') {
             /**

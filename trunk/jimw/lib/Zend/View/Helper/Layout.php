@@ -16,7 +16,7 @@
  * @package    Zend_View
  * @subpackage Helper
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Layout.php 8420 2008-02-26 16:53:53Z darby $
+ * @version    $Id: Layout.php 8419 2008-02-26 16:49:38Z darby $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 

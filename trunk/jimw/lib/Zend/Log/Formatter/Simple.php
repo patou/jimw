@@ -17,7 +17,7 @@
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Simple.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Simple.php 10145 2008-07-16 22:16:48Z doctorrock83 $
  */
 
 /** Zend_Log_Formatter_Interface */
@@ -29,7 +29,7 @@ require_once 'Zend/Log/Formatter/Interface.php';
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Simple.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Simple.php 10145 2008-07-16 22:16:48Z doctorrock83 $
  */
 class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
 {
@@ -37,6 +37,8 @@ class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
      * @var string
      */
     protected $_format;
+
+    const DEFAULT_FORMAT = '%timestamp% %priorityName% (%priority%): %message%';
 
     /**
      * Class constructor
@@ -47,7 +49,7 @@ class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
     public function __construct($format = null)
     {
         if ($format === null) {
-            $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
+            $format = self::DEFAULT_FORMAT . PHP_EOL;
         }
 
         if (! is_string($format)) {

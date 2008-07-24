@@ -58,11 +58,25 @@ class Zend_Loader_PluginLoader implements Zend_Loader_PluginLoader_Interface
     static protected $_staticLoadedPlugins = array();
 
     /**
+     * Statically loaded plugin path mappings
+     *
+     * @var array
+     */
+    static protected $_staticLoadedPluginPaths = array();
+
+    /**
      * Instance loaded plugins
      *
      * @var array
      */
     protected $_loadedPlugins = array();
+
+    /**
+     * Instance loaded plugin paths
+     *
+     * @var array
+     */
+    protected $_loadedPluginPaths = array();
 
     /**
      * Whether to use a statically named registry for loading plugins
@@ -264,9 +278,9 @@ class Zend_Loader_PluginLoader implements Zend_Loader_PluginLoader_Interface
     public function getClassName($name)
     {
         $name = $this->_formatName($name);
-        if ($this->_useStaticRegistry &&
-            isset(self::$_staticLoadedPlugins[$this->_useStaticRegistry][$name]))
-        {
+        if ($this->_useStaticRegistry 
+            && isset(self::$_staticLoadedPlugins[$this->_useStaticRegistry][$name])
+        ) {
             return self::$_staticLoadedPlugins[$this->_useStaticRegistry][$name];
         } elseif (isset($this->_loadedPlugins[$name])) {
             return $this->_loadedPlugins[$name];
@@ -276,10 +290,31 @@ class Zend_Loader_PluginLoader implements Zend_Loader_PluginLoader_Interface
     }
 
     /**
+     * Get path to plugin class
+     * 
+     * @param  mixed $name 
+     * @return string|false False if not found
+     */
+    public function getClassPath($name)
+    {
+        $name = $this->_formatName($name);
+        if ($this->_useStaticRegistry 
+            && isset(self::$_staticLoadedPluginPaths[$this->_useStaticRegistry][$name])
+        ) {
+            return self::$_staticLoadedPluginPaths[$this->_useStaticRegistry][$name];
+        } elseif (isset($this->_loadedPluginPaths[$name])) {
+            return $this->_loadedPluginPaths[$name];
+        }
+
+        return false;
+    }
+
+    /**
      * Load a plugin via the name provided
      *
      * @param  string $name
-     * @return string
+     * @return string Class name of loaded class
+     * @throws Zend_Loader_Exception if class not found
      */
     public function load($name)
     {
@@ -324,9 +359,11 @@ class Zend_Loader_PluginLoader implements Zend_Loader_PluginLoader_Interface
 
         if ($found) {
             if ($this->_useStaticRegistry) {
-                self::$_staticLoadedPlugins[$this->_useStaticRegistry][$name] = $className;
+                self::$_staticLoadedPlugins[$this->_useStaticRegistry][$name]     = $className;
+                self::$_staticLoadedPluginPaths[$this->_useStaticRegistry][$name] = $path . $classFile;
             } else {
-                $this->_loadedPlugins[$name] = $className;
+                $this->_loadedPlugins[$name]     = $className;
+                $this->_loadedPluginPaths[$name] = $path. $classFile;
             }
             return $className;
         }

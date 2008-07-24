@@ -10,7 +10,7 @@
  * @version    $Id$
  */
 class Jimw_Global_Router extends Zend_Controller_Router_Abstract {
-	
+
 	/**
 	 * Test the connexion to the database
 	 *
@@ -41,7 +41,7 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract {
 			throw new Jimw_Global_Exception ( 'Could not connect to the database' );
 		}
 	}
-	
+
 	/**
 	 * Processes a request and sets its controller and action.  If
 	 * no route was possible, an exception is thrown.
@@ -89,5 +89,9 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract {
 			}
 		}
 		throw new Jimw_Global_Exception ( 'Unknown website', 404 );
+	}
+
+	public function assemble($userParams, $name = null, $reset = false, $encode = true) {
+	     //@TODO
 	}
 }

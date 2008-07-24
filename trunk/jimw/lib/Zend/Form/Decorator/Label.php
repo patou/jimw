@@ -41,7 +41,7 @@ require_once 'Zend/Form/Decorator/Abstract.php';
  * @subpackage Decorator
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Label.php 8648 2008-03-07 19:19:28Z matthew $
+ * @version    $Id: Label.php 10008 2008-07-09 16:52:08Z matthew $
  */
 class Zend_Form_Decorator_Label extends Zend_Form_Decorator_Abstract
 {
@@ -82,13 +82,8 @@ class Zend_Form_Decorator_Label extends Zend_Form_Decorator_Abstract
         $id = $this->getOption('id');
         if (null === $id) {
             if (null !== ($element = $this->getElement())) {
-                if (isset($element->id)) {
-                    $id = $element->id;
-                    $this->setId($id);
-                } else {
-                    $id = $element->getName();
-                    $this->setId($id);
-                }
+                $id = $element->getId();
+                $this->setId($id);
             }
         }
 
@@ -297,7 +292,7 @@ class Zend_Form_Decorator_Label extends Zend_Form_Decorator_Abstract
 
         if (!empty($label)) {
             $options['class'] = $class;
-            $label = $view->formLabel($element->getName(), trim($label), $options); 
+            $label = $view->formLabel($element->getFullyQualifiedName(), trim($label), $options); 
         }
 
         if (null !== $tag) {

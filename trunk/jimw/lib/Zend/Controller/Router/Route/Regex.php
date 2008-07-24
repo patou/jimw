@@ -15,12 +15,12 @@
  * @package    Zend_Controller
  * @subpackage Router
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Regex.php 8935 2008-03-20 20:57:49Z darby $
+ * @version    $Id: Regex.php 10189 2008-07-18 19:40:35Z dasprid $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/** Zend_Controller_Router_Route_Interface */
-require_once 'Zend/Controller/Router/Route/Interface.php';
+/** Zend_Controller_Router_Route_Abstract */
+require_once 'Zend/Controller/Router/Route/Abstract.php';
 
 /**
  * Regex Route
@@ -30,7 +30,7 @@ require_once 'Zend/Controller/Router/Route/Interface.php';
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Controller_Router_Route_Regex implements Zend_Controller_Router_Route_Interface
+class Zend_Controller_Router_Route_Regex extends Zend_Controller_Router_Route_Abstract
 {
     protected $_regex = null;
     protected $_defaults = array();
@@ -45,18 +45,48 @@ class Zend_Controller_Router_Route_Regex implements Zend_Controller_Router_Route
      */
     public static function getInstance(Zend_Config $config)
     {
-        $defs = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() : array();
-        $map = ($config->map instanceof Zend_Config) ? $config->map->toArray() : array();
-        $reverse = (isset($config->reverse)) ? $config->reverse : null;
-        return new self($config->route, $defs, $map, $reverse);
+        $route   = ($config->route instanceof Zend_Config)    ? $config->route->toArray()    : $config->route;
+        $defs    = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() : array();
+        $map     = ($config->map instanceof Zend_Config)      ? $config->map->toArray()      : array();
+        $reverse = (isset($config->reverse))                  ? $config->reverse             : null;
+        return new self($route, $defs, $map, $reverse);
     }
 
+    /**
+     * Prepares the route for mapping by splitting (exploding) it
+     * to a corresponding atomic parts. These parts are assigned
+     * a position which is later used for matching and preparing values.
+     *
+     * @param string|array $route    Map used to match with later submitted URL path
+     * @param array        $defaults Defaults for map variables with keys as variable names
+     * @param array        $map      Maps regular expression values
+     * @param string       $reverse  Reverse assemble string
+     */
     public function __construct($route, $defaults = array(), $map = array(), $reverse = null)
     {
+        $host = null;
+        if (is_array($route)) {
+            if (!isset($route['path'])) {
+                /** @see Zend_Controller_Router_Exception */
+                require_once 'Zend/Controller/Router/Exception.php';
+                throw new Zend_Controller_Router_Exception('$route array must contain a "path" element');
+            }
+            
+            if (isset($route['host'])) {
+                $host = $route['host'];
+            }
+            
+            $route = $route['path'];
+        }
+        
         $this->_regex = '#^' . $route . '$#i';
         $this->_defaults = (array) $defaults;
         $this->_map = (array) $map;
         $this->_reverse = $reverse;
+        
+        if ($host !== null) {
+            $this->_initHostMatch($host);
+        }
     }
 
     /**
@@ -68,8 +98,13 @@ class Zend_Controller_Router_Route_Regex implements Zend_Controller_Router_Route
      */
     public function match($path)
     {
+        $hostResult = $this->_evalHostMatch();
+        if ($hostResult === false) {
+            return false;
+        }
+        
         $path = trim(urldecode($path), '/');
-        $res = preg_match($this->_regex, $path, $values);
+        $res  = preg_match($this->_regex, $path, $values);
 
         if ($res === 0) return false;
 
@@ -85,7 +120,7 @@ class Zend_Controller_Router_Route_Regex implements Zend_Controller_Router_Route
         $values = $this->_getMappedValues($values);
         $defaults = $this->_getMappedValues($this->_defaults, false, true);
 
-        $return = $values + $defaults;
+        $return = $values + $defaults + $hostResult;
 
         return $return;
     }
@@ -139,7 +174,7 @@ class Zend_Controller_Router_Route_Regex implements Zend_Controller_Router_Route
      * @param array $data An array of name (or index) and value pairs used as parameters
      * @return string Route path with user submitted parameters
      */
-    public function assemble($data = array())
+    public function assemble($data = array(), $reset = false, $encode = false)
     {
         if ($this->_reverse === null) {
             require_once 'Zend/Controller/Router/Exception.php';
@@ -174,6 +209,7 @@ class Zend_Controller_Router_Route_Regex implements Zend_Controller_Router_Route
             throw new Zend_Controller_Router_Exception('Cannot assemble. Too few arguments?');
         }
 
+        $return = $this->_prependHost($return, $mergedData);
         return $return;
 
     }

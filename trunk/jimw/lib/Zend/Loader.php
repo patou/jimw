@@ -16,7 +16,7 @@
  * @package    Zend_Loader
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Loader.php 8906 2008-03-19 19:15:30Z darby $
+ * @version    $Id: Loader.php 9453 2008-05-14 20:42:46Z matthew $
  */
 
 /**
