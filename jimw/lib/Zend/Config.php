@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework
  *
@@ -17,7 +16,7 @@
  * @package    Zend_Config
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Config.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Config.php 9664 2008-06-11 07:12:40Z stas $
  */
 
 
@@ -87,7 +86,7 @@ class Zend_Config implements Countable, Iterator
      * @param  boolean $allowModifications
      * @return void
      */
-    public function __construct($array, $allowModifications = false)
+    public function __construct(array $array, $allowModifications = false)
     {
         $this->_allowModifications = (boolean) $allowModifications;
         $this->_loadedSection = null;
@@ -179,7 +178,7 @@ class Zend_Config implements Countable, Iterator
      * @param string $name
      * @return boolean
      */
-    protected function __isset($name)
+    public function __isset($name)
     {
         return isset($this->_data[$name]);
     }
@@ -191,10 +190,11 @@ class Zend_Config implements Countable, Iterator
      * @throws Zend_Config_Exception
      * @return void
      */
-    protected function __unset($name)
+    public function __unset($name)
     {
         if ($this->_allowModifications) {
             unset($this->_data[$name]);
+            $this->_count = count($this->_data);
         } else {
             /** @see Zend_Config_Exception */
             require_once 'Zend/Config/Exception.php';

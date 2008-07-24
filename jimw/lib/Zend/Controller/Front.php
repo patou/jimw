@@ -174,6 +174,8 @@ class Zend_Controller_Front
      *
      * Primarily used for testing; could be used to chain front controllers.
      *
+     * Also resets action helper broker, clearing all registered helpers.
+     *
      * @return void
      */
     public function resetInstance()
@@ -203,6 +205,7 @@ class Zend_Controller_Front
                     break;
             }
         }
+        Zend_Controller_Action_HelperBroker::resetHelpers();
     }
 
     /**
@@ -467,10 +470,12 @@ class Zend_Controller_Front
             Zend_Loader::loadClass($router);
             $router = new $router();
         }
+
         if (!$router instanceof Zend_Controller_Router_Interface) {
             throw new Zend_Controller_Exception('Invalid router class');
         }
 
+        $router->setFrontController($this);
         $this->_router = $router;
 
         return $this;

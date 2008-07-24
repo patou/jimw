@@ -16,7 +16,7 @@
  * @package    Zend_Layout
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Layout.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Layout.php 10199 2008-07-18 22:47:01Z matthew $
  */
 
 /**
@@ -81,7 +81,10 @@ class Zend_Layout
      * Layout view script path
      * @var string
      */
-    protected $_layoutPath;
+    protected $_viewScriptPath = null;
+    
+    protected $_viewBasePath = null;
+    protected $_viewBasePrefix = 'Layout_View';
 
     /**
      * Flag: is MVC integration enabled?
@@ -186,6 +189,32 @@ class Zend_Layout
     public static function getMvcInstance()
     {
         return self::$_mvcInstance;
+    }
+
+    /**
+     * Reset MVC instance
+     *
+     * Unregisters plugins and helpers, and destroys MVC layout instance.
+     * 
+     * @return void
+     */
+    public static function resetMvcInstance()
+    {
+        if (null !== self::$_mvcInstance) {
+            $layout = self::$_mvcInstance;
+            $pluginClass = $layout->getPluginClass();
+            $front = Zend_Controller_Front::getInstance();
+            if ($front->hasPlugin($pluginClass)) {
+                $front->unregisterPlugin($pluginClass);
+            }
+
+            if (Zend_Controller_Action_HelperBroker::hasHelper('layout')) {
+                Zend_Controller_Action_HelperBroker::removeHelper('layout');
+            }
+
+            unset($layout);
+            self::$_mvcInstance = null;
+        }
     }
 
     /**
@@ -344,7 +373,31 @@ class Zend_Layout
     {
         return $this->_enabled;
     }
- 
+
+    
+    public function setViewBasePath($path, $prefix = 'Layout_View')
+    {
+        $this->_viewBasePath = $path;
+        $this->_viewBasePrefix = $prefix;
+        return $this;
+    }
+    
+    public function getViewBasePath()
+    {
+        return $this->_viewBasePath;
+    }
+    
+    public function setViewScriptPath($path)
+    {
+        $this->_viewScriptPath = $path;
+        return $this;
+    }
+    
+    public function getViewScriptPath()
+    {
+        return $this->_viewScriptPath;
+    }
+    
     /**
      * Set layout script path
      * 
@@ -353,10 +406,9 @@ class Zend_Layout
      */ 
     public function setLayoutPath($path) 
     {
-        $this->_layoutPath = $path;
-        return $this;
+        return $this->setViewScriptPath($path);
     } 
- 
+    
     /**
      * Get current layout script path
      * 
@@ -364,7 +416,7 @@ class Zend_Layout
      */ 
     public function getLayoutPath() 
     {
-        return $this->_layoutPath;
+        return $this->getViewScriptPath();
     } 
 
     /**
@@ -502,6 +554,7 @@ class Zend_Layout
     public function getView() 
     {
         if (null === $this->_view) {
+            require_once 'Zend/Controller/Action/HelperBroker.php';
             $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
             if (null === $viewRenderer->view) {
                 $viewRenderer->initView();
@@ -721,8 +774,10 @@ class Zend_Layout
 
         $view = $this->getView();
 
-        if (null !== ($path = $this->getLayoutPath())) {
+        if (null !== ($path = $this->getViewScriptPath())) {
             $view->addScriptPath($path);
+        } elseif (null !== ($path = $this->getViewBasePath())) {
+            $view->addBasePath($path, $this->_viewBasePrefix);
         }
 
         return $view->render($name);
