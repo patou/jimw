@@ -51,7 +51,13 @@ class Jimw_Install_ConfigurationForm extends Zend_Form {
         $option_utf8 = new Zend_Form_Element_Checkbox('utf8');
         $option_utf8->setLabel('Use UTF8');
         $this->addElement($option_utf8, 'utf8');
-        $this->addDisplayGroup(array('default_lang', 'debug', 'install_protect', 'rewrite', 'utf8'), 'options', array('legend' => 'Other configuration'));
+        $akismet_key = new Zend_Form_Element_Text('akismet_key');
+        $akismet_key->setLabel('Akismet Key');
+        $this->addElement($akismet_key, 'akismet_key');
+        $akismet_url = new Zend_Form_Element_Text('akismet_url');
+        $akismet_url->setLabel('Akismet Url');
+        $this->addElement($akismet_url, 'akismet_url');
+        $this->addDisplayGroup(array('default_lang', 'debug', 'install_protect', 'rewrite', 'utf8', 'akismet_key', 'akismet_url'), 'options', array('legend' => 'Other configuration'));
 
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Send');

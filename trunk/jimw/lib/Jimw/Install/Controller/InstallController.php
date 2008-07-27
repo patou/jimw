@@ -52,6 +52,12 @@ class InstallController extends Jimw_Install_Action {
     	        if (isset($req->install_protect)) {
     	            $conf .= 'define(\'JIMW_INSTALL_PROTECT_DOMAIN\', \'' . $req->getSubDomain() .'.'.$req->getDomainName() . '\');' . PHP_EOL;
     	        }
+    	        if (isset($req->akismet_key)) {
+    	            $conf .= 'define(\'JIMW_AKISMET_KEY\', \'' . ($req->akismet_key) . '\');' . PHP_EOL;
+    	        }
+	            if (isset($req->akismet_url)) {
+    	            $conf .= 'define(\'JIMW_AKISMET_URL\', \'' . ($req->akismet_url) . '\');' . PHP_EOL;
+    	        }
     	        $conf .= '?>' . PHP_EOL;
     	        file_put_contents(JIMW_REP_CONFIG . '/global.local.php', $conf);
     	        Jimw_Debug::display('<pre>' .htmlentities($conf) . '</pre>', 'Configuration');
@@ -68,7 +74,9 @@ class InstallController extends Jimw_Install_Action {
 	                          ,'install_protect' => defined('JIMW_INSTALL_PROTECT_DOMAIN')
 	                          ,'rewrite' => defined('JIMW_URL_REWRITING')
 	                          ,'utf8' => defined('JIMW_UTF8')
-	                          ,'default_lang' => defined('JIMW_LANG')));
+	                          ,'default_lang' => defined('JIMW_LANG')
+	                          ,'akismet_key' => defined('JIMW_AKISMET_KEY') ? JIMW_AKISMET_KEY : ''
+	                          ,'akismet_url' => defined('JIMW_AKISMET_URL') ? JIMW_AKISMET_URL : ''));
 	    }
 	    $this->view->form = $form;
 	}
