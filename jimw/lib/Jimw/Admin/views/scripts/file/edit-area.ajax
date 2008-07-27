@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?= $this->filename ?></title>
-	<script type="text/javascript" src="<?= $this->path ?>/javascripts/edit_area/edit_area_full.js"></script>	
+	<script type="text/javascript" src="<?= $this->path ?>/javascripts/edit_area/edit_area_full.js"></script>
 </head>
 <body>
 <form name="form" action="<?= $this->url(array('controller' => 'file', 'action' => 'save', 'ext' => 'phtml'), 'ext', true); ?>" method="post">
@@ -20,14 +20,14 @@
           textarea.form.submit ();
       }
       editAreaLoader.init({
-              id: "file"	// id of the textarea to transform		
+              id: "file"	// id of the textarea to transform
               , start_highlight: true	// if start with highlight
               , allow_toggle: false
               , fullscreen: true
               , save_callback: "save_file"
               , toolbar: "save, search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, syntax_selection, |, help"
               ,language: "en"
-              , syntax: "<?= $this->filetype; ?>"	
+              , syntax: "<?= $this->filetype; ?>"
       });	</script>
 </body>
 </html>

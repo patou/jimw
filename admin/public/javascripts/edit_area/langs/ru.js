@@ -56,5 +56,8 @@ syntax_basic: "Basic",
 syntax_pas: "Pascal",
 syntax_brainfuck: "Brainfuck",
 syntax_sql: "SQL",
+syntax_ruby: "Ruby",
+syntax_robotstxt: "Robots txt",
+syntax_tsql: "T-SQL",
 close_tab: "Закрыть файл"
 };
