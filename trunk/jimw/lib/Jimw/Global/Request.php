@@ -18,7 +18,7 @@ class Jimw_Global_Request extends Zend_Controller_Request_Http
 	private $_path = '';
 	private $_pageAlias = '';
 	private $_tree = null;
-	private $_extKey = 'ext';
+	private $_extKey = 'format';
 	private $_aliasKey = 'alias';
 
 	/**

@@ -1,5 +1,5 @@
 <script type="text/javascript" src="<?= $this->path ?>/fckeditor.js"></script>
-<form action="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'save', 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
+<form action="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'save', 'format' => 'phtml', 'id' => $this->id), 'format', true); ?>" method="post">
 <input type="hidden" name="id" value="NEW">
 <input type="hidden" name="treeparentid" value="<?= $this->message->tree_parentid ?>">
 <table border="0" width="90%">

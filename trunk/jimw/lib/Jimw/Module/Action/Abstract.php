@@ -10,7 +10,7 @@
  * @version    $Id$
  */
 
-abstract class Jimw_Module_Action_Abstract extends Zend_Controller_Action
+abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstract
 {
 	public function init() {
 		$request = $this->getRequest ();
@@ -18,13 +18,14 @@ abstract class Jimw_Module_Action_Abstract extends Zend_Controller_Action
 		$site_path = trim($request->site_path, '/');
 		$this->view->path = $request->getBaseUrl () . '/' . $site_path . '/template';
 		$this->view->path_public = $request->getBaseUrl () . '/' . $site_path;
-		$ext = $request->getParam('ext', 'phtml');
-		Zend_Registry::set('ext', $ext);
+		$ext = $request->getParam('format', 'phtml');
+		Zend_Registry::set('format', $ext);
 		$this->getHelper('ViewRenderer')->setViewSuffix($ext);
 		$this->getHelper('Layout')->setViewSuffix($ext);
 		$this->view->addScriptPath($site_path . '/template');
 		$module = $request->getModuleName();
 		$this->view->addScriptPath($site_path . '/template/' . $module);
+		$this->view->addScriptPath($site_path);
 		$this->view->title = '';
 		if (!empty($tree)) {
 			$this->view->title = $tree->pagetitle;

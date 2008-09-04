@@ -21,14 +21,14 @@
 			<?php echo $this->escape($group->parents); ?>
 			</td>
 			<td align="right">
-			<a href="<?php echo $this->url(array('controller' => 'perm', 'action' => 'edit', 'ext' => 'phtml', 'id' => $group->id), 'ext', true); ?>">
+			<a href="<?php echo $this->url(array('controller' => 'perm', 'action' => 'edit', 'format' => 'phtml', 'id' => $group->id), 'format', true); ?>">
 					<img width="16" height="16" border="0" title="<?php echo $this->_('Permission') ?>" alt="<?php echo $this->_('Permission') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/group_key.png"/>
 			</a>
 			<?php if ($group->type != 1): ?>
-				<a href="<?php echo $this->url(array('controller' => 'group', 'action' => 'edit', 'ext' => 'phtml', 'id' => $group->id), 'ext', true); ?>">
+				<a href="<?php echo $this->url(array('controller' => 'group', 'action' => 'edit', 'format' => 'phtml', 'id' => $group->id), 'format', true); ?>">
 					<img width="16" height="16" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/group_edit.png"/>
 				</a>
-				<a href="<?php echo $this->url(array('controller' => 'group', 'action' => 'delete', 'ext' => 'phtml', 'id' => $group->id), 'ext', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Group?')); ?>');">
+				<a href="<?php echo $this->url(array('controller' => 'group', 'action' => 'delete', 'format' => 'phtml', 'id' => $group->id), 'format', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Group?')); ?>');">
 					<img width="16" height="16" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/group_delete.png"/>
 				</a>
 			<?php else: ?>
@@ -39,8 +39,8 @@
 	<?php endforeach; ?>
 	</table>
 <br />
-<a href="<?php echo $this->url(array('controller' => 'group', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>">
+<a href="<?php echo $this->url(array('controller' => 'group', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
 <img width="16" height="16" border="0" title="<?php echo $this->_('Add') ?>" alt="<?php echo $this->_('Add') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/group_add.png"/>&nbsp;<?php echo $this->_('Add'); ?></a>
 <hr />
-<a href="<?php echo $this->url(array('controller' => 'user'), 'ext', true); ?>">
+<a href="<?php echo $this->url(array('controller' => 'user'), 'format', true); ?>">
 <img width="16" height="16" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_undo.png"/>&nbsp;<?php echo $this->_('Return'); ?></a>

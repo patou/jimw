@@ -8,7 +8,7 @@ foreach ($this->messages as $message) {
 	$result = $tree->find($message->tree_parentid)->current();
 	$entries[] = array('title' => encode($message->title),
 						'link' => $this->url(array('alias' => $result->alias, 'format' => 'phtml'), 'alias') . '#' . $message->id,
-						'description' => $this->escape(encode($this->troncate($message->content)))
+						'description' => $this->escape(encode($this->troncate($message->content))),
 						'content:encoded' => $this->escape(encode($message->content))
 						);
 }

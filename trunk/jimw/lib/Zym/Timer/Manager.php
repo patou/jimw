@@ -34,7 +34,7 @@ class Zym_Timer_Manager implements Countable
      *
      * @var array
      */
-    protected $_timers = array();
+    private $_timers = array();
 
     /**
      * Get a timer instance
@@ -144,8 +144,11 @@ class Zym_Timer_Manager implements Countable
     public function getRun()
     {
         $runTime = 0;
-        foreach ($this->getTimers() as $timer) {
-            $runTime += $timer->getRun();
+
+        foreach ($this->getTimers() as $timers) {
+            foreach ($timers as $timer) {
+               $runTime += $timer->getRun();
+            }
         }
 
         return $runTime;
@@ -166,13 +169,12 @@ class Zym_Timer_Manager implements Countable
             return $runTime;
         }
 
-        foreach ($timers as $timer) {
+        foreach ($timers[$group] as $timer) {
             $runTime += $timer->getRun();
         }
 
         return $runTime;
     }
-
 
     /**
      * Clear all timer instances
@@ -194,6 +196,12 @@ class Zym_Timer_Manager implements Countable
      */
     public function count()
     {
-        return count($this->_timers);
+        $count = 0;
+
+        foreach ($this->getTimers() as $timers) {
+        	$count += count($timers);
+        }
+
+        return $count;
     }
 }

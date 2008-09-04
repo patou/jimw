@@ -84,11 +84,18 @@ abstract class Zym_Navigation_Page extends Zym_Navigation_Container
     protected $_position = null;
     
     /**
-     * ACL role required to see this page
+     * ACL resource assigned to this page
      * 
-     * @var string|array|null
+     * @var string|Zend_Acl_Resource_Interface
      */
-    protected $_role = null;
+    protected $_resource = null;
+    
+    /**
+     * ACL privilege assigned to this page
+     *
+     * @var string
+     */
+    protected $_privilege = null;
     
     /**
      * Whether this page should be considered active
@@ -247,17 +254,7 @@ abstract class Zym_Navigation_Page extends Zym_Navigation_Container
     public function setOptions(array $options)
     {
         foreach ($options as $key => $value) {
-            //if (is_string($key) && !empty($key) && $value !== null) {
-            if (is_string($key) && !empty($key)) {
-                $method = 'set' . str_replace(' ', '',
-                                    ucfirst(str_replace('_', ' ', $key)));
-                if ($method != 'setOptions' && $method != 'setConfig' &&
-                    method_exists($this, $method)) {
-                    $this->$method($value);
-                } else {
-                    $this->__set($key, $value);
-                }
-            }
+            $this->set($key, $value);
         }
         
         return $this;
@@ -451,19 +448,19 @@ abstract class Zym_Navigation_Page extends Zym_Navigation_Container
     }
     
     /**
-     * Sets ACL role(s) required to view this page
+     * Sets ACL resource assigned to this page
      * 
-     * @param  null|string|array $role   a single role, or an array of roles,
-     *                                   defaults to null, which sets no role
-     * @throws InvalidArgumentException  if $role is not null|string|array
+     * @param  null|string|Zend_Acl_Resource_Interface $resource  resource
+     * @throws InvalidArgumentException  if $resource is invalid type
      * @return Zym_Navigation_Page
      */
-    public function setRole($role = null)
+    public function setResource($resource = null)
     {
-        if (null === $role || is_string($role) || is_array($role)) {
-            $this->_role = $role;
+        if (null === $resource || is_string($resource) || 
+            $resource instanceof Zend_Acl_Role_Interface) {
+            $this->_resource = $resource;
         } else {
-            $msg = '$role must be null|string|array';
+            $msg = '$resource must be null|string|Zend_Acl_Resource_Interface';
             throw new InvalidArgumentException($msg);
         }
         
@@ -471,17 +468,35 @@ abstract class Zym_Navigation_Page extends Zym_Navigation_Container
     }
     
     /**
-     * Returns ACL role(s) required to view this page
+     * Returns ACL resource assigned to page
      * 
-     * @return array|null  returns null if no role is set 
+     * @return string|Zend_Acl_Resource_Interface|null 
      */
-    public function getRole()
+    public function getResource()
     {
-        if (null === $this->_role || is_array($this->_role)) {
-            return $this->_role;
-        }
-        
-        return (array) $this->_role;
+        return $this->_resource;
+    }
+    
+    /**
+     * Sets ACL privilege assigned to this page
+     *
+     * @param string|null $privilege  ACL privilege
+     * @return Zym_Navigation_Page
+     */
+    public function setPrivilege($privilege = null)
+    {
+        $this->_privilege = is_string($privilege) ? $privilege : null;
+        return $this;
+    }
+    
+    /**
+     * Returns ACL privilege assigned to this page
+     *
+     * @return string
+     */
+    public function getPrivilege()
+    {
+        return $this->_privilege;
     }
     
     /**
@@ -524,6 +539,19 @@ abstract class Zym_Navigation_Page extends Zym_Navigation_Container
     }
     
     /**
+     * Proxy to isActive()
+     *
+     * @param  bool $recursive  [optional] whether page should be
+     *                          considered active if any child pages
+     *                          are active, defaults to false
+     * @return bool
+     */
+    public function getActive($recursive = false)
+    {
+        return $this->isActive($recursive);
+    }
+    
+    /**
      * Sets whether the page should be visible or not
      *
      * @param  bool $visible  [optional] whether page should be visible or not,
@@ -556,6 +584,90 @@ abstract class Zym_Navigation_Page extends Zym_Navigation_Container
         return $this->_visible;
     }
     
+    /**
+     * Proxy to isVisible()
+     * 
+     * Returns a boolean value indicating whether the page is visible
+     *
+     * @param  bool $parentDependent  [optional] whether page should be
+     *                                considered invisible if parent
+     *                                is invisible. defaults to false
+     * @return bool
+     */
+    public function getVisible($parentDependent = false)
+    {
+        return $this->isVisible();
+    }
+    
+    /**
+     * Normalizes a property name
+     *
+     * @param string $property  property name to normalize
+     * @return string
+     */
+    protected function _normalizePropertyName($property)
+    {
+        return str_replace(' ', '', ucfirst(str_replace('_', ' ', $property)));
+    }
+    
+    /**
+     * Sets the given property
+     * 
+     * If the given property is native (id, class, title, etc), the matching
+     * set method will be used. Otherwise, it will be set as a custom property.
+     *
+     * @param string $property  name of property to set
+     * @param mixed  $value     value to set
+     * @return Zym_Navigation_Page
+     * @throws InvalidArgumentException  if property name is invalid
+     */
+    public function set($property, $value)
+    {
+        if (!is_string($property) || empty($property)) {
+            $msg = 'property name must be a non-empty string';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        $method = 'set' . $this->_normalizePropertyName($property);
+        
+        if ($method != 'setOptions' && $method != 'setConfig' &&
+            method_exists($this, $method)) {
+            $this->$method($value);
+        } else {
+            $this->_properties[$property] = $value;
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Returns the value of the given property
+     * 
+     * If the given property is native (id, class, title, etc), the matching
+     * get method will be used. Otherwise, it will return the matching custom
+     * property, or null if not found.
+     *
+     * @param string $property  name of property to retrieve
+     * @return mixed
+     */
+    public function get($property)
+    {
+        if (!is_string($property) || empty($property)) {
+            $msg = 'property name must be a non-empty string';
+            throw new InvalidArgumentException($msg);
+        }
+        
+        $method = 'get' . $this->_normalizePropertyName($property);
+        
+        if (method_exists($this, $method)) {
+            return $this->$method();
+        } elseif (isset($this->_properties[$property])) {
+            return $this->_properties[$property];
+        }
+        
+        return null;
+    }
+    
     // Magic overloads:
     
     /**
@@ -568,48 +680,55 @@ abstract class Zym_Navigation_Page extends Zym_Navigation_Container
      */
     public function __set($name, $value)
     {
-        if (!is_string($name) || empty($name)) {
-            $msg = 'property name must be a non-empty string';
-            throw new InvalidArgumentException($msg);
-        }
-        
-        $this->_properties[$name] = $value;
+        $this->set($name, $value);
     }
     
     /**
-     * Returns a custom property, or null if it doesn't exist
+     * Returns a property, or null if it doesn't exist
      *
      * @param  string $name  property name
      * @return mixed
      */
     public function __get($name)
     {
-        if (isset($this->_properties[$name])) {
-            return $this->_properties[$name];
-        }
-        
-        return null;
+        return $this->get($name);
     }
     
     /**
-     * Checks if a custom property is set
+     * Checks if a property is set
+     * 
+     * Returns true if the property is native (id, class, title, etc), and 
+     * true or false if it's a custom property (depending on whether the 
+     * property actually is set).
      *
-     * @param string $name  custom property to check
+     * @param string $name  property name
      * @return bool
      */
     public function __isset($name)
     {
+        $method = 'get' . $this->_normalizePropertyName($name);
+        if (method_exists($this, $method)) {
+            return true;
+        }
+        
         return isset($this->_properties[$name]);
     }
     
     /**
      * Unsets the given custom property
      *
-     * @param string $name  custom property to unset
+     * @param string $name  property name
      * @return void
+     * @throws InvalidArgumentException  if the property is native
      */
     public function __unset($name)
     {
+        $method = 'set' . $this->_normalizePropertyName($name);
+        if (method_exists($this, $method)) {
+            $msg = "Cannot unset native property '$name'";
+            throw new InvalidArgumentException($msg);
+        }
+        
         if (isset($this->_properties[$name])) {
             unset($this->_properties[$name]);
         }
@@ -647,17 +766,18 @@ abstract class Zym_Navigation_Page extends Zym_Navigation_Container
         return array_merge(
             $this->getCustomProperties(),
             array(
-                'label'    => $this->getlabel(),
-                'id'       => $this->getId(),
-                'class'    => $this->getClass(),
-                'title'    => $this->getTitle(),
-                'target'   => $this->getTarget(),
-                'position' => $this->getPosition(),
-                'role'     => $this->getRole(),
-                'active'   => $this->isActive(),
-                'visible'  => $this->isVisible(),
-                'type'     => get_class($this),
-                'pages'    => parent::toArray()
+                'label'     => $this->getlabel(),
+                'id'        => $this->getId(),
+                'class'     => $this->getClass(),
+                'title'     => $this->getTitle(),
+                'target'    => $this->getTarget(),
+                'position'  => $this->getPosition(),
+                'resource'  => $this->getResource(),
+                'privilege' => $this->getPrivilege(),
+                'active'    => $this->isActive(),
+                'visible'   => $this->isVisible(),
+                'type'      => get_class($this),
+                'pages'     => parent::toArray()
             ));
     }
     

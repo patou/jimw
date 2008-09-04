@@ -15,7 +15,7 @@ function convertmonthstr($str) {
 	"09" => "septembre", "10" => "octobre", "11" => "novembre", "12" => "décembre");
   return ((isset($tabmois[$str])) ? $tabmois[$str] : $str);
 }
-$url = $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'ext' => 'phtml', 'alias' => $this->tree->alias), 'ext');
+$url = $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $this->tree->alias), 'format');
 function addcommentform($id, $url) {
   ?>
   <form id="addcomment<?= $id ?>" method="post" action="<?= $url ?>" style="display: none">		
@@ -48,7 +48,7 @@ foreach ($this->messages as $message) {
       // There is a reference to a tree element
       $tree = new Jimw_Site_Tree();
       $result = $tree->find($message->tree_id)->current();
-      $readmore = '<a href="'.$this->url(array('alias' => $result->alias, 'ext' => 'phtml'), 'alias', true).'" class="readmore">Voir les photos</a>';
+      $readmore = '<a href="'.$this->url(array('alias' => $result->alias, 'format' => 'phtml'), 'alias', true).'" class="readmore">Voir les photos</a>';
     } else {
       $readmore = '';
     }
@@ -85,7 +85,7 @@ foreach ($this->messages as $message) {
 <? endif; ?>
 
 <div id="labeladdmessage"><a href="#" onclick="javascript:document.getElementById('addmessage').style.display='block'; document.getElementById('labeladdmessage').style.display='none'; return false;" class="comments">Poster ma candidature !</a></div>
-<form id="addmessage" method="post" enctype="multipart/form-data" action="<?= $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'add', 'ext' => 'phtml', 'alias' => $this->tree->alias), 'ext'); ?>" style="display: none">
+<form id="addmessage" method="post" enctype="multipart/form-data" action="<?= $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'add', 'format' => 'phtml', 'alias' => $this->tree->alias), 'format'); ?>" style="display: none">
   <p>Pour envoyer votre création, complétez ce formulaire en y joignant votre fichier au format MP3. L'adresse e-mail et le numéro de téléphone ne seront pas affichés sur le site, mais ils sont indispensables pour que le MEJ puisse vous recontacter.</p>
   <p><label>Nom : </label><input style="display: inline;" name="mname" value="" type="text" size="30" /><br />
   <p><label>Prénom : </label><input name="mfirstname" value="" type="text" size="30" /><br />

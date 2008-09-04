@@ -12,6 +12,9 @@ require_once 'Zend/Controller/Action/HelperBroker.php';
 /** Zend_Layout */
 require_once 'Zend/Layout.php';
 
+/** Zend_Registry */
+require_once 'Zend/Registry.php';
+
 /** Zend_Session */
 require_once 'Zend/Session.php';
 
@@ -24,7 +27,7 @@ require_once 'Zend/Session.php';
  * @copyright  Copyright (C) 2008 - Present, Zend Technologies, Inc.
  * @license    New BSD {@link http://framework.zend.com/license/new-bsd}
  */
-class Zend_Test_PHPUnit_ControllerTestCase extends PHPUnit_Framework_TestCase
+abstract class Zend_Test_PHPUnit_ControllerTestCase extends PHPUnit_Framework_TestCase
 {
     /**
      * @var mixed Bootstrap file path or callback
@@ -185,8 +188,29 @@ class Zend_Test_PHPUnit_ControllerTestCase extends PHPUnit_Framework_TestCase
         $this->_response = null;
         Zend_Layout::resetMvcInstance();
         Zend_Controller_Action_HelperBroker::resetHelpers();
+        $this->_resetPlaceholders();
         $this->frontController->resetInstance();
         Zend_Session::$_unitTestEnabled = true;
+    }
+
+    /**
+     * Rest all view placeholders
+     * 
+     * @return void
+     */
+    protected function _resetPlaceholders()
+    {
+        $registry = Zend_Registry::getInstance();
+        $remove   = array();
+        foreach ($registry as $key => $value) {
+            if (strstr($key, '_View_')) {
+                $remove[] = $key;
+            }
+        }
+
+        foreach ($remove as $key) {
+            unset($registry[$key]);
+        }
     }
 
     /**
@@ -199,6 +223,7 @@ class Zend_Test_PHPUnit_ControllerTestCase extends PHPUnit_Framework_TestCase
     public function resetResponse()
     {
         $this->_response = null;
+        $this->_resetPlaceholders();
         return $this;
     }
 

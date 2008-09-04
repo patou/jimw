@@ -15,10 +15,10 @@
      * @const string EXT delimiter
      */
     const EXT_DELIMITER = '.';
-    
-	protected $_extKey     = 'ext';
+
+	protected $_extKey     = 'format';
 	protected $_aliasKey     = 'alias';
-	
+
     /**
      * Set request keys based on values in request object
      *
@@ -65,7 +65,7 @@
         if ($path != '') {
 
             $path = explode(self::URI_DELIMITER, $path);
-			
+
             if (($l = count($path)) > 0 && ($pos = strrpos($path[$l -1], self::EXT_DELIMITER)) !== false && $pos >= 0) {
             	$this->_values[$this->_extKey] = substr($path[$l - 1], $pos + 1);
             	$this->_values[$this->_aliasKey] = substr($path[$l - 1], 0, $pos);
@@ -83,7 +83,7 @@
      * @param array An array of variable and value pairs used as parameters
      * @return string Route path with user submitted parameters
      */
-    public function assemble($data = array(), $reset = false)
+    public function assemble($data = array(), $reset = false, $encode = false)
     {
         if (!$this->_keysSet) {
             $this->_setRequestKeys();
@@ -100,7 +100,7 @@
         }
 
         $params += $this->_defaults;
-        
+
         $url = '';
         $trees = new Jimw_Site_Tree();
         if (!isset($params[$this->_aliasKey]))
@@ -111,11 +111,11 @@
 		if (!count($tree))
 			$tree = $trees->fetchAll(array('tree_alias = ?' => $params[$this->_aliasKey]));
 		$tree = $tree->current ();
-		//@TODO : Corrigé si $tree == null
+		//@TODO : CorrigÃ© si $tree == null
         $url = rtrim($tree->alias, self::URI_DELIMITER);
 		$ext = $params[$this->_extKey];
         if (!empty($ext) && $ext !== $this->_defaults[$this->_extKey]) {
-        	$url .= self::EXT_DELIMITER . $ext;	
+        	$url .= self::EXT_DELIMITER . $ext;
         }
         else {
         	$url .= self::URI_DELIMITER;

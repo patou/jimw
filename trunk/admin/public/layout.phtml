@@ -17,13 +17,13 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 
 <body>
 	<div class="toolbar">
-		<div class="toolbar_left"><a href="<?= $this->url(array('controller' => 'index', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Intro'); ?></a></div>
+		<div class="toolbar_left"><a href="<?= $this->url(array('controller' => 'index', 'action' => 'index', 'format' => 'phtml'), 'format', true) ?>"><?= $this->_('Intro'); ?></a></div>
 		<div class="toolbar_right">
 		<?php
 		$auth = Zend_Auth::getInstance();
 		$user = $auth->getStorage()->read();
 		echo $this->_('Hello'), ' ', $user->user_firstname, ' ', $user->user_lastname;
-		 ?>&nbsp;<a href="<?= $this->url(array('controller' => 'auth', 'action' => 'logout', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Logout'); ?></a></div>
+		 ?>&nbsp;<a href="<?= $this->url(array('controller' => 'auth', 'action' => 'logout', 'format' => 'phtml'), 'format', true) ?>"><?= $this->_('Logout'); ?></a></div>
 	</div>
 <div class="container">
 
@@ -34,11 +34,11 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 		</div>
 
 		<div class="navigation">
-			<a href="<?= $this->url(array('controller' => 'index', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Intro'); ?></a>
-			<a href="<?= $this->url(array('controller' => 'tree', 'action' => 'list', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Pages'); ?></a>
-			<a href="<?= $this->url(array('controller' => 'file', 'action' => 'index', 'ext' => 'ajax'), 'ext', true) ?>"><?= $this->_('Files'); ?></a>
-			<a href="<?= $this->url(array('controller' => 'user', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('Users'); ?></a>
-			<a href="<?= $this->url(array('controller' => 'system', 'action' => 'index', 'ext' => 'phtml'), 'ext', true) ?>"><?= $this->_('System'); ?></a>
+			<a href="<?= $this->url(array('controller' => 'index', 'action' => 'index', 'format' => 'phtml'), 'format', true) ?>"><?= $this->_('Intro'); ?></a>
+			<a href="<?= $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml'), 'format', true) ?>"><?= $this->_('Pages'); ?></a>
+			<a href="<?= $this->url(array('controller' => 'file', 'action' => 'index', 'format' => 'ajax'), 'format', true) ?>"><?= $this->_('Files'); ?></a>
+			<a href="<?= $this->url(array('controller' => 'user', 'action' => 'index', 'format' => 'phtml'), 'format', true) ?>"><?= $this->_('Users'); ?></a>
+			<a href="<?= $this->url(array('controller' => 'system', 'action' => 'index', 'format' => 'phtml'), 'format', true) ?>"><?= $this->_('System'); ?></a>
 			<div class="clearer"><span></span></div>
 		</div>
 

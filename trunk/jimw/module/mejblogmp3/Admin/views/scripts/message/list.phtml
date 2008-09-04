@@ -16,7 +16,7 @@
 			<td>
 			<?php echo $this->escape($message->id); ?></td>
 			<td>
-			<a href="<?= $this->url(array('module' => 'mejblogmp3', 'controller' => 'comment', 'action' => 'list', 'id' => $message->id), 'ext'); ?>">
+			<a href="<?= $this->url(array('module' => 'mejblogmp3', 'controller' => 'comment', 'action' => 'list', 'id' => $message->id), 'format'); ?>">
 			<?php echo $this->escape($message->title); ?>
 			</a>
 			</td>
@@ -27,18 +27,18 @@
 			</td>
 			<td align="right">
 			<?php if ($message->published): ?>
-				<a href="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'unpublish', 'ext' => 'phtml', 'id' => $message->id), 'ext', true); ?>">
+				<a href="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'unpublish', 'format' => 'phtml', 'id' => $message->id), 'format', true); ?>">
 					<img width="16" height="16" border="0" title="<?php echo $this->_('Unpublish') ?>" alt="<?php echo $this->_('Unpublish') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/comment_delete.png"/>
 				</a>
 			<?php else: ?>
-				<a href="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'publish', 'ext' => 'phtml', 'id' => $message->id), 'ext', true); ?>">
+				<a href="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'publish', 'format' => 'phtml', 'id' => $message->id), 'format', true); ?>">
 					<img width="16" height="16" border="0" title="<?php echo $this->_('Publish') ?>" alt="<?php echo $this->_('Publish') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/comment_add.png"/>
 				</a>
 			<?php endif; ?>
-				<a href="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'edit', 'ext' => 'phtml', 'id' => $message->id), 'ext', true); ?>">
+				<a href="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'edit', 'format' => 'phtml', 'id' => $message->id), 'format', true); ?>">
 					<img width="16" height="16" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/pencil.png"/>
 				</a>
-				<a href="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'delete', 'ext' => 'phtml', 'id' => $message->id), 'ext', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this message ?')); ?>');">
+				<a href="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'delete', 'format' => 'phtml', 'id' => $message->id), 'format', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this message ?')); ?>');">
 					<img width="16" height="16" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>
 				</a>
 			</td>
@@ -46,6 +46,6 @@
 	<?php endforeach; ?>
 	</table>
 <br />
-<a href="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'add', 'id' => $this->id, 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Add'); ?></a>
+<a href="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => 'add', 'id' => $this->id, 'format' => 'phtml'), 'format', true); ?>"><?php echo $this->_('Add'); ?></a>
 <hr />
-<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'list'), 'ext', true); ?>"><?php echo $this->_('Return'); ?></a>
+<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'list'), 'format', true); ?>"><?php echo $this->_('Return'); ?></a>

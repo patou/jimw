@@ -38,6 +38,10 @@ class Zend_Controller_Router_Route_Static extends Zend_Controller_Router_Route_A
     protected $_route = null;
     protected $_defaults = array();
 
+    public function getVersion() {
+        return 1;
+    }
+    
     /**
      * Instantiates route based on passed Zend_Config structure
      *
@@ -45,9 +49,8 @@ class Zend_Controller_Router_Route_Static extends Zend_Controller_Router_Route_A
      */
     public static function getInstance(Zend_Config $config)
     {
-        $route = ($config->route instanceof Zend_Config)    ? $config->route->toArray()    : $config->route;
-        $defs  = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() : array();
-        return new self($route, $defs);
+        $defs = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() : array();
+        return new self($config->route, $defs);
     }
 
     /**
@@ -58,27 +61,8 @@ class Zend_Controller_Router_Route_Static extends Zend_Controller_Router_Route_A
      */
     public function __construct($route, $defaults = array())
     {
-        $host = null;
-        if (is_array($route)) {
-            if (!isset($route['path'])) {
-                /** @see Zend_Controller_Router_Exception */
-                require_once 'Zend/Controller/Router/Exception.php';
-                throw new Zend_Controller_Router_Exception('$route array must contain a "path" element');
-            }
-            
-            if (isset($route['host'])) {
-                $host = $route['host'];
-            }
-            
-            $route = $route['path'];
-        }
-        
-        $this->_route    = trim($route, '/');
+        $this->_route = trim($route, '/');
         $this->_defaults = (array) $defaults;
-        
-        if ($host !== null) {
-            $this->_initHostMatch($host);
-        }
     }
 
     /**
@@ -90,13 +74,8 @@ class Zend_Controller_Router_Route_Static extends Zend_Controller_Router_Route_A
      */
     public function match($path)
     {
-        $hostResult = $this->_evalHostMatch();
-        if ($hostResult === false) {
-            return false;
-        }
-        
         if (trim($path, '/') == $this->_route) {
-            return array_merge($this->_defaults, $hostResult);
+            return $this->_defaults;
         }
         return false;
     }
@@ -107,10 +86,9 @@ class Zend_Controller_Router_Route_Static extends Zend_Controller_Router_Route_A
      * @param array $data An array of variable and value pairs used as parameters
      * @return string Route path with user submitted parameters
      */
-    public function assemble($data = array())
+    public function assemble($data = array(), $reset = false, $encode = false)
     {
-        $route = $this->_prependHost($this->_route, array_merge($this->_defaults, $data));
-        return $route;
+        return $this->_route;
     }
 
     /**

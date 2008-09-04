@@ -104,7 +104,7 @@
 	private function getController($path, Jimw_Global_Request $request) {
 		$tab = explode('.', $path);
 		if (isset($tab[1]))
-			$request->setParam('ext', $tab[1]);
+			$request->setParam('format', $tab[1]);
 		$tab_path = explode('_', $tab[0]);
 		$nb = count($tab_path);
 		for ($i = 1; $i < $nb; $i += 2) {

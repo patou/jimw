@@ -92,7 +92,7 @@ catch (Exception $e) {
 }
 
 if (JIMW_DEBUG_MODE) {
-	$ext = (Zend_Registry::isRegistered('ext')) ? Zend_Registry::get('ext') : 'phtml';
+	$ext = (Zend_Registry::isRegistered('format')) ? Zend_Registry::get('format') : 'phtml';
 	if (!empty($ext) && $ext == 'phtml') {
 		$db = Zend_Registry::get('db');
 		Jimw_Debug::profile_db($db, 'Database');
@@ -100,6 +100,9 @@ if (JIMW_DEBUG_MODE) {
 		$totalTime = microtime(true) - $startTime;
 		//calculate the time difference
 		Jimw_Debug::display("\ntotal execution time: $totalTime .");
+	}
+	else {
+        Jimw_Debug::disactive();
 	}
 }
 ?>

@@ -17,7 +17,7 @@
  * @subpackage Helper
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Interface.php 10130 2008-07-16 14:51:08Z matthew $
+ * @version    $Id: Interface.php 10665 2008-08-05 10:57:18Z matthew $
  */
 
 /**
@@ -36,4 +36,11 @@ interface Zend_View_Helper_Interface
      * @return Zend_View_Helper_Interface
      */
     public function setView(Zend_View_Interface $view);
+
+    /**
+     * Strategy pattern: helper method to invoke
+     * 
+     * @return mixed
+     */
+    public function direct();
 }

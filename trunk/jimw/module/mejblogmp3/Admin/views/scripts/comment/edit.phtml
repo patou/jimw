@@ -1,5 +1,5 @@
 <script type="text/javascript" src="<?= $this->path ?>/fckeditor.js"></script>
-<form action="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'save', 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
+<form action="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'save', 'format' => 'phtml', 'id' => $this->id), 'format', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
 <table border="0" width="90%">
 <tr><td class="t01"><?= $this->formLabel('date', $this->_('Date')); ?> : </td><td><?= $this->formText('date', $this->comment->date); ?></td></tr>
@@ -9,5 +9,5 @@
 </table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
-	<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'list', 'id' => $this->comment->blogmessage_id), 'ext'); ?>"><?php echo $this->_('Return') ?></a>
+	<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'list', 'id' => $this->comment->blogmessage_id), 'format'); ?>"><?php echo $this->_('Return') ?></a>
 </p>

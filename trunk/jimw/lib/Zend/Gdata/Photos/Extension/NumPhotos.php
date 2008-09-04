@@ -1,4 +1,4 @@
-<?php
+'format'<?php
 
 /**
  * Zend Framework

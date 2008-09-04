@@ -32,14 +32,14 @@ class Jimw_Admin_Controller
 	 * @var Jimw_Admin_Dispatch
 	 */
 	private $dispatch;
-	
+
 	/**
 	 * The global router
 	 *
 	 * @var Jimw_Global_Router
 	 */
 	private $router;
-	
+
 	private $frontcontroller;
 
 	public function __construct() {
@@ -69,8 +69,7 @@ class Jimw_Admin_Controller
 	}
 
 	public function initTranslate () {
-		include (JIMW_REP_LANG . JIMW_LANG . '/common.php');
-		$trans = new Zend_Translate('array', $lang, JIMW_LANG);
+		$trans = new Zend_Translate('array', JIMW_REP_LANG . JIMW_LANG . '/common.php', JIMW_LANG);
 		Zend_Form::setDefaultTranslator($trans);
 		Zend_Registry::set('Zend_Translate', $trans);
 		return $trans;
@@ -78,6 +77,8 @@ class Jimw_Admin_Controller
 
 	public function initView() {
 		$view = new Jimw_Site_View();
+		$view->addHelperPath(JIMW_REP_LIB . 'Zym/View/Helper', 'Zym_View_Helper');
+		$view->addFilterPath(JIMW_REP_LIB . 'Zym/View/Filter', 'Zym_View_Filter');
 		$view->addBasePath(JIMW_REP_LIB . 'Jimw/Admin/views/', 'Jimw_Admin_View');
 		$view->addScriptPath(JIMW_REP_ADMIN_PUBLIC);
 		$view->setTranslate ($this->initTranslate());
@@ -102,7 +103,7 @@ class Jimw_Admin_Controller
 			}
 		}
 	}
-	
+
 	private function _registerModulePlugin() {
 		$this->frontcontroller->setModuleControllerDirectoryName('Admin/Controller');
 		$this->frontcontroller->addModuleDirectory(JIMW_REP_MODULE);
@@ -129,7 +130,7 @@ class Jimw_Admin_Controller
 				}
 			}
 		}
-	}	
+	}
 	public function run () {
 		$this->request = $this->router->route($this->request);
 		$this->initView();
@@ -143,7 +144,7 @@ class Jimw_Admin_Controller
 		$this->_registerPlugins();
 		$this->_registerModulePlugin();
 		$this->frontcontroller->addControllerDirectory(JIMW_REP_LIB . 'Jimw/Admin/Controller/', 'default');
-		$router->addRoute('ext', new Jimw_Site_Route_Module(array(), $this->dispatch, $this->request, false));
+		$router->addRoute('format', new Jimw_Site_Route_Module(array(), $this->dispatch, $this->request, false));
 		$router->addRoute('get', new Jimw_Site_Route_Get(array()));
 		Jimw_Global_Layout::startMvc();
 		$this->frontcontroller->dispatch($this->request, $this->response);

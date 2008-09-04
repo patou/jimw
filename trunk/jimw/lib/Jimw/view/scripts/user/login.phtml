@@ -4,7 +4,7 @@
 		<?php echo $this->escape($this->message);?>
 	</div>
 <?php endif; ?>
-<form action="<?php echo $this->url(array('controller' => 'user', 'action' => 'login', 'ext' => 'phtml'), 'ext', true); ?>" method="post">
+<form action="<?php echo $this->url(array('controller' => 'user', 'action' => 'login', 'format' => 'phtml'), 'format', true); ?>" method="post">
 <div>
 	<?php echo $this->formLabel('login', $this->_('UserName')); ?>&nbsp;:
 	<?php echo $this->formText('login', ''); ?>

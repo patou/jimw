@@ -20,10 +20,10 @@
 			<?php echo $this->escape($domain->site_id); ?>
 			</td>
 			<td align="right">
-				<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'edit', 'ext' => 'phtml', 'id' => $domain->id), 'ext', true); ?>">
+				<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'edit', 'format' => 'phtml', 'id' => $domain->id), 'format', true); ?>">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/world_edit.png"/>
 				</a>
-				<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'delete', 'ext' => 'phtml', 'id' => $domain->id), 'ext', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Domain ?')); ?>');">
+				<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'delete', 'format' => 'phtml', 'id' => $domain->id), 'format', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Domain ?')); ?>');">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/world_delete.png"/>
 				</a>
 			</td>
@@ -31,6 +31,6 @@
 	<?php endforeach; ?>
 	</table>
 <br />
-<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Add'); ?></a>
+<a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>"><?php echo $this->_('Add'); ?></a>
 <hr />
-<a href="<?php echo $this->url(array('controller' => 'system'), 'ext', true); ?>"><?php echo $this->_('Return'); ?></a>
+<a href="<?php echo $this->url(array('controller' => 'system'), 'format', true); ?>"><?php echo $this->_('Return'); ?></a>

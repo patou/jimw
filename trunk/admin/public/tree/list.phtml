@@ -30,16 +30,16 @@ function list_tree($list, $view, $path, $baseurl, $prof = 0) {
 				$module = module_name($tree->module_id);
 				echo (is_readable('./public/images/icons/module/' . $module . '.png')) ? $module : 'article';
 				?>.png" width="16" height="16" alt="" border="0"/>
-				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>" class="no_decoration"><?= $tree->menutitle?></a>
+				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>" class="no_decoration"><?= $tree->menutitle?></a>
 				&nbsp;(<a href="/<?= trim(trim(str_replace('admin', '/', $view->baseUrl), '/') . $tree->alias, '/')?>/" target="_new" class="no_decoration"><?= $tree->alias?></a> : <?= $tree->lft?> : <?= $tree->rgt?>)</td>
-				<td align="right"><a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>">
+				<td align="right"><a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'edit', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>">
 				<img src="<?= $path ?>/images/icons/page_white_edit.png" width="16" height="16" alt="<?php echo $view->_('Edit'); ?>" title="<?php echo $view->_('Edit'); ?>" border="0" class="absmiddle" /></a>
-				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>" onclick="return confirm('<?php echo $view->escape($view->_('Do you really want to delete this Page ?')); ?>');">
+				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>" onclick="return confirm('<?php echo $view->escape($view->_('Do you really want to delete this Page ?')); ?>');">
 				<img src="<?= $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="<?php echo $view->_('Delete'); ?>" title="<?php echo $view->_('Delete'); ?>" border="0" class="absmiddle" /></a>
 				<?php
 					if ($item > 0) {
 				?>
-					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>">
+					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>">
 					<img src="<?= $path ?>/images/icons/arrow_up.png" width="16" height="16" alt="<?php echo $view->_('Move Up'); ?>" title="<?php echo $view->_('Move Up'); ?>"  border="0" class="absmiddle" /></a>
 				<?php
 					}
@@ -50,7 +50,7 @@ function list_tree($list, $view, $path, $baseurl, $prof = 0) {
 					}
 					if ($item < $length - 1) {
 				?>
-					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'ext' => 'phtml', 'id' => $tree->id), 'ext', true); ?>">
+					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>">
 					<img src="<?= $path ?>/images/icons/arrow_down.png" width="16" height="16" alt="<?php echo $view->_('Move Down'); ?>" title="<?php echo $view->_('Move Down'); ?>"  border="0" class="absmiddle" /></a>
 				<?php
 					}
@@ -93,4 +93,4 @@ list_tree($this->list_tree, $this, $path, $baseurl);
 </p>
 <hr />
 <br />
-<p class="t01"><a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>"><?php echo $this->_('Add new Page') ?></a></p>
+<p class="t01"><a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>"><?php echo $this->_('Add new Page') ?></a></p>

@@ -1,5 +1,5 @@
 <h1><img width="16" height="16" border="0" title="<?php echo $this->_('Permission') ?>" alt="<?php echo $this->_('Permission') ?>" class="folder" border="0" src="<?php echo $this->path; ?>/images/icons/key.png"/>&nbsp;<?php echo $this->_('Permission') ?></h1>
-<form action="<?php echo $this->url(array('controller' => 'perm', 'action' => $this->form_type, 'ext' => 'phtml'), 'ext', true); ?>" method="post">
+<form action="<?php echo $this->url(array('controller' => 'perm', 'action' => $this->form_type, 'format' => 'phtml'), 'format', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
 <input type="hidden" name="sub" value="1">
 <table border="0" width="90%">
@@ -12,10 +12,10 @@
 <tr><td colspan="2" align="center"><?= $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td>
 </tr>
 </table></form>
-<a href="<?php echo $this->url(array('controller' => 'perm', 'action' => 'add', 'ext' => 'phtml', 'id' => $this->id, 'group' => $this->perm->group_id), 'ext', true); ?>">
+<a href="<?php echo $this->url(array('controller' => 'perm', 'action' => 'add', 'format' => 'phtml', 'id' => $this->id, 'group' => $this->perm->group_id), 'format', true); ?>">
 <img width="16" height="16" border="0" title="<?php echo $this->_('Add permission') ?>" alt="<?php echo $this->_('Add permission') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/key_add.png"/>&nbsp;<?php echo $this->_('Add permission'); ?></a>
 <br/>
 <p class="t01" style="font-size: 12px;">
-<a href="<?php echo $this->url(array('controller' => 'group', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>">
+<a href="<?php echo $this->url(array('controller' => 'group', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>">
 <img width="16" height="16" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_undo.png"/>&nbsp;<?php echo $this->_('Return'); ?></a>
 </p>

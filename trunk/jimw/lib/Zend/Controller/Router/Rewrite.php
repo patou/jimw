@@ -15,7 +15,7 @@
  * @package    Zend_Controller
  * @subpackage Router
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Rewrite.php 10189 2008-07-18 19:40:35Z dasprid $
+ * @version    $Id: Rewrite.php 10744 2008-08-07 02:32:44Z matthew $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -42,6 +42,7 @@ require_once 'Zend/Controller/Router/Route/Static.php';
  */
 class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
 {
+
     /**
      * Whether or not to use default routes
      * @var boolean
@@ -264,11 +265,17 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
             $this->addDefaultRoutes();
         }
 
-        $pathInfo = $request->getPathInfo();
-
         /** Find the matching route */
         foreach (array_reverse($this->_routes) as $name => $route) {
-            if ($params = $route->match($pathInfo)) {
+            
+            // TODO: Should be an interface method. Hack for 1.0 BC  
+            if (!method_exists($route, 'getVersion') || $route->getVersion() == 1) {
+                $match = $request->getPathInfo();
+            } else {
+                $match = $request;
+            }
+                        
+            if ($params = $route->match($match)) {
                 $this->_setRequestParams($request, $params);
                 $this->_currentRoute = $name;
                 break;

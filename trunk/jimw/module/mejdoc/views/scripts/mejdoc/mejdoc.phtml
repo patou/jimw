@@ -24,7 +24,7 @@ foreach ($this->subdocuments as $item) {
   $title = $item['title'];
   $alias = $item['alias'];
   $subdocs = $item['documents'];
-  $url = $this->url(array('alias' => $alias, 'ext' => 'phtml'), 'alias', true);
+  $url = $this->url(array('alias' => $alias, 'format' => 'phtml'), 'alias', true);
   echo '<h3><a href="'.$url.'">'.$title.'</a></h3><ul>';
   foreach ($subdocs as $subdoc) {
    	echo '<li>'.$subdoc->title.'</li>';

@@ -2,7 +2,7 @@
 <tr><td class="t01"><?php echo $this->_('Date') ?> : </td><td><?= $this->message->date ?></td></tr>
 <tr><td class="t01"><?php echo $this->_('Title') ?> : </td><td><?= $this->message->title ?></td></tr>
 <tr><td class="t01"><?php echo $this->_('Content') ?> : </td><td><?= $this->message->content ?></td></tr>
-<tr><td colspan="2" align="center"><a href="<?= $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'edit', 'id' => $this->message->id), 'ext'); ?>"><?php echo $this->_('Edit') ?></a></td></tr>
+<tr><td colspan="2" align="center"><a href="<?= $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'edit', 'id' => $this->message->id), 'format'); ?>"><?php echo $this->_('Edit') ?></a></td></tr>
 </table>	
 	
 	<table cellpadding="0" cellspacing="0" class="list">
@@ -30,10 +30,10 @@
 			<?php echo $this->escape($comment->date); ?>
 			</td>
 			<td align="right">
-				<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'edit', 'ext' => 'phtml', 'id' => $comment->id), 'ext', true); ?>">
+				<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'edit', 'format' => 'phtml', 'id' => $comment->id), 'format', true); ?>">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/pencil.png"/>
 				</a>
-				<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'delete', 'ext' => 'phtml', 'id' => $comment->id), 'ext', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this comment ?')); ?>');">
+				<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'delete', 'format' => 'phtml', 'id' => $comment->id), 'format', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this comment ?')); ?>');">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>
 				</a>
 			</td>
@@ -42,4 +42,4 @@
 	</table>
 <br />
 <hr />
-<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'edit', 'id' => $this->message->tree_parentid), 'ext'); ?>"><?php echo $this->_('Return'); ?></a>
+<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'edit', 'id' => $this->message->tree_parentid), 'format'); ?>"><?php echo $this->_('Return'); ?></a>

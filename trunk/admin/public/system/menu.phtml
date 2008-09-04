@@ -1,37 +1,37 @@
 <div class="sidenav">
 			<h1><? echo $this->_('System'); ?></h1>
 			<ul>
-				<li><a href="<?php echo $this->url(array('controller' => 'system', 'action' => 'index', 'ext' => 'phtml'), 'ext', true); ?>">
+				<li><a href="<?php echo $this->url(array('controller' => 'system', 'action' => 'index', 'format' => 'phtml'), 'format', true); ?>">
 				<img width="16" height="16" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_undo.png"/>&nbsp;<? echo $this->_('Return'); ?></a></li>
-				<li><a href="<?php echo $this->url(array('controller' => 'system', 'action' => 'update', 'ext' => 'phtml'), 'ext', true); ?>">
+				<li><a href="<?php echo $this->url(array('controller' => 'system', 'action' => 'update', 'format' => 'phtml'), 'format', true); ?>">
 				<img width="16" height="16" border="0" title="<?php echo $this->_('Update Database') ?>" alt="<?php echo $this->_('Update Database') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/database_refresh.png"/>&nbsp;<? echo $this->_('Update Database'); ?></a></li>
 			</ul>
 			</ul>
 			<h1><? echo $this->_('Module'); ?></h1>
 			<ul>
-				<li><a href="<?php echo $this->url(array('controller' => 'module', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>">
+				<li><a href="<?php echo $this->url(array('controller' => 'module', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>">
 				<img width="16" height="16" border="0" title="<?php echo $this->_('List') ?>" alt="<?php echo $this->_('List') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/plugin.png"/>&nbsp;<? echo $this->_('List'); ?></a></li>
-				<li><a href="<?php echo $this->url(array('controller' => 'module', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>">
+				<li><a href="<?php echo $this->url(array('controller' => 'module', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>">
 				<img width="16" height="16" border="0" title="<?php echo $this->_('Install') ?>" alt="<?php echo $this->_('Install') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/plugin_add.png"/>&nbsp;<? echo $this->_('Install'); ?></a></li>
 			</ul>
 			<h1><? echo $this->_('Domain'); ?></h1>
 			<ul>
-				<li><a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>">
+				<li><a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>">
 				<img width="16" height="16" border="0" title="<?php echo $this->_('List') ?>" alt="<?php echo $this->_('List') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/world.png"/>&nbsp;<? echo $this->_('List'); ?></a></li>
-				<li><a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>">
+				<li><a href="<?php echo $this->url(array('controller' => 'domain', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
 				<img width="16" height="16" border="0" title="<?php echo $this->_('Add') ?>" alt="<?php echo $this->_('Add') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/world_add.png"/>&nbsp;<? echo $this->_('Add'); ?></a></li>
 			</ul>
 			<h1><? echo $this->_('Site'); ?></h1>
 			<ul>
-				<li><a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>">
+				<li><a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>">
 				<img width="16" height="16" border="0" title="<?php echo $this->_('List') ?>" alt="<?php echo $this->_('List') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/application.png"/>&nbsp;<? echo $this->_('List'); ?></a></li>
-				<li><a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>">
+				<li><a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
 				<img width="16" height="16" border="0" title="<?php echo $this->_('Add') ?>" alt="<?php echo $this->_('Add') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/application_add.png"/>&nbsp;<? echo $this->_('Add'); ?></a></li>
 			</ul>
 			<h1><? echo $this->_('Database'); ?></h1>
 			<ul>
-				<li><a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>"><img width="16" height="16" border="0" title="<?php echo $this->_('List') ?>" alt="<?php echo $this->_('List') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/database.png"/>&nbsp;<? echo $this->_('List'); ?></a></li>
-				<li><a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>">
+				<li><a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>"><img width="16" height="16" border="0" title="<?php echo $this->_('List') ?>" alt="<?php echo $this->_('List') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/database.png"/>&nbsp;<? echo $this->_('List'); ?></a></li>
+				<li><a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
 				<img width="16" height="16" border="0" title="<?php echo $this->_('Add') ?>" alt="<?php echo $this->_('Add') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/database_add.png"/>&nbsp;<?php echo $this->_('Add'); ?></a></li>
 			</ul>
 			<br />

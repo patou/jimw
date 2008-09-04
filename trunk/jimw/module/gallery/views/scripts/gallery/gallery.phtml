@@ -89,7 +89,7 @@ endif;
 <?php
 if ($this->can_download):
 ?>
-<form name="download" method="POST" action="<?php echo $this->url(array('ext' => 'pzip', 'alias' => $this->tree->alias), 'alias', true); ?>">
+<form name="download" method="POST" action="<?php echo $this->url(array('format' => 'pzip', 'alias' => $this->tree->alias), 'alias', true); ?>">
 <input type="hidden" name="dir" value="<?php echo $this->photos_path ?>" />
 <div id="download_link"><a href="#" onclick="display_download();">T&eacute;l&eacute;charger les photos</a></div>
 <?php
