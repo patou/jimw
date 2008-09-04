@@ -73,7 +73,7 @@ class Jimw_Site_View_Helper_MenuRSS
 			if (!empty($class)) {
 				$class = ' class="' . $class . '"';
 			}
-			$html .= '<a href="' . $this->view->url (array('alias' => $menuitem->alias, 'ext' => 'rss'), 'alias', true) . '"'  . $class . '>' . $menuitem->menutitle . '</a></li>';
+			$html .= '<a href="' . $this->view->url (array('alias' => $menuitem->alias, 'format' => 'rss'), 'alias', true) . '"'  . $class . '>' . $menuitem->menutitle . '</a></li>';
 		}
 		$html .= '</ul>';
 		return $html;

@@ -17,7 +17,7 @@
  * @subpackage Helper
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 10130 2008-07-16 14:51:08Z matthew $
+ * @version    $Id: Abstract.php 10665 2008-08-05 10:57:18Z matthew $
  */
 
 /**
@@ -51,5 +51,14 @@ abstract class Zend_View_Helper_Abstract implements Zend_View_Helper_Interface
     {
         $this->view = $view;
         return $this;
+    }
+
+    /**
+     * Strategy pattern: currently unutilized
+     *
+     * @return void
+     */
+    public function direct()
+    {
     }
 }

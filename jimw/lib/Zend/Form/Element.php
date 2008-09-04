@@ -32,7 +32,7 @@ require_once 'Zend/Validate/Interface.php';
  * @subpackage Element
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Element.php 10155 2008-07-17 18:43:28Z matthew $
+ * @version    $Id: Element.php 10676 2008-08-05 14:54:03Z matthew $
  */
 class Zend_Form_Element implements Zend_Validate_Interface
 {
@@ -535,7 +535,7 @@ class Zend_Form_Element implements Zend_Validate_Interface
     {
         $valueFiltered = $this->_value;
 
-        if (is_array($valueFiltered)) {
+        if ($this->isArray() && is_array($valueFiltered)) {
             array_walk_recursive($valueFiltered, array($this, '_filterValue'));
         } else {
             $this->_filterValue($valueFiltered, $valueFiltered);
@@ -601,10 +601,10 @@ class Zend_Form_Element implements Zend_Validate_Interface
     /**
      * Set required flag
      * 
-     * @param  bool $flag 
+     * @param  bool $flag Default value is true
      * @return Zend_Form_Element
      */
-    public function setRequired($flag)
+    public function setRequired($flag = true)
     {
         $this->_required = (bool) $flag;
         return $this;
@@ -1907,7 +1907,7 @@ class Zend_Form_Element implements Zend_Validate_Interface
 
         if (array_key_exists($name, $this->_filters)) {
             require_once 'Zend/Form/Exception.php';
-            throw new Zend_Form_Exception(sprintf('Filter instance already exists for filter "%s"', $filter));
+            throw new Zend_Form_Exception(sprintf('Filter instance already exists for filter "%s"', $origName));
         }
 
         if (empty($filter['options'])) {
@@ -1956,7 +1956,7 @@ class Zend_Form_Element implements Zend_Validate_Interface
 
         if (array_key_exists($name, $this->_validators)) {
             require_once 'Zend/Form/Exception.php';
-            throw new Zend_Form_Exception(sprintf('Validator instance already exists for validator "%s"', $validator));
+            throw new Zend_Form_Exception(sprintf('Validator instance already exists for validator "%s"', $origName));
         }
 
         if (empty($validator['options'])) {
@@ -2060,7 +2060,15 @@ class Zend_Form_Element implements Zend_Validate_Interface
             if (null !== $translator) {
                 $message = $translator->translate($message);
             }
-            $messages[$key] = str_replace('%value%', $value, $message);
+            if ($this->isArray() || is_array($value)) {
+                $aggregateMessages = array();
+                foreach ($value as $val) {
+                    $aggregateMessages[] = str_replace('%value%', $val, $message);
+                }
+                $messages[$key] = $aggregateMessages;
+            } else {
+                $messages[$key] = str_replace('%value%', $value, $message);
+            }
         }
         return $messages;
     }

@@ -38,7 +38,7 @@ class Jimw_Global_Controller
 	 * @var Jimw_Global_Router
 	 */
 	private $router;
-	
+
 	private $frontcontroller;
 
 	public function __construct() {
@@ -68,8 +68,7 @@ class Jimw_Global_Controller
 	}
 
 	public function initTranslate () {
-		include (JIMW_REP . '/lang/fr/common.php');
-		$trans = new Zend_Translate('array', $lang, 'fr');
+		$trans = new Zend_Translate('array', JIMW_REP_LANG . JIMW_LANG . '/common.php', JIMW_LANG);
 		Zend_Form::setDefaultTranslator($trans);
 		Zend_Registry::set('Zend_Translate', $trans);
 		return $trans;
@@ -77,6 +76,8 @@ class Jimw_Global_Controller
 
 	public function initView() {
 		$view = new Jimw_Site_View();
+		$view->addHelperPath(JIMW_REP_LIB . 'Zym/View/Helper', 'Zym_View_Helper');
+		$view->addFilterPath(JIMW_REP_LIB . 'Zym/View/Filter', 'Zym_View_Filter');
 		$view->addFilterPath(JIMW_REP_LIB . 'Jimw/Site/View/Filter', 'Jimw_Site_View_Filter_');
 		$view->addHelperPath(JIMW_REP_LIB . 'Jimw/Site/View/Helper', 'Jimw_Site_View_Helper_');
 		$view->addScriptPath(JIMW_REP_LIB . 'Jimw/view/scripts');
@@ -102,7 +103,7 @@ class Jimw_Global_Controller
 			}
 		}
 	}
-	
+
 	private function _registerModulePlugin() {
 		$this->frontcontroller->setModuleControllerDirectoryName('Controller');
 		$this->frontcontroller->addModuleDirectory(JIMW_REP_MODULE);
@@ -130,7 +131,7 @@ class Jimw_Global_Controller
 			}
 		}
 	}
-	
+
 	public function run () {
 		$this->request = $this->router->route($this->request);
 		$this->initView();
@@ -140,7 +141,7 @@ class Jimw_Global_Controller
 		$router = new Jimw_Site_Router();
 		$router->removeDefaultRoutes();
 		$router->addRoute('alias', new Jimw_Site_Route_Alias(array(), $this->dispatch, $this->request));
-		$router->addRoute('ext', new Jimw_Site_Route_Module(array(), $this->dispatch, $this->request, true));
+		$router->addRoute('format', new Jimw_Site_Route_Module(array(), $this->dispatch, $this->request, true));
 		$router->addRoute('get', new Jimw_Site_Route_Get(array()));
 		$this->frontcontroller->setRouter($router);
 		$this->frontcontroller->setDispatcher($this->dispatch);

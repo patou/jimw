@@ -17,7 +17,7 @@
  * @subpackage View
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ComboBox.php 10012 2008-07-09 20:47:48Z matthew $
+ * @version    $Id: ComboBox.php 11015 2008-08-24 21:17:21Z matthew $
  */
 
 /** Zend_Dojo_View_Helper_Dijit */
@@ -87,7 +87,7 @@ class Zend_Dojo_View_Helper_ComboBox extends Zend_Dojo_View_Helper_Dijit
                 );
                 unset($params['storeType']);
                 if (array_key_exists('storeParams', $params)) {
-                    $storeParams['storeParams'] = $params['storeParams'];
+                    $storeParams['params'] = $params['storeParams'];
                     unset($params['storeParams']);
                 }
                 if (false !== ($store = $this->_renderStore($storeParams))) {

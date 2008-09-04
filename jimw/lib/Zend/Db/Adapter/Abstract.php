@@ -17,14 +17,9 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 9577 2008-05-31 01:50:27Z peptolab $
+ * @version    $Id: Abstract.php 10976 2008-08-22 15:48:52Z doctorrock83 $
  */
 
-
-/**
- * @see Zend_Config
- */
-require_once 'Zend/Config.php';
 
 /**
  * @see Zend_Db

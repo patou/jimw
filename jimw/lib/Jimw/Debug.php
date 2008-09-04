@@ -5,39 +5,47 @@
  */
 class Jimw_Debug extends Zend_Debug {
 	static public $output = '';
+	static public $active = false;
 	public static function initDebug ()
 	{
 		$errorhandler = array (
 			new Jimw_Debug (),
 			'errorHandlerCallback'
 		);
-		
+
 		$displayEnd = array(
 			new Jimw_Debug (),
 			'displayEnd'
 		);
-		
+
 		register_shutdown_function($displayEnd);
 		//set_error_handler($errorhandler);
+		self::$active = true;
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public function displayEnd() {
-		echo self::$output;
+	    if (self::$active) {
+		    echo self::$output;
+	    }
+	}
+
+	public static function disactive(){
+	    self::$active = false;
 	}
 		/**
 	 * callback method for PHP errorhandling
-	 * 
+	 *
 	 * @TODO implement more errorlevels
 	 */
 	public function errorHandlerCallback () {
 		$details = func_get_args();
 		$details[1] = str_replace("'", '"', $details[1]);
 		$details[1] = str_replace('href="function.', 'target="_blank" href="http://www.php.net/', $details[1]);
-		
+
 		$color = 'orange';
 		/* determine error level */
 		switch ($details[0]) {
@@ -57,21 +65,21 @@ class Jimw_Debug extends Zend_Debug {
 
 		$fullTraceback = $details[2] . ' on line ' . $details[3];
 		$file = $this->cropScriptPath($details[2]);
-		
+
 		$infos = '<strong>';
 		$infos .= 'PHP ' . strtoupper($errorlevel) . '</strong>';
 		$infos .= $details[1] . '<br /><acronym class="backtrace" title="' . $fullTraceback . '">';
 		$infos .= $file . ' on line ';
-		$infos .= $details[3] . '</span>';		
-		
+		$infos .= $details[3] . '</span>';
+
 		self::display($infos, $details[1], $color);
 	}
-	
+
 	public static function dump($var, $label = null, $echo = true)
 	{
 		return self::display(parent::dump($var, null, false), $label, 'yellow', $echo);
 	}
-	
+
 	public static function display ($message, $title = '', $color = '#00E600',$echo = true)
 	{
 		static $id = 0;
@@ -82,7 +90,7 @@ class Jimw_Debug extends Zend_Debug {
 		else {
 			if (empty($title)) {
 				$pos = strpos($message, "\n");
-				if ($pos === false || $pos < 1) { 
+				if ($pos === false || $pos < 1) {
 					$title = $message;
 					$message = '';
 				}
@@ -115,7 +123,7 @@ class Jimw_Debug extends Zend_Debug {
         }
         return $output;
 	}
-	
+
 	public static function display_exception (Exception $e, $echo = true)
 	{
 		$title = 'Exception ['. get_class($e). '-'. $e->getCode(). '] : ' . $e->getMessage();
@@ -130,7 +138,7 @@ class Jimw_Debug extends Zend_Debug {
 		}
         return self::display($output, $title, 'red', $echo);
 	}
-	
+
     public static function deprecated ($function, $instead = '', $echo = true)
 	{
 	    $output = $function . ' is deprecated';
@@ -142,8 +150,8 @@ class Jimw_Debug extends Zend_Debug {
             throw new Exception();
         }
         catch (Exception $e) {
-            
-		
+
+
 		$stack = $e->getTrace();
 		array_shift($stack);
 		//Zend_Debug::dump($stack);
@@ -154,7 +162,7 @@ class Jimw_Debug extends Zend_Debug {
         }
         return self::display($output, '', 'yellow', $echo);
 	}
-	
+
 	public static function profile_db($db, $title = '',$echo = true)
 	{
 		if ($db && ($profiler = $db->getProfiler ())) {
@@ -170,7 +178,7 @@ class Jimw_Debug extends Zend_Debug {
 				}
 				$output .= 'Query : '. $query->getElapsedSecs(). ' for '. $query->getQuery(). "<br />\n";
 			}
-			$title .= ': executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds';			
+			$title .= ': executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds';
 			$output .= '<br />Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br />\n";
 			$output .= 'Queries per second: ' . $queryCount / $totalTime . "<br />\n";
 			$output .= 'Longest query length: ' . $longestTime . "<br />\n";
@@ -178,7 +186,7 @@ class Jimw_Debug extends Zend_Debug {
 			return self::display($output, $title, 'blue', $echo);
 		}
 	}
-	
+
 	/**
 	 * returns a formatted traceback string
 	 *
@@ -190,11 +198,11 @@ class Jimw_Debug extends Zend_Debug {
 			'Debug.php',
 			'ErrorController.php'
 		);
-		
+
 		$call = array (
 			'file' => 'Debug.php'
 		);
-		
+
 		while(isset ($call['file']) && in_array(basename($call['file']), $debugConsoleFiles)) {
 			$call = array_shift($callStack);
 		}
@@ -213,7 +221,7 @@ class Jimw_Debug extends Zend_Debug {
 		}
 		return $traceback;
 	}
-	
+
 	/**
 	 * crops long script path, shows only the last $maxLength chars
 	 *
@@ -224,7 +232,7 @@ class Jimw_Debug extends Zend_Debug {
 	protected static function cropScriptPath ($path, $maxLength = 30) {
 		if (strlen($path) > $maxLength) {
 			$startPos = strlen($path) - $maxLength - 2;
-			
+
 			if ($startPos > 0) {
 				$path = '...' . substr($path, $startPos);
 			}

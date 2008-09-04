@@ -17,7 +17,7 @@
  * @subpackage View
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Textarea.php 9998 2008-07-08 19:54:41Z matthew $
+ * @version    $Id: Textarea.php 10257 2008-07-21 14:12:42Z matthew $
  */
 
 /** Zend_Dojo_View_Helper_Dijit */
@@ -63,7 +63,9 @@ class Zend_Dojo_View_Helper_Textarea extends Zend_Dojo_View_Helper_Dijit
      */
     public function textarea($id, $value = null, array $params = array(), array $attribs = array())
     {
-        $attribs['id']    = $id;
+        if (!array_key_exists('id', $attribs)) {
+            $attribs['id']    = $id;
+        }
         $attribs['name']  = $id;
         $attribs['type']  = $this->_elementType;
 

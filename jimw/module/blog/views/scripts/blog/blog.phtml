@@ -2,7 +2,7 @@
 <? if (count($this->messages) > 0): ?>
 <?php
 function convertlongdateattime($str) {
-  return substr($str,8,2)." ".convertmonthstr(substr($str,5,2))." ".substr($str,0,4)." à ".substr($str,11,2).":".substr($str,14,2);
+  return substr($str,8,2)." ".convertmonthstr(substr($str,5,2))." ".substr($str,0,4)." ï¿½ ".substr($str,11,2).":".substr($str,14,2);
 }
 
 function convertlongdatetime($str) {
@@ -10,12 +10,12 @@ function convertlongdatetime($str) {
 }
 
 function convertmonthstr($str) {
-  $tabmois = array("00" => "", "01" => "janvier", "02" => "février", "03" => "mars", "04" => "avril",
-    "05" => "mai", "06" => "juin", "07" => "juillet", "08" => "août",
-	"09" => "septembre", "10" => "octobre", "11" => "novembre", "12" => "décembre");
+  $tabmois = array("00" => "", "01" => "janvier", "02" => "fï¿½vrier", "03" => "mars", "04" => "avril",
+    "05" => "mai", "06" => "juin", "07" => "juillet", "08" => "aoï¿½t",
+	"09" => "septembre", "10" => "octobre", "11" => "novembre", "12" => "dï¿½cembre");
   return ((isset($tabmois[$str])) ? $tabmois[$str] : $str);
 }
-$url = $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'ext' => 'phtml', 'alias' => $this->tree->alias), 'ext');
+$url = $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $this->tree->alias), 'format');
 function addcommentform($id, $url) {
   ?>
   <form id="addcomment<?= $id ?>" method="post" action="<?= $url ?>" style="display: none">		
@@ -41,7 +41,7 @@ foreach ($this->messages as $message) {
       // There is a reference to a tree element
       $tree = new Jimw_Site_Tree();
       $result = $tree->find($message->tree_id)->current();
-      $readmore = '<a href="'.$this->url(array('alias' => $result->alias, 'ext' => 'phtml'), 'alias', true).'" class="readmore">Voir les photos</a>';
+      $readmore = '<a href="'.$this->url(array('alias' => $result->alias, 'format' => 'phtml'), 'alias', true).'" class="readmore">Voir les photos</a>';
     } else {
       $readmore = '';
     }

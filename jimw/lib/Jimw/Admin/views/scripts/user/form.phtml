@@ -1,5 +1,5 @@
 <h1><img width="16" height="16" border="0" title="<?php echo $this->_('User') ?>" alt="<?php echo $this->_('User') ?>" class="folder" border="0" src="<?php echo $this->path; ?>/images/icons/user.png"/>&nbsp;<?php echo $this->_('User') ?></h1>
-<form action="<?php echo $this->url(array('controller' => 'user', 'action' => $this->form_type, 'ext' => 'phtml'), 'ext', true); ?>" method="post">
+<form action="<?php echo $this->url(array('controller' => 'user', 'action' => $this->form_type, 'format' => 'phtml'), 'format', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
 <input type="hidden" name="sub" value="1">
 <table border="0" width="90%">
@@ -31,6 +31,6 @@
 </table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
-<a href="<?php echo $this->url(array('controller' => 'user', 'action' => 'list', 'ext' => 'phtml'), 'ext', true); ?>">
+<a href="<?php echo $this->url(array('controller' => 'user', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>">
 <img width="16" height="16" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_undo.png"/>&nbsp;<?php echo $this->_('Return'); ?></a>
 </p>

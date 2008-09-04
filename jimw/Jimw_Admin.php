@@ -43,15 +43,15 @@ if (!defined('JIMW_ADMIN_ROOT')) {
 }
 if (! defined('JIMW_REP')) {
     if (file_exists('../jimw/'))
-        define('JIMW_REP', '../jimw/'); 
+        define('JIMW_REP', '../jimw/');
     else
         define('JIMW_REP', '../');
 }
 // Load Global Configuration file
 if (file_exists(JIMW_REP . 'config/global.local.php'))
-    include (JIMW_REP . 'config/global.local.php'); 
+    include (JIMW_REP . 'config/global.local.php');
 if (file_exists(JIMW_REP . 'config/global.default.php'))
-    include (JIMW_REP . 'config/global.default.php'); 
+    include (JIMW_REP . 'config/global.default.php');
 else {
 	/** JIWM lang */
 	if (!defined('JIMW_LANG')) define('JIMW_LANG', 'en');
@@ -80,7 +80,7 @@ else {
 $session = new Zend_Session_Namespace('Admin');
 // Global configuration
 if (isset($jimw_config_db))
-    Zend_Registry::set('config_db', $jimw_config_db); 
+    Zend_Registry::set('config_db', $jimw_config_db);
 else
     Zend_Registry::set('config_db', array('type' => 'PDO_SQLITE' , 'dbname' => JIMW_REP . 'config/config.db'));
     // Call the Global Controler
@@ -94,7 +94,7 @@ catch (Exception $e) {
     Jimw_Debug::display_exception($e);
 }
 if (JIMW_DEBUG_MODE) {
-	$ext = (Zend_Registry::isRegistered('ext')) ? Zend_Registry::get('ext') : 'phtml';
+	$ext = (Zend_Registry::isRegistered('format')) ? Zend_Registry::get('format') : 'phtml';
 	if (!empty($ext) && $ext == 'phtml') {
 		$db = Zend_Registry::get('db');
 		Jimw_Debug::profile_db($db, 'Database');
@@ -102,6 +102,9 @@ if (JIMW_DEBUG_MODE) {
 		$totalTime = microtime(true) - $startTime;
 		//calculate the time difference
 		Jimw_Debug::display("\ntotal execution time: $totalTime .");
+	}
+    else {
+        Jimw_Debug::disactive();
 	}
 }
 ?>

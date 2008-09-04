@@ -1,5 +1,5 @@
 <p>This url was visited <?php echo $this->visited ?> times</p>
-<form action="<?php echo $this->url(array('module' => 'links', 'controller' => 'manage', 'action' => 'save', 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
+<form action="<?php echo $this->url(array('module' => 'links', 'controller' => 'manage', 'action' => 'save', 'format' => 'phtml', 'id' => $this->id), 'format', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
 <table border="0" width="90%">
 <tr><td class="t01"><?php echo $this->_('Redirect URL') ?> : </td><td><input type="text" name="redirect_url" value="<?= $this->redirect_url ?>"></td></tr>

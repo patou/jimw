@@ -25,7 +25,7 @@
  * @package    Zend_Form
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DisplayGroup.php 10095 2008-07-15 14:18:58Z matthew $
+ * @version    $Id: DisplayGroup.php 10406 2008-07-25 15:13:05Z matthew $
  */
 class Zend_Form_DisplayGroup implements Iterator,Countable
 {
@@ -850,6 +850,12 @@ class Zend_Form_DisplayGroup implements Iterator,Countable
      */
     public function getView()
     {
+        if (null === $this->_view) {
+            require_once 'Zend/Controller/Action/HelperBroker.php';
+            $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
+            $this->setView($viewRenderer->view);
+        }
+
         return $this->_view;
     }
 

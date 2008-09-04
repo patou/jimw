@@ -27,20 +27,8 @@ require_once 'Zend/Controller/Request/Http.php';
  * @subpackage Request
  * @copyright  Copyright (c) 2008 Zym. (http://www.zym-project.com/)
  */
-class Zym_Controller_Request_Http extends Zend_Controller_Request_Http  
+class Zym_Controller_Request_Http extends Zend_Controller_Request_Http
 {
-    /**
-     * Scheme for http
-     *
-     */
-    const SCHEME_HTTP  = 'http';
-    
-    /**
-     * Scheme for https
-     *
-     */
-    const SCHEME_HTTPS = 'https';
-    
     /**
      * Get http scheme
      *
@@ -48,7 +36,8 @@ class Zym_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function getRequestScheme()
     {
-        return ($this->getServer('HTTPS') == 'on') ? self::SCHEME_HTTPS : self::SCHEME_HTTP;
+        trigger_error('Zym_Controller_Request_Http::getRequestScheme() is deprecated, use getScheme() instead. This method will be removed in the next release');
+        return $this->getScheme();
     }
 
     /**
@@ -58,29 +47,7 @@ class Zym_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function getRequestHost()
     {
-        if (isset($_SERVER['HTTP_HOST'])) {
-            $host = $_SERVER['HTTP_HOST'];
-        } else if (isset($_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'])) {
-            $name = $_SERVER['SERVER_NAME'];
-            $port = $_SERVER['SERVER_PORT'];
-         
-            if ((!$this->isSecure() && $port == 80) || ($this->isSecure() && $port == 443)) {
-                $host = $name;
-            } else {
-                $host = $name . ':' . $port;
-            }
-        }
-        
-        return $host;
-    }
-    
-    /**
-     * Is https secure request
-     *
-     * @return boolean
-     */
-    public function isSecure()
-    {
-        return ($this->getRequestScheme() === self::SCHEME_HTTPS);
+        trigger_error('Zym_Controller_Request_Http::getRequestHost() is deprecated, use getHttpHost() instead. This method will be removed in the next release');
+        return $this->getHttpHost();
     }
 }

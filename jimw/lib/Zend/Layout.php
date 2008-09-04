@@ -16,7 +16,7 @@
  * @package    Zend_Layout
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Layout.php 10199 2008-07-18 22:47:01Z matthew $
+ * @version    $Id: Layout.php 10746 2008-08-07 05:35:31Z ralph $
  */
 
 /**
@@ -284,9 +284,7 @@ class Zend_Layout
         if (!Zend_Controller_Action_HelperBroker::hasHelper('layout')) {
             require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($helperClass);
-            Zend_Controller_Action_HelperBroker::addHelper(
-                new $helperClass($this)
-            );
+            Zend_Controller_Action_HelperBroker::getStack()->offsetSet(-90, new $helperClass($this));
         }
     }
 

@@ -26,12 +26,12 @@
 			<td><?php echo $this->escape($module['version']); ?></td>
 			<td align="right">
 				<?php if ($module['activ']): ?>
-				<a href="<?php echo $this->url(array('controller' => 'module', 'action' => 'disable', 'ext' => 'phtml', 'id' => $module['id']), 'ext', true); ?>"
+				<a href="<?php echo $this->url(array('controller' => 'module', 'action' => 'disable', 'format' => 'phtml', 'id' => $module['id']), 'format', true); ?>"
 				onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to disable this module ? If some page work with this module, they did\'nt work')); ?>');">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Disable') ?>" alt="<?php echo $this->_('Disable') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/plugin.png"/>
 				</a>
 				<?php else: ?>
-				<a href="<?php echo $this->url(array('controller' => 'module', 'action' => 'enable', 'ext' => 'phtml', 'module_path' => $module['path']), 'ext', true); ?>">
+				<a href="<?php echo $this->url(array('controller' => 'module', 'action' => 'enable', 'format' => 'phtml', 'module_path' => $module['path']), 'format', true); ?>">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Enable') ?>" alt="<?php echo $this->_('Enable') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/plugin_disabled.png"/>
 				</a>
 				<?php endif; ?>
@@ -39,4 +39,4 @@
 		</tr>
 	<?php endforeach; ?>
 	</table>
-<a href="<?php echo $this->url(array('controller' => 'system'), 'ext', true); ?>"><?php echo $this->_('Return'); ?></a>
+<a href="<?php echo $this->url(array('controller' => 'system'), 'format', true); ?>"><?php echo $this->_('Return'); ?></a>

@@ -17,7 +17,7 @@
  * @subpackage View
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: CheckBox.php 10050 2008-07-12 02:34:20Z matthew $
+ * @version    $Id: CheckBox.php 10991 2008-08-24 03:48:21Z matthew $
  */
 
 /** Zend_Dojo_View_Helper_Dijit */
@@ -86,7 +86,7 @@ class Zend_Dojo_View_Helper_CheckBox extends Zend_Dojo_View_Helper_Dijit
         }
 
         // and final element
-        $html .= $this->_createFormElement($id, $value, $params, $attribs);
+        $html .= $this->_createFormElement($id, $checkboxInfo['checkedValue'], $params, $attribs);
 
         return $html;
     }

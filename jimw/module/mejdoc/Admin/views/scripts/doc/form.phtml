@@ -1,5 +1,5 @@
 <script type="text/javascript" src="<?= $this->path ?>/fckeditor.js"></script>
-<form enctype="multipart/form-data" action="<?php echo $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => $this->form_type, 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
+<form enctype="multipart/form-data" action="<?php echo $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => $this->form_type, 'format' => 'phtml', 'id' => $this->id), 'format', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>" />
 <input type="hidden" name="treeid" value="<?= $this->document->tree_id ?>" />
 <table border="0" width="90%">
@@ -14,7 +14,7 @@
 <? else: ?>
 <tr><td class="t01"><?= $this->formLabel('file', $this->_('File')); ?> : </td>
 <td><?= $this->document->file ?> &nbsp; 
-<a href="<?= $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => 'deletefile', 'id' => $this->document->id), 'ext') ?>" onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this file ?')); ?>');">
+<a href="<?= $this->url(array('module' => 'mejdoc', 'controller' => 'doc', 'action' => 'deletefile', 'id' => $this->document->id), 'format') ?>" onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this file ?')); ?>');">
 <img width="16" height="16" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/></td></tr>
 <? endif; ?>
 <tr><td class="t01"><?= $this->formLabel('comment', $this->_('Description')); ?> : </td><td><?= $this->formTextarea('comment', $this->document->comment, array('rows' => 20, 'cols' => 60)); ?></td></tr>
@@ -22,7 +22,7 @@
 </table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
-	<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'edit', 'id' => $this->document->tree_id), 'ext'); ?>"><?php echo $this->_('Return') ?></a>
+	<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'edit', 'id' => $this->document->tree_id), 'format'); ?>"><?php echo $this->_('Return') ?></a>
 </p>
 <script type="text/javascript">
       window.onload = function()

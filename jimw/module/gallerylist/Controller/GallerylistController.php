@@ -37,7 +37,7 @@ class Gallerylist_GallerylistController extends Jimw_Module_Action_Alias
     				while (($img = readdir($dh)) !== false && !$added) {
     					if ($img != '.' && $img != '..' && !is_dir($dir . '/' . $img)) {
     						if (($size = @getimagesize($dir . '/thumbnails/' . $img)) !== false) {
-    						   	//$url = $this->view->url(array('alias' => $tree->alias, 'ext' => 'phtml'), 'alias', true);
+    						   	//$url = $this->view->url(array('alias' => $tree->alias, 'format' => 'phtml'), 'alias', true);
     							$galleries[] = array ('alias' => $tree->alias, 'menutitle' => $tree->menutitle, 'thumbnails' => $base_path . 'thumbnails/' . $img, 'thumbnails_width' => $size[0], 'thumbnails_height' => $size[1]);
     							$added = true;
     						}

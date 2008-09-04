@@ -10,13 +10,13 @@
  * @version    $Id$
  */
 
-abstract class Jimw_Admin_Action extends Zend_Controller_Action
+abstract class Jimw_Admin_Action extends Zym_Controller_Action_Abstract
 {
-	public function init() {
+   	public function init() {
 		$request = $this->getRequest ();
 		$tree = $request->getTree ();
-		$ext = $request->getParam('ext', JIMW_DEFAULT_EXT);
-		Zend_Registry::set('ext', $ext);
+		$ext = $request->getParam('format', JIMW_DEFAULT_EXT);
+		Zend_Registry::set('format', $ext);
 		$this->getHelper('ViewRenderer')->setViewSuffix($ext);
 		$this->getHelper('Layout')->setViewSuffix($ext);
 		$this->view->request = $request;
@@ -33,7 +33,7 @@ abstract class Jimw_Admin_Action extends Zend_Controller_Action
 	public function initModule () {
 
 	}
-	
+
 	/**
 	 * Translate string
 	 *

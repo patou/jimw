@@ -92,7 +92,7 @@ class Jimw_Site_View_Helper_Menu
 			if (!empty($class)) {
 				$class = ' class="' . $class . '"';
 			}
-			$html .= '<a href="' . $this->view->url (array('alias' => $menuitem->alias, 'ext' => 'phtml'), 'alias', true) . '"'  . $class . '>';
+			$html .= '<a href="' . $this->view->url (array('alias' => $menuitem->alias, 'format' => 'phtml'), 'alias', true) . '"'  . $class . '>';
 			if (isset($option['addSpan']) && $option['addSpan']) $html .= '<span>'.$menuitem->menutitle.'</span>';
 			else $html .= $menuitem->menutitle;
 			$html .= '</a></li>';

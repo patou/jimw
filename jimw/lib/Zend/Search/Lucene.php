@@ -430,8 +430,18 @@ class Zend_Search_Lucene implements Zend_Search_Lucene_Interface
                 throw new Zend_Search_Lucene_Exception('Separate norm files are not supported. Optimize index to use it with Zend_Search_Lucene.');
             }
 
-            $isCompound        = $segmentsFile->readByte();
+            $isCompoundByte     = $segmentsFile->readByte();
 
+            if ($isCompoundByte == 0xFF) {
+            	// The segment is not a compound file
+            	$isCompound = false;
+            } else if ($isCompoundByte == 0x00) {
+                // The status is unknown
+                $isCompound = null;
+            } else if ($isCompoundByte == 0x01) {
+                // The segment is a compound file
+                $isCompound = true;
+            }
 
             $this->_docCount += $segSize;
 
@@ -474,16 +484,14 @@ class Zend_Search_Lucene implements Zend_Search_Lucene_Interface
         // Mark index as "under processing" to prevent other processes from premature index cleaning
         Zend_Search_Lucene_LockManager::obtainReadLock($this->_directory);
 
-        // Escalate read lock to prevent current generation index files to be deleted while opening process is not done
-//        Zend_Search_Lucene_LockManager::escalateReadLock($this->_directory);
-
-
         $this->_generation = self::getActualGeneration($this->_directory);
 
         if ($create) {
         	try {
         		Zend_Search_Lucene_LockManager::obtainWriteLock($this->_directory);
         	} catch (Zend_Search_Lucene_Exception $e) {
+        		Zend_Search_Lucene_LockManager::releaseReadLock($this->_directory);
+
         		if (strpos($e->getMessage(), 'Can\'t obtain exclusive index lock') === false) {
         			throw $e;
         		} else {
@@ -516,9 +524,6 @@ class Zend_Search_Lucene implements Zend_Search_Lucene_Interface
         } else {
             $this->_readSegmentsFile();
         }
-
-        // De-escalate read lock to prevent current generation index files to be deleted while opening process is not done
-//        Zend_Search_Lucene_LockManager::escalateReadLock($this->_directory);
     }
 
     /**
@@ -1294,10 +1299,6 @@ class Zend_Search_Lucene implements Zend_Search_Lucene_Interface
     public function commit()
     {
         if ($this->_hasChanges) {
-            foreach ($this->_segmentInfos as $segInfo) {
-                $segInfo->writeChanges();
-            }
-
             $this->_getIndexWriter()->commit();
 
             $this->_updateDocCount();

@@ -4,7 +4,7 @@
 //$path = $tree->site->path();
 $path = 'public/album2009'
 ?>
-<form action="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => $this->form_type, 'ext' => 'phtml', 'id' => $this->id), 'ext', true); ?>" method="post">
+<form action="<?php echo $this->url(array('module' => 'mejblogmp3', 'controller' => 'message', 'action' => $this->form_type, 'format' => 'phtml', 'id' => $this->id), 'format', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
 <input type="hidden" name="treeparentid" value="<?= $this->message->tree_parentid ?>">
 <table border="0" width="90%">
@@ -31,5 +31,5 @@ $path = 'public/album2009'
 </table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
-	<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'edit', 'id' => $this->message->tree_parentid), 'ext'); ?>"><?php echo $this->_('Return') ?></a>
+	<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'edit', 'id' => $this->message->tree_parentid), 'format'); ?>"><?php echo $this->_('Return') ?></a>
 </p>

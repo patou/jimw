@@ -22,9 +22,9 @@ class Form_FormController extends Jimw_Module_Action_Alias
 		if (!empty($tree->param->form_file) && file_exists($form_file)) {
 		    if (strpos($form_file, '.ini') > 0)
 		        $config = new Zend_Config_Ini($form_file);
-		    else 
+		    else
 		        $config = new Zend_Config_Xml($form_file);
-		        
+
 		    Jimw_Debug::dump($config->toArray());
 		}
 		else {
@@ -35,7 +35,6 @@ class Form_FormController extends Jimw_Module_Action_Alias
 		Jimw_Debug::dump($form);
 		if ($req->isPost() && $form->isValid($req->getPost())) {
 		    $this->validForm($form, $tree);
-		    
 		}
 		else {
 		    $form->setAction($this->view->url(array('alias' => $tree->alias), 'alias'));
@@ -43,14 +42,14 @@ class Form_FormController extends Jimw_Module_Action_Alias
 		    $this->render('form');
 		}
 	}
-	
+
 	protected function validForm(Jimw_Form $form, $tree) {
 	    $database = $tree->param->get('database', false);
 	    if ($database) {
 	        $db = new form_Form_Table(array('name' => $database));
 	        /*$new = $db->fetchNew($form->getValues());
 	        $data = array();
-	        
+
 	        $cols = $db->info('cols');
 	        foreach($cols as $col) {
 	            $data[$col] = $form->getValue($col);
@@ -75,7 +74,7 @@ class Form_FormController extends Jimw_Module_Action_Alias
 	    }
 	    $this->render('formSuccess');
 	}
-	
+
 	private function defaultContactForm(){
 	    return new Zend_Config(array(
 		    	'elements' => array(
@@ -87,11 +86,11 @@ class Form_FormController extends Jimw_Module_Action_Alias
 		                )
 		            )
 		            ,'email' => array(
-		                'type' => 'text'//'Jimw_Form_Element_Email'
+		                'type' => 'Email'
 		                ,'options' => array(
 		                    'label' => 'Email'
 		                    ,'required' => true
-		                    , 'validators' => array('email' => array('validator' => 'EmailAddress'))
+		                    //, 'validators' => array('email' => array('validator' => 'EmailAddress'))
 		                    )
 		            )
 		            ,'contact' => array(

@@ -36,10 +36,10 @@
 			<?php echo $this->escape($database->prefix); ?>
 			</td>
 			<td align="right">
-				<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'edit', 'ext' => 'phtml', 'id' => $database->id), 'ext', true); ?>">
+				<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'edit', 'format' => 'phtml', 'id' => $database->id), 'format', true); ?>">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/database_edit.png"/>
 				</a>
-				<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'delete', 'ext' => 'phtml', 'id' => $database->id), 'ext', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Database ?')); ?>');">
+				<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'delete', 'format' => 'phtml', 'id' => $database->id), 'format', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Database ?')); ?>');">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/database_delete.png"/>
 				</a>
 			</td>
@@ -47,8 +47,8 @@
 	<?php endforeach; ?>
 	</table>
 <br />
-<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'add', 'ext' => 'phtml'), 'ext', true); ?>">
+<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
 <img width="16" height="18" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/database_add.png"/>&nbsp;<?php echo $this->_('Add'); ?></a>
 <hr />
-<a href="<?php echo $this->url(array('controller' => 'system'), 'ext', true); ?>">
+<a href="<?php echo $this->url(array('controller' => 'system'), 'format', true); ?>">
 <img width="16" height="18" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_undo.png"/>&nbsp;<?php echo $this->_('Return'); ?></a>

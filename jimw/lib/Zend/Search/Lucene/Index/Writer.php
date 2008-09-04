@@ -318,15 +318,22 @@ class Zend_Search_Lucene_Index_Writer
             return;
         }
 
-
         if (!$this->_hasAnythingToMerge()) {
             Zend_Search_Lucene_LockManager::releaseOptimizationLock($this->_directory);
             return;
         }
 
-        // Update segments list to be sure all segments are not merged yet by other process
+        // Update segments list to be sure all segments are not merged yet by another process
+        //
+        // Segment merging functionality is concentrated in this class and surrounded
+        // by optimization lock obtaining/releasing.
+        // _updateSegments() refreshes segments list from the latest index generation.
+        // So only new segments can be added to the index while we are merging some already existing
+        // segments.
+        // Newly added segments will be also included into the index by the _updateSegments() call
+        // either by another process or by the current process with the commit() call at the end of _mergeSegments() method.
+        // That's guaranteed by the serialisation of _updateSegments() execution using exclusive locks.
         $this->_updateSegments();
-
 
         // Perform standard auto-optimization procedure
         $segmentSizes = array();
@@ -402,6 +409,12 @@ class Zend_Search_Lucene_Index_Writer
         // Get an exclusive index lock
         Zend_Search_Lucene_LockManager::obtainWriteLock($this->_directory);
 
+        // Write down changes for the segments
+        foreach ($this->_segmentInfos as $segInfo) {
+            $segInfo->writeChanges();
+        }
+
+
         $generation = Zend_Search_Lucene::getActualGeneration($this->_directory);
         $segmentsFile   = $this->_directory->getFileObject(Zend_Search_Lucene::getSegmentFileName($generation), false);
         $newSegmentFile = $this->_directory->createFile(Zend_Search_Lucene::getSegmentFileName(++$generation), false);
@@ -473,7 +486,7 @@ class Zend_Search_Lucene_Index_Writer
                     $delGenLow         = 0;
                     $hasSingleNormFile = false;
                     $numField          = (int)0xFFFFFFFF;
-                    $isCompound        = 1;
+                    $isCompoundByte    = 0;
                     $docStoreOptions   = null;
                 } else {
                     //$delGen          = $segmentsFile->readLong();
@@ -506,7 +519,7 @@ class Zend_Search_Lucene_Index_Writer
                             $normGens[] = $segmentsFile->readLong();
                         }
                     }
-                    $isCompound        = $segmentsFile->readByte();
+                    $isCompoundByte    = $segmentsFile->readByte();
                 }
 
                 if (!in_array($segName, $this->_segmentsToDelete)) {
@@ -514,6 +527,17 @@ class Zend_Search_Lucene_Index_Writer
                     if (!isset($this->_segmentInfos[$segName])) {
                         $delGen = $delGenHigh * ((double)0xFFFFFFFF + 1) +
                                      (($delGenLow < 0)? (double)0xFFFFFFFF - (-1 - $delGenLow) : $delGenLow);
+                        if ($isCompoundByte == 0xFF) {
+                            // The segment is not a compound file
+                            $isCompound = false;
+                        } else if ($isCompoundByte == 0x00) {
+                            // The status is unknown
+                            $isCompound = null;
+                        } else if ($isCompoundByte == 0x01) {
+                            // The segment is a compound file
+                            $isCompound = true;
+                        }
+
                         $this->_segmentInfos[$segName] =
                                     new Zend_Search_Lucene_Index_SegmentInfo($this->_directory,
                                                                              $segName,
@@ -548,6 +572,9 @@ class Zend_Search_Lucene_Index_Writer
                     		$newSegmentFile->writeInt((int)0xFFFFFFFF);
                     	}
                     } else if ($docStoreOptions !== null) {
+                        // Release index write lock
+                        Zend_Search_Lucene_LockManager::releaseWriteLock($this->_directory);
+
                         throw new Zend_Search_Lucene_Exception('Index conversion to lower format version is not supported.');
                     }
 
@@ -558,7 +585,7 @@ class Zend_Search_Lucene_Index_Writer
                             $newSegmentFile->writeLong($normGen);
                         }
                     }
-                    $newSegmentFile->writeByte($isCompound);
+                    $newSegmentFile->writeByte($isCompoundByte);
 
                     $segments[$segName] = $segSize;
                 }
@@ -582,7 +609,7 @@ class Zend_Search_Lucene_Index_Writer
                 // NumField
                 $newSegmentFile->writeInt((int)0xFFFFFFFF);
                 // IsCompoundFile
-                $newSegmentFile->writeByte($segmentInfo->isCompound());
+                $newSegmentFile->writeByte($segmentInfo->isCompound() ? 1 : -1);
 
                 $segments[$segmentInfo->getName()] = $segmentInfo->count();
                 $this->_segmentInfos[$segName] = $segmentInfo;
@@ -610,7 +637,7 @@ class Zend_Search_Lucene_Index_Writer
         $genFile->writeLong($generation);
 
 
-        // Check if another update process is not running now
+        // Check if another update or read process is not running now
         // If yes, skip clean-up procedure
         if (Zend_Search_Lucene_LockManager::escalateReadLock($this->_directory)) {
             /**
@@ -633,7 +660,6 @@ class Zend_Search_Lucene_Index_Writer
                     $filesNumbers[]  = 0;
                 } else if ($file == 'segments') {
                     // 'segments' file
-
                     $filesToDelete[] = $file;
                     $filesTypes[]    = 1; // second file to be deleted "zero" version of segments file (Lucene pre-2.1)
                     $filesNumbers[]  = 0;
@@ -791,6 +817,18 @@ class Zend_Search_Lucene_Index_Writer
         if (Zend_Search_Lucene_LockManager::obtainOptimizationLock($this->_directory) === false) {
             return false;
         }
+
+        // Update segments list to be sure all segments are not merged yet by another process
+        //
+        // Segment merging functionality is concentrated in this class and surrounded
+        // by optimization lock obtaining/releasing.
+        // _updateSegments() refreshes segments list from the latest index generation.
+        // So only new segments can be added to the index while we are merging some already existing
+        // segments.
+        // Newly added segments will be also included into the index by the _updateSegments() call
+        // either by another process or by the current process with the commit() call at the end of _mergeSegments() method.
+        // That's guaranteed by the serialisation of _updateSegments() execution using exclusive locks.
+        $this->_updateSegments();
 
         $this->_mergeSegments($this->_segmentInfos);
 
