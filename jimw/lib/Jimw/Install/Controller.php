@@ -69,8 +69,7 @@ class Jimw_Install_Controller
 	}
 
 	public function initTranslate () {
-		include (JIMW_REP_LANG . JIMW_LANG . '/common.php');
-		$trans = new Zend_Translate('array', $lang, JIMW_LANG);
+		$trans = new Zend_Translate('array', JIMW_REP_LANG . JIMW_LANG . '/common.php', JIMW_LANG);
 		Zend_Form::setDefaultTranslator($trans);
 		Zend_Registry::set('Zend_Translate', $trans);
 		return $trans;
