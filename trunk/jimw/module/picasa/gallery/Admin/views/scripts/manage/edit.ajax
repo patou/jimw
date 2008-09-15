@@ -1,0 +1,9 @@
+<?php
+
+$element = new Jimw_Admin_Element();
+$form = new Jimw_Admin_Element_Form($this->url(array('module' => 'gallery', 'controller' => 'manage', 'action' => 'save', 'ext' => 'ajax', 'id' => $this->id), 'ext', true));
+$form->addField(new Jimw_Admin_Element_Textbox('Directory', 'directory', $this->directory));
+$element->addElement($form);
+
+echo $element, ',';
+?>
