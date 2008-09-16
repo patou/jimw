@@ -649,7 +649,7 @@ Rged.prototype =  {
 
     editFile: function(path, name, cls) {
         var tab = this.mainLayout.layout.center.panel;
-        var href = basename + '?controller=file&action=edit&ext=ajax&file=' + path;
+        var href = basename + '?controller=file&action=edit&format=ajax&file=' + path;
         if (!name)
             name = '';
         var TabId = cls;

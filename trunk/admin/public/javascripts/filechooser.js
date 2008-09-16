@@ -28,7 +28,7 @@ ImageChooser.prototype = {
 			this.initTemplates();
 			
 			this.store = new Ext.data.JsonStore({
-			    url: basename + '/?controller=file&action=list&ext=ajax',
+			    url: basename + '/?controller=file&action=list&format=ajax',
 			    root: 'Files',
 				totalProperty: 'FilesCount',
                 id: 'path',
@@ -85,7 +85,7 @@ ImageChooser.prototype = {
 			});
 			
 			this.treeloader = new Ext.tree.TreeLoader({
-				url: basename + '/default/file/get.ajax'//'?controller=file&action=get&cmd=get&ext=ajax'
+				url: basename + '/default/file/get.ajax'//'?controller=file&action=get&cmd=get&format=ajax'
 				, requestMethod: 'post'
 			});
 			this.treeloader.baseParams.cmd = 'get';
