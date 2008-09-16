@@ -64,7 +64,7 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract {
 		$domain_list = $domains->fetchAll ( array ('domain_name = ?' => $request->getDomainName (), 'domain_port = ?' => $request->getDomainPort (), 'domain_protocol = ?' => $request->getDomainProtocol (), 'domain_subdomain = ?' => $request->getSubDomain () ), 'domain_path DESC' );
 		$uri = trim ( $request->getRequestUri (), '/' );
 		$uri = substr ( $uri, strlen ( $request->getBaseUrl () ) );
-		//Jimw_Debug::display($uri);
+		//	Jimw_Debug::display($uri);
 		foreach ( $domain_list as $domain ) {
 			$path = $domain->path;
 			//Jimw_Debug::display($path);
