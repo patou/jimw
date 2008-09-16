@@ -30,7 +30,7 @@ class InstallController extends Jimw_Install_Action {
     	            $conf .= '$jimw_config_db[\'' . $name . '\'] = \'' . $value . '\';' . PHP_EOL;
     	        }
     	        if (isset($database['prefix'])) {
-    	            $conf .= 'define(\'JIMW_PREFIX\', ' . $database['prefix'] . ');' . PHP_EOL;
+    	            $conf .= 'define(\'JIMW_PREFIX\', \'' . $database['prefix'] . '\');' . PHP_EOL;
     	        }
     	        if (isset($req->debug)) {
     	            $conf .= 'define(\'JIMW_DEBUG_MODE\', ' .($req->debug ? 'true' : 'false') . ');' . PHP_EOL;
@@ -41,9 +41,11 @@ class InstallController extends Jimw_Install_Action {
     	        if (isset($req->rewrite)) {
     	            $conf .= 'define(\'JIMW_URL_REWRITING\', ' . ($req->rewrite ? 'true' : 'false') . ');' . PHP_EOL;
     	            $htaccess_dir = array(JIMW_ROOT, JIMW_ADMIN_ROOT, JIMW_REP_INSTALL, JIMW_REP_PUBLIC, JIMW_REP_ADMIN_PUBLIC);
-    	            foreach ($htaccess_dir as $htaccess) {
-    	                if (!file_exists($htaccess . '.htaccess') && file_exists($htaccess . '.htaccess.dist'))
-    	                    @copy($htaccess . '.htaccess.dist', $htaccess . '.htaccess');
+    	            if ($req->rewrite) {
+	    	            foreach ($htaccess_dir as $htaccess) {
+	    	                if (!file_exists($htaccess . '/.htaccess') && file_exists($htaccess . '/.htaccess.dist'))
+	    	                    @copy($htaccess . '/.htaccess.dist', $htaccess . '/.htaccess');
+	    	            }
     	            }
     	        }
     	        if (isset($req->utf8)) {

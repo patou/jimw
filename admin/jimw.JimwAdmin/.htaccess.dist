@@ -1,0 +1,3 @@
+#Don't use rewrite engine in this repertory
+
+RewriteEngine off
