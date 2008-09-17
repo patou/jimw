@@ -56,6 +56,8 @@
 	if (!defined('JIMW_REP_LANG')) define('JIMW_REP_LANG', JIMW_REP . 'lang/');
 	/** Cache directory */
 	if (!defined('JIMW_REP_CACHE')) define('JIMW_REP_CACHE', JIMW_ROOT . 'cache/');
+    /** JPIE TMP DIR */
+	if (!defined('JIMW_REP_JPIE_TMP')) define('JIMW_REP_JPIE_TMP', JIMW_REP_ADMIN_PUBLIC . 'javascripts/jpie/tmpImages/');
 
 	/** Module path in URL */
 	if (!defined('JIMW_URL_MODULE_PATH')) define('JIMW_URL_MODULE_PATH', 'module');
@@ -69,6 +71,10 @@
 	if (!defined('JIMW_URL_PUBLIC_COMMON_PATH')) define('JIMW_URL_PUBLIC_COMMON_PATH', JIMW_URL_PUBLIC_PATH . '/common');
 	/** Install path in URL */
 	if (!defined('JIMW_URL_INSTALL_PATH')) define('JIMW_URL_INSTALL_PATH', '/install');
+	/** JPIE DIR in URL */
+	if (!defined('JIMW_URL_JPIE')) define('JIMW_URL_JPIE', '/javascripts/jpie');
+	/** JPIE TMP DIR in URL */
+	if (!defined('JIMW_URL_JPIE_TMP')) define('JIMW_URL_JPIE_TMP', JIMW_URL_JPIE . '/tmpImages/');
 
 	/** Default extension (phtml or ajax) */
 	if (!defined('JIMW_DEFAULT_EXT')) define('JIMW_DEFAULT_EXT', 'phtml');

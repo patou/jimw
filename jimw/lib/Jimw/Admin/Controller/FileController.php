@@ -158,19 +158,38 @@ class FileController extends Jimw_Admin_Action
                 $filetype = 'sql'; elseif ($ext == 'vb')
                 $filetype = 'vb'; elseif ($ext == 'xml')
                 $filetype = 'xml'; elseif ($ext == 'bas')
-                $filetype = 'basic'; else
+                $filetype = 'basic'; elseif ($ext == 'pl')
+                $filetype = 'perl'; elseif ($ext == 'pas')
+                $filetype = 'pas'; else
                 $filetype = 'txt';
             $this->view->filetype = $filetype;
             $this->getHelper('Layout')->disableLayout();
             $this->render('edit_area');
         }
+        elseif ($editmode == 'jpie') {
+            $file = md5($filename) . '.jpg';
+            @copy($filename, JIMW_REP_JPIE_TMP . $file);
+            $this->view->filename = $filename;
+            $this->view->file = $file;
+            $this->view->jpie_path = $this->view->path . JIMW_URL_JPIE;
+            $this->render('jpie');
+        }
     }
     public function saveAction ()
     {
-        $this->getHelper('Layout')->disableLayout();
-        $this->view->filename = $this->getRequest()->filename;
-        $filename = $this->get_dir($this->view->filename);
-        file_put_contents($filename, $this->getRequest()->file);
+        $filename = $this->get_dir($this->getRequest()->filename);
+        $ext = substr($this->get_ext($filename), 5);
+        $editmode = $this->get_edit($filename);
+        if ($editmode == 'edit_area') {
+            $this->getHelper('Layout')->disableLayout();
+            $this->view->filename = $this->getRequest()->filename;
+            $filename = $this->get_dir($this->view->filename);
+            file_put_contents($filename, $this->getRequest()->file);
+        }
+        elseif ($editmode == 'jpie') {
+            $file = $this->getRequest()->file;
+            @copy(JIMW_REP_JPIE_TMP . $file, $filename);
+        }
     }
     private function get_dir ($dir)
     {
@@ -205,6 +224,8 @@ class FileController extends Jimw_Admin_Action
         $ext = strtolower(preg_replace('/^.*\.([^\.]*)$/', '$1', $file));
         if (in_array($ext, array('html' , 'htm' , 'phtml' , 'xml' , 'rhtml' , 'rxml' , 'rjs' , 'rb' , 'js' , 'css' , 'php' , 'py' , 'c' , 'java' , 'h' , 'txt' , 'sh' , 'sql')))
             return 'edit_area';
+        if (in_array($ext, array('jpg' , 'jpeg')))
+            return 'jpie';
         return 'none';
     }
 }
