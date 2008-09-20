@@ -1,0 +1,29 @@
+<?php
+$request = $this->request;
+if (isset($request->dir)) {
+  $files = $request->files;
+  $dir = $request->dir;
+}
+else {
+  $files = array();
+  foreach ($this->photos as $photo)
+	$files[] = $photo['file'];
+  $dir = $this->photos_path;
+}
+$zipfile = new Jimw_Zip();
+
+// add the subdirectory ... important!
+$zipfile->addDirectory($this->tree->alias . "/");
+
+foreach ($files as $file) {
+// add the binary data stored in the string 'filedata'
+	$filedata = file_get_contents($dir . '/' . $file);
+	$zipfile -> addFile($filedata, $this->tree->alias.'/'.$file);
+}
+// the next three lines force an immediate download of the zip file:
+header("Content-type: application/octet-stream");
+header("Content-disposition: attachment; filename=".$this->tree->alias.".zip");
+echo $zipfile->getZippedfile();
+ob_flush();
+exit();
+?>

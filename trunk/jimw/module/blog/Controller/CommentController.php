@@ -16,7 +16,7 @@ class Blog_CommentController extends Jimw_Module_Action
 {
   public function addAction ()
   {
-    $request = $this->_request;
+    $request = $this->getRequest();
     $tree = $request->getTree();
     $messages = new BlogMessage();
     $message = $messages->find($request->cid);

@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jimwModule>
-<name>Jimw Gallery</name>
-<comment>Small Album photo</comment>
+<name>Jimw Picasa</name>
+<comment>Show Album photo from Picasa Web</comment>
 <version>1.0</version>
-<author>Patrice De Saint Steban</author>
+<author>Emmanuel De Saint Steban</author>
+<module>
+		<params>
+			<elements>
+				<username_picasa>
+					<type>text</type>
+					<options>
+						<label>Username picasa</label>
+						<description>
+							Set your google account username to log into Picasaweb where yours pictures is stored
+						</description>
+					</options>
+				</username_picasa>
+				<password_picasa>
+					<type>text</type>
+					<options>
+						<label>Password Picasa</label>
+						<description>
+							Set your google account username to log into Picasaweb where yours pictures is stored
+						</description>
+					</options>
+				</password_picasa>
+			</elements>
+		</params>
+	</module>
 </jimwModule>
