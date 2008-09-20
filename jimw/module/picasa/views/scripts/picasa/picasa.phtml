@@ -1,0 +1,140 @@
+<?php
+$this->declareVars(array('can_download' => true));
+?>
+<p>
+<?= (isset($this->tree->description))? $this->tree->description : ''; ?>
+</p>
+<script language="javascript" type="text/javascript">
+
+function see_img(chemin_img,hauteur,largeur){
+	var hauteur=hauteur ;
+	var largeur=largeur;
+	$('photo_chargement').innerHTML = "";
+	$('photo_image').innerHTML = "<img src=\""+chemin_img+"\" width=\""+largeur+"\" height=\""+hauteur+"\" alt=\"\" onclick=\"hide_img();\" />";
+	$('photo_image').style.display = 'block';
+	var fx = new Fx.Style($('photo_image'), 'opacity', {duration: 500}).start(0, 1);
+}
+
+function hide_img()
+{
+	//var fx = new Fx.Slide('photo_image', {duration: 500});
+	//fx.slideOut ();
+	$('photo_image').innerHTML = "";
+	$('photo_chargement').innerHTML = "";
+	$('photo_titre').innerHTML = "";
+}
+
+function redim_image(url, height, width)
+{
+	var maxWidth = 600;
+	var maxHeight = 400;
+	$('photo_chargement').innerHTML = "Chargement Terminé !";
+	var h = dH = height;
+	var w = dW = width;
+	if ((h >= maxHeight) || (w >= maxWidth)) {
+		if ((h >= maxHeight) && (w >= maxWidth)) {
+			if (h > w) {
+				dH = maxHeight;
+				dW = parseInt((w * dH) / h, 10);
+			} else {
+				dW = maxWidth;
+				dH = parseInt((h * dW) / w, 10);
+			}
+		} else if ((h > maxHeight) && (w < maxWidth)) {
+			dH = maxHeight;
+			dW = parseInt((w * dH) / h, 10);
+		} else if ((h < maxHeight) && (w > maxWidth)) {
+			dW = maxWidth;
+			dH = parseInt((h * dW) / w, 10);
+		}
+	}
+	see_img(url,dH,dW);
+}
+
+function display_img(url, titre)
+{
+	$('photo_chargement').innerHTML = "Chargement de l'image ...";
+	$('photo_image').innerHTML = "<img id=\"photo_image_id\" src=\""+url+"\" Onload=\"redim_image('"+url+"', this.height, this.width);\" style=\"opacity: 0\">";
+	if (navigator.appVersion.indexOf("MSIE") == -1)
+	$('photo_image').style.display = 'none';
+	$('photo_titre').innerHTML = "<b>" + titre + "</b>";
+}
+</script>
+<?php
+if ($this->can_download):
+?>
+<script language="javascript" type="text/javascript">
+function display_download() {
+	$$(document.getElementsByTagName('span')).filterByClass('download_hidden').each(function(el) {
+		el.toggleClass('download_hidden');
+	});
+	$('download_button').toggleClass('download_hidden');
+	$('download_link').addClass('download_hidden');
+}
+</script>
+<style>
+.download_hidden {
+	display: none;
+}
+
+</style>
+<?php
+endif;
+?>
+<a name="top"></a>
+Album :
+<div id="ListAlbum">
+<?php
+foreach ($this->albums as $album):
+
+$url = $this->url(array('module' => 'picasa', 'controller' => 'album', 'action' => 'view', 'format' => 'phtml', 'alias' => $this->tree->alias, 'idAlbum' => $album['albumId']), 'format');
+?>
+<a href="<? echo $url  ?>" >
+<img align="center" src="<?php echo $album['thumbnail']; ?>"  title="Voir l'album :<? echo $album['text']  ?>" border="0" height="100" width="100">
+<? echo $album['text']  ?></a>
+<?
+endforeach;
+ ?>
+
+<div>
+<? /* 
+<div id="photo_image"></div>
+<div id="photo_chargement"></div>
+<div id="photo_titre"></div>
+<br />
+<?php
+if ($this->can_download):
+?>
+<form name="download" method="POST" action="<?php echo $this->url(array('format' => 'pzip', 'alias' => $this->tree->alias), 'alias', true); ?>">
+<input type="hidden" name="dir" value="<?php echo $this->photos_path ?>" />
+<div id="download_link"><a href="#" onclick="display_download();">T&eacute;l&eacute;charger les photos</a></div>
+<?php
+endif;
+?>
+<br />
+<?php
+foreach ($this->photos as $photo):
+?>
+<?php
+if ($this->can_download):
+?>
+<span class="download_hidden"><input type="checkbox" name="files[]" value="<?php echo $photo['file']; ?>" /></span>
+<?php
+endif;
+?>
+<a href="#top" onclick="display_img('<?php echo $photo['url']; ?>', '<?php echo addslashes($photo['title']); ?>');">
+<img align="center" src="<?php echo $album['thumbnail']; ?>"  title="<?php echo $photo['title']; ?>" border="0">
+</a>
+<?php
+endforeach;
+?>
+<?php
+if ($this->can_download):
+?>
+<div id="download_button" class="download_hidden">
+<input type="submit" value="T&eacute;l&eacute;charger" /></div>
+</form>
+<?php
+endif;
+*/
+?>
