@@ -11,6 +11,9 @@ var lang_loading = '<?=$this->_('Loading...'); ?>';
 <?= $this->headScript()->captureEnd(); ?>
 <?= $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->path_common . '/mootools.v1.11.js'); ?>
 <?= $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->path_common . '/gallery.js'); ?>
+<script type="text/javascript" src="js/mootools.js"></script>
+<script type="text/javascript" src="js/slimbox.js"></script>
+<link rel="stylesheet" href="css/slimbox.css" type="text/css" media="screen" />
 <a name="top"></a>
 <div id="photo_titre"></div>
 <div><span id="photo_prev"></span>
@@ -34,9 +37,15 @@ var lang_loading = '<?=$this->_('Loading...'); ?>';
 <?php
 	$i = 0;
 	foreach ($this->photos as $photo):
-?>
-<a href="#top" onclick="display_picture(<?php echo $i++; ?>);">
+/*
+<!--   <a href="#top" onclick="display_picture(<?php echo $i++; ?>);">
 <img src="<?php echo $photo['thumbnails']; ?>" width="<?php echo $photo['thumbnails_width']; ?>" height="<?php echo $photo['thumbnails_height']; ?>" title="<?php echo $photo['title']; ?>" alt="<?php echo $this->escape($photo['title']); ?>" class="no-border" />
+</a>
+-->
+*/
+?>
+<a href="<?php echo $photo['url']; ?>" rel="lightbox[picasa]" title="<?php echo addslashes($photo['title']); ?>" >
+<img align="center" src="<?php echo $photo['thumbnails']; ?>" width="<?php echo $photo['thumbnails_width']; ?>" height="<?php echo $photo['thumbnails_height']; ?>" title="<?php echo $photo['title']; ?>" border="0">
 </a>
 <?php
 	if ($this->can_download):
