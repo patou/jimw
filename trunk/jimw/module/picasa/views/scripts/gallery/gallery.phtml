@@ -60,6 +60,9 @@ function display_img(url, titre)
 	$('photo_titre').innerHTML = "<b>" + titre + "</b>";
 }
 </script>
+<script type="text/javascript" src="js/mootools.js"></script>
+<script type="text/javascript" src="js/slimbox.js"></script>
+<link rel="stylesheet" href="css/slimbox.css" type="text/css" media="screen" />
 <?php
 if ($this->can_download):
 ?>
@@ -72,12 +75,14 @@ function display_download() {
 	$('download_link').addClass('download_hidden');
 }
 </script>
+
 <style>
 .download_hidden {
 	display: none;
 }
 
 </style>
+
 <?php
 endif;
 ?>
@@ -106,7 +111,12 @@ if ($this->can_download):
 <?php
 endif;
 ?>
+<!-- // Ancienne version 
 <a href="#top" onclick="display_img('<?php echo $photo['url']; ?>', '<?php echo addslashes($photo['title']); ?>');">
+<img align="center" src="<?php echo $photo['thumbnails']; ?>" width="<?php echo $photo['thumbnails_width']; ?>" height="<?php echo $photo['thumbnails_height']; ?>" title="<?php echo $photo['title']; ?>" border="0">
+</a>
+ -->
+ <a href="<?php echo $photo['url']; ?>" rel="lightbox[picasa]" title="<?php echo addslashes($photo['title']); ?>" >
 <img align="center" src="<?php echo $photo['thumbnails']; ?>" width="<?php echo $photo['thumbnails_width']; ?>" height="<?php echo $photo['thumbnails_height']; ?>" title="<?php echo $photo['title']; ?>" border="0">
 </a>
 <?php
