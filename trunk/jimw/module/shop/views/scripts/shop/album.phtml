@@ -1,0 +1,46 @@
+<form method="post" action="<?php echo $this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'add'), 'format', true); ?>">
+<?php
+
+$rep = trim($this->tree->getParam('dir'), '/');
+$dir = rtrim('/' . $this->tree->site->path, '/') . '/' . $rep . 'shop/';
+
+
+foreach ($this->albums as $album) {
+  
+  echo "<h2>".$album->title."</h2>\n";
+  echo "<h4>Artiste : ".$album->artist." - Editeur : ".$album->editor.", ".$album->year."</h4>";
+  
+  // Songs
+  $songmodel = new ShopSong();
+  $songs = $songmodel->findByAlbum($album->id);
+  
+  echo "<table border=\"0\">";
+  if ($album->image != '') {
+    echo "<tr><td rowspan=\"".count($songs)."\">";
+	echo "<img src=\"".$dir.$album->image."\" alt=\"\" />";
+	echo "</td>";
+	$tr = 1;
+  } else $tr = 0;
+  
+  foreach ($songs as $song) {
+    if ($tr == 1) $tr = 0;
+	else echo "<tr>";
+	
+    echo "<td><input type=\"checkbox\" name=\"checkscore[".$song->id."]\" value=\"1\"></td><td>".$song->title."</td><td>";
+    if ($song->artist != '') echo " (".$song->artist.")";
+    echo "</td><td>";
+	if ($song->scoreprice != '') echo $this->bbCode($song->scoreprice." &euro;");
+	echo "</td><td>";
+	if ($song->musicpreview != '') echo $this->bbCode("[mp3]shop/".$song->musicpreview."[/mp3]");
+	echo "</td></tr>";
+	
+  
+  
+  }
+  
+  echo "</table>";
+}
+
+?>
+<input type="submit" value="Ajouter au panier" />
+</form>

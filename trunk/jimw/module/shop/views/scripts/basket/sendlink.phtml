@@ -1,0 +1,15 @@
+<?php
+mail($order->firstname." ".$order->name." <".$order->email.">",
+     "[MEJ] Achat de partitions",
+     "Bonjour,
+
+Vous avez acheté des partitions en ligne sur le site du MEJ.
+Votre paiement a été confirmé, vous pouvez les télécharger à cette adresse :
+
+".$this->url(array('module' => 'shop', 'controller' => 'download', 'action' => 'list', 'id' => $this->order->id, 'key' => $this->order->key), 'ext', true)."
+
+Merci pour votre confiance et bonne écoute !
+
+La boutique MEJ",
+     "");
+?>

@@ -1,0 +1,23 @@
+<h2>Contenu de votre panier</h2>
+<?php if (is_null($this->songs)): ?>
+<p>Votre panier est vide.</p>
+<?php else: ?>
+<form method="post" action="<?php echo $this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'confirm'), 'format', true); ?>">
+<p>Partitions sélectionnées :</p>
+<ul>
+<?php
+$sum = 0;
+foreach ($this->songs as $song) {
+	$sum += $song->scoreprice;
+	echo "<li>".$song->title."</li>";
+}
+?>
+</ul>
+<p>Total : <b><?php echo $sum ?> &euro;</b></p>
+
+<p>Nom : <input type="text" name="name" /></p>
+<p>Prénom : <input type="text" name="firstname" /></p>
+<p>Email : <input type="text" name="email" /><small> (pour recevoir les partitions)</small></p>
+<input type="submit" value="Confirmer et payer en ligne" />
+</form>
+<?php endif; ?>
