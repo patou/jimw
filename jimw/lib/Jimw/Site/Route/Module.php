@@ -9,17 +9,15 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
-
-	/**
+class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module
+{
+    /**
      * @const string EXT delimiter
      */
     const EXT_DELIMITER = '.';
-
-	protected $_extKey  = 'format';
-
-	protected $_validModule = true;
-
+    protected $_extKey = 'format';
+    protected $_aliasKey = 'alias';
+    protected $_validModule = true;
     /**
      * Constructor
      *
@@ -27,38 +25,28 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
      * @param Zend_Controller_Dispatcher_Interface Dispatcher object
      * @param Zend_Controller_Request_Abstract Request object
      */
-    public function __construct(array $defaults = array(),
-                Zend_Controller_Dispatcher_Interface $dispatcher = null,
-                Zend_Controller_Request_Abstract $request = null,
-                $validModule = true)
+    public function __construct (array $defaults = array(), Zend_Controller_Dispatcher_Interface $dispatcher = null, Zend_Controller_Request_Abstract $request = null, $validModule = true)
     {
         parent::__construct($defaults, $dispatcher, $request);
         $this->_validModule = $validModule;
     }
-
     /**
      * Set request keys based on values in request object
      *
      * @return void
      */
-    protected function _setRequestKeys()
+    protected function _setRequestKeys ()
     {
         if (null !== $this->_request) {
-            $this->_moduleKey     = $this->_request->getModuleKey();
+            $this->_moduleKey = $this->_request->getModuleKey();
             $this->_controllerKey = $this->_request->getControllerKey();
-            $this->_actionKey     = $this->_request->getActionKey();
-            $this->_extKey        = $this->_request->getExtKey();
+            $this->_actionKey = $this->_request->getActionKey();
+            $this->_aliasKey = $this->_request->getAliasKey();
+            $this->_extKey = $this->_request->getExtKey();
         }
-
         if (null !== $this->_dispatcher) {
-            $this->_defaults += array(
-                $this->_controllerKey => $this->_dispatcher->getDefaultControllerName(),
-                $this->_actionKey     => $this->_dispatcher->getDefaultAction(),
-                $this->_moduleKey     => $this->_dispatcher->getDefaultModule(),
-                $this->_extKey        => $this->_dispatcher->getDefaultExt()
-            );
+            $this->_defaults += array($this->_controllerKey => $this->_dispatcher->getDefaultControllerName() , $this->_actionKey => $this->_dispatcher->getDefaultAction() , $this->_moduleKey => $this->_dispatcher->getDefaultModule() , $this->_extKey => $this->_dispatcher->getDefaultExt());
         }
-
         $this->_keysSet = true;
     }
     /**
@@ -72,17 +60,16 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
      * @param string Path used to match against this routing map
      * @return array An array of assigned values or a false on a mismatch
      */
-    public function match($path)
+    public function match ($path)
     {
         $this->_setRequestKeys();
-
         $values = array();
         $params = array();
-        $path   = trim($path, self::URI_DELIMITER);
+        $path = trim($path, self::URI_DELIMITER);
         if ($path != '') {
             if (($pos = strrpos($path, self::EXT_DELIMITER)) !== false && $pos >= 0) {
-            	$values[$this->_extKey] = substr($path, $pos + 1);
-            	$path = substr($path, 0, $pos);
+                $values[$this->_extKey] = substr($path, $pos + 1);
+                $path = substr($path, 0, $pos);
             }
             $path = explode(self::URI_DELIMITER, $path);
             if ($path[0] == JIMW_URL_MODULE_PATH || $path[0] == JIMW_URL_DEFAULT_PATH) {
@@ -90,23 +77,19 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
             } else {
                 return false;
             }
-
             if (count($path) && $this->_dispatcher && $this->_dispatcher->isValidModule($path[0])) {
                 $values[$this->_moduleKey] = array_shift($path);
                 $this->_moduleValid = true;
-            //} else if ($this->_dispatcher) {
+                //} else if ($this->_dispatcher) {
             //	$values[$this->_moduleKey] = JIMW_URL_DEFAULT_PATH;
             //    $this->_moduleValid = true;
             }
-
-            if (count($path) && !empty($path[0])) {
+            if (count($path) && ! empty($path[0])) {
                 $values[$this->_controllerKey] = array_shift($path);
             }
-
-            if (count($path) && !empty($path[0])) {
+            if (count($path) && ! empty($path[0])) {
                 $values[$this->_actionKey] = array_shift($path);
             }
-
             if ($numSegs = count($path)) {
                 for ($i = 0; $i < $numSegs; $i = $i + 2) {
                     $key = urldecode($path[$i]);
@@ -115,25 +98,21 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
                 }
             }
         }
-
         $this->_values = $values + $params;
         return $this->_values + $this->_defaults;
     }
-
     /**
      * Assembles user submitted parameters forming a URL path defined by this route
      *
      * @param array An array of variable and value pairs used as parameters
      * @return string Route path with user submitted parameters
      */
-    public function assemble($data = array(), $reset = false, $encode = false)
+    public function assemble ($data = array(), $reset = false, $encode = false)
     {
-        if (!$this->_keysSet) {
+        if (! $this->_keysSet) {
             $this->_setRequestKeys();
         }
-
-        $params = (!$reset) ? $this->_values : array();
-
+        $params = (! $reset) ? $this->_values : array();
         foreach ($data as $key => $value) {
             if ($value !== null) {
                 $params[$key] = $value;
@@ -141,58 +120,43 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module {
                 unset($params[$key]);
             }
         }
-
         $params += $this->_defaults;
-
         $url = '';
-
         if ($this->_moduleValid || array_key_exists($this->_moduleKey, $data)) {
             if ($params[$this->_moduleKey] != $this->_defaults[$this->_moduleKey]) {
                 $module = $params[$this->_moduleKey];
             }
         }
         unset($params[$this->_moduleKey]);
-
         $controller = $params[$this->_controllerKey];
         unset($params[$this->_controllerKey]);
-
         $action = $params[$this->_actionKey];
         unset($params[$this->_actionKey]);
-
         $ext = $params[$this->_extKey];
         unset($params[$this->_extKey]);
-
         foreach ($params as $key => $value) {
             $url .= self::URI_DELIMITER . $key;
             $url .= self::URI_DELIMITER . $value;
         }
-
-        if (!empty($url) || $action !== $this->_defaults[$this->_actionKey]) {
+        if (! empty($url) || $action !== $this->_defaults[$this->_actionKey]) {
             $url = self::URI_DELIMITER . $action . $url;
         }
-
-        if (!empty($url) || $controller !== $this->_defaults[$this->_controllerKey]) {
+        if (! empty($url) || $controller !== $this->_defaults[$this->_controllerKey]) {
             $url = self::URI_DELIMITER . $controller . $url;
         }
-
         if (isset($module)) {
             $url = self::URI_DELIMITER . $module . $url;
             if ($module != JIMW_URL_DEFAULT_PATH) {
-		       $url = self::URI_DELIMITER . JIMW_URL_MODULE_PATH . $url;
-		    }
-		} else {
-		    $url = self::URI_DELIMITER . JIMW_URL_DEFAULT_PATH . $url;
+                $url = self::URI_DELIMITER . JIMW_URL_MODULE_PATH . $url;
+            }
+        } else {
+            $url = self::URI_DELIMITER . JIMW_URL_DEFAULT_PATH . $url;
         }
-
-
         $url = rtrim($url, self::URI_DELIMITER);
-
-    	if (!empty($url) || $ext !== $this->_defaults[$this->_extKey]) {
+        if (! empty($url) || $ext !== $this->_defaults[$this->_extKey]) {
             $url .= self::EXT_DELIMITER . $ext;
         }
-
         return $url;
     }
 }
-
 ?>

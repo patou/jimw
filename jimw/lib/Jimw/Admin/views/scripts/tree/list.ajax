@@ -1,17 +1,18 @@
 <?php
 //echo '[';
-function list_tree($list) {
-	$ret = '';
-	foreach ($list as $tree) {
-		$ret .= '{"alias" : "' . $tree->alias . '", "title" : "' . $tree->menutitle . ' (' . $tree->id . ')' . '", "id" : ' . $tree->id;
-		if ($tree->hasChildren()) {
-			$ret .= ', "children": [';
-			$ret .= trim(list_tree($tree->getChildren ()), ',');
-			$ret .= ']';
-		}
-		$ret .= '},';
-	}
-	return $ret;
+function list_tree ($list)
+{
+    $ret = '';
+    foreach ($list as $tree) {
+        $ret .= '{"alias" : "' . $tree->alias . '", "title" : "' . $tree->menutitle . ' (' . $tree->id . ')' . '", "id" : ' . $tree->id;
+        if ($tree->hasChildren()) {
+            $ret .= ', "children": [';
+            $ret .= trim(list_tree($tree->getChildren()), ',');
+            $ret .= ']';
+        }
+        $ret .= '},';
+    }
+    return $ret;
 }
 echo list_tree($this->list_tree);
 //echo ']';

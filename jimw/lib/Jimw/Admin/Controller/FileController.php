@@ -21,7 +21,6 @@ class FileController extends Jimw_Admin_Action
         if ($this->getHelper('Layout')->getViewSuffix() == 'ajax') {
             $this->getHelper('Layout')->disableLayout();
         }
-
     }
     /**
      * The default action - show the home page
@@ -107,7 +106,8 @@ class FileController extends Jimw_Admin_Action
     {
         $dir = $this->get_dir($this->getRequest()->dir);
         if (! @mkdir($dir, 0755, true))
-            $this->view->files = array('success' => false , 'error' => "The directory $dir can't be created"); else
+            $this->view->files = array('success' => false , 'error' => "The directory $dir can't be created");
+        else
             $this->view->files = array('success' => true);
         $this->view->file_path = (! is_dir($dir)) ? substr($this->getRequest()->dir, 0, strrpos($this->getRequest()->dir, '/')) : $this->getRequest()->dir;
         $this->render('list');
@@ -116,11 +116,67 @@ class FileController extends Jimw_Admin_Action
     {
         $dir = $this->_request->getBaseUrl();
         $dir = '/' . trim(substr($dir, 0, strpos($dir, 'admin')), '/');
-        $file = str_replace('../', $dir, $this->get_dir($this->_request->file));
+        //$file = str_replace('../', $dir, $this->get_dir($this->_request->file));
+        $file = $this->get_dir($this->_request->file);
         //$this->_redirect($file, array('exit' => true, 'prependBase' => false));
         //echo $file;
         //$this->render('list');
-        header("location: $file");
+        //header("location: $file");
+            //First, see if the file exists
+    if (!is_file($file)) { die("<b>404 File $file not found!</b>"); }
+
+    //Gather relevent info about file
+    $len = filesize($file);
+    $filename = basename($file);
+    $file_extension = strtolower(substr(strrchr($filename,"."),1));
+
+    //This will set the Content-Type to the appropriate setting for the file
+    switch( $file_extension ) {
+      case "pdf": $ctype="application/pdf"; break;
+      case "exe": $ctype="application/octet-stream"; break;
+      case "zip": $ctype="application/zip"; break;
+      case "doc": $ctype="application/msword"; break;
+      case "xls": $ctype="application/vnd.ms-excel"; break;
+      case "ppt": $ctype="application/vnd.ms-powerpoint"; break;
+      case "gif": $ctype="image/gif"; break;
+      case "png": $ctype="image/png"; break;
+      case "jpeg":
+      case "jpg": $ctype="image/jpg"; break;
+      case "mp3": $ctype="audio/mpeg"; break;
+      case "wav": $ctype="audio/x-wav"; break;
+      case "mpeg":
+      case "mpg":
+      case "mpe": $ctype="video/mpeg"; break;
+      case "mov": $ctype="video/quicktime"; break;
+      case "avi": $ctype="video/x-msvideo"; break;
+
+      //The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files)
+      case "php":
+      case "htm":
+      case "html":
+      case "txt": die("<b>Cannot be used for ". $file_extension ." files!</b>"); break;
+
+      default: $ctype="application/force-download";
+    }
+
+    //Begin writing headers
+    header("Pragma: public");
+    header("Expires: 0");
+    header("Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0");
+    header("Cache-Control: public");
+    header("Content-Description: File Transfer");
+
+    //Use the switch-generated Content-Type
+    header("Content-Type: $ctype");
+
+    //Force the download
+    $header="Content-Disposition: attachment; filename=".$filename.";";
+    header($header);
+    header("Content-Transfer-Encoding: binary");
+    header("Content-Length: ".$len);
+    @readfile($file);
+    exit;
+
     }
     public function uploadAction ()
     {
@@ -147,26 +203,39 @@ class FileController extends Jimw_Admin_Action
             $this->view->filename = $this->getRequest()->file;
             $this->view->file = file_get_contents($filename);
             if (in_array($ext, array('html' , 'htm' , 'phtml' , 'rhtml')))
-                $filetype = 'html'; elseif (in_array($ext, array('php' , 'php3' , 'php4' , 'php5' , 'php6' , 'inc')))
-                $filetype = 'php'; elseif ($ext == 'js')
-                $filetype = 'js'; elseif ($ext == 'css')
-                $filetype = 'css'; elseif ($ext == 'rb')
-                $filetype = 'ruby'; elseif ($ext == 'py')
-                $filetype = 'python'; elseif ($ext == 'c' || $ext == 'h')
-                $filetype = 'c'; elseif ($ext == 'cpp' || $ext == 'hpp' || $ext == 'cc' || $ext == 'hh')
-                $filetype = 'cpp'; elseif ($ext == 'sql')
-                $filetype = 'sql'; elseif ($ext == 'vb')
-                $filetype = 'vb'; elseif ($ext == 'xml')
-                $filetype = 'xml'; elseif ($ext == 'bas')
-                $filetype = 'basic'; elseif ($ext == 'pl')
-                $filetype = 'perl'; elseif ($ext == 'pas')
-                $filetype = 'pas'; else
+                $filetype = 'html';
+            elseif (in_array($ext, array('php' , 'php3' , 'php4' , 'php5' , 'php6' , 'inc')))
+                $filetype = 'php';
+            elseif ($ext == 'js')
+                $filetype = 'js';
+            elseif ($ext == 'css')
+                $filetype = 'css';
+            elseif ($ext == 'rb')
+                $filetype = 'ruby';
+            elseif ($ext == 'py')
+                $filetype = 'python';
+            elseif ($ext == 'c' || $ext == 'h')
+                $filetype = 'c';
+            elseif ($ext == 'cpp' || $ext == 'hpp' || $ext == 'cc' || $ext == 'hh')
+                $filetype = 'cpp';
+            elseif ($ext == 'sql')
+                $filetype = 'sql';
+            elseif ($ext == 'vb')
+                $filetype = 'vb';
+            elseif ($ext == 'xml')
+                $filetype = 'xml';
+            elseif ($ext == 'bas')
+                $filetype = 'basic';
+            elseif ($ext == 'pl')
+                $filetype = 'perl';
+            elseif ($ext == 'pas')
+                $filetype = 'pas';
+            else
                 $filetype = 'txt';
             $this->view->filetype = $filetype;
             $this->getHelper('Layout')->disableLayout();
             $this->render('edit_area');
-        }
-        elseif ($editmode == 'jpie') {
+        } elseif ($editmode == 'jpie') {
             $file = md5($filename) . '.jpg';
             @copy($filename, JIMW_REP_JPIE_TMP . $file);
             $this->view->filename = $filename;
@@ -185,15 +254,13 @@ class FileController extends Jimw_Admin_Action
             $this->view->filename = $this->getRequest()->filename;
             $filename = $this->get_dir($this->view->filename);
             file_put_contents($filename, $this->getRequest()->file);
-        }
-        elseif ($editmode == 'jpie') {
+        } elseif ($editmode == 'jpie') {
             $file = $this->getRequest()->file;
             @copy(JIMW_REP_JPIE_TMP . $file, $filename);
         }
     }
     private function get_dir ($dir)
     {
-        $session = new Zend_Session_Namespace('Admin');
         $site = Zend_Registry::get('site');
         $path = (isset($site->path) ? trim($site->path, '/') : 'public');
         return rtrim('../' . $path . '/' . trim($dir, '/'), '/');

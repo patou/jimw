@@ -1,23 +1,20 @@
 <?php
-
-
-class Jimw_Install_SiteCreateForm extends Zend_Form {
-    public function __construct($option = null) {
+class Jimw_Install_SiteCreateForm extends Zend_Form
+{
+    public function __construct ($option = null)
+    {
         parent::__construct($option);
         $this->initForm();
     }
-
-    public function initForm() {
+    public function initForm ()
+    {
         //------------------------------- Database form
         $database = new Zend_Form_SubForm();
         $database_type = new Zend_Form_Element_Select('type');
-        $database_type->setLabel('Type of database')
-                         ->setRequired(true)
-                         ->setMultiOptions(array('PDO_MYSQL' => 'Mysql (PDO)', 'MYSQLI' => 'Mysql (Mysqli)', 'PDO_SQLITE' => 'Sqlite (PDO)'));
+        $database_type->setLabel('Type of database')->setRequired(true)->setMultiOptions(array('PDO_MYSQL' => 'Mysql (PDO)' , 'MYSQLI' => 'Mysql (Mysqli)' , 'PDO_SQLITE' => 'Sqlite (PDO)'));
         $database->addElement($database_type, 'type');
         $database_dbname = new Zend_Form_Element_Text('dbname');
-        $database_dbname->setLabel('Name of database')
-                         ->setRequired(true);
+        $database_dbname->setLabel('Name of database')->setRequired(true);
         $database->addElement($database_dbname, 'dbname');
         $database_host = new Zend_Form_Element_Text('host');
         $database_host->setLabel('Hostname');
@@ -41,39 +38,30 @@ class Jimw_Install_SiteCreateForm extends Zend_Form {
         $option_title = new Zend_Form_Element_Text('title');
         $option_title->setLabel('Title');
         $this->addElement($option_title, 'title');
-        $this->addDisplayGroup(array('url', 'title'), 'options', array('legend' => 'Other configuration'));
-
+        $this->addDisplayGroup(array('url' , 'title'), 'options', array('legend' => 'Other configuration'));
         //------------------------- Admin user configuration
         $user = new Zend_Form_SubForm();
         $user_login = new Zend_Form_Element_Text('login');
-        $user_login->setLabel('Login')
-                         ->setRequired(true);
+        $user_login->setLabel('Login')->setRequired(true);
         $user->addElement($user_login, 'login');
         $user_pass = new Zend_Form_Element_Password('password');
-        $user_pass->setLabel('Password')
-                  ->setRequired(true);
+        $user_pass->setLabel('Password')->setRequired(true);
         $user->addElement($user_pass, 'password');
         $user_firstname = new Zend_Form_Element_Text('firstname');
-        $user_firstname->setLabel('FirstName')
-                       ->setRequired(true);
+        $user_firstname->setLabel('FirstName')->setRequired(true);
         $user->addElement($user_firstname, 'firstname');
         $user_lastname = new Zend_Form_Element_Text('lastname');
-        $user_lastname->setLabel('LastName')
-                      ->setRequired(true);
+        $user_lastname->setLabel('LastName')->setRequired(true);
         $user->addElement($user_lastname, 'lastname');
         $user_mail = new Zend_Form_Element_Text('mail');
-        $user_mail->setLabel('Email')
-                  ->setRequired(true);
+        $user_mail->setLabel('Email')->setRequired(true);
         $user->addElement($user_mail, 'mail');
         $user->setLegend('The administrator user');
         $this->addSubForm($user, 'user');
-
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Send');
         $submit->setAttrib('class', 'input_submit');
-
         $this->addElement($submit);
     }
 }
-
 ?>

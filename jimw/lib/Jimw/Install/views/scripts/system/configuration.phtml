@@ -1,7 +1,11 @@
-<h1><?= $this->_('Server System'); ?></h1>
-<?= $this->_('Configuration'); ?>
+<h1><?=$this->_('Server System');?></h1>
+<?=$this->_('Configuration');?>
 <ul>
-<? foreach ($this->configuration as $name => $perm): ?>
-	<li><?= $name ?> <?= (($perm[0]) ? '<font color=green>OK</font>' : '<font color=red>KO</font>') ?> <?= $perm[1] ?> <?= $perm[2] ?></li>
-<? endforeach; ?>
+<?
+foreach ($this->configuration as $name => $perm) :
+    ?>
+	<li><?=$name?> <?=(($perm[0]) ? '<font color=green>OK</font>' : '<font color=red>KO</font>')?> <?=$perm[1]?> <?=$perm[2]?></li>
+<?
+endforeach;
+?>
 </ul>

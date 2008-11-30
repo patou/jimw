@@ -9,7 +9,6 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-
 class Jimw_Site_Exception_SiteTreeNotFound extends Jimw_Exception
 {}
 

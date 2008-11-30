@@ -39,7 +39,7 @@ class Mejdoc_DocController extends Jimw_Admin_Action
 		$document->comment = $this->_request->comment;
 		$document->editiondate = $this->_request->editiondate;
 		$document->publishdate = $this->_request->publishdate;
-		
+
 		if (isset($_FILES['file'])) {
 			// Sending file
 			$path = $this->get_dir('doc');
@@ -67,7 +67,7 @@ class Mejdoc_DocController extends Jimw_Admin_Action
 		$document->comment = $this->_request->comment;
 		$document->editiondate = $this->_request->editiondate;
 		$document->publishdate = $this->_request->publishdate;
-		
+
 		// Sending file
 		$path = $this->get_dir('doc');
 		$file = $_FILES['file'];
@@ -78,15 +78,15 @@ class Mejdoc_DocController extends Jimw_Admin_Action
 		} else {
 			$document->file = '';
 		}
-		
+
 		// Order
 		$document->order = $this->get_order($this->_request->treeid);
-		
+
 		$document->save();
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Insert successful');
 		$this->_forward('edit', 'tree', 'default', array('id' => $document->tree_id));
 	}
-	
+
 	public function addAction () {
 		$documents = new Mejdoc();
 		$document = $documents->fetchNew();
@@ -103,7 +103,7 @@ class Mejdoc_DocController extends Jimw_Admin_Action
 		$id = $this->_request->id;
 		$documents = new Mejdoc();
 		$document = $documents->find($id);
-		if (!$document->exists()) {
+		if (!count($document)) {
 			throw new Jimw_Admin_Exception('This document doesn\'t exist');
 		}
 		$document = $document->current();
@@ -115,12 +115,12 @@ class Mejdoc_DocController extends Jimw_Admin_Action
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Delete successful');
 		$this->_forward('edit', 'doc', 'mejdoc', array('id' => $id));
 	}
-	
+
 	public function deleteAction () {
 		$id = $this->_request->id;
 		$documents = new Mejdoc();
 		$document = $documents->find($id);
-		if (!$document->exists()) {
+		if (!count($document)) {
 			throw new Jimw_Admin_Exception('This document didn\'t exist');
 		}
 		$document = $document->current();
@@ -132,9 +132,9 @@ class Mejdoc_DocController extends Jimw_Admin_Action
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Delete successful');
 		$this->_forward('edit', 'tree', 'default', array('id' => $documentid));
 	}
-	
+
 	public function moveAction () {
-		
+
 		$tree = new Jimw_Site_Tree();
 		$documents = new Mejdoc();
 		$doc1 = $documents->fetchRow(array('mejdoc_id = ?' => $this->_request->id));
@@ -162,11 +162,11 @@ class Mejdoc_DocController extends Jimw_Admin_Action
 		$path = (isset($site->path) ? trim($site->path, '/') : 'public');
 		return rtrim('../' . $path . '/' . trim($dir, '/'), '/');
 	}
-	
+
 	private function cleanFileName($str) {
-		return strtr(strtolower($str), 'àâäãçéèêëîïòôöõùûüñÀÂÄÃÇÉÈÊËÎÏÒÔÖÕÙÛÜÑ \'', 'aaaaceeeeiioooouuunAAAACEEEEIIOOOOUUUN__');
+		return strtr(strtolower($str), 'Ã Ã¢Ã¤Ã£Ã§Ã©Ã¨ÃªÃ«Ã®Ã¯Ã²Ã´Ã¶ÃµÃ¹Ã»Ã¼Ã±Ã€Ã‚Ã„ÃƒÃ‡Ã‰ÃˆÃŠÃ‹ÃÃÃ’Ã”Ã–Ã•Ã™Ã›ÃœÃ‘ \'', 'aaaaceeeeiioooouuunAAAACEEEEIIOOOOUUUN__');
 	}
-	
+
 	private function get_order($id) {
 		$max = 0;
 		$documents = new Mejdoc();

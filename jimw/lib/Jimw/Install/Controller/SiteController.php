@@ -23,22 +23,22 @@ class SiteController extends Jimw_Install_Action
             $val = $form->getValues();
             $database = $val['database'];
             Jimw_Debug::dump($database);
-            if (JIMW_DEBUG_MODE) $database['profiler'] = true;
+            if (JIMW_DEBUG_MODE)
+                $database['profiler'] = true;
             $db = Zend_Db::factory($database['type'], $database);
             try {
                 $db->getConnection();
                 $message = false;
-            }
-            catch (Zend_Db_Exception $e) {
+            } catch (Zend_Db_Exception $e) {
                 $message = $e->getMessage();
             }
-            if (!$message) {
+            if (! $message) {
                 $databases = new Jimw_Global_Database();
                 $base = $databases->createRow();
                 $base->name = $database['dbname'];
                 $base->server = $database['host'];
                 $base->user = $database['username'];
-                $base->pass = !empty($database['password'])?$database['password']:'';
+                $base->pass = ! empty($database['password']) ? $database['password'] : '';
                 $base->type = $database['type'];
                 $base->prefix = $database['prefix'];
                 $base->save();
@@ -53,12 +53,11 @@ class SiteController extends Jimw_Install_Action
                 if (count($tab_name) >= 3) {
                     $domain->subdomain = $tab_name[0];
                     $domain->name = implode(".", array_slice($tab_name, 1));
-                }
-                else {
+                } else {
                     $domain->subdomain = "";
                     $domain->name = $host;
                 }
-                $domain->port = is_int($port = $url->getPort())?$port: 80;
+                $domain->port = is_int($port = $url->getPort()) ? $port : 80;
                 $domain->protocol = $url->getScheme();
                 $domain->path = trim($url->getPath(), '/');
                 $update = new Jimw_Db_Update($db, $database['prefix']);
@@ -87,8 +86,7 @@ class SiteController extends Jimw_Install_Action
                 $domain->save();
                 $this->view->message = 'Create ' . $val['title'] . ' site successful';
                 $this->render('create-success');
-            }
-            else {
+            } else {
                 $this->view->message = $message;
             }
         }

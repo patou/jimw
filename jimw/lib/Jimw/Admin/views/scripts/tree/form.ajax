@@ -1,22 +1,18 @@
 <?php
-
 $element = new Jimw_Admin_Element();
-$form = new Jimw_Admin_Element_Form('tree/'.$this->form_type.'/ext/ajax');
+$form = new Jimw_Admin_Element_Form('tree/' . $this->form_type . '/ext/ajax');
 $form->addField(new Jimw_Admin_Element_Hidden('id', $this->id));
 $form->addField(new Jimw_Admin_Element_Textbox('Page title', 'pagetitle', $this->tree->pagetitle));
 $form->addField(new Jimw_Admin_Element_Textbox('Menu title', 'menutitle', $this->tree->menutitle));
 $form->addField(new Jimw_Admin_Element_Textbox('Menu order', 'order', $this->tree->order));
 $form->addField(new Jimw_Admin_Element_Textbox('Tree Parent', 'parentid', $this->tree->parentid));
 $form->addField(new Jimw_Admin_Element_Textbox('Alias (*)', 'alias', $this->tree->alias));
-
 if (isset($this->modules)) {
-	$listbox = new Jimw_Admin_Element_Listbox('Type', 'module');
-	foreach ($this->modules as $module)
-		$listbox->addValue($module->name, $module->id);
-	$form->addField($listbox);
+    $listbox = new Jimw_Admin_Element_Listbox('Type', 'module');
+    foreach ($this->modules as $module)
+        $listbox->addValue($module->name, $module->id);
+    $form->addField($listbox);
 }
-
 $element->addElement($form);
-
 echo $element, ',';
 ?>

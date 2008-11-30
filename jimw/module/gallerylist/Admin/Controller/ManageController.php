@@ -15,7 +15,7 @@ class Gallerylist_ManageController extends Jimw_Admin_Action
 		$id = $this->_request->id;
 		$treeFactory = new Jimw_Site_Tree();
 		$result = $treeFactory->find($id);
-		if (!$result->exists()) {
+		if (!count($result)) {
 			throw new Jimw_Admin_Exception();
 		}
 		$tree = $result->current();
@@ -27,7 +27,7 @@ class Gallerylist_ManageController extends Jimw_Admin_Action
 		$id = $this->_request->id;
 		$treeFactory = new Jimw_Site_Tree();
 		$result = $treeFactory->find($id);
-		if (!$result->exists()) {
+		if (!count($result)) {
 			throw new Jimw_Admin_Exception();
 		}
 		$tree = $result->current();

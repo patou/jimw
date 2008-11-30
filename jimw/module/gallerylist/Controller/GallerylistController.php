@@ -21,8 +21,8 @@ class Gallerylist_GallerylistController extends Jimw_Module_Action_Alias
 		$currenttree = $request->getTree();
 		//$parent = $tree->id;
 		$trees = new Jimw_Site_Tree();
-		$result = $trees->fetchAllChildren($currenttree->id);
-		
+		$result = $trees->fetchAllChildren($currenttree->id, $trees->select()->where('module_path = ?', 'gallery')->where('tree_status = 4'));
+
 		/* @var $tree Jimw_Site_Tree_Row */
 		//$tree = new Jimw_Site_Tree_Row();
 		$galleries = array();
@@ -48,7 +48,7 @@ class Gallerylist_GallerylistController extends Jimw_Module_Action_Alias
     		}
     		else
     			exit ("$dir isn't a valid directory");
-    		
+
     	}
 		$this->view->galleries = $galleries;
 		//$this->view->photos_path = $dir;

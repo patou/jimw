@@ -1,18 +1,67 @@
-<h1><img width="16" height="16" border="0" title="<?php echo $this->_('Group') ?>" alt="<?php echo $this->_('Group') ?>" class="folder" border="0" src="<?php echo $this->path; ?>/images/icons/group.png"/>&nbsp;<?php echo $this->_('Group') ?></h1>
-<form action="<?php echo $this->url(array('controller' => 'group', 'action' => $this->form_type, 'format' => 'phtml'), 'format', true); ?>" method="post">
-<input type="hidden" name="id" value="<?= $this->id ?>">
+<h1><img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('Group')?>"
+	alt="<?php
+echo $this->_('Group')?>" class="folder" border="0"
+	src="<?php
+echo $this->path;
+?>/images/icons/group.png" />&nbsp;<?php
+echo $this->_('Group')?></h1>
+<form
+	action="<?php
+echo $this->url(array('controller' => 'group' , 'action' => $this->form_type , 'format' => 'phtml'), 'format', true);
+?>"
+	method="post"><input type="hidden" name="id" value="<?=$this->id?>">
 <input type="hidden" name="sub" value="1">
 <table border="0" width="90%">
-<? if (!empty($this->id)): ?>
-<tr><td class="t01"><?php echo $this->_('Id'); ?> :</td><td class="t01"><?= $this->id ?></td></tr>
-<? endif; ?>
-<tr><td class="t01"><?php echo $this->formLabel('name', $this->_('Name')); ?> :</td><td><?php echo $this->formText('name', $this->group->name); ?></td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('parents', $this->_('Parents')); ?> :<br /><?php echo $this->_('Add parents name separted by a comma'); ?></td><td><?php echo $this->formText('parents', $this->group->parents); ?></td></tr>
-<tr><td colspan="2" align="center"><?php echo $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td>
-</tr>
-</table></form>
-<br/>
-<p class="t01" style="font-size: 12px;">
-<a href="<?php echo $this->url(array('controller' => 'group', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>">
-<img width="16" height="16" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_undo.png"/>&nbsp;<?php echo $this->_('Return'); ?></a>
+<?
+if (! empty($this->id)) :
+    ?>
+<tr>
+		<td class="t01"><?php
+    echo $this->_('Id');
+    ?> :</td>
+		<td class="t01"><?=$this->id?></td>
+	</tr>
+
+<? endif;
+?>
+<tr>
+		<td class="t01"><?php
+echo $this->formLabel('name', $this->_('Name'));
+?> :</td>
+		<td><?php
+echo $this->formText('name', $this->group->name);
+?></td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('parents', $this->_('Parents'));
+?> :<br /><?php
+echo $this->_('Add parents name separted by a comma');
+?></td>
+		<td><?php
+echo $this->formText('parents', $this->group->parents);
+?></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><?php
+echo $this->formSubmit('btn', $this->_(ucfirst($this->form_type)));
+?></td>
+	</tr>
+</table>
+</form>
+<br />
+<p class="t01" style="font-size: 12px;"><a
+	href="<?php
+echo $this->url(array('controller' => 'group' , 'action' => 'list' , 'format' => 'phtml'), 'format', true);
+?>">
+<img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('Return')?>"
+	alt="<?php
+echo $this->_('Return')?>" class="folder"
+	src="<?php
+echo $this->path;
+?>/images/icons/arrow_undo.png" />&nbsp;<?php echo $this->_('Return'); ?></a>
 </p>

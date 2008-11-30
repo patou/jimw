@@ -9,10 +9,11 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class IndexController extends Jimw_Admin_Action 
+class IndexController extends Jimw_Admin_Action
 {
-	public function indexAction () {
-		$this->render('index');
-	}
+    public function indexAction ()
+    {
+        $this->render('index');
+    }
 }
 ?>

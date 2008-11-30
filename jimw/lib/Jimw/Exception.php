@@ -10,6 +10,5 @@
  * @version    $Id$
  */
 class Jimw_Exception extends Zend_Exception
-{
-}
+{}
 ?>

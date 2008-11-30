@@ -112,7 +112,7 @@ class Mejblogmp3_MessageController extends Jimw_Admin_Action
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Insert successful');
 		$this->_forward('edit', 'tree', 'default', array('id' => $message->tree_parentid));
 	}
-	
+
 	public function addAction () {
 		$messages = new Mejblogmp3Message();
 		$message = $messages->fetchNew();
@@ -128,9 +128,9 @@ class Mejblogmp3_MessageController extends Jimw_Admin_Action
 		$id = $this->_request->id;
 		$blogs = new Mejblogmp3Message();
 		$blog = $blogs->find($id);
-		if (!$blog->exists()) {
+		if (!count($blog)) {
 			throw new Jimw_Admin_Exception('Message doesn\' exist');
-			
+
 		}
 		$blog = $blog->current();
 		$blogid = $blog->tree_parentid;

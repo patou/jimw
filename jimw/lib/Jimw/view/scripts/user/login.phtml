@@ -1,19 +1,41 @@
-<h2><?php echo $this->_('Authentification'); ?></h2>
-<?php if(!empty($this->message)) :?>
-	<div id="message">
-		<?php echo $this->escape($this->message);?>
+<h2><?php
+echo $this->_('Authentification');
+?></h2>
+<?php
+if (! empty($this->message)) :
+    ?>
+<div id="message">
+		<?php
+    echo $this->escape($this->message);
+    ?>
 	</div>
-<?php endif; ?>
-<form action="<?php echo $this->url(array('controller' => 'user', 'action' => 'login', 'format' => 'phtml'), 'format', true); ?>" method="post">
+
+<?php endif;
+?>
+<form
+	action="<?php
+echo $this->url(array('controller' => 'user' , 'action' => 'login' , 'format' => 'phtml'), 'format', true);
+?>"
+	method="post">
 <div>
-	<?php echo $this->formLabel('login', $this->_('UserName')); ?>&nbsp;:
-	<?php echo $this->formText('login', ''); ?>
+	<?php
+echo $this->formLabel('login', $this->_('UserName'));
+?>&nbsp;:
+	<?php
+echo $this->formText('login', '');
+?>
 </div>
 <div>
-	<?php echo $this->formLabel('password', $this->_('Password')); ?>&nbsp;:
-	<?php echo $this->formPassword('password', ''); ?>
+	<?php
+echo $this->formLabel('password', $this->_('Password'));
+?>&nbsp;:
+	<?php
+echo $this->formPassword('password', '');
+?>
 </div>
 <div id="formbutton">
-	<?php echo $this->formSubmit('btn', $this->_('Login')); ?>
+	<?php
+echo $this->formSubmit('btn', $this->_('Login'));
+?>
 </div>
 </form>

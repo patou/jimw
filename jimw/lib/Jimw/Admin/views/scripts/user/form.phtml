@@ -1,36 +1,90 @@
-<h1><img width="16" height="16" border="0" title="<?php echo $this->_('User') ?>" alt="<?php echo $this->_('User') ?>" class="folder" border="0" src="<?php echo $this->path; ?>/images/icons/user.png"/>&nbsp;<?php echo $this->_('User') ?></h1>
-<form action="<?php echo $this->url(array('controller' => 'user', 'action' => $this->form_type, 'format' => 'phtml'), 'format', true); ?>" method="post">
-<input type="hidden" name="id" value="<?= $this->id ?>">
+<h1><img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('User')?>"
+	alt="<?php
+echo $this->_('User')?>" class="folder" border="0"
+	src="<?php
+echo $this->path;
+?>/images/icons/user.png" />&nbsp;<?php
+echo $this->_('User')?></h1>
+<form
+	action="<?php
+echo $this->url(array('controller' => 'user' , 'action' => $this->form_type , 'format' => 'phtml'), 'format', true);
+?>"
+	method="post"><input type="hidden" name="id" value="<?=$this->id?>">
 <input type="hidden" name="sub" value="1">
 <table border="0" width="90%">
-<? if (!empty($this->id)): ?>
-<tr><td class="t01"><?php echo $this->_('Id'); ?> :</td><td class="t01"><?= $this->id ?></td></tr>
-<? endif; ?>
+<?
+if (! empty($this->id)) :
+    ?>
 <tr>
-	<td class="t01"><?php echo $this->formLabel('login', $this->_('User name')); ?> :</td>
-	<td><?php echo $this->formText('login', $this->user->login); ?></td>
-</tr>
+		<td class="t01"><?php
+    echo $this->_('Id');
+    ?> :</td>
+		<td class="t01"><?=$this->id?></td>
+	</tr>
+
+<? endif;
+?>
 <tr>
-	<td class="t01"><?php echo $this->formLabel('password', $this->_('Password')); ?> :</td>
-	<td><?php echo $this->formPassword('password', ''); ?></td>
-</tr>
-<tr>
-	<td class="t01"><?php echo $this->formLabel('firstname', $this->_('First name')); ?> :</td>
-	<td><?php echo $this->formText('firstname', $this->user->firstname); ?></td>
-</tr>
-<tr>
-	<td class="t01"><?php echo $this->formLabel('lastname', $this->_('Last name')); ?> :</td>
-	<td><?php echo $this->formText('lastname', $this->user->lastname); ?></td>
-</tr>
-<tr>
-	<td class="t01"><?php echo $this->formLabel('email', $this->_('E-mail')); ?> :</td>
-	<td><?php echo $this->formText('email', $this->user->email); ?></td>
-</tr>
-<tr><td colspan="2" align="center"><?php echo $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td>
-</tr>
-</table></form>
-<br/>
-<p class="t01" style="font-size: 12px;">
-<a href="<?php echo $this->url(array('controller' => 'user', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>">
-<img width="16" height="16" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_undo.png"/>&nbsp;<?php echo $this->_('Return'); ?></a>
+		<td class="t01"><?php
+echo $this->formLabel('login', $this->_('User name'));
+?> :</td>
+		<td><?php
+echo $this->formText('login', $this->user->login);
+?></td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('password', $this->_('Password'));
+?> :</td>
+		<td><?php
+echo $this->formPassword('password', '');
+?></td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('firstname', $this->_('First name'));
+?> :</td>
+		<td><?php
+echo $this->formText('firstname', $this->user->firstname);
+?></td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('lastname', $this->_('Last name'));
+?> :</td>
+		<td><?php
+echo $this->formText('lastname', $this->user->lastname);
+?></td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('email', $this->_('E-mail'));
+?> :</td>
+		<td><?php
+echo $this->formText('email', $this->user->email);
+?></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><?php
+echo $this->formSubmit('btn', $this->_(ucfirst($this->form_type)));
+?></td>
+	</tr>
+</table>
+</form>
+<br />
+<p class="t01" style="font-size: 12px;"><a
+	href="<?php
+echo $this->url(array('controller' => 'user' , 'action' => 'list' , 'format' => 'phtml'), 'format', true);
+?>">
+<img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('Return')?>"
+	alt="<?php
+echo $this->_('Return')?>" class="folder"
+	src="<?php
+echo $this->path;
+?>/images/icons/arrow_undo.png" />&nbsp;<?php
+echo $this->_('Return'); ?></a>
 </p>

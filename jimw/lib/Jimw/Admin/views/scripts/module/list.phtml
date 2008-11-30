@@ -1,42 +1,99 @@
-	<h1><img width="16" height="18" border="0" title="<?php echo $this->_('Module') ?>" alt="<?php echo $this->_('Module') ?>" class="folder" border="0" src="<?php echo $this->path; ?>/images/icons/plugin.png"/>&nbsp;<?php echo $this->_('Module') ?></h1>
-	<table cellpadding="0" cellspacing="0" class="list">
+
+<h1><img width="16" height="18" border="0"
+	title="<?php
+echo $this->_('Module');?>"
+	alt="<?php
+echo $this->_('Module');?>" class="folder" border="0"
+	src="<?php
+echo $this->path;
+?>/images/icons/plugin.png" />&nbsp;<?php
+echo $this->_('Module');?></h1>
+<?php
+foreach ($this->flashmessenger as $message)
+    echo $message . '<br />';
+?>
+<table cellpadding="0" cellspacing="0" class="list">
 	<thead>
 		<tr>
-			<th style="width:20px">&nbsp;</th>
-			<th style="width:150px"><?php echo $this->_('Name') ?></th>
-			<th style="width:150px"><?php echo $this->_('Author') ?></th>
-			<th style="width:60%"><?php echo $this->_('Comment') ?></th>
-			<th style="width:40px"><?php echo $this->_('Version') ?></th>
-			<th style="width:40px" align="right"><?php echo $this->_('Activate') ?></th>
+			<th style="width: 20px">&nbsp;</th>
+			<th style="width: 150px"><?php
+echo $this->_('Name');?></th>
+			<th style="width: 150px"><?php
+echo $this->_('Author');?></th>
+			<th style="width: 60%"><?php
+echo $this->_('Comment');?></th>
+			<th style="width: 40px"><?php
+echo $this->_('Version');?></th>
+			<th style="width: 40px" align="right"><?php
+echo $this->_('Activate');?></th>
 		</tr>
 	</thead>
 	<?php
-		foreach ($this->modules_list as $module): ?>
+foreach ($this->modules_list as $module):
+    ?>
 		<tr>
-			<td>
-			<img src="<?php echo $this->path ?>/images/icons/module/<?php
-				echo (is_readable('./public/images/icons/module/' . $module['path'] . '.png')) ? $module['path'] : 'article';
-				?>.png" width="16" height="16" alt="" border="0"/>
+		<td>
+			<?php echo $this->moduleIcon($module['path']);?>
 			</td>
-			<td>
-			<?php echo $this->escape($module['name']); ?>
+		<td>
+			<?php
+    echo $this->escape($module['name']);
+    ?>
 			</td>
-			<td><?php echo $this->escape($module['author']); ?></td>
-			<td><?php echo $this->escape($module['comment']); ?></td>
-			<td><?php echo $this->escape($module['version']); ?></td>
-			<td align="right">
-				<?php if ($module['activ']): ?>
-				<a href="<?php echo $this->url(array('controller' => 'module', 'action' => 'disable', 'format' => 'phtml', 'id' => $module['id']), 'format', true); ?>"
-				onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to disable this module ? If some page work with this module, they did\'nt work')); ?>');">
-					<img width="16" height="18" border="0" title="<?php echo $this->_('Disable') ?>" alt="<?php echo $this->_('Disable') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/plugin.png"/>
-				</a>
-				<?php else: ?>
-				<a href="<?php echo $this->url(array('controller' => 'module', 'action' => 'enable', 'format' => 'phtml', 'module_path' => $module['path']), 'format', true); ?>">
-					<img width="16" height="18" border="0" title="<?php echo $this->_('Enable') ?>" alt="<?php echo $this->_('Enable') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/plugin_disabled.png"/>
-				</a>
-				<?php endif; ?>
+		<td><?php
+    echo $this->escape($module['author']);
+    ?></td>
+		<td><?php
+    echo $this->escape($module['comment']);
+    ?></td>
+		<td><?php
+    echo $this->escape($module['version']);
+    ?></td>
+		<td align="right">
+				<?php
+    if ($module['activ']):
+        ?>
+				<a
+			href="<?php
+        echo $this->url(array('controller' => 'module' , 'action' => 'disable' , 'format' => 'phtml' , 'id' => $module['id']), 'format', true);
+        ?>"
+			onclick="return confirm('<?php
+        echo $this->escape($this->_('Do you really want to disable this module ? If some page work with this module, they did\'nt work'));
+        ?>');">
+		<img width="16" height="18" border="0"
+			title="<?php
+        echo $this->_('Disable')?>"
+			alt="<?php
+        echo $this->_('Disable')?>" class="folder"
+			src="<?php
+        echo $this->path;
+        ?>/images/icons/plugin.png" /> </a>
+<?php else: ?>
+				<a
+			href="<?php
+        echo $this->url(array('controller' => 'module' , 'action' => 'enable' , 'format' => 'phtml' , 'module_path' => $module['path']), 'format', true);
+        ?>">
+		<img width="16" height="18" border="0"
+			title="<?php
+        echo $this->_('Enable')?>"
+			alt="<?php
+        echo $this->_('Enable')?>" class="folder"
+			src="<?php
+        echo $this->path;
+        ?>/images/icons/plugin_disabled.png" />
+		</a>
+
+    <?php
+    endif;
+    ?>
 			</td>
-		</tr>
-	<?php endforeach; ?>
+	</tr>
+	<?php
+endforeach;
+?>
 	</table>
-<a href="<?php echo $this->url(array('controller' => 'system'), 'format', true); ?>"><?php echo $this->_('Return'); ?></a>
+<a
+	href="<?php
+echo $this->url(array('controller' => 'system'), 'format', true);
+?>"><?php
+echo $this->_('Return'); ?></a>

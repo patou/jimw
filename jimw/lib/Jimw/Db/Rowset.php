@@ -17,7 +17,7 @@ class Jimw_Db_Rowset extends Zend_Db_Table_Rowset
      * @return bool
      * @deprecated since 0.9.3; use count() instead
      */
-    public function exists()
+    public function exists ()
     {
         Jimw_Debug::deprecated('Zend_Db_Rowset->exists()', 'cout($row)');
         return $this->_count > 0;

@@ -752,7 +752,7 @@ Rged.prototype =  {
 		var form = Ext.DomHelper.append(document.body, {
 			 tag:'form'
 			,method:'post'
-			,action:this.tree.downloadUrl || this.url
+			,action:this.tree.downloadUrl
 			,target:id
 		});
 
@@ -770,8 +770,8 @@ Rged.prototype =  {
 		// append path to form
 		hidden = document.createElement('input');
 		hidden.type = 'hidden';
-		hidden.name = 'path';
-		hidden.value = path;
+		hidden.name = 'file';
+		hidden.value = sel.get('path');
 		form.appendChild(hidden);
 
 		var callback = function() {
@@ -780,7 +780,7 @@ Rged.prototype =  {
 			setTimeout(function() {document.body.removeChild(frame);}, 110);
 		};
 		
-		Ext.EventManager.on(frame, 'load', callback, this);
+		//Ext.EventManager.on(frame, 'load', callback, this);
 
 		form.submit();
     },

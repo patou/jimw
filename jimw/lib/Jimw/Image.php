@@ -118,21 +118,23 @@ class Jimw_Image
     {
         if (file_exists($this->getThumbnailsFilename())) {
             return true;
-        } else if ($create) {
-            return self::createThumbnails($this->file, $this->getThumbnailsFilename(), JIMW_IMAGE_THUMBNAIL_MAXWIDTH, JIMW_IMAGE_THUMBNAIL_MAXHEIGHT);
-        }
+        } else 
+            if ($create) {
+                return self::createThumbnails($this->file, $this->getThumbnailsFilename(), JIMW_IMAGE_THUMBNAIL_MAXWIDTH, JIMW_IMAGE_THUMBNAIL_MAXHEIGHT);
+            }
         return false;
     }
     public static function createThumbnails ($file, $thumbnails, $maxwidth = JIMW_IMAGE_THUMBNAIL_MAXWIDTH, $maxheight = JIMW_IMAGE_THUMBNAIL_MAXHEIGHT)
     {
         @ini_set('memory_limit', '256M');
         $dir = dirname($thumbnails);
-        if (!is_dir($dir)) {
-            if (file_exists($dir)) return false;
+        if (! is_dir($dir)) {
+            if (file_exists($dir))
+                return false;
             mkdir($dir);
         }
-        list($width, $height, $type) = getimagesize($file);
-        list($tbwidth, $tbheight) = self::constrainDimensions($width, $height, $maxwidth, $maxheight);
+        list ($width, $height, $type) = getimagesize($file);
+        list ($tbwidth, $tbheight) = self::constrainDimensions($width, $height, $maxwidth, $maxheight);
         if ($type == IMAGETYPE_GIF) {
             $image_orig = imagecreatefromgif($file);
             $image_new = imagecreatetruecolor($tbwidth, $tbheight);
@@ -141,21 +143,26 @@ class Jimw_Image
             $tgt_tc_idx = imagecolorallocate($image_new, $src_tc['red'], $src_tc['green'], $src_tc['blue']);
             imagefill($image_new, 0, 0, $tgt_tc_idx);
             imagecolortransparent($image_new, $tgt_tc_idx);
-        }
-        else {
-            if($type == IMAGETYPE_JPEG) $image_orig = imagecreatefromjpeg($file);
-		    elseif($type == IMAGETYPE_PNG) $image_orig = imagecreatefrompng($file);
-		    else return false;
-		    $image_new = imagecreatetruecolor($tbwidth, $tbheight);
+        } else {
+            if ($type == IMAGETYPE_JPEG)
+                $image_orig = imagecreatefromjpeg($file);
+            elseif ($type == IMAGETYPE_PNG)
+                $image_orig = imagecreatefrompng($file);
+            else
+                return false;
+            $image_new = imagecreatetruecolor($tbwidth, $tbheight);
         }
         imagecopyresampled($image_new, $image_orig, 0, 0, 0, 0, $tbwidth, $tbheight, $width, $height);
-        if($type == IMAGETYPE_JPEG) imagejpeg($image_new, $thumbnails, 80);
-		elseif($type == IMAGETYPE_PNG) imagepng($image_new, $thumbnails, 80);
-		elseif($type == IMAGETYPE_GIF) imagegif($image_new, $thumbnails, 80);
-		else return false;
-		return file_exists($thumbnails);
+        if ($type == IMAGETYPE_JPEG)
+            imagejpeg($image_new, $thumbnails, 80);
+        elseif ($type == IMAGETYPE_PNG)
+            imagepng($image_new, $thumbnails, 80);
+        elseif ($type == IMAGETYPE_GIF)
+            imagegif($image_new, $thumbnails, 80);
+        else
+            return false;
+        return file_exists($thumbnails);
     }
-    
     public static function constrainDimensions ($current_width, $current_height, $max_width = 0, $max_height = 0)
     {
         if (! $max_width and ! $max_height)

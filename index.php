@@ -16,5 +16,6 @@ define('JIMW_REP', './jimw/');
 /**
  * Include the main file of Jimw
  */
+
 include(JIMW_REP . 'Jimw.php')
 ?>

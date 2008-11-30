@@ -80,7 +80,7 @@ class Blog_MessageController extends Jimw_Admin_Action
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Insert successful');
 		$this->_forward('edit', 'tree', 'default', array('id' => $message->tree_parentid));
 	}
-	
+
 	public function addAction () {
 		$messages = new BlogMessage();
 		$message = $messages->fetchNew();
@@ -96,9 +96,9 @@ class Blog_MessageController extends Jimw_Admin_Action
 		$id = $this->_request->id;
 		$blogs = new BlogMessage();
 		$blog = $blogs->find($id);
-		if (!$blog->exists()) {
+		if (!count($blog)) {
 			throw new Jimw_Admin_Exception('Message didn\' exist');
-			
+
 		}
 		$blog = $blog->current();
 		$blogid = $blog->tree_parentid;

@@ -22,15 +22,14 @@ class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 		$tree = $request->getTree();
 		$parent = $tree->getParam('tree', $tree->id);
 		$modules = new Jimw_Site_Module();
-		$module = $modules->fetchRow($modules->select()->where('module_path = ?', 'blog'));
 		$trees = new Jimw_Site_Tree();
 		$parent = $trees->find($parent);
 		$blogMessage = new BlogMessage();
-		
+
 		$select = $blogMessage->select()->from(array('b' => $blogMessage->getRealTableName()), '*')
 		            ->join(array('t' => $trees->getRealTableName()),'t.tree_id = b.tree_parentid', array())
 		            ->where('t.tree_status = ?', 4)
-		            ->where('t.module_id = ?', $module->id)
+		            ->where('t.module_path = ?', 'blog')
 		            ->order('b.blogmessage_date DESC')
 		            ->limit($tree->getParam('number', 10));
 		if (count($parent)) {

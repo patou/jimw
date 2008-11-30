@@ -9,28 +9,31 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-
 class Jimw_Admin_Element_Listbox extends Jimw_Admin_Element_Abstract
 {
     public $type = 'listbox';
     public $label = '';
     public $name = '';
     public $values = array();
-    public function __construct($label, $name) {
+    public function __construct ($label, $name)
+    {
         $this->setLabel($label);
         $this->setName($name);
     }
-    public function setLabel($label) {
-    	$this->label = $this->urlEncode($label);
+    public function setLabel ($label)
+    {
+        $this->label = $this->urlEncode($label);
     }
-    public function setName($name) {
+    public function setName ($name)
+    {
         $this->name = $this->urlEncode($name);
     }
-    public function addValue($value, $key='') {
-    	if ($key == '') {
-    		$this->values[] = $this->urlEncode($value);
-    	} else {
-    		$this->values[urlEncode($key)] = urlEncode($value);
-    	}
+    public function addValue ($value, $key = '')
+    {
+        if ($key == '') {
+            $this->values[] = $this->urlEncode($value);
+        } else {
+            $this->values[urlEncode($key)] = urlEncode($value);
+        }
     }
 }
