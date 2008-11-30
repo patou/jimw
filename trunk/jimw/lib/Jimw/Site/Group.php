@@ -9,7 +9,8 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Site_Group extends Jimw_Db_Table {
-	protected $_name = 'group';
-	protected $_dependentTables = array('Jimw_Site_UserGroup', 'Jimw_Site_User');
+class Jimw_Site_Group extends Jimw_Db_Table
+{
+    protected $_name = 'group';
+    protected $_dependentTables = array('Jimw_Site_UserGroup' , 'Jimw_Site_User');
 }

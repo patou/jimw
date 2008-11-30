@@ -3,8 +3,8 @@ function typofr($text) {
   $source = array(
     "/&laquo; /si",
     "/ &raquo;/si",
-    "/« /si",
-    "/ »/si",
+    "/Â« /si",
+    "/ Â»/si",
     "/ :/si",
     "/ !/si",
     "/ \?/si",

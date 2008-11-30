@@ -1,6 +1,5 @@
 <?php
-class Jimw_Site_View_ViewRenderer 
-    extends Zend_Controller_Action_Helper_ViewRenderer
+class Jimw_Site_View_ViewRenderer extends Zend_Controller_Action_Helper_ViewRenderer
 {
     /**
      * Name of layout script to render. Defaults to 'layout'.
@@ -8,9 +7,7 @@ class Jimw_Site_View_ViewRenderer
      * @var string
      */
     protected $_layoutScript = 'layout';
-    
     protected $_renderLayout = true;
-    
     protected $_appendBody = false;
     /**
      * Constructor
@@ -22,111 +19,102 @@ class Jimw_Site_View_ViewRenderer
      * @param  array $options 
      * @return void
      */
-    public function __construct(Zend_View_Interface $view = null, 
-                                array $options = array())
+    public function __construct (Zend_View_Interface $view = null, array $options = array())
     {
-        if (!isset($options['viewSuffix'])) {
+        if (! isset($options['viewSuffix'])) {
             $options['viewSuffix'] = 'phtml';
         }
         parent::__construct($view, $options);
     }
-    
     /**
      * Set the layout script to be rendered.
      *
      * @param string $script
      */
-    public function setLayoutScript($script)
+    public function setLayoutScript ($script)
     {
         Jimw_Debug::deprecated('Jimw_Site_View_ViewRenderer->setLayoutScript()', 'layout()->setLayout()');
         $this->_layoutScript = $script;
         return $this;
     }
-    
     /**
      * Retreive the name of the layout script to be rendered.
      *
      * @return string
      */
-    public function getLayoutScript()
+    public function getLayoutScript ()
     {
         return $this->_layoutScript;
     }
-    
     /**
      * Set if the Layout must be render.
      *
      * @param string $script
      */
-    public function setRenderLayout($renderLayout = true)
+    public function setRenderLayout ($renderLayout = true)
     {
         Jimw_Debug::deprecated('Jimw_Site_View_ViewRenderer->setRenderLayout()', 'layout()->setMvcSuccessfulActionOnly()');
         Zend_Layout::getMvcInstance()->setMvcSuccessfulActionOnly($renderLayout);
         $this->_renderLayout = ($renderLayout) ? true : false;
         return $this;
     }
-
     /**
      * If appendBody is true The result is append to the body response, otherwise, the result is append to the content
      *
      * @param string $script
      */
-    public function setAppendBody($appendBody = true)
+    public function setAppendBody ($appendBody = true)
     {
         Jimw_Debug::deprecated('Jimw_Site_View_ViewRenderer->setAppendBody()', 'layout()->setMvcSuccessfulActionOnly()');
         $this->_appendBody = ($appendBody) ? true : false;
         return $this;
     }
- 
     /**
      * Set that the Layout mustn't be render.
      *
      * @param string $script
      */
-    public function noRenderLayout()
+    public function noRenderLayout ()
     {
         Jimw_Debug::deprecated('Jimw_Site_View_ViewRenderer->noRenderLayout()', 'layout()->setMvcSuccessfulActionOnly()');
         Zend_Layout::getMvcInstance()->setMvcSuccessfulActionOnly(false);
         $this->_renderLayout = false;
         return $this;
     }
-    
     /**
      * Retreive if the Layout must be render.
      *
      * @return string
      */
-    public function getRenderLayout()
+    public function getRenderLayout ()
     {
         return $this->_renderLayout;
     }
-    
-    public function preDispatch()
+    public function preDispatch ()
     {
-    	$this->_renderLayout = true;
+        $this->_renderLayout = true;
     }
     /**
      * Retreive the name of the layout script to be rendered.
      *
      * @return string
      */
-    public function formatLayoutScript()
+    public function formatLayoutScript ()
     {
-    	$layout = $this->_layoutScript;
-    	if ($this->getViewSuffix())
-    		$layout .= '.' . $this->getViewSuffix();
+        $layout = $this->_layoutScript;
+        if ($this->getViewSuffix())
+            $layout .= '.' . $this->getViewSuffix();
         return $layout;
     }
-    
-    /**
-     * Render the action script and assign the the view for use
-     * in the layout script. Render the layout script and append
-     * to the Response's body.
-     *
-     * @param string $script
-     * @param string $name
-     */
-    /*public function renderScript($script, $name = null)
+/**
+ * Render the action script and assign the the view for use
+ * in the layout script. Render the layout script and append
+ * to the Response's body.
+ *
+ * @param string $script
+ * @param string $name
+ */
+/*public function renderScript($script, $name = null)
     {
         $this->view->baseUrl = $this->getRequest()->getBaseUrl();
         if (null === $name) {

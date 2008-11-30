@@ -251,9 +251,19 @@ table.list td {
 	border-top-style: none;
 	border-top-width: 1px !important;
 	border-top-width: 0;
+	padding: 2px;
 }
 table.list tr:hover {
 	background-color: #DDD;
+}
+tr.tree_not_site, tr.tree_not_site a {
+	color: #D9D9D9;
+}
+tr.tree_deleted, tr.tree_deleted a, tr.tree_deleted a:visited {
+	color: #FF0000;
+}
+tr.tree_not_site:hover, tr.tree_not_site:hover a {
+	color: #FFF;
 }
 legend {
 	color: #06C;

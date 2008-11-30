@@ -9,7 +9,8 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Site_Module extends Jimw_Db_Table {
-	protected $_name = 'module';
-	protected $_dependentTables = array('Jimw_Site_Site');
+class Jimw_Site_Module extends Jimw_Db_Table
+{
+    protected $_name = 'module';
+    protected $_dependentTables = array('Jimw_Site_Site');
 }

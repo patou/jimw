@@ -10,6 +10,5 @@
  * @version    $Id$
  */
 class Jimw_Global_Exception extends Jimw_Exception
-{
-}
+{}
 ?>

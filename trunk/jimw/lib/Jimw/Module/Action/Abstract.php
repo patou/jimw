@@ -15,17 +15,23 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 	public function init() {
 		$request = $this->getRequest ();
 		$tree = $request->getTree ();
-		$site_path = trim($request->site_path, '/');
-		$this->view->path = $request->getBaseUrl () . '/' . $site_path . '/template';
+		$site = Zend_Registry::get ( 'site' ) ;
+		$this->view->site = $site;
+		$site_path = trim($site->path, '/');
+		$site_template = trim($site->template, '/');
+		if (empty($site_template)) {
+		    $site_template = $site_path . '/template';
+		}
+		$this->view->path = $request->getBaseUrl () . '/' . $site_template;
 		$this->view->path_public = $request->getBaseUrl () . '/' . $site_path;
 		$this->view->path_common = $request->getBaseUrl () . JIMW_URL_PUBLIC_COMMON_PATH;
 		$ext = $request->getParam('format', 'phtml');
 		Zend_Registry::set('format', $ext);
 		$this->getHelper('ViewRenderer')->setViewSuffix($ext);
 		$this->getHelper('Layout')->setViewSuffix($ext);
-		$this->view->addScriptPath($site_path . '/template');
+		$this->view->addScriptPath($site_template);
 		$module = $request->getModuleName();
-		$this->view->addScriptPath($site_path . '/template/' . $module);
+		$this->view->addScriptPath($site_template . $module);
 		$this->view->addScriptPath($site_path);
 		$this->view->title = '';
 		if (!empty($tree)) {

@@ -1,5 +1,11 @@
-<h1><?php echo $this->_('Error'); ?></h1>
+<h1><?php
+echo $this->_('Error');
+?></h1>
 <p>
-<?php echo $this->_($this->message); ?>
+<?php
+echo $this->_($this->message);
+?>
 </p>
-<?php Jimw_Debug::display_exception($this->exception); ?>
+<?php
+Jimw_Debug::display_exception($this->exception);
+?>

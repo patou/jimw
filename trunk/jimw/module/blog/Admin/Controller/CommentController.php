@@ -16,13 +16,13 @@ class Blog_CommentController extends Jimw_Admin_Action
 	public function listAction () {
 		$messages = new BlogMessage();
 		$message = $messages->find($this->_request->id);
-		if (!$message->exists())
+		if (!count($message))
 			throw new Jimw_Admin_Exception('Message didn\'t exist');
 		$this->view->message = $message->current();
 		$comments = new BlogComment();
 		$this->view->comments_list = $comments->fetchAll(array('blogmessage_id = ?' => $this->_request->id));
 	}
-	
+
 	public function editAction () {
 		$id = $this->_request->id;
 		$this->view->request = $this->_request;
@@ -62,7 +62,7 @@ class Blog_CommentController extends Jimw_Admin_Action
 		$id = $this->_request->id;
 		$comments = new BlogComment();
 		$comment = $comments->find($id);
-		if (!$comment->exists()) {
+		if (!count($comment)) {
 			throw new Jimw_Admin_Exception('Comment didn\'t exists');
 		}
 		$comment = $comment->current();

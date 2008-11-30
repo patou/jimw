@@ -1,24 +1,105 @@
-<h1><img width="16" height="18" border="0" title="<?php echo $this->_('Database') ?>" alt="<?php echo $this->_('Database') ?>" class="folder" border="0" src="<?php echo $this->path; ?>/images/icons/database.png"/>&nbsp;<?php echo $this->_('Database') ?></h1>
-<form action="<?php echo $this->url(array('controller' => 'database', 'action' => $this->form_type, 'format' => 'phtml'), 'format', true); ?>" method="post">
-<input type="hidden" name="id" value="<?= $this->id ?>">
+<h1><img width="16" height="18" border="0"
+	title="<?php
+echo $this->_('Database')?>"
+	alt="<?php
+echo $this->_('Database')?>" class="folder" border="0"
+	src="<?php
+echo $this->path;
+?>/images/icons/database.png" />&nbsp;<?php
+echo $this->_('Database')?></h1>
+<form
+	action="<?php
+echo $this->url(array('controller' => 'database' , 'action' => $this->form_type , 'format' => 'phtml'), 'format', true);
+?>"
+	method="post"><input type="hidden" name="id" value="<?=$this->id?>">
 <input type="hidden" name="sub" value="1">
 <table border="0" width="90%">
-<? if (!empty($this->id)): ?>
-<tr><td class="t01"><?php echo $this->_('Id'); ?> :</td><td class="t01"><?= $this->id ?></td></tr>
-<? endif; ?>
-<tr><td class="t01"><?php echo $this->formLabel('type', $this->_('Type')); ?> :</td><td><?php echo $this->formSelect('type', $this->database->type, array(), array('PDO_MYSQL' => 'Mysql (Pdo)', 'PDO_SQLITE'  => 'Sqlite', 'MYSQLI' => 'Mysqli')); ?></td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('server', $this->_('Server')); ?> :</td><td><?php echo $this->formText('server', $this->database->server); ?></td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('name', $this->_('DBName')); ?> :</td><td><?php echo $this->formText('name', $this->database->name); ?></td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('port', $this->_('Port')); ?> :</td><td><?php echo $this->formText('port', $this->database->port); ?>
-</td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('user', $this->_('User')); ?> : </td><td><?php echo $this->formText('user', $this->database->user); ?></td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('pass', $this->_('Password')); ?> : </td><td><?php echo $this->formPassword('pass', $this->database->pass); ?></td></tr>
-<tr><td class="t01"><?php echo $this->formLabel('prefix', $this->_('Prefix')); ?> : </td><td><?php echo $this->formText('prefix', $this->database->prefix); ?></td></tr>
-<tr><td colspan="2" align="center"><?php echo $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td>
-</tr>
-</table></form>
-<br/>
-<p class="t01" style="font-size: 12px;">
-<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>">
-<img width="16" height="16" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_undo.png"/>&nbsp;<?php echo $this->_('Return'); ?></a>
+<?
+if (! empty($this->id)) :
+    ?>
+<tr>
+		<td class="t01"><?php
+    echo $this->_('Id');
+    ?> :</td>
+		<td class="t01"><?=$this->id?></td>
+	</tr>
+
+<? endif;
+?>
+<tr>
+		<td class="t01"><?php
+echo $this->formLabel('type', $this->_('Type'));
+?> :</td>
+		<td><?php
+echo $this->formSelect('type', $this->database->type, array(), array('PDO_MYSQL' => 'Mysql (Pdo)' , 'PDO_SQLITE' => 'Sqlite' , 'MYSQLI' => 'Mysqli'));
+?></td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('server', $this->_('Server'));
+?> :</td>
+		<td><?php
+echo $this->formText('server', $this->database->server);
+?></td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('name', $this->_('DBName'));
+?> :</td>
+		<td><?php
+echo $this->formText('name', $this->database->name);
+?></td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('port', $this->_('Port'));
+?> :</td>
+		<td><?php
+echo $this->formText('port', $this->database->port);
+?>
+</td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('user', $this->_('User'));
+?> : </td>
+		<td><?php
+echo $this->formText('user', $this->database->user);
+?></td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('pass', $this->_('Password'));
+?> : </td>
+		<td><?php
+echo $this->formPassword('pass', $this->database->pass);
+?></td>
+	</tr>
+	<tr>
+		<td class="t01"><?php
+echo $this->formLabel('prefix', $this->_('Prefix'));
+?> : </td>
+		<td><?php
+echo $this->formText('prefix', $this->database->prefix);
+?></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><?php
+echo $this->formSubmit('btn', $this->_(ucfirst($this->form_type)));
+?></td>
+	</tr>
+</table>
+</form>
+<br />
+<p class="t01" style="font-size: 12px;"><a
+	href="<?php
+echo $this->url(array('controller' => 'database' , 'action' => 'list' , 'format' => 'phtml'), 'format', true);
+?>">
+<img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('Return')?>"
+	alt="<?php
+echo $this->_('Return')?>" class="folder"
+	src="<?php
+echo $this->path; ?>/images/icons/arrow_undo.png" />&nbsp;<?php echo $this->_('Return'); ?></a>
 </p>

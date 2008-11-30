@@ -1,46 +1,132 @@
-	<h1><img width="16" height="16" border="0" title="<?php echo $this->_('Site') ?>" alt="<?php echo $this->_('Site') ?>" class="folder" border="0" src="<?php echo $this->path; ?>/images/icons/application.png"/>&nbsp;<?php echo $this->_('Site') ?></h1>
-	<table cellpadding="0" cellspacing="0" class="list">
+
+<h1><img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('Site')?>"
+	alt="<?php
+echo $this->_('Site')?>" class="folder" border="0"
+	src="<?php
+echo $this->path;
+?>/images/icons/application.png" />&nbsp;<?php
+echo $this->_('Site')?></h1>
+<table cellpadding="0" cellspacing="0" class="list">
 	<thead>
 		<tr>
-			<th style="width:16px">&nbsp;</th>
-			<th style="width:100px"><?php echo $this->_('Tree') ?></th>
-			<th style="width:100px"><?php echo $this->_('Name') ?></th>
-			<th style="width:100px"><?php echo $this->_('Access') ?></th>
-			<th style="width:150px"><?php echo $this->_('Path') ?></th>
-			<th style="width:40px" align="right"><?php echo $this->_('Action') ?></th>
+			<th style="width: 16px">&nbsp;</th>
+			<th style="width: 100px"><?php
+echo $this->_('Tree')?></th>
+			<th style="width: 100px"><?php
+echo $this->_('Default page')?></th>
+			<th style="width: 100px"><?php
+echo $this->_('Name')?></th>
+			<th style="width: 100px"><?php
+echo $this->_('Domain')?></th>
+			<th style="width: 150px"><?php
+echo $this->_('Path')?></th>
+			<th style="width: 150px"><?php
+echo $this->_('Template')?></th>
+			<th style="width: 40px" align="right"><?php
+echo $this->_('Action')?></th>
 		</tr>
 	</thead>
 	<?php
-		foreach ($this->sites_list as $site): ?>
+foreach ($this->sites_list as $site) :
+    ?>
 		<tr>
-			<td>
-			<?php echo $this->escape($site->id); ?></td>
-			<td>
-			<?php echo $this->escape($site->tree_id); ?>
+		<td>
+			<?php
+    echo $this->escape($site->id);
+    ?>
 			</td>
-			<td>
-			<?php echo $this->escape($site->name); ?>
+		<td>
+			<?php
+    echo $this->escape($site->tree_id);
+    ?>
 			</td>
-			<td>
-			<?php echo $this->escape($site->access); ?>
+		<td>
+			<?php
+    echo $this->escape($site->findParentJimw_Site_TreeBydefault_page()->alias);
+    ?>
 			</td>
-			<td>
-			<?php echo $this->escape($site->path); ?>
+		<td>
+			<?php
+    echo $this->escape($site->name);
+    ?>
 			</td>
-			<td align="right">
-				<a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'edit', 'format' => 'phtml', 'id' => $site->id), 'format', true); ?>">
-					<img width="16" height="16" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/application_edit.png"/>
-				</a>
-				<a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'delete', 'format' => 'phtml', 'id' => $site->id), 'format', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Site ?')); ?>');">
-					<img width="16" height="16" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/application_delete.png"/>
-				</a>
+		<td>
+			<?php
+    echo $this->escape($site->findParentJimw_Site_Domain());
+    ?>
 			</td>
-		</tr>
-	<?php endforeach; ?>
+		<td>
+			<?php
+    echo $this->escape($site->path);
+    ?>
+			</td>
+		<td>
+			<?php
+    echo $this->escape($site->template);
+    ?>
+			</td>
+		<td align="right"><a
+			href="<?php
+    echo $this->url(array('controller' => 'site' , 'action' => 'edit' , 'format' => 'phtml' , 'id' => $site->id), 'format', true);
+    ?>">
+		<img width="16" height="16" border="0"
+			title="<?php
+    echo $this->_('Edit')?>"
+			alt="<?php
+    echo $this->_('Edit')?>" class="folder"
+			src="<?php
+    echo $this->path;
+    ?>/images/icons/application_edit.png" />
+		</a> <a
+			href="<?php
+    echo $this->url(array('controller' => 'site' , 'action' => 'delete' , 'format' => 'phtml' , 'id' => $site->id), 'format', true);
+    ?>"
+			onclick="return confirm('<?php
+    echo $this->escape($this->_('Do you really want to delete this Site ?'));
+    ?>');">
+		<img width="16" height="16" border="0"
+			title="<?php
+    echo $this->_('Delete')?>"
+			alt="<?php
+    echo $this->_('Delete')?>" class="folder"
+			src="<?php
+    echo $this->path;
+    ?>/images/icons/application_delete.png" />
+		</a></td>
+	</tr>
+	<?php
+endforeach;
+?>
 	</table>
 <br />
-<a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
-<img width="16" height="16" border="0" title="<?php echo $this->_('Add') ?>" alt="<?php echo $this->_('Add') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/application_add.png"/>&nbsp;<?php echo $this->_('Add'); ?></a>
+<a
+	href="<?php
+echo $this->url(array('controller' => 'site' , 'action' => 'add' , 'format' => 'phtml'), 'format', true);
+?>">
+<img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('Add')?>"
+	alt="<?php
+echo $this->_('Add')?>" class="folder"
+	src="<?php
+echo $this->path;
+?>/images/icons/application_add.png" />&nbsp;<?php
+echo $this->_('Add');
+?></a>
 <hr />
-<a href="<?php echo $this->url(array('controller' => 'system'), 'format', true); ?>">
-<img width="16" height="16" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_redo.png"/><?php echo $this->_('Return'); ?></a>
+<a
+	href="<?php
+echo $this->url(array('controller' => 'system'), 'format', true);
+?>">
+<img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('Return')?>"
+	alt="<?php
+echo $this->_('Return')?>" class="folder"
+	src="<?php
+echo $this->path;
+?>/images/icons/arrow_redo.png" /><?php
+echo $this->_('Return');
+?></a>

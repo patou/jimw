@@ -9,7 +9,5 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-
 abstract class Jimw_Module_Action extends Jimw_Module_Action_Abstract
-{
-}
+{}

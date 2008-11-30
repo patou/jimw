@@ -9,8 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-
-class Jimw_Admin_Element_Textarea extends Jimw_Admin_Element_Textbox 
+class Jimw_Admin_Element_Textarea extends Jimw_Admin_Element_Textbox
 {
     public $type = 'textarea';
 }

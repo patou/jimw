@@ -48,6 +48,8 @@
 	if (!defined('JIMW_REP_INSTALL')) define('JIMW_REP_INSTALL', JIMW_ROOT . 'install/');
 	/** Admin Public directory */
 	if (!defined('JIMW_REP_ADMIN_PUBLIC')) define('JIMW_REP_ADMIN_PUBLIC', JIMW_ADMIN_ROOT . 'public/');
+	/** Admin module icon directory */
+	if (!defined('JIMW_REP_ADMIN_MODULE_ICON')) define('JIMW_REP_ADMIN_MODULE_ICON', JIMW_REP_ADMIN_PUBLIC . '/images/icons/module/');
 	/** Lib directory */
 	if (!defined('JIMW_REP_LIB')) define('JIMW_REP_LIB', JIMW_REP . 'lib/');
 	/** Config directory */
@@ -65,6 +67,10 @@
 	if (!defined('JIMW_URL_DEFAULT_PATH')) define('JIMW_URL_DEFAULT_PATH', 'default');
 	/** Admin path in URL */
 	if (!defined('JIMW_URL_ADMIN_PATH')) define('JIMW_URL_ADMIN_PATH', '/admin');
+	/** Admin path in URL */
+	if (!defined('JIMW_URL_ADMIN_PUBLIC')) define('JIMW_URL_ADMIN_PUBLIC', '/public/');
+	/** Admin module icon URL */
+	if (!defined('JIMW_URL_ADMIN_MODULE_ICON')) define('JIMW_URL_ADMIN_MODULE_ICON', JIMW_URL_ADMIN_PUBLIC . '/images/icons/module/');
 	/** Public path in URL */
 	if (!defined('JIMW_URL_PUBLIC_PATH')) define('JIMW_URL_PUBLIC_PATH', '/public');
 	/** Public path in URL */

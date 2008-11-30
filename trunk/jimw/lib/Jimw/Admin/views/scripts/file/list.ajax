@@ -1,2 +1,2 @@
 <?php
-	echo Zend_Json::encode($this->files);
+echo Zend_Json::encode($this->files);

@@ -9,33 +9,39 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
- 
-class Jimw_Admin_Element extends Jimw_Admin_Element_Base 
+class Jimw_Admin_Element extends Jimw_Admin_Element_Base
 {
     protected $elements = array();
-    public function addLabel($value) {
-        $this->elements[] = array('type' => 'label', 'value' => $this->urlEncode($value));
+    public function addLabel ($value)
+    {
+        $this->elements[] = array('type' => 'label' , 'value' => $this->urlEncode($value));
     }
-    public function addAlert($message) {
-        $this->elements[] = array('type' => 'alert', 'message' => $this->urlEncode($message));
+    public function addAlert ($message)
+    {
+        $this->elements[] = array('type' => 'alert' , 'message' => $this->urlEncode($message));
     }
-    public function addException(Exception $e, $type = 'admin-error') {
-        $this->elements[] = array('type' => 'error', 'message' => $this->urlEncode($e->getMessage()), 'code' => $e->getCode(), 'type' => $type);
+    public function addException (Exception $e, $type = 'admin-error')
+    {
+        $this->elements[] = array('type' => 'error' , 'message' => $this->urlEncode($e->getMessage()) , 'code' => $e->getCode() , 'type' => $type);
     }
-    public function addReloadTree() {
+    public function addReloadTree ()
+    {
         $this->elements[] = array('type' => 'reloadtree');
     }
-    public function addCloseTab() {
+    public function addCloseTab ()
+    {
         $this->elements[] = array('type' => 'closetab');
     }
-    public function addElement(Jimw_Admin_Element_Base $element) {
-    	if ($element instanceof Jimw_Admin_Element) {
-    		array_merge($this->elements, $element);
-    	} else {
-        	$this->elements[] = $element;
-    	}
+    public function addElement (Jimw_Admin_Element_Base $element)
+    {
+        if ($element instanceof Jimw_Admin_Element) {
+            array_merge($this->elements, $element);
+        } else {
+            $this->elements[] = $element;
+        }
     }
-    public function __toString() {
+    public function __toString ()
+    {
         return trim(Zend_Json::encode($this->elements), '[] ');
     }
 }

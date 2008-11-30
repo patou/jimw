@@ -1,23 +1,20 @@
 <?php
-
-
-class Jimw_Install_ConfigurationForm extends Zend_Form {
-    public function __construct($option = null) {
+class Jimw_Install_ConfigurationForm extends Zend_Form
+{
+    public function __construct ($option = null)
+    {
         parent::__construct($option);
         $this->initForm();
     }
-
-    public function initForm() {
+    public function initForm ()
+    {
         //------------------------------- Database form
         $database = new Zend_Form_SubForm();
         $database_type = new Zend_Form_Element_Select('type');
-        $database_type->setLabel('Type of database')
-                         ->setRequired(true)
-                         ->setMultiOptions(array('PDO_MYSQL' => 'Mysql (PDO)', 'MYSQLI' => 'Mysql (Mysqli)', 'PDO_SQLITE' => 'Sqlite (PDO)'));
+        $database_type->setLabel('Type of database')->setRequired(true)->setMultiOptions(array('PDO_MYSQL' => 'Mysql (PDO)' , 'MYSQLI' => 'Mysql (Mysqli)' , 'PDO_SQLITE' => 'Sqlite (PDO)'));
         $database->addElement($database_type, 'type');
         $database_dbname = new Zend_Form_Element_Text('dbname');
-        $database_dbname->setLabel('Name of database')
-                         ->setRequired(true);
+        $database_dbname->setLabel('Name of database')->setRequired(true);
         $database->addElement($database_dbname, 'dbname');
         $database_host = new Zend_Form_Element_Text('host');
         $database_host->setLabel('Hostname');
@@ -36,8 +33,7 @@ class Jimw_Install_ConfigurationForm extends Zend_Form {
         $this->addSubForm($database, 'database');
         //----------------------------------- Other options
         $options_lang = new Zend_Form_Element_Select('default_lang');
-        $options_lang->setLabel('Default language')
-                     ->setMultiOptions(array('fr' => 'French', 'en' => 'English'));
+        $options_lang->setLabel('Default language')->setMultiOptions(array('fr' => 'French' , 'en' => 'English'));
         $this->addElement($options_lang, 'default_lang');
         $option_debug = new Zend_Form_Element_Checkbox('debug');
         $option_debug->setLabel('Debug mode');
@@ -57,14 +53,11 @@ class Jimw_Install_ConfigurationForm extends Zend_Form {
         $akismet_url = new Zend_Form_Element_Text('akismet_url');
         $akismet_url->setLabel('Akismet Url');
         $this->addElement($akismet_url, 'akismet_url');
-        $this->addDisplayGroup(array('default_lang', 'debug', 'install_protect', 'rewrite', 'utf8', 'akismet_key', 'akismet_url'), 'options', array('legend' => 'Other configuration'));
-
+        $this->addDisplayGroup(array('default_lang' , 'debug' , 'install_protect' , 'rewrite' , 'utf8' , 'akismet_key' , 'akismet_url'), 'options', array('legend' => 'Other configuration'));
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Send');
         $submit->setAttrib('class', 'input_submit');
-
         $this->addElement($submit);
     }
 }
-
 ?>

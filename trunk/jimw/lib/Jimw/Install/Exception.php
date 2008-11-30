@@ -10,5 +10,4 @@
  * @version    $Id: Exception.php 92 2007-09-19 21:41:39Z patou.de.saint.steban $
  */
 class Jimw_Install_Exception extends Jimw_Exception
-{
-}
+{}

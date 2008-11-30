@@ -1,19 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title><?= $this->filename ?></title>
-	<script type="text/javascript" src="<?= $this->path ?>/javascripts/edit_area/edit_area_full.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title><?=$this->filename?></title>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/edit_area/edit_area_full.js"></script>
 </head>
 <body>
-<form name="form" action="<?= $this->url(array('controller' => 'file', 'action' => 'save', 'format' => 'phtml'), 'format', true); ?>" method="post">
-	<fieldset>
-            <input type="hidden" name="filename" value="<?= $this->filename; ?>"/>
-		<textarea id="file" style="height: 350px; width: 100%;" name="file"></textarea>
-	</fieldset>
+<form name="form"
+	action="<?=$this->url(array('controller' => 'file' , 'action' => 'save' , 'format' => 'phtml'), 'format', true);?>"
+	method="post">
+<fieldset><input type="hidden" name="filename"
+	value="<?=$this->filename;?>" /> <textarea id="file"
+	style="height: 350px; width: 100%;" name="file"></textarea></fieldset>
 </form>
 <script type="text/javascript">
-      document.getElementById('file').value = "<?= str_replace('</script>', '</"+"script>', addcslashes($this->file, "'\"\\\n\t\r")); ?>";
+      document.getElementById('file').value = "<?=str_replace('</script>', '</"+"script>', addcslashes($this->file, "'\"\\\n\t\r"));?>";
       function save_file(id, value) {
           var textarea = document.getElementById(id);
           textarea.value = value;
@@ -27,7 +29,7 @@
               , save_callback: "save_file"
               , toolbar: "save, search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, syntax_selection, |, help"
               ,language: "en"
-              , syntax: "<?= $this->filetype; ?>"
+              , syntax: "<?=$this->filetype;?>"
       });	</script>
 </body>
 </html>

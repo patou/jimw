@@ -10,5 +10,4 @@
  * @version    $Id$
  */
 class Jimw_Admin_Exception extends Jimw_Exception
-{
-}
+{}

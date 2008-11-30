@@ -1,4 +1,4 @@
-<?php 
+<?php
 $element = new Jimw_Admin_Element();
 $element->addException($this->exception);
 echo $element, ',';

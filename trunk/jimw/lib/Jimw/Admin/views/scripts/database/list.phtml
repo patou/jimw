@@ -1,54 +1,130 @@
-<h1><img width="16" height="16" border="0" title="<?php echo $this->_('Database') ?>" alt="<?php echo $this->_('Database') ?>" class="folder" border="0" src="<?php echo $this->path; ?>/images/icons/database.png"/>&nbsp;<?php echo $this->_('Database') ?></h1>
-	<table cellpadding="0" cellspacing="0" class="list">
+<h1><img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('Database')?>"
+	alt="<?php
+echo $this->_('Database')?>" class="folder" border="0"
+	src="<?php
+echo $this->path;
+?>/images/icons/database.png" />&nbsp;<?php
+echo $this->_('Database')?></h1>
+<table cellpadding="0" cellspacing="0" class="list">
 	<thead>
 		<tr>
-			<th style="width:16px">&nbsp;</th>
-			<th style="width:50px"><?php echo $this->_('Type') ?></th>
-			<th style="width:100px"><?php echo $this->_('Server') ?></th>
-			<th style="width:50px"><?php echo $this->_('Port') ?></th>
-			<th style="width:100px"><?php echo $this->_('Name') ?></th>
-			<th style="width:100px"><?php echo $this->_('User') ?></th>
-			<th style="width:150px"><?php echo $this->_('Prefix') ?></th>
-			<th style="width:40px" align="right"><?php echo $this->_('Action') ?></th>
+			<th style="width: 16px">&nbsp;</th>
+			<th style="width: 50px"><?php
+echo $this->_('Type')?></th>
+			<th style="width: 100px"><?php
+echo $this->_('Server')?></th>
+			<th style="width: 50px"><?php
+echo $this->_('Port')?></th>
+			<th style="width: 100px"><?php
+echo $this->_('Name')?></th>
+			<th style="width: 100px"><?php
+echo $this->_('User')?></th>
+			<th style="width: 150px"><?php
+echo $this->_('Prefix')?></th>
+			<th style="width: 40px" align="right"><?php
+echo $this->_('Action')?></th>
 		</tr>
 	</thead>
 	<?php
-		foreach ($this->databases_list as $database): ?>
+foreach ($this->databases_list as $database) :
+    ?>
 		<tr>
-			<td>
-			<?php echo $this->escape($database->id); ?></td>
-			<td>
-			<?php echo $this->escape($database->type); ?>
+		<td>
+			<?php
+    echo $this->escape($database->id);
+    ?></td>
+		<td>
+			<?php
+    echo $this->escape($database->type);
+    ?>
 			</td>
-			<td>
-			<?php echo $this->escape($database->server); ?>
+		<td>
+			<?php
+    echo $this->escape($database->server);
+    ?>
 			</td>
-			<td>
-			<?php echo $this->escape($database->port); ?>
+		<td>
+			<?php
+    echo $this->escape($database->port);
+    ?>
 			</td>
-			<td>
-			<?php echo $this->escape($database->name); ?>
+		<td>
+			<?php
+    echo $this->escape($database->name);
+    ?>
 			</td>
-			<td>
-			<?php echo $this->escape($database->user); ?>
+		<td>
+			<?php
+    echo $this->escape($database->user);
+    ?>
 			</td>
-			<td>
-			<?php echo $this->escape($database->prefix); ?>
+		<td>
+			<?php
+    echo $this->escape($database->prefix);
+    ?>
 			</td>
-			<td align="right">
-				<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'edit', 'format' => 'phtml', 'id' => $database->id), 'format', true); ?>">
-					<img width="16" height="18" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/database_edit.png"/>
-				</a>
-				<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'delete', 'format' => 'phtml', 'id' => $database->id), 'format', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Database ?')); ?>');">
-					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/database_delete.png"/>
-				</a>
-			</td>
-		</tr>
-	<?php endforeach; ?>
+		<td align="right"><a
+			href="<?php
+    echo $this->url(array('controller' => 'database' , 'action' => 'edit' , 'format' => 'phtml' , 'id' => $database->id), 'format', true);
+    ?>">
+		<img width="16" height="18" border="0"
+			title="<?php
+    echo $this->_('Edit')?>"
+			alt="<?php
+    echo $this->_('Edit')?>" class="folder"
+			src="<?php
+    echo $this->path;
+    ?>/images/icons/database_edit.png" /> </a>
+		<a
+			href="<?php
+    echo $this->url(array('controller' => 'database' , 'action' => 'delete' , 'format' => 'phtml' , 'id' => $database->id), 'format', true);
+    ?>"
+			onclick="return confirm('<?php
+    echo $this->escape($this->_('Do you really want to delete this Database ?'));
+    ?>');">
+		<img width="16" height="18" border="0"
+			title="<?php
+    echo $this->_('Delete')?>"
+			alt="<?php
+    echo $this->_('Delete')?>" class="folder"
+			src="<?php
+    echo $this->path;
+    ?>/images/icons/database_delete.png" />
+		</a></td>
+	</tr>
+	<?php
+endforeach;
+?>
 	</table>
 <br />
-<a href="<?php echo $this->url(array('controller' => 'database', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
-<img width="16" height="18" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/database_add.png"/>&nbsp;<?php echo $this->_('Add'); ?></a>
+<a
+	href="<?php
+echo $this->url(array('controller' => 'database' , 'action' => 'add' , 'format' => 'phtml'), 'format', true);
+?>">
+<img width="16" height="18" border="0"
+	title="<?php
+echo $this->_('Return')?>"
+	alt="<?php
+echo $this->_('Return')?>" class="folder"
+	src="<?php
+echo $this->path;
+?>/images/icons/database_add.png" />&nbsp;<?php
+echo $this->_('Add');
+?></a>
 <hr />
-<a href="<?php echo $this->url(array('controller' => 'system'), 'format', true); ?>">
-<img width="16" height="18" border="0" title="<?php echo $this->_('Return') ?>" alt="<?php echo $this->_('Return') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_undo.png"/>&nbsp;<?php echo $this->_('Return'); ?></a>
+<a
+	href="<?php
+echo $this->url(array('controller' => 'system'), 'format', true);
+?>">
+<img width="16" height="18" border="0"
+	title="<?php
+echo $this->_('Return')?>"
+	alt="<?php
+echo $this->_('Return')?>" class="folder"
+	src="<?php
+echo $this->path;
+?>/images/icons/arrow_undo.png" />&nbsp;<?php
+echo $this->_('Return');
+?></a>

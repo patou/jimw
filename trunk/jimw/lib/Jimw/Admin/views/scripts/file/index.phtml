@@ -2,82 +2,110 @@
 	"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="keywords" content="extjs,ext,ux,javascript,library,web development,web design,dhtml,widget,webdev,component,control,tree,file,gui,interface,effect,example,demo,download,howto,yui-ext,theme,aero,vista,skin,animation">
-	<title><?php echo $this->request->getDomainName (); ?> - Administration</title>
-	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/javascripts/extjs/resources/css/ext-all.css">
-	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/uploadform.css">
-	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/icons.css">
-	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/filetree.css">
-	<link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/filetype.css">
-    <link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/rged.css">
-	<link rel="shortcut icon" href="<?= $this->path ?>/images/icons/page_white_stack.png" type="image/png">
-	<script type="text/javascript">
-		var path = "<?= rtrim($this->path, '/') ?>";
-		var basename = "<?= rtrim($this->url(array(), 'default', true), '/'); ?>";
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="keywords"
+	content="extjs,ext,ux,javascript,library,web development,web design,dhtml,widget,webdev,component,control,tree,file,gui,interface,effect,example,demo,download,howto,yui-ext,theme,aero,vista,skin,animation">
+<title><?php
+echo $this->request->getDomainName();
+?> - Administration</title>
+<link rel="stylesheet" type="text/css"
+	href="<?=$this->path?>/javascripts/extjs/resources/css/ext-all.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$this->path?>/stylesheets/uploadform.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$this->path?>/stylesheets/icons.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$this->path?>/stylesheets/filetree.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$this->path?>/stylesheets/filetype.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$this->path?>/stylesheets/rged.css">
+<link rel="shortcut icon"
+	href="<?=$this->path?>/images/icons/page_white_stack.png"
+	type="image/png">
+<script type="text/javascript">
+		var path = "<?=rtrim($this->path, '/')?>";
+		var basename = "<?=rtrim($this->url(array(), 'default', true), '/');?>";
 	</script>
 <style type="text/css">
 .loading-indicator {
-    font-size:11px;
-    background-image:url('/javascripts/extjs/resources/images/default/grid/loading.gif');
-    background-repeat: no-repeat;
-    background-position:top left;
-    padding-left:20px;
-	height:18px;
-	text-align:left;
+	font-size: 11px;
+	background-image:
+		url('/javascripts/extjs/resources/images/default/grid/loading.gif');
+	background-repeat: no-repeat;
+	background-position: top left;
+	padding-left: 20px;
+	height: 18px;
+	text-align: left;
 }
-#loading-mask{
-	position:absolute;
-	left:0;
-	top:0;
-    width:100%;
-    height:100%;
-    z-index:20000;
-    background-color:white;
+
+#loading-mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 20000;
+	background-color: white;
 }
-#loading{
-	position:absolute;
-	left:45%;
-	top:40%;
-	padding:2px;
-	z-index:20001;
-    height:auto;
+
+#loading {
+	position: absolute;
+	left: 45%;
+	top: 40%;
+	padding: 2px;
+	z-index: 20001;
+	height: auto;
 }
+
 #loading img {
-    margin-bottom:5px;
+	margin-bottom: 5px;
 }
-#loading .loading-indicator{
-	background:white;
-	color:#555;
-	font:bold 13px tahoma,arial,helvetica;
-	padding:10px;
-	margin:0;
-    text-align:center;
-    height:auto;
+
+#loading .loading-indicator {
+	background: white;
+	color: #555;
+	font: bold 13px tahoma, arial, helvetica;
+	padding: 10px;
+	margin: 0;
+	text-align: center;
+	height: auto;
 }
 </style>
 </head>
 
 <body>
-  <div id="loading-mask" style=""></div>
-  <div id="loading">
-    <div class="loading-indicator"><img src="<?= $this->path ?>/javascripts/extjs/resources/images/default/shared/blue-loading.gif" width="32" height="32" style="margin-right:8px;align:absmiddle"/>Loading...</div>
-  </div>
-	<script type="text/javascript" src="<?= $this->path ?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
-	<script type="text/javascript" src="<?= $this->path ?>/javascripts/extjs/ext-all<?= (JIMW_DEBUG_MODE) ? '-debug' : '' ?>.js"></script>
+<div id="loading-mask" style=""></div>
+<div id="loading">
+<div class="loading-indicator"><img
+	src="<?=$this->path?>/javascripts/extjs/resources/images/default/shared/blue-loading.gif"
+	width="32" height="32" style="margin-right: 8px; align: absmiddle" />Loading...</div>
+</div>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/extjs/ext-all<?=(JIMW_DEBUG_MODE) ? '-debug' : ''?>.js"></script>
 
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.form.BrowseButton.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.FileUploader.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.UploadPanel.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.FileTreeMenu.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/Ext.ux.FileTreePanel.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/rged.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/history.js"></script>
-    <script type="text/javascript" src="<?= $this->path ?>/javascripts/locale/fr_FR.js"></script>
-    <div id="menu"></div>
-    <div id="tree"></div>
-    <div id="grid"></div>
-    </body>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/Ext.ux.form.BrowseButton.js"></script>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/Ext.ux.FileUploader.js"></script>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/Ext.ux.UploadPanel.js"></script>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/Ext.ux.FileTreeMenu.js"></script>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/Ext.ux.FileTreePanel.js"></script>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/rged.js"></script>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/history.js"></script>
+<script type="text/javascript"
+	src="<?=$this->path?>/javascripts/locale/fr_FR.js"></script>
+<div id="menu"></div>
+<div id="tree"></div>
+<div id="grid"></div>
+</body>
 </html>
 
 
