@@ -1,0 +1,2 @@
+ALTER TABLE `{PREFIX}shopsongorder` ADD `shopsongorder_albummusiclist` TEXT NOT NULL AFTER `shopsongorder_date` ,
+ADD `shopsongorder_albumscorelist` TEXT NOT NULL AFTER `shopsongorder_albummusiclist` ;
