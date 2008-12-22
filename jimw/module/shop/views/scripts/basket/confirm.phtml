@@ -1,27 +1,20 @@
 <h2>Contenu de votre commande</h2>
-<?php if (is_null($this->songs)): ?>
+<?php if (count($this->score) == 0 && count($this->albumscore) == 0 && 
+          count($this->music) == 0 && count($this->albummusic) == 0): ?>
 <p>Votre commande est vide.</p>
 <?php else: ?>
+<?php $sum = 0; ?>
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-<p>Partitions sélectionnées :</p>
-<ul>
-<?php
-$sum = 0;
-foreach ($this->songs as $song) {
-	$sum += $song->scoreprice;
-	echo "<li>".$song->title."</li>";
-}
-?>
-</ul>
+<?php include_once('list.phtml'); ?>
 <p>Total : <b><?php echo $sum ?> &euro;</b></p>
 
 <p>Nom : <?php echo $this->item->name; ?></p>
-<p>Prénom : <?php echo $this->item->firstname; ?></p>
+<p>PrÃ©nom : <?php echo $this->item->firstname; ?></p>
 <p>Email : <?php echo $this->item->email; ?></p>
 
-<p><b>Merci de conserver la référence de la transaction : <?php echo $this->orderid; ?></b></p>
+<p><b>Merci de conserver la rÃ©fÃ©rence de la transaction : <?php echo $this->orderid; ?></b></p>
 
-<p>Cliquez sur le bouton <b>Payer</b> ci-dessous pour procéder au paiement. Ensuite, sur la page qui va s'afficher, cliquez sur le lien <b>Continuer</b> en bas à gauche, qui se trouve en dessous de <b>Vous n'avez pas de compte PayPal ?</b></p>
+<p>Cliquez sur le bouton <b>Payer</b> ci-dessous pour procÃ©der au paiement. Ensuite, sur la page qui va s'afficher, cliquez sur le lien <b>Continuer</b> en bas Ã  gauche, qui se trouve en dessous de <b>Vous n'avez pas de compte PayPal ?</b></p>
 
 <input type="hidden" name="cmd" value="_xclick">
 <input type="hidden" name="business" value="clients@logisim.fr">
@@ -39,5 +32,4 @@ foreach ($this->songs as $song) {
 <input type="image" src="https://www.paypal.com/fr_FR/FR/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="">
 <img alt="" border="0" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
 </form>
-
 <?php endif; ?>

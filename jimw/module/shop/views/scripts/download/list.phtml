@@ -1,43 +1,34 @@
 <h2>Contenu de votre commande</h2>
-<?php if (is_null($this->songs)): ?>
+<?php if (count($this->music) == 0 && count($this->albummusic) == 0 && count($this->score) == 0 && count($this->albumscore) == 0): ?>
 <p>Votre commande est vide.</p>
 <?php else: ?>
-<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-<p>Partitions sélectionnées :</p>
-<ul>
+
+<?php if (count($this->music) > 0 || count($this->albummusic)): ?>
+<h3>Fichiers MP3 :</h3><p>
 <?php
-$sum = 0;
-foreach ($this->songs as $song) {
-	$sum += $song->scoreprice;
-	echo "<li>".$song->title."</li>";
+foreach ($this->albummusic as $album) {
+  echo "<img src=\"".$this->path."/shop/albummusic.png\" alt=\"Fichiers MP3\" title=\"Fichiers MP3\" /> ";
+	echo "Album : ".$album->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'download', 'action' => 'albummusic', 'orderid' => $this->order->id, 'key' => $this->order->key, 'id' => $album->id), 'format', true)."\">[TÃ©lÃ©charger]</a><br />";
+}
+foreach ($this->music as $song) {
+  echo "<img src=\"".$this->path."/shop/music.png\" alt=\"Fichier MP3\" title=\"Fichier MP3\" /> ";
+	echo $song->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'download', 'action' => 'music', 'orderid' => $this->order->id, 'key' => $this->order->key, 'id' => $song->id), 'format', true)."\">[TÃ©lÃ©charger]</a><br />";
 }
 ?>
-</ul>
-<p>Total : <b><?php echo $sum ?> &euro;</b></p>
+<?php endif; ?>
 
-<p>Nom : <?php echo $this->item->name; ?></p>
-<p>Prénom : <?php echo $this->item->firstname; ?></p>
-<p>Email : <?php echo $this->item->email; ?></p>
-
-<p><b>Merci de conserver la référence de la transaction : <?php echo $this->orderid; ?></b></p>
-
-<p>Cliquez sur le bouton <b>Payer</b> ci-dessous pour procéder au paiement. Ensuite, sur la page qui va s'afficher, cliquez sur le lien <b>Continuer</b> en bas à gauche, qui se trouve en dessous de <b>Vous n'avez pas de compte PayPal ?</b></p>
-
-<input type="hidden" name="cmd" value="_xclick">
-<input type="hidden" name="business" value="clients@logisim.fr">
-<input type="hidden" name="lc" value="FR">
-<input type="hidden" name="item_name" value="Partitions sur le site du MEJ">
-<input type="hidden" name="item_number" value="<?php echo $this->orderid; ?>">
-<input type="hidden" name="amount" value="<?php echo $sum; ?>">
-<input type="hidden" name="currency_code" value="EUR">
-<input type="hidden" name="no_note" value="1">
-<input type="hidden" name="no_shipping" value="1">
-<input type="hidden" name="rm" value="1">
-<input type="hidden" name="return" value="http://www.mej.fr">
-<input type="hidden" name="cancel_return" value="http://www.mej.fr">
-<input type="hidden" name="bn" value="PP-BuyNowBF:btn_paynowCC_LG.gif:NonHosted">
-<input type="image" src="https://www.paypal.com/fr_FR/FR/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="">
-<img alt="" border="0" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-</form>
+<?php if (count($this->score) > 0 || count($this->albumscore)): ?>
+<h3>Partitions sÃ©lectionnÃ©es :</h3><p>
+<?php
+foreach ($this->albumscore as $album) {
+  echo "<img src=\"".$this->path."/shop/albumscore.png\" alt=\"Partitions au format PDF\" title=\"Partitions au format PDF\" /> ";
+	echo "Album : ".$album->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'download', 'action' => 'albumscore', 'orderid' => $this->order->id, 'key' => $this->order->key, 'id' => $album->id), 'format', true)."\">[TÃ©lÃ©charger]</a><br />";
+}
+foreach ($this->score as $song) {
+  echo "<img src=\"".$this->path."/shop/score.png\" alt=\"Partitions au format PDF\" title=\"Partitions au format PDF\" /> ";
+	echo $song->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'download', 'action' => 'score', 'orderid' => $this->order->id, 'key' => $this->order->key, 'id' => $song->id), 'format', true)."\">[TÃ©lÃ©charger]</a><br />";
+}
+?>
+<?php endif; ?>
 
 <?php endif; ?>

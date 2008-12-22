@@ -23,7 +23,7 @@ class Shop_ShopController extends Jimw_Module_Action_Alias
 		$albummodel = new ShopAlbum();
 		$albums = $albummodel->findByTree($tree->id);
 		$this->view->albums = $albums;
-		
+		$this->view->basket = new Zend_Session_Namespace('Basket');
 		$this->view->tree = $tree;
 		$this->render('album');
 	}
