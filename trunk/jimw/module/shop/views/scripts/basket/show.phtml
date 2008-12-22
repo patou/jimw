@@ -3,7 +3,7 @@
           count($this->music) == 0 && count($this->albummusic) == 0): ?>
 <p>Votre panier est vide.</p>
 <?php else: ?>
-<?php $sum = 0; ?>
+<?php $sum = 0; $readonly = false; ?>
 <form method="post" action="<?php echo $this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'buy'), 'format', true); ?>">
 <?php include_once('list.phtml'); ?>
 <p>Total : <b><?php echo $sum ?> &euro;</b></p>

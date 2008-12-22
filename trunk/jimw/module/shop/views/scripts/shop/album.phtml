@@ -1,6 +1,10 @@
 <form method="post" action="<?php echo $this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'add'), 'format', true); ?>">
 <?php
 
+function formatprice($price) {
+  return (substr($price, -3) == '.00' ? substr($price, 0, -3) : $price);
+}
+
 $rep = trim($this->tree->getParam('dir'), '/');
 $dir = rtrim('/' . $this->tree->site->path, '/') . '/' . $rep . 'shop/';
 
@@ -18,12 +22,12 @@ foreach ($this->albums as $album) {
   if ($album->musicprice > 0) {
     echo "<img src=\"".$this->path."/shop/albummusic.png\" alt=\"Fichiers MP3\" title=\"Fichiers MP3\" /> ";
     $disabled = (isset($this->basket->albummusic[$album->id])) ? " disabled=\"disabled\"" : "";
-    echo "<input type=\"checkbox\" name=\"checkalbummusic[".$album->id."]\" value=\"1\" $disabled/> Acheter l'album complet<br />";
+    echo "<input type=\"checkbox\" name=\"checkalbummusic[".$album->id."]\" value=\"1\" $disabled/> Acheter l'album complet (".formatprice($album->musicprice)." &euro;)<br />";
   }
   if ($album->scoreprice > 0) {
     echo "<img src=\"".$this->path."/shop/albumscore.png\" alt=\"Partitions au format PDF\" title=\"Partitions au format PDF\" /> ";
     $disabled = (isset($this->basket->albumscore[$album->id])) ? " disabled=\"disabled\"" : "";
-    echo "<input type=\"checkbox\" name=\"checkalbumscore[".$album->id."]\" value=\"1\" $disabled/> Acheter toutes les partitions<br />";
+    echo "<input type=\"checkbox\" name=\"checkalbumscore[".$album->id."]\" value=\"1\" $disabled/> Acheter toutes les partitions (".formatprice($album->scoreprice)." &euro;)<br />";
   }
 
 
@@ -50,7 +54,7 @@ foreach ($this->albums as $album) {
       $disabled = (isset($this->basket->music[$song->id]) || isset($this->basket->albummusic[$song->shopalbum_id])) ? " disabled=\"disabled\"" : "";
       echo "<img src=\"".$this->path."/shop/music.png\" alt=\"Fichier MP3\" title=\"Fichier MP3\" /> ";
       echo "<input type=\"checkbox\" name=\"checkmusic[".$song->id."]\" value=\"1\" $disabled/> ";
-      echo $song->musicprice." &euro;";
+      echo formatprice($song->musicprice)." &euro;";
     } else echo '&nbsp;';
     echo "</td><td>";
     // Score checkbox
@@ -58,7 +62,7 @@ foreach ($this->albums as $album) {
       $disabled = (isset($this->basket->score[$song->id]) || isset($this->basket->albumscore[$song->shopalbum_id])) ? " disabled=\"disabled\"" : "";
       echo "<img src=\"".$this->path."/shop/score.png\" alt=\"Partitions au format PDF\" title=\"Partitions au format PDF\" /> ";
       echo "<input type=\"checkbox\" name=\"checkscore[".$song->id."]\" value=\"1\" $disabled/> ";
-      echo $song->scoreprice." &euro;";
+      echo formatprice($song->scoreprice)." &euro;";
     } else echo '&nbsp;';
     echo "</td><td>";
 		

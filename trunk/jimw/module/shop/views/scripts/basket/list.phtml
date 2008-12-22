@@ -3,13 +3,15 @@
 <?php
 foreach ($this->albummusic as $album) {
 	$sum += $album->musicprice;
-  echo "<img src=\"".$this->path."/shop/albummusic.png\" alt=\"Fichiers MP3\" title=\"Fichiers MP3\" /> ";
-	echo "Album : ".$album->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletealbummusic', 'id' => $album->id), 'format', true)."\">[Retirer du panier]</a><br />";
+  echo "<img src=\"".$this->path."/shop/albummusic.png\" alt=\"Fichiers MP3\" title=\"Fichiers MP3\" /> Album : ".$album->title;
+	if (!$readonly) echo " <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletealbummusic', 'id' => $album->id), 'format', true)."\">[Retirer du panier]</a>";
+	echo "<br />";
 }
 foreach ($this->music as $song) {
 	$sum += $song->musicprice;
-  echo "<img src=\"".$this->path."/shop/music.png\" alt=\"Fichier MP3\" title=\"Fichier MP3\" /> ";
-	echo $song->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletemusic', 'id' => $song->id), 'format', true)."\">[Retirer du panier]</a><br />";
+  echo "<img src=\"".$this->path."/shop/music.png\" alt=\"Fichier MP3\" title=\"Fichier MP3\" /> ".$song->title;
+	if (!$readonly) echo " <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletemusic', 'id' => $song->id), 'format', true)."\">[Retirer du panier]</a>";
+	echo "<br />";
 }
 ?>
 <?php endif; ?>
@@ -19,13 +21,15 @@ foreach ($this->music as $song) {
 <?php
 foreach ($this->albumscore as $album) {
 	$sum += $album->scoreprice;
-  echo "<img src=\"".$this->path."/shop/albumscore.png\" alt=\"Partitions au format PDF\" title=\"Partitions au format PDF\" /> ";
-	echo "Album : ".$album->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletealbumscore', 'id' => $album->id), 'format', true)."\">[Retirer du panier]</a><br />";
+  echo "<img src=\"".$this->path."/shop/albumscore.png\" alt=\"Partitions au format PDF\" title=\"Partitions au format PDF\" /> Album : ".$album->title;
+	if (!$readonly) echo " <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletealbumscore', 'id' => $album->id), 'format', true)."\">[Retirer du panier]</a>";
+	echo "<br />";
 }
 foreach ($this->score as $song) {
 	$sum += $song->scoreprice;
-  echo "<img src=\"".$this->path."/shop/score.png\" alt=\"Partitions au format PDF\" title=\"Partitions au format PDF\" /> ";
-	echo $song->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletescore', 'id' => $song->id), 'format', true)."\">[Retirer du panier]</a><br />";
+  echo "<img src=\"".$this->path."/shop/score.png\" alt=\"Partitions au format PDF\" title=\"Partitions au format PDF\" /> ".$song->title;
+	if (!$readonly) echo " <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletescore', 'id' => $song->id), 'format', true)."\">[Retirer du panier]</a>";
+	echo "<br />";
 }
 ?>
 <?php endif; ?>
