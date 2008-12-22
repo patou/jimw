@@ -1,0 +1,31 @@
+<?php if (count($this->music) > 0 || count($this->albummusic)): ?>
+<h3>Fichiers MP3 sélectionnés :</h3><p>
+<?php
+foreach ($this->albummusic as $album) {
+	$sum += $album->musicprice;
+  echo "<img src=\"".$this->path."/shop/albummusic.png\" alt=\"Fichiers MP3\" title=\"Fichiers MP3\" /> ";
+	echo "Album : ".$album->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletealbummusic', 'id' => $album->id), 'format', true)."\">[Retirer du panier]</a><br />";
+}
+foreach ($this->music as $song) {
+	$sum += $song->musicprice;
+  echo "<img src=\"".$this->path."/shop/music.png\" alt=\"Fichier MP3\" title=\"Fichier MP3\" /> ";
+	echo $song->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletemusic', 'id' => $song->id), 'format', true)."\">[Retirer du panier]</a><br />";
+}
+?>
+<?php endif; ?>
+
+<?php if (count($this->score) > 0 || count($this->albumscore)): ?>
+<h3>Partitions sélectionnées :</h3><p>
+<?php
+foreach ($this->albumscore as $album) {
+	$sum += $album->scoreprice;
+  echo "<img src=\"".$this->path."/shop/albumscore.png\" alt=\"Partitions au format PDF\" title=\"Partitions au format PDF\" /> ";
+	echo "Album : ".$album->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletealbumscore', 'id' => $album->id), 'format', true)."\">[Retirer du panier]</a><br />";
+}
+foreach ($this->score as $song) {
+	$sum += $song->scoreprice;
+  echo "<img src=\"".$this->path."/shop/score.png\" alt=\"Partitions au format PDF\" title=\"Partitions au format PDF\" /> ";
+	echo $song->title." <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'deletescore', 'id' => $song->id), 'format', true)."\">[Retirer du panier]</a><br />";
+}
+?>
+<?php endif; ?>
