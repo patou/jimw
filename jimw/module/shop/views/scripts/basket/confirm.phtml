@@ -3,7 +3,7 @@
           count($this->music) == 0 && count($this->albummusic) == 0): ?>
 <p>Votre commande est vide.</p>
 <?php else: ?>
-<?php $sum = 0; ?>
+<?php $sum = 0; $readonly = true; ?>
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 <?php include_once('list.phtml'); ?>
 <p>Total : <b><?php echo $sum ?> &euro;</b></p>
