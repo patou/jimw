@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Site_View_Helper_TypoFr
+class Jimw_Site_View_Helper_TypoFr extends Zend_View_Helper_Abstract
 {
     function typoFr ($text)
     {

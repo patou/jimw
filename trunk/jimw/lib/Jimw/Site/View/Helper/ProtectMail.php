@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Site_View_Helper_ProtectMail
+class Jimw_Site_View_Helper_ProtectMail extends Zend_View_Helper_Abstract
 {
     public function protectMail ($text)
     {
