@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Site_View_Helper_Troncate
+class Jimw_Site_View_Helper_Troncate extends Zend_View_Helper_Abstract
 {
     public function troncate ($message, $length = 50)
     {

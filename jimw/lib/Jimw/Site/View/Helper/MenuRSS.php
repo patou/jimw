@@ -9,13 +9,8 @@
  * @license    http://www.jimw.fr
  * @version    $Id: Menu.php 175 2008-03-10 18:05:19Z logisim $
  */
-class Jimw_Site_View_Helper_MenuRSS
+class Jimw_Site_View_Helper_MenuRSS extends Zend_View_Helper_Abstract
 {
-    public $view;
-    public function setView (Zend_View_Interface $view)
-    {
-        $this->view = $view;
-    }
     /**
      * Get the menu list
      * If the menu item didn't exist get children the root tree (parentid = 0)

@@ -10,12 +10,11 @@
  * @version    $Id$
  */
 
-class Jimw_Site_View_Helper_AliasLink
+class Jimw_Site_View_Helper_AliasLink extends Zend_View_Helper_Abstract
 {
   public function aliasLink($text) {
 
     $tree = new Jimw_Site_Tree();
-    $urlHelper = new Jimw_Site_View_Helper_Url();
     $result = $text;
     $matches = array();
 
@@ -24,7 +23,7 @@ class Jimw_Site_View_Helper_AliasLink
     for ($i=0; $i<$count; $i++) {
       $page = $tree->fetchRow(array('tree_alias = ?' => $matches[1][$i]));
       if ($page) {
-        $url = $urlHelper->url(array('alias' => $matches[1][$i]), 'alias', true);
+        $url = $this->view->url(array('alias' => $matches[1][$i]), 'alias', true);
         $result = str_replace($matches[0][$i], '<a href="'.$url.'">'.$page->pagetitle.'</a>', $result);
       } else {
         $result = str_replace($matches[0][$i], '<a href="#">???</a>', $result);
@@ -37,7 +36,7 @@ class Jimw_Site_View_Helper_AliasLink
       //$url = $urlHelper->url(array('alias' => $matches[1][$i]), 'alias', true);
       $page = $tree->fetchRow(array('tree_alias = ?' => $matches[1][$i]));
       if ($page) {
-        $url = $urlHelper->url(array('alias' => $matches[1][$i]), 'alias', true);
+        $url = $this->view->url(array('alias' => $matches[1][$i]), 'alias', true);
         $param = ($matches[3][$i] == '' ? '' : str_replace('&quot;','"',substr($matches[3][$i],1,-1).' '));
         $result = str_replace($matches[0][$i], '<a '.$param.'href="'.$url.$matches[2][$i].'">'.$matches[4][$i].'</a>', $result);
       } else {

@@ -9,13 +9,8 @@
  * @license    http://www.jimw.fr
  * @version    $Id: BBCode.php 216 2008-07-08 09:19:12Z logisim $
  */
-class Jimw_Site_View_Helper_BbCode
+class Jimw_Site_View_Helper_BbCode extends Zend_View_Helper_Abstract
 {
-    public $view;
-    public function setView (Zend_View_Interface $view)
-    {
-        $this->view = $view;
-    }
     public function bbCode ($text)
     {
         $dir = rtrim('/' . $this->view->tree->site->path, '/');
