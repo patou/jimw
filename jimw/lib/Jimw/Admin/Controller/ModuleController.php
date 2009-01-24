@@ -47,7 +47,7 @@ class ModuleController extends Jimw_Admin_Action
         if (count($list) == 0)
             $module->delete();
         else {
-            $this->_helper->getHelper('FlashMessenger')->addMessage('This module is used by page, you must delete all page to desactivate this module');
+            $this->_helper->getHelper('FlashMessenger')->addMessage($this->_('This module is used by page, you must delete all page to desactivate this module'));
         }
         $this->_forward('list');
     }

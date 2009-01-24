@@ -9,6 +9,11 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
+
+/**
+ * This controler allow to administrate the list of site in the database of the current website.
+ *
+ */
 class SiteController extends Jimw_Admin_Action
 {
     /**
@@ -18,11 +23,13 @@ class SiteController extends Jimw_Admin_Action
     {
         $this->_forward('list');
     }
+
     public function listAction ()
     {
         $sites = new Jimw_Site_Site();
         $this->view->sites_list = $sites->fetchAll();
     }
+
     public function editAction ()
     {
         $req = $this->getRequest();
@@ -33,7 +40,7 @@ class SiteController extends Jimw_Admin_Action
         $result = $sites->find($id);
         if (! count($result)) {
             Jimw_Debug::dump($result);
-            throw new Jimw_Admin_Exception("The site $id doesn't exist");
+            throw new Jimw_Admin_Exception($this->_("This site doesn't exist"));
         }
         $save = $result->current();
         $form = new Jimw_Admin_Form_SiteForm();
@@ -57,6 +64,7 @@ class SiteController extends Jimw_Admin_Action
             $this->render('form');
         }
     }
+
     public function addAction ()
     {
         $req = $this->getRequest();

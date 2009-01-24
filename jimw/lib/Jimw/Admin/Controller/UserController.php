@@ -25,28 +25,63 @@ class UserController extends Jimw_Admin_Action
     }
     public function editAction ()
     {
-        $id = $this->_request->getParam('id');
+        $req = $this->getRequest();
+        $id = $req->getParam('id');
         $users = new Jimw_Site_User();
         $user = $users->find($id);
         if (! count($user)) {
             Jimw_Debug::dump($user);
-            throw new Jimw_Admin_Exception("The user $id doesn't exist");
+            throw new Jimw_Admin_Exception($this->_("This user doesn't exist"));
         }
-        $user = $user->current();
-        $this->view->user = $user;
-        $this->view->form_type = 'save';
-        $this->view->id = $id;
-        $this->render('form');
+        $save = $user->current();
+        $form = new Jimw_Admin_Form_UserForm();
+        if ($req->isPost() && $form->isValid($req->getPost())) {
+            $values = $form->getValues();
+            $save->login = $values['user_login'];
+            if (! empty($values['user_password']))
+                $save->password = md5($values['user_password']);
+            $save->firstname = $values['user_firstname'];
+            $save->lastname = $values['user_lastname'];
+            $save->status = 0;
+            $save->email = $values['user_email'];
+            $save->save();
+            $this->_helper->getHelper('FlashMessenger')->addMessage('Save successful ' . $save->login);
+            $this->_forward('index');
+        }
+        else
+        {
+            $form->populate($save->toArray());
+            $form->addSubmit('Save');
+            $this->view->form = $form;
+            $this->render('form');
+        }
     }
     public function addAction ()
     {
-        $req = $this->_request;
+        $req = $this->getRequest();
         $users = new Jimw_Site_User();
-        $user = $users->fetchNew();
-        $this->view->user = $user;
-        $this->view->form_type = 'insert';
-        $this->view->id = '';
-        $this->render('form');
+        $save = $users->fetchNew();
+        $form = new Jimw_Admin_Form_UserForm();
+        if ($req->isPost() && $form->isValid($req->getPost())) {
+            $values = $form->getValues();
+            $save->login = $values['user_login'];
+            if (! empty($values['user_password']))
+                $save->password = md5($values['user_password']);
+            $save->firstname = $values['user_firstname'];
+            $save->lastname = $values['user_lastname'];
+            $save->status = 0;
+            $save->email = $values['user_email'];
+            $save->save();
+            $this->_helper->getHelper('FlashMessenger')->addMessage('Insert successful ' . $save->login);
+            $this->_forward('index');
+        }
+        else
+        {
+            $form->populate($save->toArray());
+            $form->addSubmit('Add');
+            $this->view->form = $form;
+            $this->render('form');
+        }
     }
     public function saveAction ()
     {

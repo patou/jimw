@@ -5,7 +5,7 @@ function size($val){
             } else  {
                 $val = round($val / 1024);
                 if($val < 1024){
-                return $val . ' ko';
+                    return $val . ' ko';
                 }
                 else {
                     $val = round( $val / 1024);
@@ -17,15 +17,15 @@ function size($val){
                     }
                 }
             }
-            return $val . ' o';
 }
 ?>
+<?php $this->headLink()->appendStylesheet($this->path . '/stylesheets/filetree.css')->appendStylesheet($this->path . '/stylesheets/filetype.css'); ?>
 <link rel="stylesheet" type="text/css" href="<?= $this->path ?>/stylesheets/filetree.css" media="screen"/>
 <div class="content">
 		<p><?php echo $this->_('Edit files') ?></p>
 <?php if (isset($this->files['Files'])): ?>
-	<img width="16" height="18" class="folder" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/tree/folder-open.gif"/> 
-	<?php 
+	<img width="16" height="16" class="folder" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/tree/folder-open.gif"/>
+	<?php
 		echo '<a href="', $this->url(array('controller' => 'file', 'action' => 'list', 'format' => 'phtml', 'path' => '/'), 'get', true), '">',$this->_('root'),'</a>&nbsp;/&nbsp;';
 		$p = '';
 		$path = explode('/', $this->file_path);
@@ -40,41 +40,41 @@ function size($val){
 	<thead>
 		<tr>
 			<th style="width:16px">&nbsp;</th>
-			<th style="width:80%"><?php echo $this->_('Name') ?></th>
-			<th style="width:40px"><?php echo $this->_('Size') ?></th>
+			<th style="width:75%"><?php echo $this->_('Name') ?></th>
+			<th style="width:80px"><?php echo $this->_('Size') ?></th>
 			<th style="width:300px" align="right"><?php echo $this->_('Action') ?></th>
 		</tr>
 	</thead>
 	<?php if (isset($this->file_path_up)): ?>
 	<tr>
 		<td>
-		<span class="x-tree-node-el x-tree-node-leaf x-unselectable folder" unselectable="on"><img width="16" height="18" class="x-tree-node-icon" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/s.gif"/></span>
+		<span class="x-tree-node-el x-tree-node-leaf x-unselectable folder" unselectable="on"><img width="16" height="16" class="x-tree-node-icon" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/s.gif"/></span>
 		<td colspan="3">
 		&nbsp;
 			<a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'format' => 'phtml', 'path' => '/' . trim($this->file_path_up, '/')), 'get', true); ?>">&nbsp;..&nbsp;</a>
 		</td>
 	</tr>
-	<?php endif; 
+	<?php endif;
 		foreach ($this->files['Files'] as $file): ?>
 		<tr>
 			<td>
-			<div class="x-tree-node-el x-tree-node-leaf x-unselectable <?= $file['cls'] ?>" unselectable="on"><img width="16" height="18" class="x-tree-node-icon" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/s.gif"/></div>
+			<div class="x-tree-node-el x-tree-node-leaf x-unselectable <?= $file['iconCls'] ?>" style="width: 16px; height: 16px;" unselectable="on"><img width="16" height="16" class="x-tree-node-icon" src="<?php echo $this->path; ?>/javascripts/extjs/resources/images/default/s.gif"/></div>
 			<td>
 			&nbsp;
-			<?php if ($file['cls'] == 'folder') { ?>
+			<?php if ($file['iconCls'] == 'folder') { ?>
 				<a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'format' => 'phtml', 'path' => $file['path']), 'get', true); ?>"><?php echo $file['name'] ?></a>
 			<?php } else { echo $file['name']; }?>
 			</td>
 			<td><?php echo size($file['size']); ?></td>
 			<td align="right">
 				<a href="#" onclick="if (confirm('<?php echo $this->escape($this->_('Do you realy want to delete this file ?')) ?>')) window.location = '<?php echo $this->url(array('controller' => 'file', 'action' => 'delete', 'format' => 'phtml', 'file' => $file['path']), 'get', true); ?>'">
-					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>
+					<img width="16" height="16" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" <?= ($file['iconCls'] == 'folder') ? 'class="folder"' : '' ?> src="<?php echo $this->path; ?>/images/icons/cross.png"/>
 				</a>
 				<a href="#" onclick="var name = prompt('<?php echo $this->escape($this->_('Rename to ?')) ?>', '<?php echo $file['name']; ?>'); if (name != null && name != '<?php echo $file['name']; ?>') window.location = '<?php echo $this->url(array('controller' => 'file', 'action' => 'rename', 'oldname' => $file['path'], 'format' => 'phtml'), 'get', true); ?>&newname=<?php echo str_replace('/', '%2F', $this->file_path . '/'); ?>' + name;">
-					<img width="16" height="18" border="0" title="<?php echo $this->_('Rename') ?>" alt="<?php echo $this->_('Rename') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/pencil.png"/>
+					<img width="16" height="16" border="0" title="<?php echo $this->_('Rename') ?>" alt="<?php echo $this->_('Rename') ?>" <?= ($file['iconCls'] == 'folder') ? 'class="folder"' : '' ?> src="<?php echo $this->path; ?>/images/icons/pencil.png"/>
 				</a>
 				<a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'download', 'format' => 'phtml', 'file' => $file['path']), 'get', true); ?>">
-					<img width="16" height="18" border="0" title="<?php echo $this->_('Download') ?>" alt="<?php echo $this->_('Download') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/arrow_down.png"/>
+					<img width="16" height="16" border="0" title="<?php echo $this->_('Download') ?>" alt="<?php echo $this->_('Download') ?>" <?= ($file['iconCls'] == 'folder') ? 'class="folder"' : '' ?> src="<?php echo $this->path; ?>/images/icons/arrow_down.png"/>
 				</a>
 			</td>
 		</tr>
@@ -87,7 +87,7 @@ function size($val){
 	if (!$this->files['success']) { echo '<font color="red">', $this->files['error'], '</font>'; } ?>
 	<br /><a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'format' => 'phtml', 'path' => '/' . trim($this->file_path_up, '/')), 'get', true); ?>"><?php echo $this->_('Return') ?></a>
 	<br />
-	
+
 <?php endif;?>
 </div>
 <div class="sidenav">
@@ -104,4 +104,3 @@ function size($val){
 				<input type="submit" value="<?php echo $this->_('Submit') ?>" />
 			</form>
 </div>
-		
