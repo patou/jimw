@@ -25,32 +25,62 @@ class GroupController extends Jimw_Admin_Action
     }
     public function editAction ()
     {
-        $id = $this->_request->getParam('id');
+        $req = $this->_request;
+        $id = $req->getParam('id');
         $groups = new Jimw_Site_Group();
-        $group = $sites->find($id);
+        $group = $groups->find($id);
         if (! count($group)) {
-            Jimw_Debug::dump($group);
-            throw new Jimw_Admin_Exception("The group $id doesn't exist");
+            throw new Jimw_Admin_Exception($this->_("This group doesn't exist"));
         }
         $group = $group->current();
         if ($group->type == 1) {
-            throw new Jimw_Admin_Exception("You can't edit a system group");
+            throw new Jimw_Admin_Exception($this->_("You can't edit a system group"));
         }
-        $this->view->group = $group;
-        $this->view->form_type = 'save';
-        $this->view->id = $id;
-        $this->render('form');
+        $form = new Jimw_Admin_Form_GroupForm();
+        if ($req->isPost() && $form->isValid($req->getPost()))
+        {
+            $values = $form->getValues();
+            $group->id = $id;
+	        $group->name = $values['group_name'];
+	        $group->parents = $values['group_parents'];
+	        $group->save();
+	        $this->_helper->getHelper('FlashMessenger')->addMessage($this->_('Save successful') . ' ' . $group->id);
+	        $this->_forward('index');
+        }
+        else
+        {
+            $form->populate($group->toArray());
+            $form->addSubmit('Save');
+	        $this->view->group = $group;
+	        $this->view->form = $form;
+	        $this->view->id = $id;
+	        $this->render('form');
+        }
     }
     public function addAction ()
     {
         $req = $this->_request;
         $groups = new Jimw_Site_Group();
         $group = $groups->fetchNew();
-        $this->view->group = $group;
-        $this->view->form_type = 'insert';
-        $this->view->id = '';
-        $this->render('form');
+        $form = new Jimw_Admin_Form_GroupForm();
+        if ($req->isPost() && $form->isValid($req->getPost()))
+        {
+            $values = $form->getValues();
+            $group->name = $values['group_name'];
+	        $group->parents = $values['group_parents'];
+	        $group->save();
+	        $this->_helper->getHelper('FlashMessenger')->addMessage($this->_('Add successful') . ' ' . $group->id);
+	        $this->_forward('index');
+        }
+        else
+        {
+            $form->populate($group->toArray());
+            $form->addSubmit('Insert');
+            $this->view->form = $form;
+            $this->render('form');
+        }
     }
+    /*
     public function saveAction ()
     {
         $req = $this->_request;
@@ -75,22 +105,22 @@ class GroupController extends Jimw_Admin_Action
         $save->save();
         $this->_helper->getHelper('FlashMessenger')->addMessage('Save successful ' . $save->id);
         $this->_forward('index');
-    }
+    }*/
     public function deleteAction ()
     {
         $id = $this->_request->id;
         $groups = new Jimw_Site_Group();
         $group = $groups->find($id);
         if (! count($group)) {
-            throw new Jimw_Admin_Exception("The site $id doesn't exist");
+            throw new Jimw_Admin_Exception($this->_("This site doesn't exist"));
         }
         $group = $group->current();
         if ($group->type == 1) {
-            throw new Jimw_Admin_Exception("You can't delete a system group");
+            throw new Jimw_Admin_Exception($this->_("You can't delete a system group"));
         }
         $url = $group->id;
         $group->delete();
-        $this->_helper->getHelper('FlashMessenger')->addMessage('Delete successful ' . $url);
+        $this->_helper->getHelper('FlashMessenger')->addMessage($this->_('Delete successful') . ' ' . $url);
         $this->_forward('list');
     }
 }

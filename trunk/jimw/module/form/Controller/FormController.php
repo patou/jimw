@@ -18,7 +18,7 @@ class Form_FormController extends Jimw_Module_Action_Alias
 	    $req = $this->getRequest();
 	    $tree = $req->getTree();
 	    $site_path = Zend_Registry::get('site_path', '');
-		$form_file = JIMW_ROOT . $site_path .'/'. $tree->param->form_file;
+		$form_file = JIMW_ROOT . $site_path .'/'. $tree->param['form_file'];
 		if (!empty($tree->param->form_file) && file_exists($form_file)) {
 		    if (strpos($form_file, '.ini') > 0)
 		        $config = new Zend_Config_Ini($form_file);

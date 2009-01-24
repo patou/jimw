@@ -20,7 +20,7 @@ class Gallery_ManageController extends Jimw_Admin_Action
 		}
 		$tree = $result->current();
 		/* @var $tree Jimw_Site_Tree_Row */
-		$this->view->directory = $tree->getParam('dir');
+		$this->view->directory = $tree->param->dir;
 	}
 
 	public function saveAction () {
@@ -32,7 +32,7 @@ class Gallery_ManageController extends Jimw_Admin_Action
 		}
 		$tree = $result->current();
 		/* @var $tree Jimw_Site_Tree_Row */
-		$tree->setParam ('dir', trim($this->_request->directory, '/'));
+		$tree->param->dir = trim($this->_request->directory, '/');
 		$tree->save();
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ');
 		$this->_forward ('index', 'tree', 'default', array('id' => $this->_request->id));

@@ -1,15 +1,7 @@
 <?php
 class Jimw_Admin_Form_SiteForm extends Jimw_Form
 {
-    public function __construct ($options = null)
-    {
-        $form = $this->initForm();
-        if (is_array($options)) {
-            $form = array_merge_recursive($form, $options);
-        }
-        parent::__construct($form);
-    }
-    public function initForm ()
+    protected function initForm ()
     {
         return array(
         'elements' => array(

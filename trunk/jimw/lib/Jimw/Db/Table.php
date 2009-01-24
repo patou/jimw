@@ -13,10 +13,20 @@ class Jimw_Db_Table extends Zend_Db_Table
 {
     protected $_rowClass = 'Jimw_Db_Row';
     protected $_rowsetClass = 'Jimw_Db_Rowset';
+    /**
+     * @var string Save the table name without the prefix
+     */
     protected $_tableName = '';
     const PREFIX = 'prefix';
+    /**
+     * @var string The table prefix (added before the table name)
+     */
     protected $_prefix = 'jimw';
     protected $_isGlobalDb = false;
+    /**
+     * @var array Put the list of parameted field, these field will automatically serialised and unserialised
+     */
+    protected $_paramsField = array();
     /**
      * Constructor.
      *
@@ -103,6 +113,7 @@ class Jimw_Db_Table extends Zend_Db_Table
         }
         return $columnName;
     }
+
     public function insert (array $data)
     {
         // add a timestamp
@@ -114,6 +125,7 @@ class Jimw_Db_Table extends Zend_Db_Table
          */
         return parent::insert($data);
     }
+
     public function update (array $data, $where)
     {
         // add a timestamp
@@ -121,6 +133,11 @@ class Jimw_Db_Table extends Zend_Db_Table
         if (empty($data[$editiondate]))
          */
         return parent::update($data, $where);
+    }
+
+    public function getParamsField()
+    {
+        return $this->_paramsField;
     }
 }
 ?>
