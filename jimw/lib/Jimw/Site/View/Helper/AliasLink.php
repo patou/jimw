@@ -24,9 +24,9 @@ class Jimw_Site_View_Helper_AliasLink extends Zend_View_Helper_Abstract
       $page = $tree->fetchRow(array('tree_alias = ?' => $matches[1][$i]));
       if ($page) {
         $url = $this->view->url(array('alias' => $matches[1][$i]), 'alias', true);
-        $result = str_replace($matches[0][$i], '<a href="'.$url.'">'.$page->pagetitle.'</a>', $result);
+        $result = str_replace($matches[0][$i], '<a href="'.$url.'" class="alias">'.$page->pagetitle.'</a>', $result);
       } else {
-        $result = str_replace($matches[0][$i], '<a href="#">???</a>', $result);
+        $result = str_replace($matches[0][$i], '<a href="#" class="alias">???</a>', $result);
 			}
     }
 
@@ -38,9 +38,10 @@ class Jimw_Site_View_Helper_AliasLink extends Zend_View_Helper_Abstract
       if ($page) {
         $url = $this->view->url(array('alias' => $matches[1][$i]), 'alias', true);
         $param = ($matches[3][$i] == '' ? '' : str_replace('&quot;','"',substr($matches[3][$i],1,-1).' '));
-        $result = str_replace($matches[0][$i], '<a '.$param.'href="'.$url.$matches[2][$i].'">'.$matches[4][$i].'</a>', $result);
+        $class = ($matches[3][$i] == '' && strpos($matches[4][$i], '<') === false ? ' class="alias"' : '');
+        $result = str_replace($matches[0][$i], '<a '.$param.'href="'.$url.$matches[2][$i].'"'.$class.'>'.$matches[4][$i].'</a>', $result);
       } else {
-        $result = str_replace($matches[0][$i], '<a href="#">???</a>', $result);
+        $result = str_replace($matches[0][$i], '<a href="#" class="alias">???</a>', $result);
       }
     }
 
