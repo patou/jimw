@@ -19,20 +19,22 @@ class Blog_MessageController extends Jimw_Admin_Action
 	}
 
 	public function editAction () {
-		$id = $this->_request->id;
-		$this->view->request = $this->_request;
+		$request = $this->getRequest();
+		$id = $request->id;
+		$this->view->request = $request;
 		$this->view->id = $id;
 		$messages = new BlogMessage();
 		$message = $messages->fetchRow(array('blogmessage_id = ?' => $id));
 		if (!$message)
-			throw new Jimw_Admin_Exception('Message didn\'t exist');
+			throw new Jimw_Admin_Exception('Message doesn\'t exist');
 		$this->view->message = $message;
 		$this->view->form_type = 'save';
 		$this->render('form');
 	}
 
 	public function saveAction () {
-		$id = $this->_request->id;
+		$request = $this->getRequest();
+		$id = $request->id;
 		$messages = new BlogMessage();
 		if (is_numeric($id)) {
 		   $message = $messages->fetchRow(array('blogmessage_id = ?' => $id));
@@ -41,21 +43,21 @@ class Blog_MessageController extends Jimw_Admin_Action
 		}
 		if (!$message) {
 			$message = $messages->fetchNew();
-			$message->tree_parentid = $this->_request->treeparentid;
-			$message->header = '';
-			$message->title = $this->_request->title;
-			$message->content = $this->_request->content;
-			$message->date = $this->_request->date;
-			$message->tree_id = $this->_request->treeid;
+			$message->tree_parentid = $request->treeparentid;
+			$message->header = $request->header;
+			$message->title = $request->title;
+			$message->content = $request->content;
+			$message->date = $request->date;
+			$message->tree_id = $request->treeid;
 			$message->user_id = 0;
 			$message->save();
 		} else {
-			$message->header = '';
-			$message->tree_parentid = $this->_request->treeparentid;
-			$message->title = $this->_request->title;
-			$message->content = $this->_request->content;
-			$message->date = $this->_request->date;
-			$message->tree_id = $this->_request->treeid;
+			$message->header = $request->header;
+			$message->tree_parentid = $request->treeparentid;
+			$message->title = $request->title;
+			$message->content = $request->content;
+			$message->date = $request->date;
+			$message->tree_id = $request->treeid;
 			$message->user_id = 0;
 			$message->save ();
 		}
@@ -64,15 +66,16 @@ class Blog_MessageController extends Jimw_Admin_Action
 	}
 
 	public function insertAction () {
-		$id = $this->_request->id;
+		$request = $this->getRequest();
+		$id = $request->id;
 		$messages = new BlogMessage();
 		$message = $messages->fetchNew();
-		$message->tree_parentid = $this->_request->treeparentid;
-		$message->header = '';
-		$message->title = $this->_request->title;
-		$message->content = $this->_request->content;
-		$message->date = $this->_request->date;
-		$message->tree_id = $this->_request->treeid;
+		$message->tree_parentid = $request->treeparentid;
+		$message->header = $request->header;
+		$message->title = $request->title;
+		$message->content = $request->content;
+		$message->date = $request->date;
+		$message->tree_id = $request->treeid;
 		$message->comment = true;
 		Jimw_Debug::dump($message);
 		$message->user_id = 0;
@@ -84,7 +87,7 @@ class Blog_MessageController extends Jimw_Admin_Action
 	public function addAction () {
 		$messages = new BlogMessage();
 		$message = $messages->fetchNew();
-		$message->tree_parentid = $this->_request->getParam('id');
+		$message->tree_parentid = $this->getRequest()->getParam('id');
 		$message->date = @date('Y-m-d H:i:s', time());
 		$this->view->message = $message;
 		$this->view->form_type = 'insert';
@@ -93,11 +96,11 @@ class Blog_MessageController extends Jimw_Admin_Action
 	}
 
 	public function deleteAction () {
-		$id = $this->_request->id;
+		$id = $this->getRequest()->id;
 		$blogs = new BlogMessage();
 		$blog = $blogs->find($id);
 		if (!count($blog)) {
-			throw new Jimw_Admin_Exception('Message didn\' exist');
+			throw new Jimw_Admin_Exception('Message doesn\'t exist');
 
 		}
 		$blog = $blog->current();

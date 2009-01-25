@@ -10,6 +10,7 @@
 <tr><td class="t01"><?= $this->formLabel('title', $this->_('Title')); ?> : </td><td><?= $this->formText('title', $this->message->title, array('size' => 40)); ?></td></tr>
 <tr><td class="t01"><?= $this->formLabel('treeid', $this->_('Read more')); ?> : </td><td>
 <?php echo $this->selectTree('treeid', $this->message->tree_id) ?></td></tr>
+<tr><td class="t01"><?= $this->formLabel('header', $this->_('Header')); ?> : </td><td><?= $this->formTextarea('header', $this->message->header, array('rows' => 2, 'cols' => 60)); ?></td></tr>
 <tr><td class="t01"><?= $this->formLabel('content', $this->_('Content')); ?> : </td><td><?= $this->formTextarea('content', $this->message->content, array('rows' => 20, 'cols' => 60)); ?></td></tr>
 <tr><td colspan="2" align="center"><?= $this->formSubmit('btn', $this->_(ucfirst($this->form_type))); ?></td></tr>
 </table></form>
