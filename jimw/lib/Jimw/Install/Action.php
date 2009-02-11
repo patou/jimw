@@ -1,9 +1,9 @@
 <?php
 /**
- * Jimw_Admin_Action
+ * Jimw_Install_Action
  *
  * @author	   Patou
- * @category   Jimw_Admin
+ * @category   Jimw_Install
  * @package    Jimw
  * @copyright  Copyright (c) 2006-2007 jimw.fr
  * @license    http://www.jimw.fr

@@ -62,7 +62,7 @@ class Blog_MessageController extends Jimw_Admin_Action
 			$message->save ();
 		}
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful');
-		$this->_forward('edit', 'tree', 'default', array('id' => $message->tree_parentid));
+		$this->_redirect($this->view->url(array('action'=>'edit', 'controller' => 'tree', 'module' => 'default', 'id' => $message->tree_parentid), 'format', true), array('prependBase' => false));
 	}
 
 	public function insertAction () {
@@ -81,7 +81,7 @@ class Blog_MessageController extends Jimw_Admin_Action
 		$message->user_id = 0;
 		$message->save();
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Insert successful');
-		$this->_forward('edit', 'tree', 'default', array('id' => $message->tree_parentid));
+		$this->_redirect($this->view->url(array('action'=>'edit', 'controller' => 'tree', 'module' => 'default', 'id' => $message->tree_parentid), 'format', true), array('prependBase' => false));
 	}
 
 	public function addAction () {
@@ -107,7 +107,7 @@ class Blog_MessageController extends Jimw_Admin_Action
 		$blogid = $blog->tree_parentid;
 		$blog->delete ();
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Delete successful');
-		$this->_forward('edit', 'tree', 'default', array('id' => $blogid));
+		$this->_redirect($this->view->url(array('action'=>'edit', 'controller' => 'tree', 'module' => 'default', 'id' => $message->tree_parentid), 'format', true), array('prependBase' => false));
 	}
 }
 ?>

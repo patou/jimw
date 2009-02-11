@@ -1,0 +1,39 @@
+
+<h1><img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('Domain')?>"
+	alt="<?php
+echo $this->_('Domain')?>" class="folder" border="0"
+	src="<?php
+echo $this->path;
+?>/images/icons/world.png" />&nbsp;<?php
+echo $this->_('Site')?></h1>
+<table cellpadding="0" cellspacing="0" class="list">
+	<thead>
+		<tr>
+			<th style="width: 16px">&nbsp;</th>
+			<th style="width: 60%"><?php
+echo $this->_('Name')?></th>
+		</tr>
+	</thead>
+	<?php
+foreach ($this->list as $domain) :
+    ?>
+		<tr>
+		<td>
+			<?php
+    echo $this->escape($domain->id);
+    ?></td>
+		<td>
+		<a href="<?php echo $this->url(); ?>">
+			<?php
+    echo $this->escape($domain->__toString());
+    ?></a>
+			</td>
+	</tr>
+	<?php
+endforeach;
+?>
+	</table>
+<hr />
+<a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'create'), 'get', true); ?>"><?php echo $this->_('Add a new site'); ?></a>

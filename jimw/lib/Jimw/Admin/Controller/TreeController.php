@@ -101,22 +101,10 @@ class TreeController extends Jimw_Admin_Action
             $values = $form->getValues();
             $save->pagetitle = $values['tree_pagetitle'];
             $save->menutitle = $values['tree_menutitle'];
-            $save->parentid = $values['tree_parentid'];
             $save->status = $values['tree_status'];
             $save->alias = $values['tree_alias'];
             $save->description = $values['tree_description'];
             $save->module_path = $req->module_path;
-            if (empty($result->parentid)) { // If the parent tree is the site root
-                $save->parentid = $site->tree_id;
-                $save->site_id = $site->id;
-            }
-            $parent = $tree->find($values['tree_parentid']);
-            if (isset($parent) && count($parent)) {
-                $save->site_id = $parent->current()->site_id;
-            }
-            else {
-                $save->site_id = $site->id;
-            }
             $save->version = 0;
             $save->param = '';
             $save->icon = '';
@@ -130,9 +118,24 @@ class TreeController extends Jimw_Admin_Action
             }
             //Zend_Debug::dump($save);
             $save->save();
+            Jimw_Debug::dump($save);
             $id = $save->id;
-            $this->_helper->getHelper('FlashMessenger')->addMessage('Insert successful ' . $req->tree_pagetitle);
-            $this->_goto('edit', 'tree', 'default', array('id' => $id));
+            //$save = $tree->find($id)->current();
+            $save->parentid = $values['tree_parentid'];
+            if (empty($save->parentid)) { // If the parent tree is the site root
+                $save->parentid = $site->tree_id;
+                $save->site_id = $site->id;
+            }
+            $parent = $tree->find($values['tree_parentid']);
+            if (isset($parent) && count($parent)) {
+                $save->site_id = $parent->current()->site_id;
+            }
+            else {
+                $save->site_id = $site->id;
+            }
+            $save->save();
+            $this->_helper->getHelper('FlashMessenger')->addMessage($this->_('Insert successful') . $req->tree_pagetitle);
+            $this->_redirect($this->view->url(array('action'=>'edit', 'controller' => 'tree', 'module' => 'default', 'id' => $id), 'format', true), array('prependBase' => false));
         } else {
             $this->view->tree = $tree->fetchNew();
             /*$module = new Jimw_Site_Module();

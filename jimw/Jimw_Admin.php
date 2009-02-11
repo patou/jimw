@@ -77,6 +77,7 @@ else {
 	Jimw_Debug::initDebug();
 }
 // Session
+Zend_Session::start();
 $session = new Zend_Session_Namespace('Admin');
 // Global configuration
 if (isset($jimw_config_db))

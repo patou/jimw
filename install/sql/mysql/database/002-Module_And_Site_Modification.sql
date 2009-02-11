@@ -7,7 +7,7 @@ CHANGE `tree_id` `default_tree_id` INT(11) NOT NULL;
 ALTER TABLE  `{PREFIX}site`
 ADD  `tree_id` INT( 11 ) NOT NULL DEFAULT '0' AFTER  `site_id`,
 ADD  `domain_id` INT( 11 ) NOT NULL DEFAULT '1' AFTER  `default_tree_id`,
-ADD  `site_parentid` INT( 11 ) AFTER  `domain_id`,
+ADD  `site_parentid` INT( 11 ) NOT NULL DEFAULT '0' AFTER  `domain_id`,
 ADD  `site_template` VARCHAR( 255 ) NOT NULL AFTER  `site_path` ;
 UPDATE `{PREFIX}site` SET `site_template` = CONCAT(site_path, '/template');
 UPDATE `{PREFIX}tree` t SET t.`module_path` = (SELECT m.`module_path` FROM `{PREFIX}module` m WHERE m.`module_id` = t.`module_id`);

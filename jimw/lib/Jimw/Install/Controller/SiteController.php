@@ -12,14 +12,27 @@ class SiteController extends Jimw_Install_Action
      */
     public function indexAction ()
     {// TODO Auto-generated SiteController::indexAction() default action
-}
+        $this->_forward('list');
+    }
+
     public function listAction ()
-    {}
+    {
+        /**
+		 * @var $db Zend_Db_Adapter_Abstract Database
+		 */
+        /*global $jimw_config_db;
+        $db = Zend_Db::factory($jimw_config_db['type'], $jimw_config_db);
+        $prefix = !empty($jimw_config_db['prefix']) ? $jimw_config_db['prefix'] . '_' : '';
+        $this->view->list = $db->fetchAll($db->select()->from($prefix.'database'));*/
+        $domains = new Jimw_Site_Domain();
+        $this->view->list = $domains->fetchAll();
+    }
+
     public function createAction ()
     {
         $form = new Jimw_Install_SiteCreateForm();
-        Jimw_Debug::dump($this->getRequest()->getPost());
-        if ($form->isValid($this->getRequest()->getPost())) {
+        $req = $this->getRequest();
+        if ($req->isPost() && $form->isValid($req->getPost())) {
             $val = $form->getValues();
             $database = $val['database'];
             Jimw_Debug::dump($database);
@@ -38,12 +51,11 @@ class SiteController extends Jimw_Install_Action
                 $base->name = $database['dbname'];
                 $base->server = $database['host'];
                 $base->user = $database['username'];
-                $base->pass = ! empty($database['password']) ? $database['password'] : '';
+                $base->pass = (! empty($database['password'])) ? $database['password'] : '';
                 $base->type = $database['type'];
                 $base->prefix = $database['prefix'];
                 $base->save();
                 $url = Zend_Uri::factory($val['url']);
-                Jimw_Debug::dump($url);
                 $domains = new Jimw_Site_Domain();
                 $domain = $domains->fetchNew();
                 $domain->site_id = 1;
@@ -76,12 +88,25 @@ class SiteController extends Jimw_Install_Action
                 $new_user->email = $user['mail'];
                 $new_user->status = 1;
                 $new_user->save();
+                //TODO Install Module
+                $trees = new Jimw_Site_Tree();
+                $tree = $trees->fetchNew();
+                $tree->parentid = 0;
+                $tree->site_id = 0;
+                $tree->module_path = '';
+                $tree->pagetitle = $this->_('Home');
+                $tree->description = $this->_('Welcome to your new website, you can now begin to edit it');
+                $tree->user_id = $new_user->id;
+                $tree->save();
                 $sites = new Jimw_Site_Site();
                 $site = $sites->fetchNew();
                 $site->name = $val['title'];
                 $site->path = trim(JIMW_REP_PUBLIC, './');
-                $site->tree_id = 1;
+                $site->tree_id = $tree->id;
+                $site->parent_id = 0;
                 $site->save();
+                $tree->site_id = $site->id;
+                $tree->save();
                 $domain->site_id = $site->id;
                 $domain->save();
                 $this->view->message = 'Create ' . $val['title'] . ' site successful';

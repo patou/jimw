@@ -61,6 +61,9 @@ class Jimw_Install_Controller
     {
         return $this->response;
     }
+    /**
+     * Initialize the translation
+     */
     public function initTranslate ()
     {
         $trans = new Zend_Translate('array', JIMW_REP_LANG . JIMW_LANG . '/common.php', JIMW_LANG);
@@ -68,10 +71,14 @@ class Jimw_Install_Controller
         Zend_Registry::set('Zend_Translate', $trans);
         return $trans;
     }
+    /**
+     * Initialize the view
+     */
     public function initView ()
     {
         $view = new Jimw_Site_View();
         $view->addBasePath(JIMW_REP_LIB . 'Jimw/Install/views/', 'Jimw_Install_View');
+        //$view->addHelperPath(JIMW_REP_LIB . 'Jimw/Admin/views/helpers', 'Jimw_Admin_View_Helper')
         $view->addScriptPath(JIMW_REP_INSTALL);
         $view->setTranslate($this->initTranslate());
         $viewRenderer = new Jimw_Site_View_ViewRenderer();
@@ -108,6 +115,10 @@ class Jimw_Install_Controller
             Jimw_Debug::display_exception($e);
         }
     }
+    /**
+     * Run the controller
+     *
+     */
     public function run ()
     {
         //$this->request = $this->router->route($this->request);

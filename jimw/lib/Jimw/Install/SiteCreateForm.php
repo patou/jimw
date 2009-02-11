@@ -26,7 +26,7 @@ class Jimw_Install_SiteCreateForm extends Zend_Form
         $database_username = new Zend_Form_Element_Text('username');
         $database_username->setLabel('Username');
         $database->addElement($database_username, 'username');
-        $database_password = new Zend_Form_Element_Text('pass');
+        $database_password = new Zend_Form_Element_Text('password');
         $database_password->setLabel('Password');
         $database->addElement($database_password, 'password');
         $database->setLegend('The database of your siteword');

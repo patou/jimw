@@ -71,6 +71,7 @@ if (JIMW_DEBUG_MODE) {
 	Jimw_Debug::initDebug();
 }
 // Session
+Zend_Session::start();
 $session = new Zend_Session_Namespace('Install');
 // Global configuration
 /*if (isset($jimw_config_db))

@@ -149,16 +149,26 @@ class Jimw_Debug extends Zend_Debug
             $queryCount = $profiler->getTotalNumQueries();
             $longestTime = 0;
             $longestQuery = null;
-            foreach ($profiler->getQueryProfiles() as $query) {
-                if ($query->getElapsedSecs() > $longestTime) {
-                    $longestTime = $query->getElapsedSecs();
-                    $longestQuery = $query->getQuery();
+            $list = $profiler->getQueryProfiles();
+            if (!empty($list))
+            {
+                foreach ($list as $query) {
+                    if ($query->getElapsedSecs() > $longestTime) {
+                        $longestTime = $query->getElapsedSecs();
+                        $longestQuery = $query->getQuery();
+                    }
+                    $output .= 'Query : ' . $query->getElapsedSecs() . ' for ' . $query->getQuery() . "<br />\n";
                 }
-                $output .= 'Query : ' . $query->getElapsedSecs() . ' for ' . $query->getQuery() . "<br />\n";
             }
             $title .= ': executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds';
-            $output .= '<br />Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br />\n";
-            $output .= 'Queries per second: ' . $queryCount / $totalTime . "<br />\n";
+            if ($queryCount != 0)
+            {
+                $output .= '<br />Average query length: ' . $totalTime / $queryCount . ' seconds' . "<br />\n";
+            }
+            if ($totalTime != 0)
+            {
+                $output .= 'Queries per second: ' . $queryCount / $totalTime . "<br />\n";
+            }
             $output .= 'Longest query length: ' . $longestTime . "<br />\n";
             $output .= "Longest query: <br />\n" . $longestQuery . "<br />\n";
             return self::display($output, $title, 'blue', $echo);
