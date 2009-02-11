@@ -82,6 +82,9 @@ if (!JIMW_DEBUG_MODE) {
 else {
 	Jimw_Debug::initDebug();
 }
+//Session
+Zend_Session::start();
+$session = new Zend_Session_Namespace('Jimw');
 // Call the Global Controler
 try {
 	$controler = new Jimw_Global_Controller();

@@ -88,12 +88,12 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row
     }
     public function _postInsert ()
     {
-        $parent = $this->_data['tree_parentid'];
+        /*$parent = $this->_data['tree_parentid'];
         if ($parent != 0) {
             $this->_data['tree_parentid'] = 0;
             $this->_table->move_to($this, $parent, Jimw_Site_Tree::CHILD);
             $this->_data['tree_parentid'] = $parent;
-        }
+        }*/
     }
     public function _update ()
     {

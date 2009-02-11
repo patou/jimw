@@ -192,6 +192,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table
         }
         return false;
     }
+
     public function insert (array $data)
     {
         // add a timestamp
@@ -208,6 +209,9 @@ class Jimw_Site_Tree extends Jimw_Db_Table
         }
         if (empty($data['tree_type'])) {
             $data['tree_type'] = 0;
+        }
+        if (empty($data['tree_version'])) {
+            $data['tree_version'] = 0;
         }
         if (empty($data['tree_creationdate'])) {
             $data['tree_creationdate'] = Zend_Date::now()->getIso(); //new Zend_Db_Expr('NOW()');
@@ -313,6 +317,12 @@ class Jimw_Site_Tree extends Jimw_Db_Table
         // add a timestamp
         if (empty($data['tree_editiondate'])) {
             $data['tree_editiondate'] = Zend_Date::now()->getIso(); //new Zend_Db_Expr('NOW()');
+        }
+        if (!empty($data['tree_version'])) {
+            $data['tree_version']++;
+        }
+        else {
+            $data['tree_version'] = 1;
         }
         unset($data['tree_lft']);
         unset($data['tree_rgt']);

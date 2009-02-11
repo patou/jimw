@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id: ErrorController.php 179 2008-03-12 17:17:31Z logisim $
  */
-class ErrorController extends Jimw_Admin_Action
+class ErrorController extends Jimw_Install_Action
 {
     public function errorAction ()
     {
@@ -33,8 +33,8 @@ class ErrorController extends Jimw_Admin_Action
                     $render = '404';
                 } catch (Jimw_Site_Exception_SiteTreeNotFound $e) {
                     $render = '404';
-                } catch (Jimw_Admin_Exception $e) {
-                    $render = 'admin-error';
+                } catch (Jimw_Install_Exception $e) {
+                    $render = 'install-error';
                 } catch (Jimw_Exception $e) {
                     $render = 'site-error';
                 } catch (Zend_Exception $e) {
