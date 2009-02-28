@@ -11,27 +11,55 @@
  */
 include_once (dirname(__FILE__) . '/../../Controller/Model/BlogMessage.php');
 include_once (dirname(__FILE__) . '/../../Controller/Model/BlogComment.php');
+include_once (dirname(__FILE__) . '/../Form/MessageForm.php');
 class Blog_MessageController extends Jimw_Admin_Action
 {
 	public function listAction () {
 		$messages = new BlogMessage();
-		$this->view->messages_list = $messages->fetchAll(array('tree_parentid = ?' => $this->view->id), 'blogmessage_date DESC');
+		$request = $this->getRequest();
+		$id = $request->getParam('id');
+		$result = Zend_Paginator::factory($messages->select()->where('tree_parentid = ?', $id)->order('blogmessage_date DESC'));
+
+		// initialisation des valeurs par défaut
+		$result->setPageRange(10);
+		$result->setItemCountPerPage(10); //TODO $this->module->config->nbPerPage
+		$page = 1;
+		if (isset($request->page))
+		    $page = $request->page;
+		$result->setCurrentPageNumber($page);
+
+		$this->view->messages_list = $result;
+		$this->view->tree_parentid = $id;
 	}
 
 	public function editAction () {
 		$request = $this->getRequest();
-		$id = $request->id;
-		$this->view->request = $request;
-		$this->view->id = $id;
+		$id = $request->blogmessage_id;
+		$form = new MessageForm();
+		$form->addSubmit('Save');
 		$messages = new BlogMessage();
 		$message = $messages->fetchRow(array('blogmessage_id = ?' => $id));
 		if (!$message)
 			throw new Jimw_Admin_Exception('Message doesn\'t exist');
-		$this->view->message = $message;
-		$this->view->form_type = 'save';
-		$this->render('form');
+		if ($request->isPost() && $form->isValid($request->getPost())) {
+            $values = $form->getValues();
+            $message->header = $values['blogmessage_header'];
+			$message->title = $values['blogmessage_title'];
+			$message->content = $values['blogmessage_content'];
+			$message->date = $values['blogmessage_date'];
+			$message->tree_id = $values['tree_id'];
+			$message->save ();
+			$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful');
+			$this->_redirect($this->view->url(array('action'=>'edit', 'controller' => 'tree', 'module' => 'default', 'id' => $message->tree_parentid), 'format', true), array('prependBase' => false));
+		}
+		else {
+		    $form->populate($message->toArray());
+		    Jimw_Debug::dump($message->toArray());
+		    $this->view->form = $form;
+		    $this->render('form');
+		}
 	}
-
+/**
 	public function saveAction () {
 		$request = $this->getRequest();
 		$id = $request->id;
@@ -82,21 +110,38 @@ class Blog_MessageController extends Jimw_Admin_Action
 		$message->save();
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Insert successful');
 		$this->_redirect($this->view->url(array('action'=>'edit', 'controller' => 'tree', 'module' => 'default', 'id' => $message->tree_parentid), 'format', true), array('prependBase' => false));
-	}
+	}*/
 
 	public function addAction () {
+	    $request = $this->getRequest();
+		$id = $request->message_id;
+		$form = new MessageForm();
+		$form->addSubmit('Save');
 		$messages = new BlogMessage();
 		$message = $messages->fetchNew();
-		$message->tree_parentid = $this->getRequest()->getParam('id');
-		$message->date = @date('Y-m-d H:i:s', time());
-		$this->view->message = $message;
-		$this->view->form_type = 'insert';
-		$this->view->id = '';
-		$this->render('form');
+		$message->tree_parentid = $request->getParam('tree_parentid');
+		$message->date = Zend_Date::now()->getIso();
+		if ($request->isPost() && $form->isValid($request->getPost())) {
+            $values = $form->getValues();
+            $message->header = $values['blogmessage_header'];
+			$message->title = $values['blogmessage_title'];
+			$message->content = $values['blogmessage_content'];
+			$message->date = $values['blogmessage_date'];
+			$message->tree_id = $values['tree_id'];
+			$message->save ();
+			$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful');
+			$this->_redirect($this->view->url(array('action'=>'edit', 'controller' => 'tree', 'module' => 'default', 'id' => $message->tree_parentid), 'format', true), array('prependBase' => false));
+		}
+		else {
+		    $form->populate($message->toArray());
+		    Jimw_Debug::dump($message->toArray());
+		    $this->view->form = $form;
+		    $this->render('form');
+		}
 	}
 
 	public function deleteAction () {
-		$id = $this->getRequest()->id;
+		$id = $this->getRequest()->blogmessage_id;
 		$blogs = new BlogMessage();
 		$blog = $blogs->find($id);
 		if (!count($blog)) {

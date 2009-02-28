@@ -1,0 +1,41 @@
+Big commit !!!!
+Format all php file 
+
+Database :
+* Change module key from id to path, add module_path new key in the tree Table 
+* Rename module_config to moduleconfig and change the schema of the table 
+* Change the site table :
+  * Rename the tree_id to default_tree_id (the default page of the site)
+  * Add tree_id : the racine site id (can be different than the default page)
+  * Add domain_id : the default domain for the Site 
+  * Add site_parentid : the parent site id
+  * Add site_template : the site template directory ( by default site_path + "template/")
+* Automatic update table for the new schema
+
+Administration :
+* Add all website on the top of the page
+* Remove the database administration (move to the install administration)
+* Now the administration use all sub site administration
+* Page list :
+  * Add sub site link
+  * Didn't remove the tree, just post it in the recycle bin
+  * Can list the recycle bin and recover an element 
+* Domain Administration : Add a zend Form
+* Site Administration : Add a zend Form
+* Tree Administration : 
+  * Add a zend Form
+  * Change the site id in the tree and his hierarchy
+* Add module icon helper (display the module icon : search if the icon exist in the admin cache icon path or copy it from the module directory)
+* Url helper : Now change the path for the site Domain
+* Authentication :
+  * Add zend Form 
+  * Redirect to the page after the authentication 
+
+Public site :
+* Use the site template path
+* Didn't display none published page in the menu
+
+Global :
+* Remove all existing deprecated function exists() (replaced to the count() function)
+
+

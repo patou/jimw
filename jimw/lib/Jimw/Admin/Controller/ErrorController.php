@@ -15,6 +15,7 @@ class ErrorController extends Jimw_Admin_Action
     {
         $errors = $this->_getParam('error_handler');
         $render = 'error';
+        $this->getResponse()->clearBody();
         $this->view->exception = $errors->exception;
         switch ($errors->type) {
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:

@@ -27,6 +27,8 @@ class Jimw_Db_Table extends Zend_Db_Table
      * @var array Put the list of parameted field, these field will automatically serialised and unserialised
      */
     protected $_paramsField = array();
+
+
     /**
      * Constructor.
      *
@@ -139,5 +141,6 @@ class Jimw_Db_Table extends Zend_Db_Table
     {
         return $this->_paramsField;
     }
+
 }
 ?>

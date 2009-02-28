@@ -16,7 +16,7 @@
  * @package   Zend_Config
  * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Xml.php 11181 2008-09-01 09:41:44Z alexander $
+ * @version   $Id: Xml.php 13854 2009-01-30 06:35:10Z yoshida@zend.co.jp $
  */
 
 /**
@@ -65,6 +65,7 @@ class Zend_Config_Xml extends Zend_Config
         restore_error_handler();
         // Check if there was a error while loading file
         if ($this->_loadFileErrorStr !== null) {
+            require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception($this->_loadFileErrorStr);
         }
 
@@ -204,7 +205,7 @@ class Zend_Config_Xml extends Zend_Config
 
     /**
      * Merge two arrays recursively, overwriting keys of the same name
-     * in $array1 with the value in $array2.
+     * in $firstArray with the value in $secondArray.
      *
      * @param  mixed $firstArray  First array
      * @param  mixed $secondArray Second array to merge into first array

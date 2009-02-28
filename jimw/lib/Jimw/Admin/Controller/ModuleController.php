@@ -55,16 +55,8 @@ class ModuleController extends Jimw_Admin_Action
     {
         $modules = new Jimw_Site_Module();
         $module = $this->_request->module_path;
-        if (is_readable(JIMW_REP_MODULE . '/' . $module . '/jimw.xml')) {
-            $xml = simplexml_load_file(JIMW_REP_MODULE . '/' . $module . '/jimw.xml');
-            $new = $modules->fetchNew();
-            $new->path = $module;
-            $new->name = $xml->name;
-            $new->comment = $xml->comment;
-            $new->version = $xml->version;
-            $new->author = $xml->author;
-            $new->save();
-        }
+        $modules = new Jimw_Site_Module();
+        $modules->install($module);
         $this->_forward('list');
     }
 }

@@ -33,8 +33,9 @@ abstract class Jimw_Install_Action extends Zend_Controller_Action
      * @param string $local
      * @return string
      */
-    public function _ ($messageId, $local = null)
+    public function _ ($messageId)
     {
-        return $this->view->_($messageId, $local);
+        $options = func_get_args();
+        return call_user_func_array(array($this->view->translate(), 'translate'), $options);
     }
 }

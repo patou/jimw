@@ -4,9 +4,11 @@
 	<comment>Display a contact form</comment>
 	<version>1.0</version>
 	<author>Patrice De Saint Steban</author>
-	<module>
-		<params>
-			<elements>
+	<controllers><!-- List of controller can be used by a tree -->
+		<form><!-- Name of the controller -->
+			<name>Formulaire</name><!-- Readable name -->
+			<params><!-- Param form -->
+				<elements>
 				<form_file>
 					<type>text</type>
 					<options>
@@ -44,6 +46,7 @@
 					</options>
 				</email_text>
 			</elements>
-		</params>
-	</module>
+			</params>
+		</form>
+	</controllers>
 </jimwModule>

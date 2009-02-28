@@ -1,5 +1,4 @@
-<h1><?=$this->_('Install JIMW');?></h1>
-<a
-	href="<?=$this->url(array('controller' => 'install' , 'action' => 'configuration'), 'get')?>">&nbsp;->&nbsp;<?=$this->_('Accept the license');?></a>
+<h1><?php echo $this->_('Install JIMW');?></h1>
+<a href="<?php echo $this->url(array('controller' => 'install' , 'action' => 'configuration'), 'get'); ?>">&nbsp;->&nbsp;<?php echo $this->_('Accept the license'); ?></a>
 <br />
-<?=$this->formTextarea('licence', $this->license, array('col' => '80' , 'row' => '30'))?>
+<?php echo $this->formTextarea('licence', $this->license, array('col' => '80' , 'row' => '30')); ?>

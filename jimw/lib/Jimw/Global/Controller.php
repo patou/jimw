@@ -9,33 +9,8 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Global_Controller
+class Jimw_Global_Controller extends Jimw_Controller
 {
-    /**
-     * The request var
-     *
-     * @var Jimw_Global_Request
-     */
-    private $request;
-    /**
-     * The responce var
-     *
-     * @var Zend_Controller_Response_Http
-     */
-    private $response;
-    /**
-     * The Dispatch var
-     *
-     * @var Jimw_Admin_Dispatch
-     */
-    private $dispatch;
-    /**
-     * The global router
-     *
-     * @var Jimw_Global_Router
-     */
-    private $router;
-    private $frontcontroller;
     public function __construct ()
     {
         $this->request = new Jimw_Global_Request();
@@ -43,45 +18,16 @@ class Jimw_Global_Controller
         $this->router = new Jimw_Global_Router();
         $this->dispatch = new Jimw_Site_Dispatch();
     }
-    /**
-     * Get the request var
-     *
-     * @var Jimw_Global_Request
-     */
-    public function getRequest ()
-    {
-        return $this->request;
-    }
-    /**
-     * Get the request var
-     *
-     * @var Zend_Controller_Response_Http
-     */
-    public function getResponse ()
-    {
-        return $this->response;
-    }
-    public function initTranslate ()
-    {
-        $trans = new Zend_Translate('array', JIMW_REP_LANG . JIMW_LANG . '/common.php', JIMW_LANG);
-        Zend_Form::setDefaultTranslator($trans);
-        Zend_Registry::set('Zend_Translate', $trans);
-        return $trans;
-    }
+
     public function initView ()
     {
-        $view = new Jimw_Site_View();
-        $view->addHelperPath(JIMW_REP_LIB . 'Zym/View/Helper', 'Zym_View_Helper');
-        $view->addFilterPath(JIMW_REP_LIB . 'Zym/View/Filter', 'Zym_View_Filter');
+        $view = parent::initView();
         $view->addFilterPath(JIMW_REP_LIB . 'Jimw/Site/View/Filter', 'Jimw_Site_View_Filter_');
         $view->addHelperPath(JIMW_REP_LIB . 'Jimw/Site/View/Helper', 'Jimw_Site_View_Helper_');
         $view->addScriptPath(JIMW_REP_LIB . 'Jimw/view/scripts');
-        $view->setTranslate($this->initTranslate());
-        $viewRenderer = new Jimw_Site_View_ViewRenderer();
-        $viewRenderer->setView($view);
-        Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
         return $view;
     }
+
     private function _registerPlugin ()
     {
         $dir = new DirectoryIterator(JIMW_REP_LIB . 'Jimw/Plugin');
@@ -108,13 +54,13 @@ class Jimw_Global_Controller
         foreach ($modules_list as $module) {
             $name = $module->path;
             $Name = ucfirst($name);
-            $path = JIMW_REP_MODULE . $name . '/Plugin/';
-            if (file_exists($path)) {
-                $dir = new DirectoryIterator($path);
+            $path = JIMW_REP_MODULE . $name;
+            if (file_exists($path . '/Plugin/')) { //Add plugins
+                $dir = new DirectoryIterator($path . '/Plugin/');
                 if ($dir->valid()) {
                     foreach ($dir as $plugin) {
                         if (! $dir->isDot() && ereg("^(.*)\.php$", $plugin, $plugin_info)) {
-                            include_once ($path . $plugin);
+                            include_once ($path . '/Plugin/' . $plugin);
                             $class_name = "Jimw_${Name}_Plugin_${plugin_info[1]}";
                             if (class_exists($class_name)) {
                                 $class = new $class_name();
@@ -124,8 +70,15 @@ class Jimw_Global_Controller
                     }
                 }
             }
+            if (file_exists($path .  '/views/helpers')) { //Add Helper
+                $this->view->addHelperPath($path .  '/views/helpers', $Name . '_View_Helper');
+            }
+            if (file_exists($path .  '/lang')) { //Add Lang file
+                $this->translate->addTranslation($path . '/lang');
+            }
         }
     }
+
     public function run ()
     {
         $this->request = $this->router->route($this->request);
@@ -145,6 +98,7 @@ class Jimw_Global_Controller
         $this->_registerModulePlugin();
         $this->frontcontroller->setResponse($this->response);
         Jimw_Global_Layout::startMvc();
+        $this->initCache();
         $this->frontcontroller->dispatch($this->request, $this->response);
         //Zend_Debug::dump($this->frontcontroller);
     }

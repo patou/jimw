@@ -1,18 +1,19 @@
 <?php
 $this->headLink(array('rel' => 'stylesheet', 'type' => 'text/css', 'href'=> $this->path . '/images/BrightSide.css'));
 $this->headTitle()->prepend('Jimw');
+$this->headTitle()->setSeparator(' / ');
 if (JIMW_UTF8) $this->headMeta('text/html; charset=UTF8', 'content-type');
 if (isset($this->tree->menutitle))
-    $this->headTitle()->append(' - ' . $this->tree->menutitle);
+    $this->headTitle()->append($this->tree->menutitle);
 echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<?= $this->headTitle(); ?>
-<?= $this->headMeta(); ?>
-<?= $this->headLink(); ?>
-<?= $this->headStyle(); ?>
-<?= $this->headScript(); ?>
+<?php echo $this->headTitle(); ?>
+<?php echo $this->headMeta(); ?>
+<?php echo $this->headLink(); ?>
+<?php echo $this->headStyle(); ?>
+<?php echo $this->headScript(); ?>
 </head>
 
 <body>
@@ -23,11 +24,11 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 
 		<h1 id="logo">J<span class="green">i</span>m<span class="gray">w</span></h1>
 		<h2 id="slogan">Just Imagine My Website</h2>
-		<h3 id="title"><?= $this->tree->pagetitle; ?></h3>
+		<h3 id="title"><?php echo $this->tree->pagetitle; ?></h3>
 	</div>
 	<div id="content-wrap">
 
-	<img src="<?= $this->path ?>/images/headerphoto.jpg" width="820" height="120" alt="headerphoto" class="no-border" />
+	<img src="<?php echo $this->path ?>/images/headerphoto.jpg" width="820" height="120" alt="headerphoto" class="no-border" />
 
 		<div id="sidebar" >
 
@@ -36,11 +37,13 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 				echo $this->menu('left', array('ulClassName' => 'sidemenu', 'currentClassName' => 'current',
 												'menuDepth' => 4));
 			?>
-
+			<?php if ($this->getHelperPath('menuRSS')): ?>
 			<h1>Rss</h1>
 			<?php
+
 			echo $this->menuRSS('left', array('ulClassName' => 'sidemenu'));
 			?>
+			<?php endif; ?>
 
 
 		</div>
@@ -55,7 +58,7 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 
 	<div class="footer-left">
 		<p class="align-left">
-		&copy; 2007-2008 <strong>jimw</strong> |
+		&copy; 2007-2009 <strong>Jimw</strong> |
 		Design by <a href="http://www.styleshout.com/">styleshout</a> |
 		Created by <a href="http://www.jesusway.fr">jesusway</a>
 		Valid <a href="http://validator.w3.org/check/referer">XHTML</a> |
@@ -65,7 +68,7 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 
 	<div class="footer-right">
 		<p class="align-right">
-		<a href="/">Home</a>&nbsp;|&nbsp;
+		<a href="/"><?php echo $this->_('Home'); ?></a>&nbsp;|&nbsp;
 		</p>
 	</div>
 

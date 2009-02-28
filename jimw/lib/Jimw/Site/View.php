@@ -39,10 +39,11 @@ class Jimw_Site_View extends Zend_View
      * @param string $local
      * @return string
      */
-    public function _ ($messageId, $local = null)
+    public function _($messageId)
     {
+        $options = func_get_args();
         if ($this->_translate)
-            return $this->_translate->translate($messageId, $local);
+            return call_user_func_array(array($this, 'translate'), $options);
         return $messageId;
     }
     /**

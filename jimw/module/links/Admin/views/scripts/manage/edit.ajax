@@ -1,7 +1,7 @@
 <?php
 
 $element = new Jimw_Admin_Element();
-$element->addLabel("This url was visited $this->visited times");
+$element->addLabel($this->_('This url was visited %d times', $this->visited));
 $form = new Jimw_Admin_Element_Form($this->url(array('module' => 'links', 'controller' => 'manage', 'action' => 'save', 'ext' => 'ajax', 'id' => $this->id), 'ext', true));
 $form->addField(new Jimw_Admin_Element_Textbox('Redirect URL', 'redirect_url', $this->redirect_url));
 $element->addElement($form);

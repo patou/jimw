@@ -2,6 +2,15 @@
 class Jimw_Admin_View_Helper_Url
 {
     private $request = null;
+    private $treeTable = null;
+    private $siteTable = null;
+    private $domainTable = null;
+
+    public function __construct() {
+        $this->treeTable = new Jimw_Site_Tree();
+        $this->siteTable = new Jimw_Site_Site();
+        $this->domainTable = new Jimw_Site_Domain();
+    }
     public function url (array $urlOptions = array(), $name = null, $reset = false, $admin = true)
     {
         $ctrl = Zend_Controller_Front::getInstance();
@@ -41,13 +50,12 @@ class Jimw_Admin_View_Helper_Url
         }
         $domain = Zend_Registry::get('current_domain');
         $site = Zend_Registry::get('site');
-        $trees = new Jimw_Site_Tree();
         if (isset($urlOptions['site']) && $site->id != $urlOptions['site']) {
-                $sites = new Jimw_Site_Site();
-                if ($new_site = $sites->findCache($urlOptions['site'])->current()) {
-                   $new_domain = $new_site->findParentJimw_Site_Domain();
-                   if ($new_domain && $new_domain->toUrl('', false) != $domain->toUrl('', false)) {
-                        $url = rtrim($new_domain->toUrl('', false), '/') . $url;
+                if ($new_site = $this->siteTable->findCache($urlOptions['site'])->current()) {
+                   $new_domain = $this->domainTable->findCache($new_site->domain_id)->current();
+                   $new_domain_url = $new_domain->toUrl('', false);
+                   if ($new_domain && $new_domain_url != $domain->toUrl('', false)) {
+                        $url = rtrim($new_domain_url, '/') . $url;
                    }
                    $domain = $new_domain;
                 }

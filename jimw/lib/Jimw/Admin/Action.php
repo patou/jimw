@@ -40,8 +40,9 @@ abstract class Jimw_Admin_Action extends Zym_Controller_Action_Abstract
      * @param string $local
      * @return string
      */
-    public function _ ($messageId, $local = null)
+    public function _($messageId)
     {
-        return $this->view->_($messageId, $local);
+        $options = func_get_args();
+        return call_user_func_array(array($this->view->translate(), 'translate'), $options);
     }
 }

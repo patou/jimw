@@ -129,6 +129,15 @@ class Jimw_Db_Row extends Zend_Db_Table_Row
             return parent::__get($name);
     }
 
+    public function __set ($name, $value)
+    {
+        if (in_array($name, $this->_paramsField)) {
+            if (is_array($value))
+                return $this->setParams($value, $name);
+        }
+        parent::__set($name, $value);
+    }
+
     public function __sleep ()
     {
         foreach ($this->_paramsField as $name)
@@ -145,6 +154,19 @@ class Jimw_Db_Row extends Zend_Db_Table_Row
         {
             $this->_loadParam($name);
         }
+    }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        foreach ($this->_paramsField as $name)
+        {
+            $tname = $this->_transformColumn($name);
+            if (isset($array[$tname])) {
+                $array[$tname] = $this->getParams($name);
+            }
+        }
+        return $array;
     }
 
     /**

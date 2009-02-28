@@ -88,7 +88,8 @@ class SiteController extends Jimw_Install_Action
                 $new_user->email = $user['mail'];
                 $new_user->status = 1;
                 $new_user->save();
-                //TODO Install Module
+                $module = new Jimw_Site_Module();
+                $module->install('article');
                 $trees = new Jimw_Site_Tree();
                 $tree = $trees->fetchNew();
                 $tree->parentid = 0;
@@ -103,7 +104,7 @@ class SiteController extends Jimw_Install_Action
                 $site->name = $val['title'];
                 $site->path = trim(JIMW_REP_PUBLIC, './');
                 $site->tree_id = $tree->id;
-                $site->parent_id = 0;
+                $site->parentid = 0;
                 $site->save();
                 $tree->site_id = $site->id;
                 $tree->save();

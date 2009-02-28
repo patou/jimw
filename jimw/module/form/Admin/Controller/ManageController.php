@@ -12,7 +12,7 @@
 class Form_ManageController extends Jimw_Admin_Action
 {
 	public function editAction () {
-		$id = $this->_request->id;
+		/*$id = $this->_request->id;
 		$treeFactory = new Jimw_Site_Tree();
 		$result = $treeFactory->find($id);
 		if (!count($result)) {
@@ -22,7 +22,7 @@ class Form_ManageController extends Jimw_Admin_Action
 		/* @var $tree Jimw_Site_Tree_Row */
         /*$this->view->redirect_url =  $tree->getParam('url');
         $this->view->visited =  $tree->getParam('count', 0);
-        $this->view->id = $id;*/
+        $this->view->id = $id;* /
 	    $config = new Zend_Config_Xml(JIMW_REP_MODULE . '/form/jimw.xml');
 	    Jimw_Debug::dump($config->toArray());
 	    $form = new Jimw_Form($config->module->params);
@@ -31,7 +31,8 @@ class Form_ManageController extends Jimw_Admin_Action
 	    $form->addElement($submit);
 	    $form->populate($tree->getParams());
 	    $form->setAction($this->view->url(array('controller' => 'manage', 'action' => 'save', 'module' => 'form')));
-	    $this->view->form = $form;
+	*/
+	    $this->view->form = '';
 	}
 
 	public function saveAction () {
@@ -40,7 +41,7 @@ class Form_ManageController extends Jimw_Admin_Action
 		$tree->setParam ('url', trim($this->_request->redirect_url, '/'));
 		$tree->save();
 		*/
-	    $id = $this->_request->id;
+	    /*$id = $this->_request->id;
 		$treeFactory = new Jimw_Site_Tree();
 		$result = $treeFactory->find($id);
 		if (!count($result)) {
@@ -57,7 +58,7 @@ class Form_ManageController extends Jimw_Admin_Action
 	        Jimw_Debug::dump($tree);
 	    //}
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful');
-
+		*/
 		$this->_forward('index', 'tree', 'default', array('id' => $this->_request->id));
 	}
 }

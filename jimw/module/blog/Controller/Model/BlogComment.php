@@ -15,11 +15,11 @@ class BlogComment extends Jimw_Db_Table
 	protected $_dependentTables = array('BlogMessage');
 	protected $_referenceMap    = array(
 	'blog' => array(
-	'columns'           => array('blogmessage_id'),
-	'refTableClass'     => 'BlogMessage',
-	'refColumns'        => 'blogmessage_id',
-	'onDelete' 			=> 'cascade',
-	'onUpdate' 			=> 'cascade',
+    	'columns'           => array('blogmessage_id'),
+    	'refTableClass'     => 'BlogMessage',
+    	'refColumns'        => 'blogmessage_id',
+    	'onDelete' 			=> 'cascade',
+    	'onUpdate' 			=> 'cascade',
 	));
 	/**
 	 * Find all blog comments by the blogmessage_id field

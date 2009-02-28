@@ -25,8 +25,6 @@ class UpdateController extends Jimw_Install_Action
         global $jimw_config_db;
         $db_global = Zend_Db::factory($jimw_config_db['type'], $jimw_config_db);
         $update = new Jimw_Db_Update($db_global, $jimw_config_db['prefix']);
-        ob_start();
-        $update->update_all();
-        $this->view->result = ob_get_clean();
+        $this->view->result = $update->update_all();
     }
 }
