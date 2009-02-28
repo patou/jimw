@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jimwModule>
-<name>Jimw Links</name>
-<comment>Do a links to an external page</comment>
-<version>1.0</version>
-<author>Patrice De Saint Steban</author>
+	<name>Jimw Links</name>
+	<comment>Do a links to an external page</comment>
+	<version>1.0</version>
+	<author>Patrice De Saint Steban</author>
+	<controllers><!-- List of controller can be used by a tree -->
+		<links><!-- Name of the controller -->
+			<name>Blog</name><!-- Readable name -->
+			<params><!-- Param form -->
+				<elements>
+					<url>
+						<type>text</type>
+						<options>
+							<label>Url</label>							
+						</options>
+					</url>
+				</elements>
+			</params>
+		</links>
+	</controllers>
 </jimwModule>

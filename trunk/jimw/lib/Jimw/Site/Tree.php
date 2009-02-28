@@ -11,6 +11,20 @@
  */
 class Jimw_Site_Tree extends Jimw_Db_Table
 {
+    const UNPUBLISHED = 0;
+    const DRAFT = 1;
+    const CORRECTING = 2;
+    const TOBEPUBLISHED = 3;
+    const PUBLISHED = 4;
+    const ARCHIVED = 5;
+    const DELETED = -1;
+    public static $STATUS_LIST = array(self::UNPUBLISHED   => 'Unpublished' ,
+    						  self::DRAFT         => 'Draft' ,
+    						  self::CORRECTING    => 'Correcting' ,
+    						  self::TOBEPUBLISHED => 'To be published' ,
+    						  self::PUBLISHED     => 'Published' ,
+    						  self::ARCHIVED      => 'Archived' ,
+    						  self::DELETED       => 'Deleted');
     protected $_name = 'tree';
     protected $_rowClass = 'Jimw_Site_Tree_Row';
     protected $_dependentTables = array('Jimw_Site_Site' , 'Jimw_Site_Module');
@@ -60,6 +74,14 @@ class Jimw_Site_Tree extends Jimw_Db_Table
                 }
             }
         }
+    }
+    private function _clearTree () {
+        //unset(self::$_nodes);
+        self::$_nodes = null;
+        //unset(self::$_nodesAlias);
+        self::$_nodesAlias = null;
+        //unset(self::$_children);
+        self::$_children = null;
     }
     private function _setExpandTree ()
     {
@@ -165,7 +187,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table
             $list['module'] = $module->find($list['module_path'])->current();
             $site = new Jimw_Site_Site();
             $list['site'] = $site->find($list['site_id'])->current();
-            $data = array('table' => $this , 'data' => $list , 'rowClass' => $this->_rowClass , 'stored' => true);
+            $data = array('table' => $this , 'data' => $list , 'rowClass' => $this->_rowClass , 'stored' => true, 'readOnly' => true);
             Zend_Loader::loadClass($this->_rowClass);
             return new $this->_rowClass($data);
         }
@@ -205,7 +227,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table
             $data['tree_alias'] = $this->getRewriteString($data['tree_menutitle']);
         }
         if (empty($data['tree_status'])) {
-            $data['tree_status'] = 4;
+            $data['tree_status'] = self::PUBLISHED;
         }
         if (empty($data['tree_type'])) {
             $data['tree_type'] = 0;
@@ -221,7 +243,9 @@ class Jimw_Site_Tree extends Jimw_Db_Table
         }
         /*unset($data['tree_lft']);
 		unset($data['tree_rgt']);*/
-        return parent::insert($data);
+        $id = parent::insert($data);
+        $this->_clearTree();
+        return $id;
     }
     /**
      * Override the default createRow to add some default values
@@ -229,18 +253,18 @@ class Jimw_Site_Tree extends Jimw_Db_Table
      * @param array $data
      * @return Jimw_Db_RowClass
      */
-    public function createRow (array $data = array())
+    public function createRow(array $data = array(), $defaultSource = null)
     {
-        $data['tree_creationdate'] = time();
-        $data['tree_editiondate'] = time();
+        $data['tree_creationdate'] = Zend_Date::now()->getIso();
+        $data['tree_editiondate'] = Zend_Date::now()->getIso();
         $data['tree_type'] = 0;
-        $data['tree_status'] = 4;
+        $data['tree_status'] = self::PUBLISHED;
         $select = $this->_db->select();
         $select->from($this->_name, new Zend_Db_Expr('MAX(tree_rgt)'));
         $max = $this->_db->fetchOne($select);
         $data['tree_lft'] = $max + 1;
         $data['tree_rgt'] = $max + 2;
-        return parent::createRow($data);
+        return parent::createRow($data, $defaultSource);
     }
 
     public function selectChildren ($parent)
@@ -310,7 +334,9 @@ class Jimw_Site_Tree extends Jimw_Db_Table
  	            self.class.update_all( "#{acts_as_nested_set_options[:right_column]} = (#{acts_as_nested_set_options[:right_column]} - #{dif} )",  "#{acts_as_nested_set_options[:scope]} AND #{acts_as_nested_set_options[:right_column]} >= #{self[acts_as_nested_set_options[:right_column]]}" )
  	          }
  	        end*/
-        parent::delete($where);
+        $id = parent::delete($where);
+        $this->_clearTree();
+        return $id;
     }
     public function update (array $data, $where)
     {
@@ -326,7 +352,10 @@ class Jimw_Site_Tree extends Jimw_Db_Table
         }
         unset($data['tree_lft']);
         unset($data['tree_rgt']);
-        return parent::update($data, $where);
+
+        $id = parent::update($data, $where);
+        $this->_clearTree();
+        return $id;
     }
     public function update_old (array $data, $where)
     {

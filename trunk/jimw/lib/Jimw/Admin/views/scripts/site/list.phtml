@@ -44,7 +44,8 @@ foreach ($this->sites_list as $site) :
 			</td>
 		<td>
 			<?php
-    echo $this->escape($site->findParentJimw_Site_TreeBydefault_page()->alias);
+			$default_page = $site->findParentJimw_Site_TreeBydefault_page();
+			if ($default_page)    echo $this->escape($default_page->alias);
     ?>
 			</td>
 		<td>

@@ -4,4 +4,19 @@
 <comment>Small Album photo</comment>
 <version>1.0</version>
 <author>Patrice De Saint Steban</author>
+<controllers><!-- List of controller can be used by a tree -->
+		<gallery><!-- Name of the controller -->
+			<name>Blog</name><!-- Readable name -->
+			<params><!-- Param form -->
+				<elements>
+					<dir>
+						<type>text</type>
+						<options>
+							<label>Directory</label>							
+						</options>
+					</dir>
+				</elements>
+			</params>
+		</gallery>
+	</controllers>
 </jimwModule>

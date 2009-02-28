@@ -1,0 +1,43 @@
+<?php
+        $message = $this->message;
+        $comments = $message->findBlogComment();
+        $form = $this->form;
+        $form->populate(array('blogmessage_id' => $message->id))
+     ?>
+<a name="<?php echo $message->title ?>"></a>
+<h3><?php echo $message->title ?></h3>
+
+<?php if (!empty($message->header)): ?>
+<p><?php echo $message->header; ?></p>
+<?php endif; ?>
+<p><?php echo $message->content; ?></p>
+
+<p class="post-footer align-right">
+<?php if (!empty($message->tree_id)):
+    $treetable = new Jimw_Site_Tree();
+    $messagetree = $treetable->find($message->tree_id)->current();
+?>
+<a href="<?php echo $this->url(array('format' => 'phtml', 'alias' => $messagetree->alias), 'alias') ?>" class="readmore"><?php echo $this->_('See more (%s)...', $messagetree->menutitle); ?></a>
+<?php endif; ?>
+<span class="date"><?php echo $this->date($message->date); ?></span>
+</p>
+<?php if ($this->tree->param->comment && $message->comment): ?>
+    <?php if (count($comments) > 0): ?>
+     <div class="post-footer" id="comments<?php echo $message->id; ?>">
+    	<?php foreach($comments as $comment): ?>
+      	  <p>
+      	  	<small><b><?php echo $this->_('By %1$s the %2$s', $comment->username, $this->date($comment->date)); ?></b><br />
+      	      <?php echo nl2br($comment->content) ?>
+      	    </small>
+      	  </p>
+        <?php endforeach; ?>
+       	<div id="addcomment<?php echo $message->id ?>">
+            <?php echo $form; ?>
+    	</div>
+      </div>
+    <?php else: ?>
+    	<div id="addcomment<?php echo $message->id ?>">
+            <?php echo $form; ?>
+    	</div>
+    <?php endif; ?>
+<?php endif; ?>

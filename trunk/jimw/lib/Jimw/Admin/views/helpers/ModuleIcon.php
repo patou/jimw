@@ -5,9 +5,10 @@ class Jimw_Admin_View_Helper_ModuleIcon extends Zend_View_Helper_Abstract
     {
         $found = true;
         if (! is_readable(JIMW_REP_ADMIN_MODULE_ICON . $module . '.png')) {
-            if (is_readable(JIMW_REP_MODULE . $module . '/favicon.png')) {
-                @copy(JIMW_REP_MODULE . $module . '/favicon.png', JIMW_REP_ADMIN_MODULE_ICON . $module . '.png');
+            if (is_readable(JIMW_REP_MODULE . $module . '/icon.png')) {
+                @copy(JIMW_REP_MODULE . $module . '/icon.png', JIMW_REP_ADMIN_MODULE_ICON . $module . '.png');
             } else {
+                //TODO read the icon parameter in the jimw.xml
                 $found = false;
             }
         }

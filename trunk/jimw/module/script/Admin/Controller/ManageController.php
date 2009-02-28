@@ -23,7 +23,7 @@ class Script_ManageController extends Jimw_Admin_Action
         /*$this->view->redirect_url =  $tree->getParam('url');
         $this->view->visited =  $tree->getParam('count', 0);
         $this->view->id = $id;*/
-	    $config = new Zend_Config_Xml(JIMW_REP_MODULE . '/script/jimw.xml');
+	    /*$config = new Zend_Config_Xml(JIMW_REP_MODULE . '/script/jimw.xml');
 	    Jimw_Debug::dump($config->toArray());
 	    $form = new Jimw_Form($config->module->params);
 	    $submit = $form->createElement('submit', 'submit');
@@ -31,7 +31,7 @@ class Script_ManageController extends Jimw_Admin_Action
 	    $form->addElement($submit);
 	    $form->populate($tree->getParams());
 	    $form->setAction($this->view->url(array('controller' => 'manage', 'action' => 'save', 'module' => 'script')));
-	    $this->view->form = $form;
+	    $this->view->form = $form;*/
 	}
 
 	public function saveAction () {

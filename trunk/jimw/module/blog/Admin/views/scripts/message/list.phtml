@@ -1,4 +1,4 @@
-<?php foreach ($this->flashmessenger as $message) echo $message . '<br />'; ?>	
+<?php foreach ($this->flashmessenger as $message) echo $message . '<br />'; ?>
 	<table cellpadding="0" cellspacing="0" class="list">
 	<thead>
 		<tr>
@@ -14,7 +14,7 @@
 			<td>
 			<?php echo $this->escape($message->id); ?></td>
 			<td>
-			<a href="<?= $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'list', 'id' => $message->id), 'format'); ?>">
+			<a href="<?= $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'list', 'blogmessage_id' => $message->id), 'format'); ?>">
 			<?php echo $this->escape($message->title); ?>
 			</a>
 			</td>
@@ -22,17 +22,20 @@
 			<?php echo $this->escape($message->date); ?>
 			</td>
 			<td align="right">
-				<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'edit', 'format' => 'phtml', 'id' => $message->id), 'format', true); ?>">
+				<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'edit', 'format' => 'phtml', 'blogmessage_id' => $message->id), 'format', true); ?>">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Edit') ?>" alt="<?php echo $this->_('Edit') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/pencil.png"/>
 				</a>
-				<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'delete', 'format' => 'phtml', 'id' => $message->id), 'format', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this message ?')); ?>');">
+				<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'delete', 'format' => 'phtml', 'blogmessage_id' => $message->id), 'format', true); ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this message ?')); ?>');">
 					<img width="16" height="18" border="0" title="<?php echo $this->_('Delete') ?>" alt="<?php echo $this->_('Delete') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/cross.png"/>
 				</a>
 			</td>
 		</tr>
 	<?php endforeach; ?>
 	</table>
+	<?php
+echo $this->messages_list; //Print the pagination control
+   ?>
 <br />
-<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'add', 'id' => $this->id, 'format' => 'phtml'), 'format', true); ?>"><?php echo $this->_('Add'); ?></a>
+<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'add', 'tree_parentid' => $this->tree_parentid, 'format' => 'phtml'), 'format', true); ?>"><?php echo $this->_('Add'); ?></a>
 <hr />
 <a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'list'), 'format', true); ?>"><?php echo $this->_('Return'); ?></a>

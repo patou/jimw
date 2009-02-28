@@ -12,6 +12,15 @@
 class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
 {
     private $request = null;
+    private $treeTable = null;
+    private $siteTable = null;
+    private $domainTable = null;
+
+    public function __construct() {
+        $this->treeTable = new Jimw_Site_Tree();
+        $this->siteTable = new Jimw_Site_Site();
+        $this->domainTable = new Jimw_Site_Domain();
+    }
     public function url (array $urlOptions = array(), $name = null, $reset = false)
     {
         $ctrl = Zend_Controller_Front::getInstance();
@@ -42,26 +51,26 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
 
     private function buildUrl($urlOptions = array()) {
         if (defined('JIMW_NO_REWRITE_URL')) {
-            $basePath = $this->request->getBaseUrl();
+            $basePath = $this->request->getBasePath();
             $baseUrl = substr($this->request->getBaseUrl(), strlen($basePath));
             $url = rtrim($basePath, '/') . '/?' . ltrim($baseUrl, '/');
         } else {
             $url = rtrim($this->request->getBaseUrl(), '/') . '/';
         }
-        $domain = Zend_Registry::get('current_domain');
         $site = Zend_Registry::get('site');
-        $trees = new Jimw_Site_Tree();
+        $domain = Zend_Registry::get('current_domain');
+        $domainUrl = rtrim($domain->toUrl('', false), '/');
         $aliasKey = $this->getView()->getRequest()->getAliasKey();
         if (isset($urlOptions[$aliasKey])) {
-            $tree = $trees->findAlias($urlOptions[$aliasKey]);
+            $tree = $this->treeTable->findAlias($urlOptions[$aliasKey]);
             if (count($tree)) {
                 $site_id = $tree->current()->site_id;
                 if ($site_id != $site->id) {
-                    $sites = new Jimw_Site_Site();
-                    if ($new_site = $sites->findCache($site_id)->current()) {
-                        $new_domain = $new_site->findParentJimw_Site_Domain();
-                        if ($new_domain && $new_domain->toUrl('', false) != $domain->toUrl('', false)) {
-                            $url = rtrim($new_domain->toUrl('', false), '/') . $url;
+                    if ($new_site = $this->siteTable->findCache($site_id)->current()) {
+                        $new_domain = $this->domainTable->findCache($new_site->domain_id)->current();
+                        $new_domain_url = rtrim($new_domain->toUrl('', false), '/');
+                        if ($new_domain && $new_domain_url != $domainUrl) {
+                            $url = $new_domain_url . $url;
                         }
                         $domain = $new_domain;
                     }

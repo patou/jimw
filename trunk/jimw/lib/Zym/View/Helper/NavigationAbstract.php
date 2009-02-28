@@ -54,14 +54,28 @@ abstract class Zym_View_Helper_NavigationAbstract extends Zym_View_Helper_Html_A
      * 
      * @var string|Zend_Acl_Role_Interface
      */
-    protected $_role;
+    protected $_role = null;
     
     /**
      * ACL to use when iterating pages
      * 
      * @var Zend_Acl
      */
-    protected $_acl;
+    protected $_acl = null;
+    
+    /**
+     * Default ACL role to use when iterating pages if not explicitly set
+     * 
+     * @var string|Zend_Acl_Role_Interface
+     */
+    protected static $_defaultRole = null;
+    
+    /**
+     * Default ACL to use when iterating pages if not explicitly set
+     * 
+     * @var Zend_Acl
+     */
+    protected static $_defaultAcl = null;
     
     /**
      * Whether translator should be used
@@ -88,7 +102,7 @@ abstract class Zym_View_Helper_NavigationAbstract extends Zym_View_Helper_Html_A
     {
         $this->getNavigation();
         if (method_exists($this->_container, $method)) {
-            return call_user_func(array($this->_container, $method), $arguments);
+            return call_user_func_array(array($this->_container, $method), $arguments);
         } else {
             $msg = "Method '$method' does not exst in container";
             throw new BadMethodCallException($msg);
@@ -185,6 +199,7 @@ abstract class Zym_View_Helper_NavigationAbstract extends Zym_View_Helper_Html_A
     public function setUseTranslator($useTranslator = true)
     {
         $this->_useTranslator = (bool) $useTranslator;
+        return $this;
     }
     
     /**
@@ -228,20 +243,38 @@ abstract class Zym_View_Helper_NavigationAbstract extends Zym_View_Helper_Html_A
      * 
      * @param  Zend_Acl $acl  [optional] ACL object, defaults to null which
      *                        sets no ACL object
-     * @return Zym_View_Helper_Navigation
+     * @return Zym_View_Helper_NavigationAbstract
      */
     public function setAcl(Zend_Acl $acl = null)
     {
         $this->_acl = $acl;
+        return $this;
     }
     
     /**
-     * Returns ACL or null if it isn't set
+     * Sets default ACL to use if another ACL is not explicitly set
+     * 
+     * @param  Zend_Acl $acl  [optional] ACL object, defaults to null which
+     *                        sets no ACL object
+     * @return void
+     */
+    public static function setDefaultAcl(Zend_Acl $acl = null)
+    {
+        self::$_defaultAcl = $acl;
+    }
+    
+    /**
+     * Returns ACL or null if it isn't set using {@link setAcl()} or 
+     * {@link setDefaultAcl()}
      *
      * @return Zend_Acl|null
      */
     public function getAcl()
     {
+        if ($this->_acl === null && self::$_defaultAcl !== null) {
+            return self::$_defaultAcl;
+        }
+        
         return $this->_acl;
     }
     
@@ -268,12 +301,38 @@ abstract class Zym_View_Helper_NavigationAbstract extends Zym_View_Helper_Html_A
     }
     
     /**
-     * Returns ACL role to use when iterating pages
+     * Sets default ACL role(s) to use when iterating pages if not explicitly
+     * set later with {@link setRole()}
+     * 
+     * @param  null|string|Zend_Acl_Role_Interface $role   [optional] role to set,
+     *                                                     defaults to null
+     * @throws InvalidArgumentException  if $role is not null, string, or
+     *                                   Zend_Acl_Role_Interface
+     * @return void
+     */
+    public static function setDefaultRole($role = null)
+    {
+        if (null === $role || is_string($role) ||
+            $role instanceof Zend_Acl_Role_Interface) {
+            self::$_defaultRole = $role;
+        } else {
+            $msg = '$role must be null|string|Zend_Acl_Role_Interface';
+            throw new InvalidArgumentException($msg);
+        }
+    }
+    
+    /**
+     * Returns ACL role to use when iterating pages, or null if it isn't set
+     * using {@link setRole()} or {@link setDefaultRole()}
      * 
      * @return string|Zend_Acl_Role_Interface|null
      */
     public function getRole()
     {
+        if ($this->_role === null && self::$_defaultRole !== null) {
+            return self::$_defaultRole;
+        }
+        
         return $this->_role;
     }
     
@@ -289,6 +348,11 @@ abstract class Zym_View_Helper_NavigationAbstract extends Zym_View_Helper_Html_A
      */
     protected function _acceptAcl(Zym_Navigation_Page $page, $recursive = true)
     {
+        if (!$acl = $this->getAcl()) {
+            // no acl registered means don't use acl
+            return true;
+        }
+        
         // do not accept by default
         $accept = false;
         
@@ -299,7 +363,7 @@ abstract class Zym_View_Helper_NavigationAbstract extends Zym_View_Helper_Html_A
             
             if ($resource || $privilege) {
                 // determine using helper role and page resource/privilege
-                $accept = $this->_acl->isAllowed($role, $resource, $privilege);
+                $accept = $this->getAcl()->isAllowed($role, $resource, $privilege);
             } else {
                 // accept if page has no resource or privilege
                 $accept = true;
@@ -325,18 +389,18 @@ abstract class Zym_View_Helper_NavigationAbstract extends Zym_View_Helper_Html_A
      */
     protected function _accept(Zym_Navigation_Page $page, $recursive = true)
     {
+        // accept by default
+        $accept = true;
+        
         if (!$page->isVisible($recursive)) {
             // don't accept invisible pages
-            return false;
+            $accept = false;
+        } elseif (!$this->_acceptAcl($page, $recursive)) {
+            // acl is not amused
+            $accept = false;
         }
         
-        if (null !== $this->_acl) {
-            // determine using ACL
-            return $this->_acceptAcl($page, $recursive);
-        }
-        
-        // accept by default
-        return true;
+        return $accept;
     }
     
     /**

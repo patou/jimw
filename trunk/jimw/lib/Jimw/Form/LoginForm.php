@@ -11,7 +11,7 @@ class Jimw_Form_LoginForm extends Jimw_Form
 	        	'label' => 'Username',
                 'filters' => array('StringTrim'),
                 'validators' => array(
-                    'Alpha',
+                    'Alnum',
                     array('StringLength', false, array(3, 20)),
                 ),
 	        	'required' => true)),
@@ -21,7 +21,6 @@ class Jimw_Form_LoginForm extends Jimw_Form
 	        	'label' => 'Password',
                 'filters' => array('StringTrim'),
 				'validators' => array(
-					'Alnum',
                     array('StringLength', false, array(3, 20)),
                 ),
 	        	'required' => true)),

@@ -1,3 +1,19 @@
-<h1><?=$this->_('Update Database');?></h1>
-<?php
-echo $this->result?>
+<h1><?php echo $this->_('Update Database');?></h1>
+<?php foreach ($this->result as $database_type => $result): ?>
+<?php if ($database_type == 'global'): ?>
+<h2>Install <?php echo $database_type ?> database .... <?php echo $this->okKo($result['success']); ?></h2>
+Install from version <?php echo $result['currentVersion'] ?> to version <?php echo $result['newVersion'] ?>.
+<?php else:
+    foreach ($result as $num_database => $result_database): ?>
+<h2><?php echo $this->_('Install database number %d',  $num_database); ?> .... <?php echo $this->okKo($result_database['database']['success']); ?></h2>
+Install from version <?php echo $result_database['database']['currentVersion'] ?> to version <?php echo $result_database['database']['newVersion'] ?>.
+<?php if (isset($result_database['modules'])): ?>
+<ul>
+<?php foreach ($result_database['modules'] as $module_name => $module_result):
+    if (isset($module_result['database'])):?>
+<li>Update module <?php echo $module_name ?> from version <?php echo $module_result['database']['currentVersion'] ?> to version <?php echo $module_result['database']['newVersion'] ?> .... <?php echo $this->okKo($module_result['database']['success']); ?> </li>
+<?php endif; endforeach; ?>
+</ul>
+<?php endif; ?>
+<?php endforeach; endif; ?>
+<?php endforeach; ?>

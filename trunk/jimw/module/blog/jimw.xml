@@ -1,7 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jimwModule>
-<name>Jimw Blog</name>
-<comment>Jimw Blog</comment>
-<version>0.1</version>
-<author>Simon Leprince</author>
+	<!-- Hierarchie of file : 
+	* Admin
+	** Controller
+	** views
+	*** helpers
+	*** scripts
+	** plugins
+	* Controller
+	* views
+	** helpers
+	** scripts
+	** common
+	* plugins
+	* lang
+	** fr
+	** en
+	* install
+	** sql
+	*** mysql
+	**** 000-name.sql
+	**** uninstall.sql
+	*** sqlite
+	**** 000-name.sql
+	**** uninstall.sql
+	* jimw.xml
+	* icon.png
+	-->
+	<name>Jimw Blog</name><!-- Name of the module -->
+	<comment>Jimw Blog</comment><!-- A small comment for the module -->
+	<version>0.9</version><!-- Version of the module -->
+	<author>Simon Leprince</author><!-- Name of the author -->
+	<icon>icon.png</icon><!-- Icon of the module -->
+	<cache_enabled></cache_enabled>
+	<search_enabled></search_enabled>
+	<config>
+		<!-- Configuration form -->
+	</config>
+	<controllers><!-- List of controller can be used by a tree -->
+		<blog><!-- Name of the controller -->
+			<name>Blog</name><!-- Readable name -->
+			<params><!-- Param form -->
+				<elements>
+					<comment>
+						<type>checkbox</type>
+						<options><label>Activer les commentaires</label></options>
+					</comment>
+					<nbMessageByPage>
+						<type>text</type>
+						<options>
+							<label>Nombre de message par page</label>
+							
+						</options>
+					</nbMessageByPage>
+				</elements>
+			</params>
+		</blog>
+	</controllers>
 </jimwModule>

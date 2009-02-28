@@ -11,25 +11,54 @@
  */
 include_once (dirname(__FILE__) . '/../../Controller/Model/BlogMessage.php');
 include_once (dirname(__FILE__) . '/../../Controller/Model/BlogComment.php');
+include_once (dirname(__FILE__) . '/../../Controller/Model/BlogCommentForm.php');
 class Blog_CommentController extends Jimw_Admin_Action
 {
 	public function listAction () {
 		$messages = new BlogMessage();
-		$message = $messages->find($this->_request->id);
+		$request = $this->getRequest();
+		$id = $request->blogmessage_id;
+		$message = $messages->find($id);
 		if (!count($message))
 			throw new Jimw_Admin_Exception('Message didn\'t exist');
 		$this->view->message = $message->current();
 		$comments = new BlogComment();
-		$this->view->comments_list = $comments->fetchAll(array('blogmessage_id = ?' => $this->_request->id));
+		$result = Zend_Paginator::factory($comments->select()->where('blogmessage_id = ?', $id));
+
+		// initialisation des valeurs par défaut
+		$result->setPageRange(10);
+		$result->setItemCountPerPage(10);
+		$page = 1;
+		if (isset($request->page))
+		    $page = $request->page;
+		$result->setCurrentPageNumber($page);
+
+		$this->view->comments_list = $result;
 	}
 
 	public function editAction () {
-		$id = $this->_request->id;
-		$this->view->request = $this->_request;
-		$this->view->id = $id;
+	    $request = $this->getRequest();
+		$id = $request->blogcomment_id;
 		$comments = new BlogComment();
 		$comment = $comments->fetchRow(array('blogcomment_id = ?' => $id));
-		$this->view->comment = $comment;
+		if (!$comment) {
+            throw new Jimw_Admin_Exception('This comment didn\'t exist');
+		}
+		$form = new BlogCommentForm();
+		if ($request->isPost() && $form->isValid($request->getPost())) {
+		    $values = $form->getValues();
+            $comment->username = $values['blogcomment_username'];
+			$comment->content = $values['blogcomment_content'];
+			$comment->date = $value['blogcomment_date'];
+			$comment->save();
+			$this->_helper->getHelper('FlashMessenger')->addMessage ('Save Comment successful');
+			$this->_forward('list', 'comment', 'blog', array('blogmessage_id' => $comment->blogmessage_id));
+		}
+		else {
+		    $form->populate($comment->toArray());
+		    $this->view->form = $form;
+		    $this->view->comment = $comment;
+		}
 	}
 
 	public function saveAction () {
@@ -69,7 +98,7 @@ class Blog_CommentController extends Jimw_Admin_Action
 		$blogmessage = $comment->blogmessage_id;
 		$comment->delete();
 		$this->_helper->getHelper('FlashMessenger')->addMessage ('Delete Comment successful ');
-		$this->_forward('list', 'comment', 'default', array('id' => $blogmessage));
+		$this->_forward('list', 'comment', 'default', array('blogmessage_id' => $blogmessage));
 	}
 }
 ?>

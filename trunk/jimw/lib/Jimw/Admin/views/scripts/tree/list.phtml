@@ -10,15 +10,15 @@ function list_tree ($list, $view, $path, $baseurl, $prof = 0)
     $length = count($list);
     foreach ($list as $tree) :
         $colorlist = array('#446666' , '#0000FF' , '#FF0000' , '#FF8C00' , '#008000' , '#FFA500');
-        $statuslist = array('Unpublished' , 'Draft' , 'Correcting' , 'To be published' , 'Published' , 'Archive');
+        $statuslist = Jimw_Site_Tree::$STATUS_LIST;
         ?>
 		<?
-        if ($view->site->id != $tree->site_id) :
+        if ($view->site->id != $tree->site_id):
             ?>
 <tr class="tree_not_site">
-
+        <?php
          else :
-            ?>
+        ?>
 
 <tr class="tree_site">
 

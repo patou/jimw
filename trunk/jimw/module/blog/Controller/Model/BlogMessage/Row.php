@@ -9,22 +9,15 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
+
 class BlogMessage_Row extends Jimw_Db_Row
 {
-	protected $comments;
-
-	/**
-	 * Set the comments rowset
-	 *
-	 * @param int $com
-	 * @return Jimw_Db_Rowset
-	 */
-	public function setComments($com) {
-		$this->comments = $com;
-	}
-	
-	public function getComments() {
-		return $this->comments;
-	}
+    public function getFirstComments($number = 10) {
+        $commentstable = new BlogComment();
+        $paginator = Zend_Paginator::factory($commentstable->select()->where('blogmessage_id = ?', $this->id));
+        $paginator->setItemCountPerPage($number);
+        return $paginator;
+    }
 }
+?>
 ?>

@@ -50,7 +50,7 @@ class Jimw_Form extends Zend_Form
 
     public function addSubmit ($type = 'submit')
     {
-        $this->addElement('submit', 'Jimw_Form_Submit', array('label' => ucfirst($type)));
+        $this->addElement('submit', 'Jimw_Form_Submit', array('label' => ucfirst($type), 'ignore' => true));
     }
 }
 ?>
