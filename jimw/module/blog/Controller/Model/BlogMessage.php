@@ -16,4 +16,3 @@ class BlogMessage extends Jimw_Db_Table
 	protected $_dependentTables = array('BlogComment');
 	protected $_rowClass = 'BlogMessage_Row';
 }
-?>

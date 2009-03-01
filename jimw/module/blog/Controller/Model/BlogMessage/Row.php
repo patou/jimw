@@ -19,5 +19,3 @@ class BlogMessage_Row extends Jimw_Db_Row
         return $paginator;
     }
 }
-?>
-?>

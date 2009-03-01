@@ -10,10 +10,9 @@
  * @version    $Id: CategoryController.php 149 2008-01-13 20:53:49Z patou.de.saint.steban $
  */
 
-include_once('blog/Controller/Model/BlogMessage.php');
-include_once('blog/Controller/Model/BlogMessage/Row.php');
-include_once('blog/Controller/Model/BlogMessage/Rowset.php');
-include_once('blog/Controller/Model/BlogComment.php');
+include_once(dirname(__FILE__) . '/../../blog/Controller/Model/BlogMessage.php');
+include_once(dirname(__FILE__) . '/../../blog/Controller/Model/BlogMessage/Row.php');
+include_once(dirname(__FILE__) . '/../../blog/Controller/Model/BlogComment.php');
 class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 {
 	public function viewModule ($alias)
@@ -21,14 +20,13 @@ class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 		$request = $this->_request;
 		$tree = $request->getTree();
 		$parent = $tree->getParam('tree', $tree->id);
-		$modules = new Jimw_Site_Module();
 		$trees = new Jimw_Site_Tree();
 		$parent = $trees->find($parent);
 		$blogMessage = new BlogMessage();
 
 		$select = $blogMessage->select()->from(array('b' => $blogMessage->getRealTableName()), '*')
 		            ->join(array('t' => $trees->getRealTableName()),'t.tree_id = b.tree_parentid', array())
-		            ->where('t.tree_status = ?', 4)
+		            ->where('t.tree_status = ?', Jimw_Site_Tree::PUBLISHED)
 		            ->where('t.module_path = ?', 'blog')
 		            ->order('b.blogmessage_date DESC')
 		            ->limit($tree->getParam('number', 10));
@@ -38,7 +36,19 @@ class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 		           ->where('t.tree_rgt <= ? ', $parent->rgt);
 		}
 
-		$result = $blogMessage->fetchAll($select);//$trees->fetchAllChildren($parent, 'module_id = 1', array('tree_editiondate DESC', 'tree_lft ASC'), $tree->getParam('number', 5));
+		$result = Zend_Paginator::factory($select);
+
+		// initialisation des valeurs par défaut
+		$result->setPageRange(10);
+		if (isset($tree->param->nbMessageByPage))
+		    $result->setItemCountPerPage($tree->param->nbMessageByPage);
+		else
+		    $result->setItemCountPerPage(10);
+		$page = 1;
+		if (isset($request->page))
+		    $page = $request->page;
+		$result->setCurrentPageNumber($page);
+
 		$this->view->messages = $result;
 		$this->view->tree = $tree;
 		$this->render('blog/blog', null, true);

@@ -1,0 +1,24 @@
+<?php
+function encode($text) {
+	return (JIMW_UTF8) ? $text : utf8_encode($text);
+}
+$entries = array();
+$tree = new Jimw_Site_Tree();
+foreach ($this->messages as $message) {
+	$result = $tree->find($message->tree_parentid)->current();
+	$entries[] = array('title' => encode($message->title),
+						'link' => $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'alias' => $result->alias, 'format' => 'phtml', 'mid' => $message->id), 'format'),
+						'description' => $this->escape(encode($this->troncate($message->content))),
+						'content:encoded' => $this->escape(encode($message->content)),
+						'pubDate' => $this->date($message->date, Zend_Date::RSS)
+						);
+}
+$builder = array('title' => encode($this->tree->pagetitle),
+			'charset' => 'UTF-8',
+			 'link' => $this->url(array('alias' => $this->tree->alias, 'format' => 'rss'), 'alias'),
+			 'entries' => $entries);
+
+$rss = Zend_Feed::importArray($builder, 'rss');
+$response = Zend_Controller_Front::getInstance()->getResponse();
+$response->setHeader('Content-type', 'application/rss+xml; charset: UTF-8');
+echo $rss->saveXML();
