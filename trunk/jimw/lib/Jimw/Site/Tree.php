@@ -259,6 +259,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table
         $data['tree_editiondate'] = Zend_Date::now()->getIso();
         $data['tree_type'] = 0;
         $data['tree_status'] = self::PUBLISHED;
+        $data['tree_param'] = '';
         $select = $this->_db->select();
         $select->from($this->_name, new Zend_Db_Expr('MAX(tree_rgt)'));
         $max = $this->_db->fetchOne($select);

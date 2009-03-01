@@ -115,11 +115,12 @@ class TreeController extends Jimw_Admin_Action
             $save->param = '';
             $save->icon = '';
             $save->image = '';
+            $save->param = array();
             if (JIMW_DEBUG_MODE) {
                 $save->order = $values['tree_order'];
                 $save->creationdate = $values['tree_creationdate'];
                 $save->editiondate = $values['tree_editiondate'];
-                $save->param = $values['tree_param'];
+                //$save->param = $values['tree_param'];
                 //$result->site_id = $values['site_id'];
             }
             //Zend_Debug::dump($save);
@@ -160,14 +161,22 @@ class TreeController extends Jimw_Admin_Action
         $tree = new Jimw_Site_Tree();
         $result = $tree->fetchAll($tree->select()->where('tree_id = ?', $id));
         if (! count($result)) {
-            throw new Jimw_Admin_Exception("The tree $id doesn't exist");
+            throw new Jimw_Admin_Exception("This tree doesn't exist");
         }
         $result = $result->current();
-        $module_path = $result->findParentJimw_Site_Module()->path;
-        $result->status = - $result->status;
-        $result->save();
-        $this->_helper->getHelper('FlashMessenger')->addMessage('Delete successful ' . $id);
-        $this->_forward('delete', 'manage', $module_path);
+        $module_path = $result->module_path;
+        if ($result->status == Jimw_Site_Tree::DELETED) { //Delete from the database
+            $result->delete();
+            //TODO Delete the arborescence !
+            $this->_helper->getHelper('FlashMessenger')->addMessage('Delete successful');
+            $this->_forward('delete', 'manage', $module_path);
+        }
+        else {
+            $result->status = Jimw_Site_Tree::DELETED;
+            $result->save();
+            $this->_helper->getHelper('FlashMessenger')->addMessage('Move to the trash');
+            $this->_forward('list');
+        }
     }
    /* public function saveAction ()
     {

@@ -1,5 +1,5 @@
-<?php echo (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
-<?php if (count($this->messages) > 0): ?>
+<?= (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
+<? if (count($this->messages) > 0): ?>
     <?php foreach ($this->messages as $message):
         $comments = $message->getFirstComments(10);
         $form = clone $this->form;
@@ -36,7 +36,7 @@
         	<?php foreach($comments as $comment): ?>
           	  <p>
           	  	<small><b><?php echo $this->_('By %1$s the %2$s', $comment->username, $this->date($comment->date)); ?></b><br />
-          	      <?php echo nl2br($comment->content); ?>
+          	      <?php echo nl2br($comment->content) ?>
           	    </small>
           	  </p>
             <?php endforeach; ?>
@@ -63,6 +63,6 @@
    <?php
 echo $this->messages; //Print the pagination control
    ?>
-<?php else: ?>
+<? else: ?>
 <p><?php echo $this->_('There are yet any message.') ?></p>
-<?php endif; ?>
+<? endif; ?>

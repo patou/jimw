@@ -36,13 +36,15 @@ function list_tree($list, $view, $path, $baseurl, $prof = 0) {
 				<?php
 					if ($tree->status >= 0):
 				?>
-				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>" onclick="return confirm('<?php echo $view->escape($view->_('Do you really want to delete this Page ?')); ?>');">
+				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>" onclick="return confirm('<?php echo $view->escape($view->_('Do you really want to move this Page to the trash ?')); ?>');">
 				<img src="<?= $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="<?php echo $view->_('Delete'); ?>" title="<?php echo $view->_('Delete'); ?>" border="0" class="absmiddle" /></a>
 				<?php
 				    else:
 			    ?>
 				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
 				<img src="<?= $path ?>/images/icons/page_white_go.png" width="16" height="16" alt="<?php echo $view->_('Restore'); ?>" title="<?php echo $view->_('Restore'); ?>" border="0" class="absmiddle" /></a>
+				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>" onclick="return confirm('<?php echo $view->escape($view->_('Do you really want to delete this Page ?')); ?>');">
+				<img src="<?= $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="<?php echo $view->_('Delete'); ?>" title="<?php echo $view->_('Delete'); ?>" border="0" class="absmiddle" /></a>
 				<?php
 				    endif;
 					if ($item > 0 && $tree->status >= 0) {

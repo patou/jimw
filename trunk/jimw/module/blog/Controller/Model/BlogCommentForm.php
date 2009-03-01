@@ -28,4 +28,3 @@ class BlogCommentForm extends Jimw_Form
         ));
     }
 }
-?>
