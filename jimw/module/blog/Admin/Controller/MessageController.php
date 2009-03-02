@@ -47,6 +47,7 @@ class Blog_MessageController extends Jimw_Admin_Action
 			$message->title = $values['blogmessage_title'];
 			$message->content = $values['blogmessage_content'];
 			$message->date = $values['blogmessage_date'];
+			$message->comment = $values['blogmessage_comment'];
 			$message->tree_id = $values['tree_id'];
 			$message->save ();
 			$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful');
@@ -126,6 +127,7 @@ class Blog_MessageController extends Jimw_Admin_Action
             $message->header = $values['blogmessage_header'];
 			$message->title = $values['blogmessage_title'];
 			$message->content = $values['blogmessage_content'];
+			$message->comment = $values['blogmessage_comment'];
 			$message->date = $values['blogmessage_date'];
 			$message->tree_id = $values['tree_id'];
 			$message->save ();
