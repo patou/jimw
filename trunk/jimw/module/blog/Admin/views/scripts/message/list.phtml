@@ -15,7 +15,7 @@
 			<?php echo $this->escape($message->id); ?></td>
 			<td>
 			<a href="<?= $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'list', 'blogmessage_id' => $message->id), 'format'); ?>">
-			<?php echo $this->escape($message->title); ?>
+			<?php echo $message->title; ?>
 			</a>
 			</td>
 			<td>
