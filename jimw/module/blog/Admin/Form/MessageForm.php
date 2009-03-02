@@ -16,7 +16,7 @@ class MessageForm extends Jimw_Form
 	        'type' => 'text' ,
 	        'options' => array(
 	        	'label' => 'Title',
-                'filters' => array('StringTrim', 'HtmlEntities'),
+                'filters' => array('StringTrim'),
 				'required' => true)),
         'tree_id' => array(
 	        'type' => 'tree' ,

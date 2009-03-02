@@ -133,8 +133,8 @@ class Blog_MessageController extends Jimw_Admin_Action
 			$this->_redirect($this->view->url(array('action'=>'edit', 'controller' => 'tree', 'module' => 'default', 'id' => $message->tree_parentid), 'format', true), array('prependBase' => false));
 		}
 		else {
+		    $message->comment = 1;
 		    $form->populate($message->toArray());
-		    Jimw_Debug::dump($message->toArray());
 		    $this->view->form = $form;
 		    $this->render('form');
 		}

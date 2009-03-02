@@ -13,6 +13,7 @@
 include_once(dirname(__FILE__) . '/../../blog/Controller/Model/BlogMessage.php');
 include_once(dirname(__FILE__) . '/../../blog/Controller/Model/BlogMessage/Row.php');
 include_once(dirname(__FILE__) . '/../../blog/Controller/Model/BlogComment.php');
+include_once(dirname(__FILE__) . '/../../blog/Controller/Model/BlogCommentForm.php');
 class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 {
 	public function viewModule ($alias)
@@ -50,6 +51,9 @@ class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 		$result->setCurrentPageNumber($page);
 
 		$this->view->messages = $result;
+		$form = new BlogCommentForm();
+		$form->setAction($this->view->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $tree->alias), 'format'));
+		$this->view->form = $form;
 		$this->view->tree = $tree;
 		$this->render('blog/blog', null, true);
 	}
