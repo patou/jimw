@@ -10,7 +10,7 @@
 			<params><!-- Param form -->
 				<elements>
 					<dir>
-						<type>text</type>
+						<type>dirchooser</type>
 						<options>
 							<label>Directory</label>							
 						</options>

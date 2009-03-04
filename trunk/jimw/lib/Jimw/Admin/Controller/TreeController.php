@@ -245,12 +245,30 @@ class TreeController extends Jimw_Admin_Action
         $this->_forward('index');
     }
 
+    public function chooserAction()
+    {
+        if (isset($this->getRequest()->javascript_fct))
+            $this->view->javascript_fct = $this->getRequest()->javascript_fct;
+        if ($this->getHelper('Layout')->getViewSuffix() == 'ajax') {
+            $this->getHelper('Layout')->disableLayout();
+        }
+        $this->render('chooser');
+    }
+
+    public function getAction()
+    {
+        $id = $this->getRequest()->path;
+        $tree = new Jimw_Site_Tree();
+        $parentid = $tree->fetchAll($tree->select()->where('tree_parentid = ?', $id)); //$tree->select()->where('tree_parentid = ?', $id)->where('tree_status = ?', Jimw_Site_Tree::PUBLISHED)
+        $this->view->list_tree = $parentid;
+    }
+
     private function _addModuleConfig(Jimw_Site_Tree_Row $tree, Jimw_Form $form)
     {
         $module = $tree->findParentJimw_Site_Module();
         if ($module && isset($module->xml->controllers->{$module->path}->params)) {
             $params = $module->xml->controllers->{$module->path};
-            $formModule = new Zend_Form_SubForm($params->params);
+            $formModule = new Jimw_Form_SubForm($params->params);
             $formModule->setLegend($module->name);
             $form->addSubForm($formModule, 'tree_param');
         }

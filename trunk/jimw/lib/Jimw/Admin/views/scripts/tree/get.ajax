@@ -1,0 +1,11 @@
+<?php
+$tab = array();
+foreach ($this->list_tree as $tree) {
+    $tab[] = array('text' => $tree->menutitle,
+    				'id' => $tree->id,
+    				'alias' => $tree->alias,
+    				'url' => $this->url(array('alias' => $tree->alias), 'alias', true, false),
+                    'disabled' => false,
+                    'leaf' => !$tree->hasChildren());
+}
+echo trim(Zend_Json::encode($tab),'][');

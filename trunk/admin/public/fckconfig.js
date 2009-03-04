@@ -1,4 +1,4 @@
-﻿/*
+/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
  *
@@ -42,7 +42,7 @@ FCKConfig.StartupShowBlocks = false ;
 FCKConfig.Debug = false ;
 FCKConfig.AllowQueryStringDebug = true ;
 
-FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/default/' ;
+FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/office2003/' ;
 FCKConfig.SkinEditorCSS = '' ;	// FCKConfig.SkinPath + "|<minified css>" ;
 FCKConfig.SkinDialogCSS = '' ;	// FCKConfig.SkinPath + "|<minified css>" ;
 
@@ -99,6 +99,22 @@ FCKConfig.TemplateReplaceCheckbox = true ;
 FCKConfig.ToolbarLocation = 'In' ;
 
 FCKConfig.ToolbarSets["Default"] = [
+	['Source','-','Save'],
+	['Cut','Copy','Paste','PasteText','PasteWord','-','SpellCheck'],
+	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+	'/',
+	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
+	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','CreateDiv'],
+	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
+	['Link','Unlink'],
+	['Image','Table','Rule','SpecialChar'], 
+	['TextColor','BGColor'],
+	['-','About'],
+	'/',
+	['Style','FontFormat','FontName','FontSize']		// No comma for the last row.
+] ;
+
+FCKConfig.ToolbarSets["All"] = [
 	['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],
 	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
 	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
@@ -108,15 +124,16 @@ FCKConfig.ToolbarSets["Default"] = [
 	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','CreateDiv'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 	['Link','Unlink','Anchor'],
-	['Image','Flash','Table','Rule','Smiley','SpecialChar','PageBreak'],
-	'/',
-	['Style','FontFormat','FontName','FontSize'],
+	['Image','Flash','Table','Rule','Smiley','SpecialChar','PageBreak'], 
 	['TextColor','BGColor'],
-	['FitWindow','ShowBlocks','-','About']		// No comma for the last row.
+	['FitWindow','ShowBlocks','-','About'],
+	'/',
+	['Style','FontFormat','FontName','FontSize']
+			// No comma for the last row.
 ] ;
 
 FCKConfig.ToolbarSets["Basic"] = [
-	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
+	['Source','Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
 ] ;
 
 FCKConfig.EnterMode = 'p' ;			// p | div | br
@@ -163,7 +180,7 @@ FCKConfig.TemplatesXmlPath	= FCKConfig.EditorPath + 'fcktemplates.xml' ;
 FCKConfig.SpellChecker			= 'ieSpell' ;	// 'ieSpell' | 'SpellerPages'
 FCKConfig.IeSpellDownloadUrl	= 'http://www.iespell.com/download.php' ;
 FCKConfig.SpellerPagesServerScript = 'server-scripts/spellchecker.php' ;	// Available extension: .php .cfm .pl
-FCKConfig.FirefoxSpellChecker	= false ;
+FCKConfig.FirefoxSpellChecker	= true ;
 
 FCKConfig.MaxUndoLevels = 15 ;
 

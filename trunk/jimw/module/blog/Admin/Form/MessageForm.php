@@ -28,7 +28,8 @@ class MessageForm extends Jimw_Form
 	        'type' => 'richtext' ,
 	        'options' => array(
 	        	'label' => 'Header',
-	        	'description' => 'If you specified an header, it will be display on the first page without the content'
+	        	'description' => 'If you specified an header, it will be display on the first page without the content',
+	        	'editor' => array('height' => 200, 'toolbarSet' => 'Basic')
                 )),
         'blogmessage_content' => array(
 	        'type' => 'richtext' ,

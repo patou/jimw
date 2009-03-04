@@ -11,14 +11,6 @@ echo $this->request->getDomainName();
 <link rel="stylesheet" type="text/css"
 	href="<?=$this->path?>/javascripts/extjs/resources/css/ext-all.css">
 <link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/stylesheets/uploadform.css">
-<link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/stylesheets/icons.css">
-<link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/stylesheets/filetree.css">
-<link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/stylesheets/filetype.css">
-<link rel="stylesheet" type="text/css"
 	href="<?=$this->path?>/stylesheets/filechooser.css">
 
 <link rel="shortcut icon"
@@ -27,7 +19,7 @@ echo $this->request->getDomainName();
 <script type="text/javascript">
 		var path = "<?=rtrim($this->path, '/')?>";
 		var default_path = "/";
-		var uploadUrl = "<?php echo $this->url(array('controller' => 'file', 'action' => 'upload'), 'format', true); ?>";
+		var url = "<?php echo $this->url(array('controller' => 'file', 'action' => 'get', 'format' => 'ajax'), 'format', true); ?>";
 		var basename = "<?=rtrim($this->url(array(), 'default', true), '/');?>";
 		var lang = {
 			emptyText: "<?=$this->_('No files match the specified filter');?>",
@@ -39,7 +31,7 @@ echo $this->request->getDomainName();
 			fileSize: "<?=$this->_('File Size');?>",
 			size: "<?=$this->_('Size');?>",
 			lastModified: "<?=$this->_('Last Modified');?>",
-			OK: "<?=$this->_('Select file');?>",
+			SelectDirectory: "<?=$this->_('Select directory');?>",
 			OKThumbnail: "<?=$this->_('Select thumbnail');?>",
 			cancel: "<?=$this->_('Cancel');?>",
 			errorLoading: "<?=$this->_('Error loading file.');?>",
@@ -107,22 +99,16 @@ echo $this->request->getDomainName();
 <script type="text/javascript"
 	src="<?=$this->path?>/javascripts/extjs/ext-all<?=(JIMW_DEBUG_MODE) ? '-debug' : ''?>.js"></script>
 <script type="text/javascript"
-	src="<?=$this->path?>/javascripts/Ext.ux.form.BrowseButton.js"></script>
-<script type="text/javascript"
-	src="<?=$this->path?>/javascripts/Ext.ux.FileUploader.js"></script>
-<script type="text/javascript"
-	src="<?=$this->path?>/javascripts/Ext.ux.UploadPanel.js"></script>
-<script type="text/javascript"
-	src="<?=$this->path?>/javascripts/filechooser.js"></script>
+	src="<?=$this->path?>/javascripts/chooser.js"></script>
 <div id="chooser-dlg" style="width: 100%; height: 100%"></div>
 <script type="text/javascript">
     Ext.onReady(function() {
-    var imageChooser = new ImageChooser({});
-	imageChooser.show(document.body, function (url)
+    var choose = new Chooser({});
+	choose.show(document.body, url, function (node)
 	{
-		window.top.opener.<?php echo isset($this->javascript_fct) ? $this->javascript_fct : 'SetUrl'; ?>( encodeURI( url ) ) ;
-		window.top.close() ;
-		window.top.opener.focus() ;
+		window.top.opener.<?php echo isset($this->javascript_fct) ? $this->javascript_fct : 'SetUrl'; ?>( node );
+		window.top.close();
+		window.top.opener.focus();
 	});
     Ext.get('loading').remove();
     Ext.get('loading-mask').fadeOut({remove:true});
