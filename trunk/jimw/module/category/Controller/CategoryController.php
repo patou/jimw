@@ -18,7 +18,7 @@ class Category_CategoryController extends Jimw_Module_Action_Alias
 		$tree = $request->getTree();
 		$parent = $tree->getParam('tree', $tree->id); 
 		$trees = new Jimw_Site_Tree();
-		$result = $trees->fetchAllChildren($parent, array('module_path = ?' => 'article'), array('tree_editiondate DESC', 'tree_lft DESC'), $tree->getParam('number', 5));
+		$result = $trees->fetchAllChildren($parent, array('module_path = ?' => 'article', 'tree_parentid = ?' => $parent), array('tree_lft DESC'), $tree->getParam('number', 5));
 		$this->view->list_article = $result;
 		$this->view->tree = $tree;
 		$this->render('category');
