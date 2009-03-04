@@ -15,6 +15,7 @@ var ImageChooser = function(config){
 ImageChooser.prototype = {
     // cache data by image name for easy lookup
     lookup : {},
+    path: default_path,
     cancel: function () {
 		var callback = this.callback;
 		this.win.hide(this.animateTarget, function(){
@@ -60,8 +61,14 @@ ImageChooser.prototype = {
 		    	data.shortName = data.name.ellipse(15);
 		    	data.sizeString = formatSize(data);
 		    	data.dateString = data.lastChange;//new Date(data.lastChange).format(lang.dateFormat);
-				if (data.thumb == '')
-					data.thumb = Ext.BLANK_IMAGE_URL;
+				if (data.thumb == '') {
+					if (data.iconCls == 'file-jpg' || data.iconCls == 'file-jpeg' || data.iconCls == 'file-gif' || data.iconCls == 'file-png')
+						data.thumbnail = data.url;
+					else
+						data.thumbnail = Ext.BLANK_IMAGE_URL;
+				}
+				else 
+					data.thumbnail = data.thumb;
 		    	this.lookup[data.name] = data;
 		    	return data;
 		    };
@@ -111,7 +118,7 @@ ImageChooser.prototype = {
 					}, this);
 		    
 			var cfg = {
-				renderTo: document.body,
+				//renderTo: document.body,
 		    	title: lang.title,
 		    	id: 'img-chooser-dlg',
 		    	layout: 'border',
@@ -155,6 +162,7 @@ ImageChooser.prototype = {
 							}
 						}
                     },{
+                    	xtype: 'tbtext',
                     	text: lang.filter
                     },{
                     	xtype: 'textfield',
@@ -169,6 +177,7 @@ ImageChooser.prototype = {
                     		}, scope:this}
                     	}
                     }, ' ', '-', {
+                    	xtype: 'tbtext',
                     	text: lang.sortBy
                     }, {
                     	id: 'sortSelect',
@@ -189,7 +198,18 @@ ImageChooser.prototype = {
 					    listeners: {
 							'select': {fn:this.sortImages, scope:this}
 					    }
-				    }]
+				    },' ','-',{
+						xtype: 'button',
+						id: 'upload',
+           				text: lang.Upload,
+           				iconCls: 'icon-upload',
+           				listeners: {
+							'click': {
+								scope: this,
+								fn: function() { this.uploadFile();}
+							}
+						}
+                    }]
 				},{
 					id: 'img-detail-panel',
 					region: 'east',
@@ -199,6 +219,11 @@ ImageChooser.prototype = {
 					maxWidth: 250
 				}],
 				buttons: [{
+					id: 'ok-btn-thumbnail',
+					text: lang.OKThumbnail,
+					handler: this.doCallbackThumbnail,
+					scope: this
+				},{
 					id: 'ok-btn',
 					text: lang.OK,
 					handler: this.doCallback,
@@ -231,7 +256,7 @@ ImageChooser.prototype = {
 		this.thumbTemplate = new Ext.XTemplate(
 			'<tpl for=".">',
 				'<div class="thumb-wrap" id="{name}">',
-				'<div class="thumb {iconCls}"><img class="x-view-thumb-icon" src="{thumb}" title="{name}"></div>',
+				'<div class="thumb {iconCls}"><img class="x-view-thumb-icon" src="{thumbnail}" title="{name}"></div>',
 				'<span>{shortName}</span></div>',
 			'</tpl>'
 		);
@@ -240,10 +265,10 @@ ImageChooser.prototype = {
 		this.detailsTemplate = new Ext.XTemplate(
 			'<div class="details">',
 				'<tpl for=".">',
-					'<div class="details-thumb">',
+					'',
 					'<div class="thumb-wrap" id="{name}">',
-					'<div class="thumb {iconCls}"><img class="x-view-thumb-icon" src="{thumb}"></div>',
-					'</div></div>',
+					'<div class="thumb {iconCls}"><img class="x-view-thumb-icon" src="{thumbnail}"></div>',
+					'</div>',
 					'<div class="details-info">',
 					'<b>', lang.name,'</b>',
 					'<span>{name}</span>',
@@ -260,15 +285,20 @@ ImageChooser.prototype = {
 	showDetails : function(){
 	    var selNode = this.view.getSelectedNodes();
 	    var detailEl = Ext.getCmp('img-detail-panel').body;
-		if(selNode && selNode.length > 0){
+		if (selNode && selNode.length > 0) {
 			selNode = selNode[0];
 			Ext.getCmp('ok-btn').enable();
-		    var data = this.lookup[selNode.id];
+			var data = this.lookup[selNode.id];
+			if (data.thumb.length > 0)
+				Ext.getCmp('ok-btn-thumbnail').show();
+			else
+				Ext.getCmp('ok-btn-thumbnail').hide();
             detailEl.hide();
             this.detailsTemplate.overwrite(detailEl, data);
             detailEl.slideIn('l', {stopFx:true,duration:0.2});
-		}else{
+		} else {
 		    detailEl.update('');
+		    Ext.getCmp('ok-btn-thumbnail').hide();
 		}
 	},
 	
@@ -294,6 +324,7 @@ ImageChooser.prototype = {
 	},
 	
 	loadPath : function(path){
+		this.path = path;
 		this.store.load({params : {path: path}});
 		this.reset();
 		this.tree.selectPath( default_path+'root' + path, 'text', function (success, node) { if (success) node.expand() });
@@ -319,9 +350,53 @@ ImageChooser.prototype = {
 			}
 		});
     },
+    
+    doCallbackThumbnail : function(){
+        var selNode = this.view.getSelectedNodes()[0];
+		var callback = this.callback;
+		var lookup = this.lookup;
+		this.win.hide(this.animateTarget, function(){
+            if(selNode && callback){
+				var data = lookup[selNode.id];
+				if (data.thumb.length > 0)
+					callback(data.thumb);
+			}
+		});
+    },
 	
 	onLoadException : function(v,o){
 	    this.view.getEl().update('<div style="padding:10px;">'+lang.errorLoading+'</div>'); 
+	},
+	
+	uploadFile: function() {
+		var winUpload = new Ext.Window({
+	         width:180
+			,minWidth:165
+	        ,id:'winUpload'
+	        ,height:220
+			,minHeight:200
+	//		,stateful:false
+	        ,layout: 'fit'
+	        ,border: false
+	        ,closable: true
+	        ,title:'UploadPanel'
+			,iconCls:'icon-upload'
+			,items:[{
+				  xtype:'uploadpanel'
+				 ,buttonsAt:'tbar'
+				 ,id:'uppanel'
+				 ,url: uploadUrl
+				 ,path:this.path
+				 ,maxFileSize:1048576
+	//			 ,enableProgress:false
+	//			 ,singleUpload:true
+			}]
+	    });
+	    winUpload.show.defer(500, winUpload);
+	    winUpload.on('close', this.refresh, this);
+	},
+	refresh: function() {
+		this.loadPath(this.path);
 	}
 };
 

@@ -1,24 +1,11 @@
-<script type="text/javascript" src="<?= $this->path ?>/fckeditor.js"></script>
 <form action="<?php echo $this->url(array('module' => 'article', 'controller' => 'manage', 'action' => 'save', 'format' => 'phtml', 'id' => $this->id), 'format', true); ?>" method="post">
 <input type="hidden" name="id" value="<?= $this->id ?>">
 <table border="0" width="90%">
-<tr><td class="t01"><?php echo $this->_('Content') ?> : </td><td><textarea name="content" rows="20" cols="60"><?= $this->content ?></textarea></td></tr>
+<tr><td class="t01"><?php echo $this->_('Content') ?> : </td><td>
+<?php echo $this->formRichtext('content', $this->content, array('toolbarSet' => 'All')); ?></td></tr>
 <tr><td colspan="2" align="center"><input type="submit" name="btn" value="<?php echo $this->_('Save') ?>"></td></tr>
 </table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
 	<a href="<?= $this->request->getBaseUrl() ?>"><?php echo $this->_('Return') ?></a>
 </p>
-<script type="text/javascript">
-      window.onload = function()
-      {
-        var oFCKeditor = new FCKeditor( 'content' ) ;
-        oFCKeditor.BasePath = "<?= $this->path ?>/" ;
-        oFCKeditor.Config["LinkBrowserURL"] = '<?= $this->url(array('controller' => 'file', 'action' => 'chooser', 'format' => 'ajax'), 'format', true) ?>';
-        oFCKeditor.Config["ImageBrowserURL"] = '<?= $this->url(array('controller' => 'file', 'action' => 'chooser', 'format' => 'ajax'), 'format', true) ?>';
-        oFCKeditor.Config["FlashBrowserURL"] = '<?= $this->url(array('controller' => 'file', 'action' => 'chooser', 'format' => 'ajax'), 'format', true) ?>';
-        oFCKeditor.Width = 600;
-		oFCKeditor.Height = 400;
-        oFCKeditor.ReplaceTextarea() ;
-      }
-</script>

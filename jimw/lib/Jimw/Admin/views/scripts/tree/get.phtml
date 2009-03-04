@@ -1,0 +1,12 @@
+<?php
+$tab = array();
+foreach ($this->list_tree as $tree) {
+    $tab[] = array('text' => $tree->menutitle,
+    				'id' => $tree->id,
+    				'alias' => $tree->alias,
+    				'url' => $this->url(array('alias' => $tree->alias), 'alias'),
+                    'disabled' => false,
+                    'leaf' => !$tree->hasChildren());
+}
+Jimw_Debug::dump($tab);
+Zend_Json::encode($tab);

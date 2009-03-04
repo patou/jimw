@@ -34,7 +34,15 @@ class FileController extends Jimw_Admin_Action
      */
     public function chooserAction ()
     {
+        if (isset($this->getRequest()->javascript_fct))
+            $this->view->javascript_fct = $this->getRequest()->javascript_fct;
         $this->render('chooser');
+    }
+    public function dirchooserAction ()
+    {
+        if (isset($this->getRequest()->javascript_fct))
+            $this->view->javascript_fct = $this->getRequest()->javascript_fct;
+        $this->render('dirchooser');
     }
     public function listAction ()
     {
@@ -283,8 +291,14 @@ class FileController extends Jimw_Admin_Action
         $dir = '/' . trim(substr($dir, 0, strpos($dir, 'admin')), '/');
         $thumb = preg_replace('/^(.*)\.([^\.]*)$/', $path . '/thumbnails/$1.jpg', $file);
         $thumb_path = $this->get_dir($thumb);
-        $file = str_replace('../', $dir, $thumb_path);
-        return file_exists($thumb_path) ? $file : '';
+        $file_thumb = str_replace('../', $dir, $thumb_path);
+        if (!file_exists($thumb_path)) {
+            $file_thumb = '';
+            //if (in_array($this->get_ext($file), array('file-jpg' , 'file-jpeg', 'file-png', 'file-gif')))
+              //  $file_thumb = str_replace('../', $dir, $this->get_dir($path . '/' . $file));
+        }
+
+        return $file_thumb;
     }
     private function get_edit ($file)
     {
