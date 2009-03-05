@@ -79,6 +79,7 @@ return array(
     'No' => 'Non',
     'No files match the specified filter' => 'Aucun fichier ne correspond au filtre demandé',
     'Open' => 'Ouvrir',
+    'Others sites' => 'Autres sites',
     'Page not found' => 'Page inexistante',
     'Pages' => 'Pages',
     'Parent' => 'Parent',
@@ -105,6 +106,7 @@ return array(
     'Subscribe' => 'S\'inscrire',
     'System' => 'Système',
     'Title' => 'Titre',
+    'Trash' => 'Corbeille',
     'Upload' => 'Envoyer un fichier',
     'Update Database' => 'Mettre à jour la base',
     'Upload file' => 'Envoyer un fichier',
@@ -145,6 +147,7 @@ return array(
     'The provided passwords are differents.' => 'Le mot de passe doit être identique à sa confirmation.',
     'This user already exists.' => 'Ce nom d\'utilisateur existe déjà.',
     'Registration successful.' => 'Inscription effectuée avec succès !',
+    'The alias is the url, use just alphanumeric charactere' => 'L\'alias sera utilisé pour construire l\'url de la page, utilisez simplement des caractères alphanumériques sans accents',
 
     'Do you really want to delete this document ?' => 'Voulez-vous vraiment supprimer ce document ?',
     'Do you really want to delete this file ?' => 'Voulez-vous vraiment supprimer ce fichier ?',
