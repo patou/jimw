@@ -61,10 +61,12 @@ class TreeController extends Jimw_Admin_Action
             $result->image = $values['tree_image'];
             $result->icon = $values['tree_icon'];
             $result->description = $values['tree_description'];
-            if (empty($result->parentid)) { // If the parent tree is the site root
+            if (empty($values['tree_parentid'])) { // If the parent tree is the root
                 $site = Zend_Registry::get('site');
-                $result->parentid = $site->tree_id;
-                $result->site_id = $site->id;
+                if ($result->id != $site->tree_id) { //If the node isn't the site tree root node
+                    $result->parentid = $site->tree_id;
+                    $result->site_id = $site->id;
+                }
             }
             $parent = $tree->find($values['tree_parentid']);
             if (isset($parent) && count($parent)) {
@@ -79,7 +81,6 @@ class TreeController extends Jimw_Admin_Action
             }
             //Zend_Debug::dump($save);
             if (!empty($values['tree_param'])) {
-                Jimw_Debug::dump($values['tree_param']);
                 $result->param = $values['tree_param'];
             }
             $result->save();
