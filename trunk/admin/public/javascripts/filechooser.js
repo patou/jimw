@@ -209,6 +209,17 @@ ImageChooser.prototype = {
 								fn: function() { this.uploadFile();}
 							}
 						}
+                    },{
+						xtype: 'button',
+						id: 'upload',
+           				text: lang.Newdir,
+           				iconCls: 'icon-newdir',
+           				listeners: {
+							'click': {
+								scope: this,
+								fn: function() { this.newdirFile();}
+							}
+						}
                     }]
 				},{
 					id: 'img-detail-panel',
@@ -395,6 +406,52 @@ ImageChooser.prototype = {
 	    winUpload.show.defer(500, winUpload);
 	    winUpload.on('close', this.refresh, this);
 	},
+	newdirFile: function() {
+		// set focus to no button to avoid accidental deletions
+        var msgdlg = Ext.Msg.getDialog();
+        msgdlg.defaultButton = msgdlg.buttons[2];//.focus();
+        Ext.Msg.prompt(lang.newdirText
+                , lang.newdirText
+                , function(response, newname) {
+                        var conn;
+                        // do nothing if answer is not yes
+                        if ('ok' !== response) {
+                                return;
+                        }
+                        // answer is yes
+                        else {
+                               this.newdir(this.path + '/' + newname);
+                        }
+                }
+                , this
+        );
+	},
+	newdir: function(dir) {
+		var options = {
+			 url: newdirUrl
+			,method: this.tree.method
+			,scope: this
+			,callback: this.cmdCallbackNewdir
+			,params:{
+				 cmd:'newdir'
+				,dir:dir
+			}
+		};
+		Ext.Ajax.request(options);	
+	},
+	cmdCallbackNewdir: function (options, bSuccess, response) {
+        var i, o, node;
+        var showMsg = true;
+        if (true === bSuccess) {
+            o = Ext.decode(response.responseText);
+            if (true === o.success) {
+                Ext.Msg.alert('OK', lang.successNewdirText);
+                this.loadPath(this.path);
+            } else {
+                    Ext.Msg.alert(lang.errorNewdirText, o.error);
+            }
+        }
+    },
 	refresh: function() {
 		this.loadPath(this.path);
 	}

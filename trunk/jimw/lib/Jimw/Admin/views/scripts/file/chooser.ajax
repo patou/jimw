@@ -27,7 +27,8 @@ echo $this->request->getDomainName();
 <script type="text/javascript">
 		var path = "<?=rtrim($this->path, '/')?>";
 		var default_path = "/";
-		var uploadUrl = "<?php echo $this->url(array('controller' => 'file', 'action' => 'upload'), 'format', true); ?>";
+		var uploadUrl = "<?php echo $this->url(array('controller' => 'file', 'action' => 'upload', 'format' => 'ajax'), 'format', true); ?>";
+		var newdirUrl = "<?php echo $this->url(array('controller' => 'file', 'action' => 'newdir', 'format' => 'ajax'), 'format', true); ?>";
 		var basename = "<?=rtrim($this->url(array(), 'default', true), '/');?>";
 		var lang = {
 			emptyText: "<?=$this->_('No files match the specified filter');?>",
@@ -45,7 +46,11 @@ echo $this->request->getDomainName();
 			errorLoading: "<?=$this->_('Error loading file.');?>",
 			root: "<?=$this->_('root');?>",
 			dateFormat: "<?=$this->_('m/d/Y g:i a')?>",
-			Upload: "<?=$this->_('Upload'); ?>"
+			Upload: "<?=$this->_('Upload'); ?>",
+			Newdir: "<?=$this->_('New Directory'); ?>",
+			successNewdirText: "<?=$this->_('Create new directory successful'); ?>",
+			errorNewdirText: "<?=$this->_('Error to create new directory'); ?>",
+			newdirText: "<?=$this->_('New directory'); ?>"
 		};
 	</script>
 <style type="text/css">

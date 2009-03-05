@@ -96,7 +96,7 @@ Chooser.prototype = {
 			this.win.on('close', this.cancel, this);
 		}
 		
-		this.loadPath('/');
+		this.loadPath(default_path);
 	    this.win.show(el);
 		this.win.setPosition(0, 0);
 		this.win.fitContainer();

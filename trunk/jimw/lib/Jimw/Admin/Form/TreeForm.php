@@ -77,7 +77,7 @@ class Jimw_Admin_Form_TreeForm extends Jimw_Form
             		'Alias'),
                 'description' => 'The alias is the url, use just alphanumeric charactere',
                 'onblur' => 'fillAlias(this.value, this.form)',
-                'onkeyup' => 'this.value = cleanString(this.value)')) ,
+                'onkeyup' => 'var v= cleanString(this.value); if (v != this.value) this.value = v;')) ,
         'tree_image' => array(
             'type' => 'imagechooser' ,
             'options' => array(

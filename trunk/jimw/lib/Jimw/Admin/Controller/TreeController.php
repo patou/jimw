@@ -58,6 +58,8 @@ class TreeController extends Jimw_Admin_Action
             $result->version++;
             $result->status = $values['tree_status'];
             $result->alias = $values['tree_alias'];
+            $result->image = $values['tree_image'];
+            $result->icon = $values['tree_icon'];
             $result->description = $values['tree_description'];
             if (empty($result->parentid)) { // If the parent tree is the site root
                 $site = Zend_Registry::get('site');
@@ -109,6 +111,8 @@ class TreeController extends Jimw_Admin_Action
             $save->menutitle = $values['tree_menutitle'];
             $save->status = $values['tree_status'];
             $save->alias = $values['tree_alias'];
+            $save->image = $values['tree_image'];
+            $save->icon = $values['tree_icon'];
             $save->description = $values['tree_description'];
             $save->module_path = $req->module_path;
             $save->version = 0;
