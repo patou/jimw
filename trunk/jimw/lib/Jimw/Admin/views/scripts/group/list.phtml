@@ -40,7 +40,7 @@ foreach ($this->groups_list as $group) :
     ?>
 			</td>
 		<td align="right">
-		<?php if ($group->name != Jimw_Acl::ADMINISTRATOR): ?>
+		<?php if ($group->name != Jimw_Acl::ADMINISTRATORS): ?>
 		<a
 			href="<?php
     echo $this->url(array('controller' => 'perm' , 'action' => 'edit' , 'format' => 'phtml' , 'group_id' => $group->id), 'format', true);
