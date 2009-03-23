@@ -15,6 +15,15 @@ class ErrorController extends Jimw_Module_Action
     {
         $this->error();
     }
+
+    public function permsAction ()
+    {
+        $auth = Zend_Auth::getInstance();
+        if (!$auth->hasIdentity()) {
+            $this->_forward('login', 'auth', 'default');
+        }
+    }
+
     public function error ()
     {
         $errors = $this->_getParam('error_handler');
@@ -37,6 +46,10 @@ class ErrorController extends Jimw_Module_Action
                     $render = '404';
                 } catch (Jimw_Site_Exception_SiteTreeNotFound $e) {
                     $render = '404';
+                } catch (Jimw_Site_Exception_Permission $e) {
+                    $this->_forward('perms');
+                } catch (Jimw_Acl_Exception $e) {
+                    $this->_forward('perms');
                 } catch (Jimw_Exception $e) {
                     $render = 'site-error';
                 } catch (Zend_Exception $e) {

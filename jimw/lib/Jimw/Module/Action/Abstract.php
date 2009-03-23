@@ -66,4 +66,30 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 	    $options = func_get_args();
 		return call_user_func_array(array($this->view->translate(), 'translate'), $options);
 	}
+
+	/**
+     * Check if the current user is allowed to access to this ressource and privilege
+     *
+     */
+    public function isRoleAllowed($resource = null, $privilege = null) {
+        if ($this->_auth == null) {
+            $this->_auth = Zend_Registry::get('Zend_Acl');
+        }
+        return $this->_auth->isRoleAllowed($resource, $privilege);
+    }
+
+    /**
+     * Check is a ressource and a pricilege is allowed, if not throw an exception
+     */
+    public function checkRoleAllowed($resource = null, $privilege = null) {
+        if (!$this->isRoleAllowed($resource, $privilege)) {
+            throw new Jimw_Acl_Exception();
+        }
+    }
+
+	/**
+     * @var Jimw_Acl
+     */
+    protected $_auth = null;
+
 }

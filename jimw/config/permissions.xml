@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<permissions>
+	<public>
+		<all>
+			<label>Public website</label>
+			<default>allow</default>
+		</all>
+		<view>
+			<label>Access to the website</label>
+			<default>default</default>
+		</view>
+		<login>
+			<label>Can login to this website</label>
+			<default>default</default>
+		</login>
+	</public>
+	<admin>
+		<all>
+			<label>Administrator website</label>
+			<default>deny</default>
+		</all>
+		<view>
+			<label>Access to the administration</label>
+			<default>default</default>
+		</view>
+	</admin>
+	<admin_system>
+		<inherit>admin</inherit>
+		<label>System Administration</label>
+		<default>deny</default>
+	</admin_system>
+	<admin_file>
+		<inherit>admin</inherit>
+		<label>File Administration</label>
+		<default>default</default>
+	</admin_file>
+	<admin_user>
+		<inherit>admin</inherit>
+		<label>User Administration</label>
+		<default>deny</default>
+	</admin_user>
+</permissions>

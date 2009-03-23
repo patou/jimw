@@ -13,10 +13,32 @@
  * This class permit to use $tree->param->name access to tree params instead of $tree->getParam($name);
  *
  */
-class Jimw_Db_Row_Param implements ArrayAccess
+class Jimw_Db_Row_Param implements ArrayAccess, Countable, Iterator
 {
+    /**
+     * @var Jimw_Db_Row
+     */
     private $_row;
+    /**
+     * @var string
+     */
     private $_param;
+    /**
+     * @var array
+     */
+    private $_array;
+    /**
+     * @var ArrayIterator
+     */
+    private $_iterator;
+    /**
+     * @see Countable::count()
+     *
+     */
+    public function count ()
+    {
+        return count($array);
+    }
     /**
      *
      * @param Jimw_Site_Tree_Row $tree The parent Tree Row
@@ -25,6 +47,9 @@ class Jimw_Db_Row_Param implements ArrayAccess
     {
         $this->_row = $row;
         $this->_param = $param;
+        $this->_array = $row->getParams($param);
+        $array = new ArrayObject($this->_array);
+        $this->_iterator = $array->getIterator();
     }
     /**
      * @see ArrayAccess::offsetExists()
@@ -133,6 +158,33 @@ class Jimw_Db_Row_Param implements ArrayAccess
     public function toArray ()
     {
         return $this->_row->getParams($this->_param);
+    }
+
+
+
+    public function current()
+    {
+        return $this->_iterator->current();
+    }
+
+    public function next()
+    {
+        return $this->_iterator->next();
+    }
+
+    public function key()
+    {
+        return $this->_iterator->key();
+    }
+
+    public function valid()
+    {
+        return $this->_iterator->valid();
+    }
+
+    public  function rewind()
+    {
+        return $this->_iterator->rewind();
     }
 }
 

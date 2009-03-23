@@ -31,6 +31,11 @@ class Jimw_Admin_Form_UserForm extends Jimw_Form
 		        'type' => 'email' ,
 		        'options' => array(
 			        'label' => 'Email' ,
+			        'required' => true)),
+            'usergroup' => array(
+		        'type' => 'usergroup' ,
+		        'options' => array(
+			        'label' => 'Groups' ,
 			        'required' => true))
         ));
     }

@@ -28,7 +28,10 @@ class Jimw_Db_Row extends Zend_Db_Table_Row
     protected function _loadParam ($name = 'param')
     {
         if (!isset($this->_paramsFieldLoaded[$name]) || $this->_paramsFieldLoaded[$name] === null) {
-            $this->_paramsFieldLoaded[$name] = unserialize(parent::__get($name));
+            $value = parent::__get($name);
+            if (empty($value))
+                $value = serialize(array());
+            $this->_paramsFieldLoaded[$name] = unserialize($value);
             if (empty($this->_paramsFieldLoaded[$name])) {
                 $this->_paramsFieldLoaded[$name] = array();
             }

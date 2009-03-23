@@ -12,10 +12,10 @@ class Jimw_Admin_Form_GroupForm extends Jimw_Form
 			        'label' => 'Name' ,
 			        'required' => true)) ,
 	        'group_parents' => array(
-		        'type' => 'text' ,
+		        'type' => 'usergroup' ,
 		        'options' => array(
 		        	'label' => 'Parent',
-                    'description' => 'Add parents name separted by a comma'))
+                    'description' => 'Select parents groups'))
 	        ));
     }
 }

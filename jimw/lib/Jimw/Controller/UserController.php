@@ -93,6 +93,7 @@ class UserController extends Jimw_Module_Action
         //$this->getHelper('ViewRenderer')->noRenderLayout()->setAppendBody(true);
         $this->render();
     }
+
     function logoutAction ()
     {
         Zend_Auth::getInstance()->clearIdentity();

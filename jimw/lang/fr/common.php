@@ -94,6 +94,7 @@ return array(
     'Report spam' => 'Signaler un contenu indésirable',
     'Return' => 'Retour',
     'Save' => 'Sauvegarder',
+    'Search' => 'Rechercher',
     'Send' => 'Envoyer',
     'Select directory' => 'Selectionner un repertoire',
     'Select picture' => 'Selectionner une image',
@@ -140,6 +141,7 @@ return array(
     'This document doesn\'t exist' => 'Ce document n\'existe pas',
     'This file doesn\'t exist' => 'Ce fichier n\'existe pas',
     'This message doesn\'t exist' => 'Ce message n\'existe pas',
+    'This alias allready exist' => 'Cette alias existe déjà',
 
     'Please provide a username.' => 'Veuillez choisir un nom d\'utilisateur.',
     'Please provide a password.' => 'Veuillez choisir un mot de passe.',

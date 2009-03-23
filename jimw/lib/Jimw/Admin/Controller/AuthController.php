@@ -57,9 +57,10 @@ class AuthController extends Jimw_Admin_Action
         $this->view->form = $form;
         $this->render();
     }
+
     function logoutAction ()
     {
         Zend_Auth::getInstance()->clearIdentity();
-        $this->_redirect($this->view->url(), array('prependBase'=>false));
+        $this->_redirect('/');
     }
 }

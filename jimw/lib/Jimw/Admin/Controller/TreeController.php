@@ -264,7 +264,7 @@ class TreeController extends Jimw_Admin_Action
     {
         $id = $this->getRequest()->path;
         $tree = new Jimw_Site_Tree();
-        $parentid = $tree->fetchAll($tree->select()->where('tree_parentid = ?', $id)); //$tree->select()->where('tree_parentid = ?', $id)->where('tree_status = ?', Jimw_Site_Tree::PUBLISHED)
+        $parentid = $tree->fetchAll($tree->select()->where('tree_parentid = ?', $id)->order(array('tree_lft' , 'tree_alias'))); //$tree->select()->where('tree_parentid = ?', $id)->where('tree_status = ?', Jimw_Site_Tree::PUBLISHED)
         $this->view->list_tree = $parentid;
     }
 

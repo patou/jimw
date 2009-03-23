@@ -13,7 +13,7 @@ class IndexController extends Jimw_Module_Action
 {
     public function indexAction ()
     {
-        $request = $this->_request;
+        $request = $this->getRequest();
         $site = Zend_Registry::get('site');
         $treeFactory = new Jimw_Site_Tree();
         $tree = $treeFactory->findBySite($site);
