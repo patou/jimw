@@ -76,9 +76,9 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}group` (
 );
 
 INSERT INTO `{PREFIX}group` (group_id, group_name, group_type, group_parents) VALUES
-	(1, 'Gest', 1, NULL),
+	(1, 'Gests', 1, NULL),
 	(2, 'Members', 1, NULL),
-	(3, 'Administrator', 1, NULL);
+	(3, 'Administrators', 1, NULL);
 
 CREATE TABLE IF NOT EXISTS `{PREFIX}usergroup` (
 	`group_id` INT UNSIGNED NOT NULL ,
