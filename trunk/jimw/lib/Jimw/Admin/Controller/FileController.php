@@ -13,6 +13,7 @@ class FileController extends Jimw_Admin_Action
 {
     public function preDispatch ()
     {
+        $this->checkRoleAllowed('admin_file');
         /*$viewRenderer = $this->getHelper('ViewRenderer');
         if ($viewRenderer->getViewSuffix() == 'ajax') {
             $viewRenderer->noRenderLayout();

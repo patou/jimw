@@ -11,6 +11,10 @@
  */
 class GroupController extends Jimw_Admin_Action
 {
+    public function preDispatch()
+    {
+        $this->checkRoleAllowed('admin_user');
+    }
     /**
      * The default action - show the home page
      */
@@ -42,14 +46,37 @@ class GroupController extends Jimw_Admin_Action
             $values = $form->getValues();
             $group->id = $id;
 	        $group->name = $values['group_name'];
-	        $group->parents = $values['group_parents'];
+            if (!empty($values['group_parents']) && is_array($values['group_parents'])) {
+    	        $options = $form->getElement('group_parents')->getUsergroupList();
+    	        $parents = array();
+    	        foreach ($values['group_parents'] as $group_id) {
+                    $parents[] = $options[$group_id];
+    	        }
+    	        $group->parents = implode(',', $parents);
+            }
+            else {
+                $group->parents = '';
+            }
 	        $group->save();
 	        $this->_helper->getHelper('FlashMessenger')->addMessage($this->_('Save successful') . ' ' . $group->id);
 	        $this->_forward('index');
         }
         else
         {
-            $form->populate($group->toArray());
+            $array = $group->toArray();
+            $array['group_parents'] = array();
+            $element = $form->getElement('group_parents');
+            $options = $element->getUsergroupList();
+            $parents = explode(',', $group->parents);
+            foreach ($parents as $parent) {
+                $key = array_search($parent, $options);
+                if ($key)
+                    $array['group_parents'][] = $key;
+            }
+            $element->removeMultiOption(array_search($group->name, $options));
+            Jimw_Debug::dump($array);
+            Jimw_Debug::dump($options);
+            $form->populate($array);
             $form->addSubmit('Save');
 	        $this->view->group = $group;
 	        $this->view->form = $form;
@@ -67,7 +94,17 @@ class GroupController extends Jimw_Admin_Action
         {
             $values = $form->getValues();
             $group->name = $values['group_name'];
-	        $group->parents = $values['group_parents'];
+            if (!empty($values['group_parents']) && is_array($values['group_parents'])) {
+    	        $options = $form->getElement('group_parents')->getUsergroupList();
+    	        $parents = array();
+    	        foreach ($values['group_parents'] as $group_id) {
+                    $parents[] = $options[$group_id];
+    	        }
+    	        $group->parents = implode(',', $parents);
+            }
+            else {
+                $group->parents = '';
+            }
 	        $group->save();
 	        $this->_helper->getHelper('FlashMessenger')->addMessage($this->_('Add successful') . ' ' . $group->id);
 	        $this->_forward('index');

@@ -16,6 +16,10 @@
  */
 class SiteController extends Jimw_Admin_Action
 {
+    public function preDispatch()
+    {
+        $this->checkRoleAllowed('admin_system');
+    }
     /**
      * The default action - show the home page
      */

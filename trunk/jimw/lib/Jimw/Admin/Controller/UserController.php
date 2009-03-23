@@ -11,6 +11,10 @@
  */
 class UserController extends Jimw_Admin_Action
 {
+    public function preDispatch()
+    {
+        $this->checkRoleAllowed('admin_user');
+    }
     /**
      * The default action - show the home page
      */
@@ -23,6 +27,7 @@ class UserController extends Jimw_Admin_Action
         $users = new Jimw_Site_User();
         $this->view->users_list = $users->fetchAll();
     }
+
     public function editAction ()
     {
         $req = $this->getRequest();
@@ -34,6 +39,7 @@ class UserController extends Jimw_Admin_Action
             throw new Jimw_Admin_Exception($this->_("This user doesn't exist"));
         }
         $save = $user->current();
+        $usergroup = $save->findJimw_Site_Usergroup();
         $form = new Jimw_Admin_Form_UserForm();
         if ($req->isPost() && $form->isValid($req->getPost())) {
             $values = $form->getValues();
@@ -45,17 +51,39 @@ class UserController extends Jimw_Admin_Action
             $save->status = 0;
             $save->email = $values['user_email'];
             $save->save();
+            $list = array();
+            foreach ($usergroup as $group) {
+                if (!in_array($group->group_id, $values['usergroup']))
+                    $group->delete();
+                else
+                    $list[] = $group->group_id;
+            }
+            $usergroups = new Jimw_Site_Usergroup();
+            foreach ($values['usergroup'] as $group_id) {
+                if (!in_array($group_id, $list)) {
+                    $groups = $usergroups->fetchNew();
+                    $groups->group_id = $group_id;
+                    $groups->user_id = $save->id;
+                    $groups->save();
+                }
+            }
             $this->_helper->getHelper('FlashMessenger')->addMessage('Save successful ' . $save->login);
             $this->_forward('index');
         }
         else
         {
-            $form->populate($save->toArray());
+            $list = $save->toArray();
+            $list['usergroup'] = array();
+            foreach ($usergroup as $group) {
+                $list['usergroup'][] = $group->group_id;
+            }
+            $form->populate($list);
             $form->addSubmit('Save');
             $this->view->form = $form;
             $this->render('form');
         }
     }
+
     public function addAction ()
     {
         $req = $this->getRequest();
@@ -72,6 +100,13 @@ class UserController extends Jimw_Admin_Action
             $save->status = 0;
             $save->email = $values['user_email'];
             $save->save();
+            $usergroups = new Jimw_Site_Usergroup();
+            foreach ($values['usergroup'] as $group_id) {
+                $groups = $usergroups->fetchNew();
+                $groups->group_id = $group_id;
+                $groups->user_id = $save->id;
+                $groups->save();
+            }
             $this->_helper->getHelper('FlashMessenger')->addMessage('Insert successful ' . $save->login);
             $this->_forward('index');
         }
@@ -83,6 +118,7 @@ class UserController extends Jimw_Admin_Action
             $this->render('form');
         }
     }
+ /*
     public function saveAction ()
     {
         $req = $this->_request;
@@ -100,6 +136,7 @@ class UserController extends Jimw_Admin_Action
         $this->_helper->getHelper('FlashMessenger')->addMessage('Save successful ' . $save->login);
         $this->_forward('index');
     }
+
     public function insertAction ()
     {
         $req = $this->_request;
@@ -115,6 +152,7 @@ class UserController extends Jimw_Admin_Action
         $this->_helper->getHelper('FlashMessenger')->addMessage('Save successful ' . $save->login);
         $this->_forward('index');
     }
+ */
     public function deleteAction ()
     {
         $id = $this->_request->id;

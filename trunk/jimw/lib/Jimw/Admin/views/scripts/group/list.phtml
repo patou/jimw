@@ -31,7 +31,7 @@ foreach ($this->groups_list as $group) :
 			</td>
 		<td>
 			<?php
-    echo $this->escape($group->name);
+    echo $this->escape(($group->type != 1) ? $group->name : $this->_($group->name));
     ?>
 			</td>
 		<td>
@@ -39,9 +39,11 @@ foreach ($this->groups_list as $group) :
     echo $this->escape($group->parents);
     ?>
 			</td>
-		<td align="right"><a
+		<td align="right">
+		<?php if ($group->name != Jimw_Acl::ADMINISTRATOR): ?>
+		<a
 			href="<?php
-    echo $this->url(array('controller' => 'perm' , 'action' => 'edit' , 'format' => 'phtml' , 'id' => $group->id), 'format', true);
+    echo $this->url(array('controller' => 'perm' , 'action' => 'edit' , 'format' => 'phtml' , 'group_id' => $group->id), 'format', true);
     ?>">
 		<img width="16" height="16" border="0"
 			title="<?php
@@ -52,6 +54,7 @@ foreach ($this->groups_list as $group) :
     echo $this->path;
     ?>/images/icons/group_key.png" /> </a>
 			<?php
+	endif;
     if ($group->type != 1) :
         ?>
 				<a

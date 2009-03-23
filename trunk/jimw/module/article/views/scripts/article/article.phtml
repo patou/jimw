@@ -1,6 +1,10 @@
 <?= (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
 
 <? if (!empty($this->article)): ?>
+<div style="float: right;">
+<a href="<?php echo $this->url(array('format' => 'pdf'), 'format'); ?>"><img src="<?php echo JIMW_URL_PUBLIC_COMMON_PATH ?>/pdf.png"  name="<?php echo $this->_('View this page in Pdf'); ?>" align="middle" border="0" /></a>
+<a href="<?php echo $this->url(array('format' => 'print'), 'format'); ?>"><img src="<?php echo JIMW_URL_PUBLIC_COMMON_PATH ?>/print.png"  name="<?php echo $this->_('Print this page'); ?>" align="middle" border="0" /></a>
+</div>
 <?= $this->article->content ?>
 <? else: ?>
 <p>Article not found</p>

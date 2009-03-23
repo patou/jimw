@@ -10,25 +10,29 @@
 
 
 <head>
-<title><?php echo $this->request->getDomainName (); ?> - <?= $this->tree->menutitle; ?></title>
+<?php echo $this->headTitle(); ?>
+<?php echo $this->headMeta(); ?>
+<?php echo $this->headLink(); ?>
+<?php echo $this->headStyle(); ?>
+<?php echo $this->headScript(); ?>
 </head>
 <body>
 	<script language="javascript" type="text/javascript">
 	<!--
 	document.write('<div style="float:right">');
 	document.write('<a href="#" onclick="javascript:window.print(); return false;" title="<?php echo $this->_('Print'); ?>">');
-	document.write('<img src="<?= $this->path ?>/images/printButton.png"  alt="<?php echo $this->_('Print'); ?>" name="<?php echo $this->_('Print'); ?>" align="middle" border="0" />');
+	document.write('<img src="<?php echo JIMW_URL_PUBLIC_COMMON_PATH ?>/print.png"  alt="<?php echo $this->_('Print'); ?>" name="<?php echo $this->_('Print'); ?>" align="middle" border="0" />');
 	document.write('</a>');
 	document.write('</div>');
 	//-->
 	</script>
 	<h1><?= $this->tree->pagetitle; ?></h1>
 	<div id="content">
-	<?php echo $this->getContent(); ?>
+	<?php echo $this->layout()->content; ?>
 	<script language="javascript" type="text/javascript">
 	<!--
 	document.write('<div align="center" style="margin-top: 30px; margin-bottom: 30px;">');
-	document.write('<a href="<?php echo $this->url(array('alias' => 'accueil'), 'alias', true);?>"><span class="small"><?php echo $this->_('Return'); ?></span></a>');
+	document.write('<a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index', 'module' => 'default'), 'format', true);?>"><span class="small"><?php echo $this->_('Return'); ?></span></a>');
 	document.write('</div>');
 	//-->
 	</script>

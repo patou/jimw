@@ -11,6 +11,10 @@
  */
 class UsergroupController extends Jimw_Admin_Action
 {
+    public function preDispatch()
+    {
+        $this->checkRoleAllowed('admin_user');
+    }
     /**
      * The default action - show the home page
      */

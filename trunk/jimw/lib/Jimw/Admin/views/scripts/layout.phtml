@@ -16,6 +16,28 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_TRANSITIONAL);
 
 
 <body>
+	<div class="toolbar">
+		<div class="toolbar_left"><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index', 'format' => 'phtml'), 'format', true) ?>"><?= $this->_('Intro'); ?></a>
+		&nbsp;&nbsp;<a href="<?php echo $this->url(array(), 'format', true, false) ?>" target="_blank"><?php echo $this->_('View site'). ' ' . $this->site->name; ?></a>
+		<?php echo $this->_('Others sites'); ?>&nbsp;:
+		<?php
+        $sites = new Jimw_Site_Site();
+        $list = $sites->fetchAll();
+        foreach ($list as $site) {
+            if ($this->site->id != $site->id)
+            echo '&nbsp;&nbsp;<a href="'. $this->url(array('site' => $site->id), 'format') .'" target="_blank">'. $site->name .'</a>';
+        }
+		?>
+		</div>
+		<div class="toolbar_right">
+		<?php
+        if ($this->hasAuth()) {
+    		$auth = Zend_Auth::getInstance();
+    		$user = $auth->getStorage()->read();
+    		echo $this->_('Hello'), ' ', $user->user_firstname, ' ', $user->user_lastname;
+        }
+		 ?>&nbsp;<a href="<?php echo $this->url(array('controller' => 'auth', 'action' => 'logout', 'format' => 'phtml'), 'format', true) ?>"><?php echo $this->_('Logout'); ?></a></div>
+	</div>
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 	<tr>
 		<td class="bg"><img src="<?=$this->path?>/images/px1.gif" width="1"
@@ -106,7 +128,7 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_TRANSITIONAL);
 		<table border="0" cellpadding="0" cellspacing="0" width="780">
 			<tr bgcolor="#AFC0D0" valign="top">
 				<td width="487">
-	
+
 	<?php
 echo $this->layout()->content;
 ?>
@@ -135,7 +157,7 @@ echo $this->layout()->content;
     echo $this->request->getBaseUrl()?>/">AJAX
 				version</a><br />Copyright &copy; 2006 - 2008 <?php
     echo $this->request->getDomainName();
-    ?> / 
+    ?> /
 <a href="http://www.logisim.fr" target="_blank">Simon LEPRINCE</a> / <a
 					href="http://www.lesgrumels.fr" target="_blank">lesgrumels</a></p>
 				</td>

@@ -7,59 +7,8 @@ echo $this->_('Permission')?>" class="folder" border="0"
 echo $this->path;
 ?>/images/icons/key.png" />&nbsp;<?php
 echo $this->_('Permission')?></h1>
-<form
-	action="<?php
-echo $this->url(array('controller' => 'perm' , 'action' => $this->form_type , 'format' => 'phtml'), 'format', true);
-?>"
-	method="post"><input type="hidden" name="id" value="<?=$this->id?>">
-<input type="hidden" name="sub" value="1">
-<table border="0" width="90%">
-<?
-if (! empty($this->id)) :
-    ?>
-<tr>
-		<td class="t01"><?php
-    echo $this->_('Id');
-    ?> :</td>
-		<td class="t01"><?=$this->id?></td>
-	</tr>
-
-<? endif;
-?>
-<tr>
-		<td class="t01"><?php
-echo $this->_('Group');
-?> :</td>
-		<td class="t01"><?=$this->perm->findParentJimw_Site_Group()->name;?></td>
-	</tr>
-	<tr>
-		<td class="t01"><?=$this->formLabel('allow', $this->_('Allow'));?> :</td>
-		<td><?=$this->formRadio('allow', $this->perm->allow, null, array(0 => $this->_('No') , 1 => $this->_('Yes')), '&nbsp;');?></td>
-	</tr>
-	<tr>
-		<td class="t01"><?=$this->formLabel('admin', $this->_('Admin'));?> :</td>
-		<td><?=$this->formRadio('admin', $this->perm->admin, null, array(0 => $this->_('No') , 1 => $this->_('Yes')), '&nbsp;');?></td>
-	</tr>
-	<tr>
-		<td colspan="2" align="center"><?=$this->formSubmit('btn', $this->_(ucfirst($this->form_type)));?></td>
-	</tr>
-</table>
-</form>
-<a
-	href="<?php
-echo $this->url(array('controller' => 'perm' , 'action' => 'add' , 'format' => 'phtml' , 'id' => $this->id , 'group' => $this->perm->group_id), 'format', true);
-?>">
-<img width="16" height="16" border="0"
-	title="<?php
-echo $this->_('Add permission')?>"
-	alt="<?php
-echo $this->_('Add permission')?>" class="folder"
-	src="<?php
-echo $this->path;
-?>/images/icons/key_add.png" />&nbsp;<?php
-echo $this->_('Add permission');
-?></a>
-<br />
+<?php echo $this->form; ?>
+<br style="clear: both;" />
 <p class="t01" style="font-size: 12px;"><a
 	href="<?php
 echo $this->url(array('controller' => 'group' , 'action' => 'list' , 'format' => 'phtml'), 'format', true);

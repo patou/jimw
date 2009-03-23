@@ -15,7 +15,8 @@ class SystemController extends Jimw_Admin_Action
      * The default action - show the home page
      */
     public function indexAction ()
-    {    // TODO Auto-generated SystemController::indexAction() default action
+    {
+        $this->checkRoleAllowed('system');
     }
 }
 
