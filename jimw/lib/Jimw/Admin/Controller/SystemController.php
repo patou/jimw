@@ -16,7 +16,7 @@ class SystemController extends Jimw_Admin_Action
      */
     public function indexAction ()
     {
-        $this->checkRoleAllowed('system');
+        $this->checkRoleAllowed('admin_system');
     }
 }
 
