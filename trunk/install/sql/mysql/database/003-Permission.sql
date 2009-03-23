@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}siteperm` (
 INSERT INTO `{PREFIX}usergroup` VALUES (1, 3);
 UPDATE  `{PREFIX}group` SET  `group_name` =  'Administrators' WHERE  `group_id` = 3 LIMIT 1 ;
 UPDATE  `{PREFIX}group` SET  `group_name` =  'Members' WHERE  `group_id` = 2 LIMIT 1 ;
-UPDATE  `{PREFIX}group` SET  `group_name` =  'Gests' WHERE  `group_id` = 3 LIMIT 1 ;
+UPDATE  `{PREFIX}group` SET  `group_name` =  'Gests' WHERE  `group_id` = 1 LIMIT 1 ;
