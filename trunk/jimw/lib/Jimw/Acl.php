@@ -1,9 +1,9 @@
 <?php
 class Jimw_Acl extends Zend_Acl
 {
-    const GEST = 'Gest';
+    const GESTS = 'Gests';
     const MEMBERS = 'Members';
-    const ADMINISTRATOR = 'Administrator';
+    const ADMINISTRATORS = 'Administrators';
 	public function init() {
 		$this->buildRoleList();
 		$this->buildRessourceList();
@@ -79,7 +79,7 @@ class Jimw_Acl extends Zend_Acl
             $value = $this->formatValuePermission($value);
             if (!is_array($value) && $value !== null) {
                     $this->setRule(Zend_Acl::OP_ADD, $value, null, $res);
-                    $this->allow(self::ADMINISTRATOR, $res);
+                    $this->allow(self::ADMINISTRATORS, $res);
             }
             else {
                 foreach ($permissions as $permission => $type) {
@@ -87,7 +87,7 @@ class Jimw_Acl extends Zend_Acl
                     $type = $this->formatValuePermission($value);
                     if ($type === Zend_Acl::TYPE_ALLOW || $type === Zend_Acl::TYPE_DENY) {
                         $this->setRule(Zend_Acl::OP_ADD, $type, null, $res, $permission);
-                        $this->allow(self::ADMINISTRATOR, $res, $permission);
+                        $this->allow(self::ADMINISTRATORS, $res, $permission);
                     }
                 }
             }
@@ -150,10 +150,10 @@ class Jimw_Acl extends Zend_Acl
 
 	public function buildDefaultAdminRole() {
 	    //Allow the admin user to acces all permission
-	    $this->removeDeny(self::ADMINISTRATOR);
-	    $this->allow(self::ADMINISTRATOR);
-	    //Deny the gest to access admin
-	    $this->deny(self::GEST, 'admin');
+	    $this->removeDeny(self::ADMINISTRATORS);
+	    $this->allow(self::ADMINISTRATORS);
+	    //Deny the GESTS to access admin
+	    $this->deny(self::GESTS, 'admin');
 	}
 
 
@@ -167,7 +167,7 @@ class Jimw_Acl extends Zend_Acl
                 $id = $identity->user_id;
                 $users = new Jimw_Site_User();
                 $user = $users->find($id)->current();
-                $parent = array('Members');
+                $parent = array(self::MEMBERS);
                 $groups = $user->findJimw_Site_GroupViaJimw_Site_UserGroup();
                 foreach ($groups as $group) {
                     if ($this->hasRole($group->name)) {
@@ -178,7 +178,7 @@ class Jimw_Acl extends Zend_Acl
                 $this->_currentRole = $user->login;
             }
             else {
-                $this->_currentRole = 'Gest';
+                $this->_currentRole = self::GESTS;
             }
 	    }
 	    return $this->_currentRole;
