@@ -1,7 +1,7 @@
 <?php
 class Jimw_Acl extends Zend_Acl
 {
-    const GESTS = 'Gests';
+    const GESTS = 'Guests';
     const MEMBERS = 'Members';
     const ADMINISTRATORS = 'Administrators';
 	public function init() {
