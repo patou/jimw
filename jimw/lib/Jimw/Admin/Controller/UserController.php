@@ -41,6 +41,8 @@ class UserController extends Jimw_Admin_Action
         $save = $user->current();
         $usergroup = $save->findJimw_Site_Usergroup();
         $form = new Jimw_Admin_Form_UserForm();
+        $form->getElement('user_password')->setRequired(false);
+        $form->getElement('user_password2')->setRequired(false);
         if ($req->isPost() && $form->isValid($req->getPost())) {
             $values = $form->getValues();
             $save->login = $values['user_login'];
