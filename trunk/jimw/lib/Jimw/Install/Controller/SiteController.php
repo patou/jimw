@@ -99,10 +99,10 @@ class SiteController extends Jimw_Install_Action
                 $tree = $trees->fetchNew();
                 $tree->parentid = 0;
                 $tree->site_id = 0;
-                $tree->module_path = '';
                 $tree->pagetitle = $this->_('Home');
                 $tree->description = $this->_('Welcome to your new website, you can now begin to edit it');
                 $tree->user_id = $new_user->id;
+                $tree->module_path = 'article';
                 $tree->save();
                 $sites = new Jimw_Site_Site();
                 $site = $sites->fetchNew();

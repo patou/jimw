@@ -1,9 +1,9 @@
 <?php
 class Jimw_Admin_Form_UserForm extends Jimw_Form
 {
-    protected function initForm ()
-    {
-        return array(
+	protected function initForm ()
+	{
+		return array(
         'elements' => array(
 	        'user_id' => array('type' => 'hidden') ,
 	        'user_login' => array(
@@ -15,8 +15,15 @@ class Jimw_Admin_Form_UserForm extends Jimw_Form
 		        'type' => 'password' ,
 			    'options' => array(
 			        'label' => 'Password' ,
-			        'required' => true ,
-			        'allowRoot' => false)) ,
+			        'required' => true,
+		            'validators' => array(array('validator' => 'StringLength', 'options' => array(4)))
+		      )),
+            'user_password2' => array(
+                'type' => 'password' ,
+                'options' => array(
+                    'label' => 'Reenter the Password' ,
+                    'required' => true, 
+                    'validators' => array(array('validator' => 'Confirm', 'options' => array('user_password'))))) ,
 	        'user_firstname' => array(
 		        'type' => 'text' ,
 		        'options' => array(
@@ -37,7 +44,7 @@ class Jimw_Admin_Form_UserForm extends Jimw_Form
 		        'options' => array(
 			        'label' => 'Groups' ,
 			        'required' => true))
-        ));
-    }
+		));
+	}
 }
 ?>
