@@ -1,7 +1,7 @@
 <?= (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
 
 <? if (!empty($this->article)): ?>
-<?= $this->article->content ?>
+<?php echo $this->protectMail($this->bbCode($this->aliasLink($this->article->content))) ?>
 <? else: ?>
 <p>Article not found</p>
 <? endif; ?>
