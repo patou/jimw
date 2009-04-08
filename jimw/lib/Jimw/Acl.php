@@ -168,7 +168,7 @@ class Jimw_Acl extends Zend_Acl
                 $users = new Jimw_Site_User();
                 $user = $users->find($id)->current();
                 $parent = array(self::MEMBERS);
-                $groups = $user->findJimw_Site_GroupViaJimw_Site_UserGroup();
+                $groups = $user->findJimw_Site_GroupViaJimw_Site_Usergroup();
                 foreach ($groups as $group) {
                     if ($this->hasRole($group->name)) {
                         $parent[] = $group->name;
