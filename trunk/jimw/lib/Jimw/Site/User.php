@@ -12,7 +12,7 @@
 class Jimw_Site_User extends Jimw_Db_Table
 {
     protected $_name = 'user';
-    protected $_dependentTables = array('Jimw_Site_UserGroup');
+    protected $_dependentTables = array('Jimw_Site_Usergroup');
     public function insert (array $data)
     {
         if (empty($data['user_creationdate'])) {
