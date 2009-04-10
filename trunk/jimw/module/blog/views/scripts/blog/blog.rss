@@ -9,12 +9,13 @@ foreach ($this->messages as $message) {
 	$entries[] = array('title' => encode($message->title),
 						'link' => $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'alias' => $result->alias, 'format' => 'phtml', 'mid' => $message->id), 'format'),
 						'description' => $this->escape(encode($this->troncate($message->content, 2000, '...', false, true))),
-						'content:encoded' => $this->escape(encode($message->content)),
+						'encoded' => $this->escape(encode($message->content)),
 						'pubDate' => $this->date($message->date, Zend_Date::RSS)
 						);
 }
 $builder = array('title' => encode($this->tree->pagetitle),
 			'charset' => 'UTF-8',
+			'generator' => 'Jimw',
 			 'link' => $this->url(array('alias' => $this->tree->alias, 'format' => 'rss'), 'alias'),
 			 'entries' => $entries);
 
