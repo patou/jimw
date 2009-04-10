@@ -6,13 +6,14 @@ $entries = array();
 $tree = new Jimw_Site_Tree();
 foreach ($this->messages as $message) {
 	$result = $tree->find($message->tree_parentid)->current();
-	$entries[] = array('title' => encode($message->title),
-						'link' => $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'alias' => $result->alias, 'format' => 'phtml', 'mid' => $message->id), 'format'),
-						'description' => encode(' '.$this->teaser(preg_replace('/<.*?>/', '', (empty($message->header)?$message->content:$message->header)), 500)),
-						'content' => encode($message->content),
-						'category' => array(array('term' =>$result->alias)),
-						'lastUpdate' => $this->date($message->date, Zend_Date::TIMESTAMP)
-						);
+	$date = new Date($message->date,Zend_Date::ISO_8601);
+    $entries[] = array('title' => encode($message->title),
+                        'link' => $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'alias' => $result->alias, 'format' => 'phtml', 'mid' => $message->id), 'format'),
+                        'description' => encode(' '.$this->teaser(preg_replace('/<.*?>/', '', (empty($message->header)?$message->content:$message->header)), 500)),
+                        'content' => encode($message->content),
+                        'category' => array(array('term' =>$result->alias)),
+                        'lastUpdate' => $date->getTimestamp()
+                        );
 }
 $builder = array('title' => encode($this->tree->pagetitle),
 			'charset' => 'UTF-8',
