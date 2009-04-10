@@ -8,7 +8,7 @@ foreach ($this->messages as $message) {
 	$result = $tree->find($message->tree_parentid)->current();
 	$entries[] = array('title' => encode($message->title),
 						'link' => $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'alias' => $result->alias, 'format' => 'phtml', 'mid' => $message->id), 'format'),
-						'description' => encode($this->troncate(preg_replace('/<.*?>/', '', $message->content), 500)),
+						'description' => encode(' '.$this->teaser(preg_replace('/<.*?>/', '', (empty($message->header)?$message->content:$message->header)), 500)),
 						'content' => encode($message->content),
 						'categories' => array(array('term' =>$result->alias)),
 						'pubDate' => $this->date($message->date, Zend_Date::RSS)
