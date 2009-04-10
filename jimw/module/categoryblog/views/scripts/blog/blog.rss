@@ -9,7 +9,7 @@ foreach ($this->messages as $message) {
 	$entries[] = array('title' => encode($message->title),
 						'link' => $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'alias' => $result->alias, 'format' => 'phtml', 'mid' => $message->id), 'format'),
 						'description' => encode($this->troncate($message->content, 2000, '...', false, true)),
-						'encoded' => encode($message->content),
+						'content' => encode($message->content),
 						'pubDate' => $this->date($message->date, Zend_Date::RSS)
 						);
 }
