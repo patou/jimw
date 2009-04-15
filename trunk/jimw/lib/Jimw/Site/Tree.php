@@ -171,6 +171,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table
         //return $this->fetchAll(array('tree_alias = ?' => $alias));
         return false;
     }
+    
     /**
      * Find a Tree Item by the alias, and get the module and Site
      *
@@ -193,6 +194,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table
         }
         return false;
     }
+    
     /**
      * Find a Tree Item by the , and get the module and Site
      *
@@ -213,6 +215,21 @@ class Jimw_Site_Tree extends Jimw_Db_Table
             return new $this->_rowClass($data);
         }
         return false;
+    }
+
+    /**
+     * Get the date of the most recently modified page
+     *
+     * @return boolean|date
+     */
+    public function getLastModified()
+    {
+        $this->_loadTree();
+        $lastdate = false;
+        foreach (self::$_nodes as $k => $node) {
+						if ($node['tree_editiondate'] > $lastdate) $lastdate = $node['tree_editiondate'];
+        }
+        return $lastdate;
     }
 
     public function insert (array $data)
