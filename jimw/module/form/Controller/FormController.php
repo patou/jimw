@@ -103,7 +103,7 @@ class Form_FormController extends Jimw_Module_Action_Alias
 		            ,'send' => array(
 		                'type' => 'submit'
 		                ,'options' => array(
-		                    'label' => 'send'
+		                    'label' => 'Send'
 		                )
 		            )
 		        )
