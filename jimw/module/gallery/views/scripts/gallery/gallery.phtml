@@ -9,6 +9,36 @@ var lang_next = '<?=$this->_('Next'); ?>';
 var lang_prev = '<?=$this->_('Prev'); ?>';
 var lang_loading = '<?=$this->_('Loading...'); ?>';
 <?= $this->headScript()->captureEnd(); ?>
+<?= $this->headStyle()->captureStart(); ?>
+.download_hidden {
+    display: none;
+}
+
+#photo_prev {
+    float: left;
+}
+
+#photo_next {
+    float: right;
+}
+
+#photo_titre {
+    text-align: center;
+    font-weight: bold;
+}
+
+#photo_image {
+    clear: both;
+    text-align: center;
+}
+
+#photo_loading {
+    clear: both;
+    text-align: center;
+    color: white;
+    background-color: green;
+}
+<?= $this->headStyle()->captureEnd(); ?>
 <?= $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->path_common . '/mootools.v1.11.js'); ?>
 <?= $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->path_common . '/gallery.js'); ?>
 <a name="top"></a>
