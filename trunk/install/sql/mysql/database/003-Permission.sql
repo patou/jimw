@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}siteperm` (
   PRIMARY KEY  (`siteperm_id`),
   UNIQUE KEY `site_id` (`site_id`,`group_id`)
 );
-INSERT INTO `{PREFIX}usergroup` (`group_id`,`user_id`) VALUES (3, 1);
 UPDATE  `{PREFIX}group` SET  `group_name` =  'Administrators' WHERE  `group_id` = 3 LIMIT 1 ;
 UPDATE  `{PREFIX}group` SET  `group_name` =  'Members' WHERE  `group_id` = 2 LIMIT 1 ;
 UPDATE  `{PREFIX}group` SET  `group_name` =  'Guests' WHERE  `group_id` = 1 LIMIT 1 ;

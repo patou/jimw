@@ -22,13 +22,13 @@ function openWindow(url, width, height, options) {
 }
 
 function cleanString(chaine) {
-  temp = chaine.replace(/[àâäàã]/gi,"a");
+  temp = chaine.toLowerCase().replace(/[àâäàã]/gi,"a");
   temp = temp.replace(/[éèêë€]/gi,"e");
   temp = temp.replace(/[ìïî]/gi,"i");
   temp = temp.replace(/[öôò]/gi,"o");
   temp = temp.replace(/[ùûü]/gi,"u");
   temp = temp.replace(/[ç]/gi,"c");
-  temp = temp.replace(/([^a-zA-Z0-9]+)/g,"-");
+  temp = temp.replace(/([^a-z0-9_]+)/g,"-");
   return temp
 }
 
