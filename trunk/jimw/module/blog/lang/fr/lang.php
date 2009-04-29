@@ -5,6 +5,7 @@
     		'Your name' => 'Votre nom',
             'By %1$s the %2$s' => 'Ecrit le %2$s par %1$s',
             '%d Comments' => '%d Commentaires',
+            'There are yet any message.' => 'Il y a encore aucun message.',
             'Read more...' => 'Lire la suite...',
             'Read more' => 'Lire la suite',
     		'See more (%s)...' => 'Voir la suite (%s)...',
