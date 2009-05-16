@@ -84,7 +84,8 @@ class Jimw_Controller
         $view->addHelperPath(JIMW_REP_LIB . 'Zym/View/Helper', 'Zym_View_Helper');
         $view->addFilterPath(JIMW_REP_LIB . 'Zym/View/Filter', 'Zym_View_Filter');
         $view->addHelperPath(JIMW_REP_LIB . 'Jimw/view/helpers', 'Jimw_View_Helper');
-        $view->setTranslate($this->initTranslate());
+        $this->initTranslate();
+        //$view->setTranslate();
         Zend_Paginator::setDefaultScrollingStyle('Sliding');
         Zend_View_Helper_PaginationControl::setDefaultViewPartial(
     		'paginator.phtml'
@@ -104,4 +105,3 @@ class Jimw_Controller
 
     }
 }
-?>

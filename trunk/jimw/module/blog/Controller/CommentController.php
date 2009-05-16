@@ -39,8 +39,8 @@ class Blog_CommentController extends Jimw_Module_Action
                         throw new Jimw_Exception('Sorry, but we think you\'re a spammer.');
                     }
                 }
-                catch (Zend_Http_Client_Adapter_Exception $e) {
-                    //TODO If the service didn't work
+                catch (Exception $e) {
+                    Jimw_Debug::display_exception($e);
                 }
             }
             $comments = new BlogComment();
@@ -48,7 +48,7 @@ class Blog_CommentController extends Jimw_Module_Action
             $comment->username = $values['blogcomment_username'];
             $comment->blogmessage_id = $values['blogmessage_id'];
             $comment->content = $values['blogcomment_content'];
-            $comment->date = Zend_Date::now()->getIso();//new Zend_Db_Expr('NOW()');
+            $comment->date = Zend_Date::now();//new Zend_Db_Expr('NOW()');
             $comment->save();
             $this->_redirect($this->view->url(array('action' => 'view', 'controller' => 'message', 'alias' => $tree->alias, 'mid' => $values['blogmessage_id']),'format'));
         }

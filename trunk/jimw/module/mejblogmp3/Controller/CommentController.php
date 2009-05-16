@@ -32,7 +32,7 @@ class Mejblogmp3_CommentController extends Jimw_Module_Action
 		   $comment->rating = -1;
 	  } else $comment->rating = -1;
       $comment->content = $request->cmessage;
-      $comment->date = Zend_Date::now()->getIso();//new Zend_Db_Expr('NOW()');
+      $comment->date = $comment->getFormatedDate(Zend_Date::now());//new Zend_Db_Expr('NOW()');
       $comment->save();
     }
     else {

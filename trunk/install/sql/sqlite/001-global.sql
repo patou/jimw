@@ -1,5 +1,0 @@
-CREATE TABLE "{PREFIX}database" ( "database_id" INTEGER NOT NULL PRIMARY KEY, "database_type" varchar(15) NOT NULL default '' , "database_server" varchar(64) NOT NULL default '' , "database_port" int(11) NOT NULL default '0' , "database_name" varchar(255) NOT NULL , "database_user" varchar(32) NOT NULL default '' , "database_pass" varchar(32) NOT NULL default '' , "database_prefix" varchar(32) NOT NULL default '' );
-
-CREATE TABLE "{PREFIX}domain" ( "domain_id" INTEGER NOT NULL PRIMARY KEY, "database_id" int(11) default '0' , "site_id" int(11) NOT NULL , "domain_protocol" varchar(15) NOT NULL default '' , "domain_name" varchar(255) NOT NULL default '' , "domain_subdomain" varchar(32) NOT NULL default '' , "domain_port" int(11) default '0' , "domain_path" varchar(255) NOT NULL , "domain_status" tinyint(4) NOT NULL );
-
-CREATE TABLE "{PREFIX}schema" ( "schema_id" INTEGER NOT NULL PRIMARY KEY, "schema_module" varchar(32) NOT NULL default '' , "schema_version" int(11) NOT NULL default '0' );

@@ -122,7 +122,7 @@ class Blog_MessageController extends Jimw_Admin_Action
 		$messages = new BlogMessage();
 		$message = $messages->fetchNew();
 		$message->tree_parentid = $request->getParam('tree_parentid');
-		$message->date = Zend_Date::now()->getIso();
+		$message->date = $message->getFormatedDate(Zend_Date::now());
 		if ($request->isPost() && $form->isValid($request->getPost())) {
             $values = $form->getValues();
             $message->header = $values['blogmessage_header'];

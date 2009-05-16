@@ -138,6 +138,9 @@ class Jimw_Db_Row extends Zend_Db_Table_Row
             if (is_array($value))
                 return $this->setParams($value, $name);
         }
+        if ($value instanceof Zend_Date) {
+        	$value = $this->getFormatedDate($value);
+        }
         parent::__set($name, $value);
     }
 
@@ -200,6 +203,17 @@ class Jimw_Db_Row extends Zend_Db_Table_Row
             }
         }
         return $columnName;
+    }
+    
+	public function getFormatedDate(Zend_Date $date) {
+    	switch (get_class($this->getTable()->getAdapter())) {
+    		case 'Zend_Db_Adapter_Mysqli':
+    		case 'Zend_Db_Adapter_Pdo_Mysql':
+    		case 'Zend_Db_Adapter_Pdo_Sqlite':
+    			return $date->toString('YYYY-MM-dd HH:mm:ss');
+    		default:
+    			return $date->getIso();
+    	}	
     }
 }
 ?>

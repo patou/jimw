@@ -87,6 +87,10 @@ class Zym_View_Helper_ServerUrl
             $path = '';
         }
 
+        if ($path) {
+            $path = '/' . ltrim($path, '/\\');
+        }
+
         // Return url
         return $this->getScheme() . '://' . $this->getHost() . $path;
     }

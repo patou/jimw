@@ -72,6 +72,7 @@ class SiteController extends Jimw_Install_Action
                 $domain->port = is_int($port = $url->getPort()) ? $port : 80;
                 $domain->protocol = $url->getScheme();
                 $domain->path = trim($url->getPath(), '/');
+                $domain->status = 1;
                 $update = new Jimw_Db_Update($db, $database['prefix']);
                 ob_start();
                 $update->update();
@@ -108,6 +109,7 @@ class SiteController extends Jimw_Install_Action
                 $site = $sites->fetchNew();
                 $site->name = $val['title'];
                 $site->path = trim(JIMW_REP_PUBLIC, './');
+                $site->template = $site->path . '/template';
                 $site->tree_id = 0;
                 $site->default_tree_id = $tree->id;
                 $site->parentid = 0;

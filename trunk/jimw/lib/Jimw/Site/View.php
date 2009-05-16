@@ -42,9 +42,8 @@ class Jimw_Site_View extends Zend_View
     public function _($messageId)
     {
         $options = func_get_args();
-        if ($this->_translate)
-            return call_user_func_array(array($this, 'translate'), $options);
-        return $messageId;
+        return call_user_func_array(array($this, 'translate'), $options);
+        //return $messageId;
     }
     /**
      * Set the translate object
@@ -53,6 +52,7 @@ class Jimw_Site_View extends Zend_View
      */
     public function setTranslate (Zend_Translate $translate)
     {
+    	Jimw_Debug::deprecated('Jimw_Site_View->setTranlate()', '$this->translate()->setTranlator()');
         $this->_translate = $translate;
     }
     /**
@@ -62,6 +62,7 @@ class Jimw_Site_View extends Zend_View
      */
     public function getTranslate ()
     {
+    	Jimw_Debug::deprecated('Jimw_Site_View->getTranlate()', '$this->translate()->getTranlator()');
         return $this->_translate;
     }
 }

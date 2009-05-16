@@ -1,6 +1,6 @@
-/*
+﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
- * Copyright (C) 2003-2008 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2009 Frederico Caldeira Knabben
  *
  * == BEGIN LICENSE ==
  *
@@ -50,9 +50,13 @@ FCKConfig.PreloadImages = [ FCKConfig.SkinPath + 'images/toolbar.start.gif', FCK
 
 FCKConfig.PluginsPath = FCKConfig.BasePath + 'plugins/' ;
 
-// FCKConfig.Plugins.Add( 'autogrow' ) ;
-// FCKConfig.Plugins.Add( 'dragresizetable' );
-FCKConfig.AutoGrowMax = 400 ;
+FCKConfig.Plugins.Add( 'autogrow' ) ;
+FCKConfig.Plugins.Add( 'dragresizetable' );
+FCKConfig.Plugins.Add( 'tablecommands' );
+FCKConfig.Plugins.Add( 'youtube', 'en,fr' );
+FCKConfig.Plugins.Add('insertHtml', 'en,fr');
+FCKConfig.Plugins.Add( 'imgmap', 'en,fr') ;
+FCKConfig.AutoGrowMax = 800 ;
 
 // FCKConfig.ProtectedSource.Add( /<%[\s\S]*?%>/g ) ;	// ASP style server side code <%...%>
 // FCKConfig.ProtectedSource.Add( /<\?[\s\S]*?\?>/g ) ;	// PHP style server side code
@@ -76,7 +80,7 @@ FCKConfig.FormatSource		= true ;
 FCKConfig.FormatOutput		= true ;
 FCKConfig.FormatIndentator	= '    ' ;
 
-FCKConfig.EMailProtection = 'encode' ; // none | encode | function
+FCKConfig.EMailProtection = 'none' ; // none | encode | function
 FCKConfig.EMailProtectionFunction = 'mt(NAME,DOMAIN,SUBJECT,BODY)' ;
 
 FCKConfig.StartupFocus	= false ;
@@ -107,7 +111,7 @@ FCKConfig.ToolbarSets["Default"] = [
 	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','CreateDiv'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 	['Link','Unlink'],
-	['Image','Table','Rule','SpecialChar'], 
+	['Image','Flash','YouTube','Table','Rule','SpecialChar','insertHtml'], 
 	['TextColor','BGColor'],
 	['-','About'],
 	'/',
@@ -118,22 +122,25 @@ FCKConfig.ToolbarSets["All"] = [
 	['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],
 	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
 	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
+	['FitWindow','ShowBlocks','-','About'],	
 	'/',
 	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
 	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','CreateDiv'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 	['Link','Unlink','Anchor'],
-	['Image','Flash','Table','Rule','Smiley','SpecialChar','PageBreak'], 
-	['TextColor','BGColor'],
-	['FitWindow','ShowBlocks','-','About'],
 	'/',
-	['Style','FontFormat','FontName','FontSize']
+	['Style','FontFormat','FontName','FontSize'],
+	['Image','Flash','YouTube','imgmapPopup','Table','Rule','Smiley','SpecialChar','PageBreak','insertHtml'], 
+	['TextColor','BGColor'],
+	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
+	['TableInsertRowAfter','TableDeleteRows','TableInsertColumnAfter','TableDeleteColumns','TableInsertCellAfter','TableDeleteCells','TableMergeCells','TableHorizontalSplitCell','TableCellProp']
+	
+	
 			// No comma for the last row.
 ] ;
 
 FCKConfig.ToolbarSets["Basic"] = [
-	['Source','Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
+	['Source','Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','insertHtml','-','About']
 ] ;
 
 FCKConfig.EnterMode = 'p' ;			// p | div | br
@@ -177,7 +184,7 @@ FCKConfig.FontSizes		= 'smaller;larger;xx-small;x-small;small;medium;large;x-lar
 FCKConfig.StylesXmlPath		= FCKConfig.EditorPath + 'fckstyles.xml' ;
 FCKConfig.TemplatesXmlPath	= FCKConfig.EditorPath + 'fcktemplates.xml' ;
 
-FCKConfig.SpellChecker			= 'ieSpell' ;	// 'ieSpell' | 'SpellerPages'
+FCKConfig.SpellChecker			= 'WSC' ;	// 'WSC' | 'SpellerPages' | 'ieSpell'
 FCKConfig.IeSpellDownloadUrl	= 'http://www.iespell.com/download.php' ;
 FCKConfig.SpellerPagesServerScript = 'server-scripts/spellchecker.php' ;	// Available extension: .php .cfm .pl
 FCKConfig.FirefoxSpellChecker	= true ;
@@ -340,3 +347,16 @@ FCKConfig.BackgroundBlockerOpacity = 0.50 ;
 FCKConfig.MsWebBrowserControlCompat = false ;
 
 FCKConfig.PreventSubmitHandler = false ;
+
+// --- config settings for the insertHtml plugin ---
+// enter the snippet you want to be inserted
+// or leave empty if you want to show a dialog for the user to enter HTML manually (and not show any default HTML in the dialog)
+FCKConfig.insertHtml_snippet = '<br /><div class="contentBlock"><div class="top">title</div><div class="bottom">text</div></div><br />';
+// show a dialog for the user to enter HTML manually; the HTML set with FCKConfig.insertHtml_snippet will be shown in the dialog by default
+FCKConfig.insertHtml_showDialog = true;
+// whatever tooltip you want to appear when hovering the plugin's toolbar button, e.g. a description of the element being inserted';
+// or leave empty to have 'Insert HTML' appear, if available, translated into your language
+FCKConfig.insertHtml_buttonTooltip = '';
+// the size of the textarea in the dialog, in px
+FCKConfig.insertHtml_textareaWidth = 300;
+FCKConfig.insertHtml_textareaHeight = 70;

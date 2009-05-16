@@ -13,11 +13,12 @@ class TreeController extends Jimw_Admin_Action
 {
     public function indexAction ()
     {
-        if (!$this->_helper->getHelper('FlashMessenger')->hasMessages())
+        //if (!$this->_helper->getHelper('FlashMessenger')->hasMessages())
             $this->_forward('list');
-        else
-            $this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages();
+        /*else
+            $this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages();*/
     }
+    
     public function listAction ()
     {
         $tree = new Jimw_Site_Tree();
@@ -28,6 +29,7 @@ class TreeController extends Jimw_Admin_Action
         $this->view->list_tree = $parentid;
         $this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages();
     }
+    
     public function trashAction ()
     {
         $tree = new Jimw_Site_Tree();
@@ -35,6 +37,7 @@ class TreeController extends Jimw_Admin_Action
         $this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages();
         $this->render('list');
     }
+    
     public function editAction ()
     {
         $req = $this->getRequest();
@@ -59,7 +62,7 @@ class TreeController extends Jimw_Admin_Action
             $result->status = $values['tree_status'];
             $result->alias = $values['tree_alias'];
             $result->image = $values['tree_image'];
-            $result->icon = $values['tree_icon'];
+            //$result->icon = $values['tree_icon'];
             $result->description = $values['tree_description'];
             if (empty($values['tree_parentid'])) { // If the parent tree is the root
                 $site = Zend_Registry::get('site');
@@ -73,7 +76,6 @@ class TreeController extends Jimw_Admin_Action
                 $result->site_id = $parent->current()->site_id;
             }
             if (JIMW_DEBUG_MODE) {
-                $result->order = $values['tree_order'];
                 $result->creationdate = $values['tree_creationdate'];
                 $result->editiondate = $values['tree_editiondate'];
                 //$result->param = $values['tree_param'];
@@ -117,12 +119,12 @@ class TreeController extends Jimw_Admin_Action
             $save->description = $values['tree_description'];
             $save->module_path = $req->module_path;
             $save->version = 0;
+            $save->order = 1;
             $save->param = '';
             $save->icon = '';
             $save->image = '';
             $save->param = array();
             if (JIMW_DEBUG_MODE) {
-                $save->order = $values['tree_order'];
                 $save->creationdate = $values['tree_creationdate'];
                 $save->editiondate = $values['tree_editiondate'];
                 //$save->param = $values['tree_param'];
@@ -182,6 +184,54 @@ class TreeController extends Jimw_Admin_Action
             $this->_helper->getHelper('FlashMessenger')->addMessage('Move to the trash');
             $this->_forward('list');
         }
+    }
+    
+	public function restoreAction ()
+    {
+        $id = $this->_request->id;
+        $tree = new Jimw_Site_Tree();
+        $result = $tree->fetchAll($tree->select()->where('tree_id = ?', $id));
+        if (! count($result)) {
+            throw new Jimw_Admin_Exception("This tree doesn't exist");
+        }
+        $result = $result->current();
+        $module_path = $result->module_path;
+        $result->status = Jimw_Site_Tree::UNPUBLISHED;
+        $result->save();
+        $this->_helper->getHelper('FlashMessenger')->addMessage('Restore successful');
+        $this->_forward('list');
+    }
+    
+	public function publishAction ()
+    {
+        $id = $this->_request->id;
+        $tree = new Jimw_Site_Tree();
+        $result = $tree->fetchAll($tree->select()->where('tree_id = ?', $id));
+        if (! count($result)) {
+            throw new Jimw_Admin_Exception("This tree doesn't exist");
+        }
+        $result = $result->current();
+        $module_path = $result->module_path;
+        $result->status = Jimw_Site_Tree::PUBLISHED;
+        $result->save();
+        $this->_helper->getHelper('FlashMessenger')->addMessage('Publish successful');
+        $this->_forward('list');
+    }
+    
+	public function archiveAction ()
+    {
+        $id = $this->_request->id;
+        $tree = new Jimw_Site_Tree();
+        $result = $tree->fetchAll($tree->select()->where('tree_id = ?', $id));
+        if (! count($result)) {
+            throw new Jimw_Admin_Exception("This tree doesn't exist");
+        }
+        $result = $result->current();
+        $module_path = $result->module_path;
+        $result->status = Jimw_Site_Tree::ARCHIVED;
+        $result->save();
+        $this->_helper->getHelper('FlashMessenger')->addMessage('Move to the trash');
+        $this->_forward('list');
     }
    /* public function saveAction ()
     {

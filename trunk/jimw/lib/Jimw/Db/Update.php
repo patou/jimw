@@ -176,7 +176,7 @@ class Jimw_Db_Update
         for (; isset($list[$version]); $version ++) {
             Jimw_Debug::display("Install version $version ... ");
             $result['update'][$version] = $this->install_sql($list[$version]);
-            if (!$result['update'][$version])
+            if (!$result['update'][$version]['success'])
             {
                 $result['newVersion'] = --$version;
                 if (!$this->update_version($module, $version))

@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}siteperm` (
   `siteperm_id` int(10) unsigned NOT NULL auto_increment,
   `site_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
-  `siteperm_perm` text NOT NULL default '',
+  `siteperm_perm` text NOT NULL,
   PRIMARY KEY  (`siteperm_id`),
   UNIQUE KEY `site_id` (`site_id`,`group_id`)
 );

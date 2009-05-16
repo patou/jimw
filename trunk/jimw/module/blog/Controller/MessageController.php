@@ -24,7 +24,7 @@ class Blog_MessageController extends Jimw_Module_Action
     }
 
     public function viewAction ()
-    {    // TODO Auto-generated MessageController::indexAction() default action
+    {    
         $form = new BlogCommentForm();
         $messages = new BlogMessage();
         $message = $messages->find($this->getRequest()->mid)->current();
@@ -34,5 +34,3 @@ class Blog_MessageController extends Jimw_Module_Action
         $this->view->message = $message;
     }
 }
-?>
-

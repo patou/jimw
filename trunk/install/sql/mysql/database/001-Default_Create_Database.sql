@@ -31,12 +31,12 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}tree` (
 `tree_icon` VARCHAR (127) NOT NULL DEFAULT '',
 `tree_image` VARCHAR (127) NOT NULL DEFAULT '',
 `tree_alias` VARCHAR (255) NOT NULL DEFAULT '',
-`tree_description` MEDIUMTEXT NOT NULL DEFAULT '',
+`tree_description` MEDIUMTEXT,
 `user_id` INTEGER NULL DEFAULT '0',
 `tree_status` TINYINT NOT NULL DEFAULT '0',
 `tree_version` INTEGER NOT NULL DEFAULT '0',
 `tree_type` TINYINT NOT NULL DEFAULT '0',
-`tree_param` TINYTEXT NOT NULL DEFAULT '',
+`tree_param` TINYTEXT,
 `tree_creationdate` DATETIME NOT NULL DEFAULT '1900-01-01 00:00:00',
 `tree_editiondate` DATETIME NOT NULL DEFAULT '1900-01-01 00:00:00'
 );
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}module_config` (
 `module_config_id` INTEGER AUTO_INCREMENT PRIMARY KEY,
 `module_id` INTEGER DEFAULT '0',
 `module_config_key` VARCHAR (32)  NOT NULL DEFAULT '',
-`module_config_value` MEDIUMTEXT NOT NULL DEFAULT '',
+`module_config_value` MEDIUMTEXT,
 KEY `module_config_key` (`module_config_key`)
 );
 
@@ -84,21 +84,4 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}usergroup` (
 	`group_id` INT UNSIGNED NOT NULL ,
 	`user_id` INT UNSIGNED NOT NULL,
  	PRIMARY KEY  (`group_id`,`user_id`)
-);
-
-CREATE TABLE IF NOT EXISTS `{PREFIX}siteperm` (
-	`siteperm_id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`site_id` INT NOT NULL ,
-	`group_id` INT NOT NULL ,
-	`siteperm_allow` TINYINT NOT NULL DEFAULT '0',
-	`siteperm_admin` TINYINT NOT NULL DEFAULT '0',
-	UNIQUE  (`site_id`,`group_id`)
-);
-
-CREATE TABLE IF NOT EXISTS `{PREFIX}perm` (
-	`perm_id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-	`siteperm_id` INT NOT NULL ,
-	`perm_name` VARCHAR( 255 ) NOT NULL ,
-	`perm_allow` TINYINT NOT NULL DEFAULT '0',
-	`perm_type` TINYINT NOT NULL DEFAULT '0'
 );

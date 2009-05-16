@@ -595,7 +595,7 @@ class Zym_App
                 /**
                  * @see Zym_App_Exception
                  */
-                require_once('Zym/Application/Exception.php');
+                require_once('Zym/App/Exception.php');
                 throw new Zym_App_Exception(sprintf(
                     'The array of resource scripts provided has an invalid entry "%s".'
                     . 'It should consist only of Zym_App_Resource_Abstract instances',
@@ -857,7 +857,7 @@ class Zym_App
             if (class_exists($class, false)) {
                 return $class;
             } else {
-                include_once($dir . $file);
+                @include_once($dir . $file);
 
                 if (class_exists($class, false)) {
                     return $class;
