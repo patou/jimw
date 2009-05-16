@@ -76,7 +76,7 @@ class Jimw_View_Helper_FormRichtext extends Zend_View_Helper_FormTextarea
         $button .= '<input type="button" value="';
         $button .= $this->view->_('Add file');
         $button .= '" onclick="openfilerichtext' . $id;
-        $button .= '()"/>';
+        $button .= '()"/><br />';
         return $button . $this->formTextarea($name, $value, $attribs);
     }
 }

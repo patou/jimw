@@ -35,7 +35,7 @@ class Mejblogmp3_MessageController extends Jimw_Module_Action
       $message->email = $request->memail;
       $message->phone = $request->mphone;
       $message->published = false;
-      $message->date = Zend_Date::now()->getIso();
+      $message->date = $message->getFormatedDate(Zend_Date::now());
       $newid = $message->save();
 	  move_uploaded_file($mp3['tmp_name'], $dir.'/'.$newid.'.mp3');
 	  if ($pdf['type'] == 'application/pdf' && $pdf['error'] == 0) {

@@ -14,10 +14,6 @@ class Jimw_Admin_Form_TreeForm extends Jimw_Form
                 'type' => 'text' ,
                 'options' => array(
                 	'label' => 'tree_rgt')) ,
-            'tree_order' => array(
-                'type' => 'text' ,
-                'options' => array(
-                	'label' => 'tree_order')) ,
             'tree_creationdate' => array(
                 'type' => 'text' ,
                 'options' => array(

@@ -66,8 +66,10 @@ else
     error_reporting(E_ALL | E_STRICT);
     // Autoload initialisation
 set_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
-require_once ('Zend/Loader.php');
-spl_autoload_register(array('Zend_Loader' , 'autoload'));
+/*require_once ('Zend/Loader.php');
+spl_autoload_register(array('Zend_Loader' , 'autoload'));*/
+require_once 'Zend/Loader/Autoloader.php';
+Zend_Loader_Autoloader::getInstance()->registerNamespace(array('Jimw_', 'Zym_'));
 date_default_timezone_set(JIMW_TIMEZONE);
 if (!JIMW_DEBUG_MODE) {
 	$cache = Zend_Cache::factory('Core', 'File', array('automatic_serialization' => true), array('cache_dir' => JIMW_REP_CACHE.'db'));

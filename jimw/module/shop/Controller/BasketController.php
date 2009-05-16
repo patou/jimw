@@ -152,7 +152,7 @@ class Shop_BasketController extends Jimw_Module_Action
 			$item->name = $request->name;
 			$item->firstname = $request->firstname;
 			$item->email = $request->email;
-			$item->date = Zend_Date::now()->getIso();
+			$item->date = $item->getFormatedDate(Zend_Date::now());
 			$item->musiclist = $this->_getIdList($this->view->music);
 			$item->albummusiclist = $this->_getIdList($this->view->albummusic);
 			$item->scorelist = $this->_getIdList($this->view->score);

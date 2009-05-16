@@ -253,10 +253,10 @@ class Jimw_Site_Tree extends Jimw_Db_Table
             $data['tree_version'] = 0;
         }
         if (empty($data['tree_creationdate'])) {
-            $data['tree_creationdate'] = Zend_Date::now()->getIso(); //new Zend_Db_Expr('NOW()');
+            $data['tree_creationdate'] = $this->getFormatedDate(Zend_Date::now()); //new Zend_Db_Expr('NOW()');
         }
         if (empty($data['tree_editiondate'])) {
-            $data['tree_editiondate'] = Zend_Date::now()->getIso(); //new Zend_Db_Expr('NOW()');;
+            $data['tree_editiondate'] = $this->getFormatedDate(Zend_Date::now()); //new Zend_Db_Expr('NOW()');;
         }
         /*unset($data['tree_lft']);
 		unset($data['tree_rgt']);*/
@@ -272,8 +272,8 @@ class Jimw_Site_Tree extends Jimw_Db_Table
      */
     public function createRow(array $data = array(), $defaultSource = null)
     {
-        $data['tree_creationdate'] = Zend_Date::now()->getIso();
-        $data['tree_editiondate'] = Zend_Date::now()->getIso();
+        $data['tree_creationdate'] = $this->getFormatedDate(Zend_Date::now());
+        $data['tree_editiondate'] = $this->getFormatedDate(Zend_Date::now());
         $data['tree_type'] = 0;
         $data['tree_status'] = self::PUBLISHED;
         $data['tree_param'] = '';
@@ -360,7 +360,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table
     {
         // add a timestamp
         if (empty($data['tree_editiondate'])) {
-            $data['tree_editiondate'] = Zend_Date::now()->getIso(); //new Zend_Db_Expr('NOW()');
+            $data['tree_editiondate'] = $this->getFormatedDate(Zend_Date::now()); //new Zend_Db_Expr('NOW()');
         }
         if (!empty($data['tree_version'])) {
             $data['tree_version']++;

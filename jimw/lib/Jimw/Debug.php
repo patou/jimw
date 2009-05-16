@@ -5,25 +5,54 @@
 class Jimw_Debug extends Zend_Debug
 {
     public static $output = '';
+    public static $output_log = '';
     public static $active = false;
-    public static function initDebug ()
+    
+    public static function initDebug ($active = true)
     {
-        $errorhandler = array(new Jimw_Debug() , 'errorHandlerCallback');
-        $displayEnd = array(new Jimw_Debug() , 'displayEnd');
+        $debug = new Jimw_Debug();
+    	$errorhandler = array($debug , 'errorHandlerCallback');
+        $displayEnd = array($debug , 'displayEnd');
         register_shutdown_function($displayEnd);
-        //set_error_handler($errorhandler);
-        self::$active = true;
+        set_error_handler($errorhandler);
+        self::$active = $active;
     }
     /**
-     *
+     * Display text at the end of the page
      *
      */
     public function displayEnd ()
     {
-        if (self::$active) {
+    	self::writeLog();
+    	if (self::$active) {
             echo self::$output;
         }
     }
+    
+    public static function writeLog() {
+    	$file = JIMW_REP_CACHE . 'logs/' ;
+    	if (!file_exists($file))
+    		mkdir($file);
+    	$f = fopen($file . date("Y-m-d") . ".log", "a");
+    	if ($f) {
+	    	fwrite($f, date(DATE_ISO8601) . ":\n");
+	    	fwrite($f, self::$output_log);
+	    	fclose($f);
+    	}
+    }
+    
+    public static function log($msg, $title = '', $trace = true) {
+    	if ($title != '')
+    		self::$output_log .= strip_tags($title) . ":\n"; 
+    	self::$output_log .= strip_tags($msg) . "\n";
+    	if ($trace) {
+	    	$callstack = debug_backtrace();
+	    	foreach ($callstack as $call) {
+	    		self::$output_log .= "\t" . $call['file'] . ' on line ' . $call['line'] . "\n";
+	    	}
+    	}
+    }
+    
     public static function disactive ()
     {
         self::$active = false;
@@ -36,38 +65,50 @@ class Jimw_Debug extends Zend_Debug
     public function errorHandlerCallback ()
     {
         $details = func_get_args();
-        $details[1] = str_replace("'", '"', $details[1]);
-        $details[1] = str_replace('href="function.', 'target="_blank" href="http://www.php.net/', $details[1]);
-        $color = 'orange';
-        /* determine error level */
-        switch ($details[0]) {
-            case 2:
-                $errorlevel = 'warning';
-                $color = 'red';
-                break;
-            case 8:
-                $errorlevel = 'notice';
-                $color = 'orange';
-                break;
-            case 2048:
-                $errorlevel = 'suggestion';
-                $color = 'orange';
-                break;
+        if (!strpos($details[2], 'Zend'.DIRECTORY_SEPARATOR.'Loader.php')) {
+	        $details[1] = str_replace("'", '"', $details[1]);
+	        $details[1] = str_replace('href="function.', 'target="_blank" href="http://www.php.net/', $details[1]);
+	        $color = 'orange';
+	        /* determine error level */
+	        switch ($details[0]) {
+	            case 2:
+	                $errorlevel = 'warning';
+	                $color = 'red';
+	                break;
+	            case 8:
+	                $errorlevel = 'notice';
+	                $color = 'orange';
+	                break;
+	            case 2048:
+	                $errorlevel = 'suggestion';
+	                $color = 'orange';
+	                break;
+	        }
+	        $fullTraceback = $details[2] . ' on line ' . $details[3];
+	        $file = $this->cropScriptPath($details[2]);
+	        $infos = '<strong>';
+	        $infos .= 'PHP ' . strtoupper($errorlevel) . ' </strong>';
+	        $infos .= $details[1] . "\n" . '<br /><acronym class="backtrace" title="' . $fullTraceback . '">';
+	        $infos .= $file . ' on line ';
+	        $infos .= $details[3] . '</span>';
+	        self::display($infos, $details[1], $color, false, false);
         }
-        $fullTraceback = $details[2] . ' on line ' . $details[3];
-        $file = $this->cropScriptPath($details[2]);
-        $infos = '<strong>';
-        $infos .= 'PHP ' . strtoupper($errorlevel) . '</strong>';
-        $infos .= $details[1] . '<br /><acronym class="backtrace" title="' . $fullTraceback . '">';
-        $infos .= $file . ' on line ';
-        $infos .= $details[3] . '</span>';
-        self::display($infos, $details[1], $color);
     }
+    /**
+     * Dump a var
+     *
+     * @param mixed $var The var to dump
+     * @param string $label The title
+     * @param boolean $echo
+     * @return string|void
+     */
     public static function dump ($var, $label = null, $echo = true)
     {
-        return self::display(parent::dump($var, null, false), $label, 'yellow', $echo);
+    	//self::log($label, print_r($var, true));
+        return self::display(parent::dump($var, null, false), $label, 'yellow', $echo, false);
     }
-    public static function display ($message, $title = '', $color = '#00E600', $echo = true)
+    
+    public static function display ($message, $title = '', $color = '#00E600', $echo = true, $log = true)
     {
         static $id = 0;
         $div_id = 'debug' . $id ++;
@@ -105,8 +146,17 @@ class Jimw_Debug extends Zend_Debug
         if ($echo) {
             self::$output .= $output;
         }
+        if ($log)
+        	self::log($message, $title, false);
         return $output;
     }
+    /**
+     * Display an exception
+     *
+     * @param Exception $e
+     * @param unknown_type $echo
+     * @return unknown
+     */
     public static function display_exception (Exception $e, $echo = true)
     {
         $title = 'Exception [' . get_class($e) . '-' . $e->getCode() . '] : ' . $e->getMessage();
@@ -119,8 +169,10 @@ class Jimw_Debug extends Zend_Debug
             if ($item && isset($item['file']) && $item['line'])
                 $output .= '<acronym class="backtrace" title="' . $item['file'] . ' on line ' . $item['line'] . ' ' . (isset($item['class']) ? $item['class'] . $item['type'] : '') . $item['function'] . '()">' . self::cropScriptPath($item['file']) . ' on line ' . $item['line'] . ' ' . (isset($item['class']) ? $item['class'] . $item['type'] : '') . $item['function'] . "()\n<br />";
         }
-        return self::display($output, $title, 'red', $echo);
+        self::log($e->__toString(), '', false);
+        return self::display($output, $title, 'red', $echo, false);
     }
+    
     public static function deprecated ($function, $instead = '', $echo = true)
     {
         $output = $function . ' is deprecated';
@@ -139,8 +191,9 @@ class Jimw_Debug extends Zend_Debug
                     $output .= '<acronym class="backtrace" title="' . $item['file'] . ' on line ' . $item['line'] . ' ' . (isset($item['class']) ? $item['class'] . $item['type'] : '') . $item['function'] . '()">' . self::cropScriptPath($item['file']) . ' on line ' . $item['line'] . ' ' . (isset($item['class']) ? $item['class'] . $item['type'] : '') . $item['function'] . "()\n<br />";
             }
         }
-        return self::display($output, '', 'yellow', $echo);
+        return self::display($output, '', 'yellow', $echo, false);
     }
+    
     public static function profile_db ($db, $title = '', $echo = true)
     {
         if ($db && ($profiler = $db->getProfiler())) {
@@ -171,7 +224,7 @@ class Jimw_Debug extends Zend_Debug
             }
             $output .= 'Longest query length: ' . $longestTime . "<br />\n";
             $output .= "Longest query: <br />\n" . $longestQuery . "<br />\n";
-            return self::display($output, $title, 'blue', $echo);
+            return self::display($output, $title, 'blue', $echo, false);
         }
     }
     /**

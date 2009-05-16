@@ -141,6 +141,17 @@ class Jimw_Db_Table extends Zend_Db_Table
     {
         return $this->_paramsField;
     }
+    
+    public function getFormatedDate(Zend_Date $date) {
+    	switch (get_class($this->getAdapter())) {
+    		case 'Zend_Db_Adapter_Mysqli':
+    		case 'Zend_Db_Adapter_Pdo_Mysql':
+    		case 'Zend_Db_Adapter_Pdo_Sqlite':
+    			return $date->toString('YYYY-MM-dd HH:mm:ss');
+    		default:
+    			return $date->getIso();
+    	}	
+    }
 
 }
 ?>
