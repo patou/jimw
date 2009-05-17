@@ -26,6 +26,10 @@ a.no_decoration {
 a.no_decoration:hover {
 	color: #466;
 }
+a img, a:visited img, a:active img, a:hover img, a:link img {
+	text-decoration: none;
+	border: 0;
+}
 body {
 	color: #466;
 	font: normal 62.5% "Lucida Sans Unicode",sans-serif;
