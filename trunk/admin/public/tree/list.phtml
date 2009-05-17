@@ -35,13 +35,22 @@ function list_tree($list, $view, $path, $baseurl, $prof = 0) {
 				<img src="<?= $path ?>/images/icons/page_white_edit.png" width="16" height="16" alt="<?php echo $view->_('Edit page'); ?>" title="<?php echo $view->_('Edit page'); ?>" border="0" class="absmiddle" /></a>
 				<?php
 					if ($tree->status >= 0):
-				?>
+						if ($tree->status != Jimw_Site_Tree::ARCHIVED):
+					?>
+					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'archive', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+					<img src="<?= $path ?>/images/icons/page_white_zip.png" width="16" height="16" alt="<?php echo $view->_('Archive'); ?>" title="<?php echo $view->_('Archive'); ?>" border="0" class="absmiddle" /></a>
+					<?php endif;
+						if ($tree->status != Jimw_Site_Tree::PUBLISHED):
+					?>
+					<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'publish', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+					<img src="<?= $path ?>/images/icons/page_white_medal.png" width="16" height="16" alt="<?php echo $view->_('Publish'); ?>" title="<?php echo $view->_('Publish'); ?>" border="0" class="absmiddle" /></a>
+					<?php endif; ?>
 				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>" onclick="return confirm('<?php echo $view->escape($view->_('Do you really want to move this Page to the trash ?')); ?>');">
 				<img src="<?= $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="<?php echo $view->_('Delete'); ?>" title="<?php echo $view->_('Delete'); ?>" border="0" class="absmiddle" /></a>
 				<?php
 				    else:
 			    ?>
-				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'restore', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
 				<img src="<?= $path ?>/images/icons/page_white_go.png" width="16" height="16" alt="<?php echo $view->_('Restore'); ?>" title="<?php echo $view->_('Restore'); ?>" border="0" class="absmiddle" /></a>
 				<a href="<?php echo $view->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>" onclick="return confirm('<?php echo $view->escape($view->_('Do you really want to delete this Page ?')); ?>');">
 				<img src="<?= $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="<?php echo $view->_('Delete'); ?>" title="<?php echo $view->_('Delete'); ?>" border="0" class="absmiddle" /></a>
@@ -74,7 +83,7 @@ function list_tree($list, $view, $path, $baseurl, $prof = 0) {
 				</td>
 		</tr>
 		<?php
-		if ($tree->hasChildren ()) {
+		if ($tree->hasChildren () && ($view->site->id == $tree->site_id)) {
 			list_tree($tree->getChildren (), $view, $path, $baseurl, $prof + 1);
 		}
 		?>

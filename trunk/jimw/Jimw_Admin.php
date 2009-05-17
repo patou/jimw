@@ -75,9 +75,7 @@ if (!JIMW_DEBUG_MODE) {
 	$cache = Zend_Cache::factory('Core', 'File', array('automatic_serialization' => true), array('cache_dir' => JIMW_REP_CACHE.'db'));
 	Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
 }
-else {
-	Jimw_Debug::initDebug();
-}
+Jimw_Debug::initDebug();
 // Session
 Zend_Session::start();
 $session = new Zend_Session_Namespace('Admin');
