@@ -25,7 +25,7 @@
           <?php if (count($comments) > 0): ?>
             <a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'format' => 'phtml', 'alias' => $this->tree->alias, 'mid' => $message->id), 'format'); ?>" onclick="javascript:el = document.getElementById('comments<?php echo $message->id ?>'); el.style.display=(el.style.display=='none') ? 'block':'none'; return false;" class="comments"><?php echo $this->_('%d Comments', $comments->getTotalItemCount()); ?></a>
           <?php  else: ?>
-            <a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $this->tree->alias, 'cid' => $message->id), 'format'); ?>" onclick="javascript:el = document.getElementById('addcomment<?php echo $message->id ?>'); el.style.display=(el.style.display=='none') ? 'block':'none'; return false;" class="comments"><?php echo $this->_('Add comment'); ?></a>
+            <a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $this->tree->alias, 'blogmessage_id' => $message->id), 'format'); ?>" onclick="javascript:el = document.getElementById('addcomment<?php echo $message->id ?>'); el.style.display=(el.style.display=='none') ? 'block':'none'; return false;" class="comments"><?php echo $this->_('Add comment'); ?></a>
           <?php endif; ?>
         <?php endif; ?>
           <span class="date"><?php echo $this->date($message->date); ?></span>
@@ -46,7 +46,7 @@
             </div>
             <?php endif; ?>
             <div id="labeladdcomment<?php echo $message->id ?>">
-            	<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $this->tree->alias, 'cid' => $message->id), 'format'); ?>" onclick="javascript:el = document.getElementById('addcomment<?php echo $message->id ?>'); el.style.display=(el.style.display=='none') ? 'block':'none'; return false;" class="comments"><?php echo $this->_('Add comment'); ?></a>
+            	<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $this->tree->alias, 'blogmessage_id' => $message->id), 'format'); ?>" onclick="javascript:el = document.getElementById('addcomment<?php echo $message->id ?>'); el.style.display=(el.style.display=='none') ? 'block':'none'; return false;" class="comments"><?php echo $this->_('Add comment'); ?></a>
             </div>
            	<div id="addcomment<?php echo $message->id ?>" style="display: none;">
                 <?php echo $form; ?>
