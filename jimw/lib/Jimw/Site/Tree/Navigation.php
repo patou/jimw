@@ -72,7 +72,9 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
 	 * @return bool
 	 */
 	public function getActive($recursive) {
-		return $this->tree->getActive();
+		if (!parent::getActive($recursive))
+			return $this->tree->getActive();
+		return true;
 	}
 	
 	/**
@@ -100,8 +102,9 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
 	 * @return bool
 	 */
 	public function getVisible($recursive) {
-		return $this->tree->status == Jimw_Site_Tree::PUBLISHED;
-		//TODO Check permission
+		//if (parent::getVisible($recursive))
+			return $this->tree->status == Jimw_Site_Tree::PUBLISHED;
+		return false;
 	}
 	
 	/**
@@ -111,10 +114,12 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
 	 * @return bool
 	 */
 	public function isActive($recursive) {
-		if ($recursive)
-			return $this->tree->getExpanded();
-		else
-			return $this->tree->getActive();
+		//if (!parent::getActive())
+			if ($recursive)
+				return $this->tree->getExpanded();
+			else
+				return $this->tree->getActive();
+		return true;
 	}
 	
 	/**

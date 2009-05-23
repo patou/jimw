@@ -70,6 +70,7 @@ class Jimw_Debug extends Zend_Debug
 	        $details[1] = str_replace('href="function.', 'target="_blank" href="http://www.php.net/', $details[1]);
 	        $color = 'orange';
 	        /* determine error level */
+	        $errorlevel = 'error';
 	        switch ($details[0]) {
 	            case 2:
 	                $errorlevel = 'warning';
