@@ -93,7 +93,7 @@ class Jimw_Global_Controller extends Jimw_Controller
         $router->addRoute('get', new Jimw_Site_Route_Get(array()));
         $router->addRoute('sitemap.xml', new Zend_Controller_Router_Route_Static('sitemap.xml', array('controller' => 'seo', 'action' => 'sitemap', 'module' => 'default', 'format' => 'xml')));
         $router->addRoute('sitemap.phtml', new Zend_Controller_Router_Route_Static('sitemap.phtml', array('controller' => 'seo', 'action' => 'sitemap', 'module' => 'default', 'format' => 'phtml')));
-        $router->addRoute('robots.txt', new Zend_Controller_Router_Route_Static('robot.txt', array('controller' => 'seo', 'action' => 'robot', 'module' => 'default', 'format' => 'txt')));
+        $router->addRoute('robots.txt', new Zend_Controller_Router_Route_Static('robots.txt', array('controller' => 'seo', 'action' => 'robots', 'module' => 'default', 'format' => 'txt')));
         $this->frontcontroller->setRouter($router);
         $this->frontcontroller->setDispatcher($this->dispatch);
         $this->frontcontroller->setControllerDirectory(JIMW_REP_LIB . 'Jimw/Controller/');

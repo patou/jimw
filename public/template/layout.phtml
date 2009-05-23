@@ -35,8 +35,16 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 
 			<h1>Menu</h1>
 			<?php
-				echo $this->menu('left', array('ulClassName' => 'sidemenu', 'currentClassName' => 'current',
-												'menuDepth' => 4));
+				/*echo $this->menu('left', array('ulClassName' => 'sidemenu', 'currentClassName' => 'current',
+												'menuDepth' => 4));*/
+			echo $this->navigation()->menu()->renderMenu($this->navigation, array(
+            'indent'           => ' ',
+            'ulClass'          => 'sidemenu',
+            'minDepth'         => 0,
+            'maxDepth'         => 3,
+            'onlyActiveBranch' => true,
+            'renderParents'    => true
+        ));
 			?>
 			<?php if ($this->getHelperPath('menuRSS')): ?>
 			<h1>Rss</h1>
@@ -50,6 +58,7 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 		</div>
 
 		<div id="main">
+		<?php echo $this->navigation()->breadcrumbs(); ?>
 
 		<?php echo $this->layout()->content; ?>
 

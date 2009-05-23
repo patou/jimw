@@ -14,7 +14,7 @@ class SeoController extends Jimw_Module_Action {
 	public function sitemapAction() {
 	}
 	
-	public function robotAction() {
+	public function robotsAction() {
 		$deniedpage = array('/admin', '/default/error/');
 		//TODO add all denied page and controller
 		$this->view->deniedpage = $deniedpage;
