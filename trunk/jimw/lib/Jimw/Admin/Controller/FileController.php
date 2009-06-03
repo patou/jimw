@@ -28,7 +28,8 @@ class FileController extends Jimw_Admin_Action
      */
     public function indexAction ()
     {
-        $this->render('index');
+        if ($this->getRequest()->getParam('format','phtml') == 'phtml')
+            $this->_forward('list');        
     }
     /**
      * The default action - show the home page

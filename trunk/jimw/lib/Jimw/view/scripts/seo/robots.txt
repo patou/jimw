@@ -1,2 +1,5 @@
 <?php
-echo implode("\n",$this->deniedpage);
+echo "User-agent: *\n";
+foreach ($this->deniedpage as $deniedpage) {
+   echo 'Disallow: ' , $deniedpage, "\n";
+}

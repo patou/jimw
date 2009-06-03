@@ -15,11 +15,9 @@ class SeoController extends Jimw_Module_Action {
 	}
 	
 	public function robotsAction() {
-		$deniedpage = array('/admin', '/default/error/');
+		$deniedpage = array('/admin', '/default/error', '/default/auth');
 		//TODO add all denied page and controller
 		$this->view->deniedpage = $deniedpage;
 	}
 
 }
-?>
-
