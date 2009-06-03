@@ -94,7 +94,7 @@ try {
 catch (Exception $e) {
     Jimw_Debug::display_exception($e);
 }
-if (JIMW_DEBUG_MODE) {
+//if (JIMW_DEBUG_MODE) {
 	$ext = (Zend_Registry::isRegistered('format')) ? Zend_Registry::get('format') : 'phtml';
 	if (!empty($ext) && $ext == 'phtml') {
 		$db = Zend_Registry::get('db');
@@ -107,5 +107,5 @@ if (JIMW_DEBUG_MODE) {
     else {
         Jimw_Debug::disactive();
 	}
-}
+//}
 ?>
