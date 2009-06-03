@@ -57,6 +57,7 @@ class Blog_MessageController extends Jimw_Admin_Action
 		    if (!$request->isPost()) {
 		        $form->populate($message->toArray());
 		    }
+		    $this->view->message = $message;
 		    $this->view->form = $form;
 		    $this->render('form');
 		}

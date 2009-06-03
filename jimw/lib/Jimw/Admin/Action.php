@@ -54,7 +54,7 @@ abstract class Jimw_Admin_Action extends Zym_Controller_Action_Abstract
         if ($this->_auth == null) {
             $this->_auth = Zend_Registry::get('Zend_Acl');
         }
-        return $this->_auth->isRoleAllowed($resource, $privilege);
+        return ($this->_auth != null) ? $this->_auth->isRoleAllowed($resource, $privilege) : false;
     }
     /**
      * @var Jimw_Acl

@@ -20,7 +20,8 @@ class Jimw_Admin_Plugin_Perms extends Zend_Controller_Plugin_Abstract
     }
 
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
-        if (!$this->auth->isRoleAllowed('admin', 'view') && $request->getControllerName() != "error" && $request->getControllerName() != "auth")
+    if ($this->auth != null && !$this->auth->isRoleAllowed('admin', 'view') && 
+        !in_array($request->getControllerName(),array('auth', 'error')))
         {
             $request->setActionName('perms');
             $request->setControllerName('error');

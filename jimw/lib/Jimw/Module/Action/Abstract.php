@@ -38,7 +38,7 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 			$this->view->title = $tree->pagetitle;
 		}
 		$this->view->request = $request;
-		$trees = new Jimw_Site_Tree();
+		/*$trees = new Jimw_Site_Tree();
 		if (empty($tree)) {
 			$tree = $trees->fetchNew();
 		}
@@ -53,7 +53,7 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 			Zend_Registry::set('Zend_Navigation', $navigation);
 			Jimw_Debug::dump($navigation);
 			$this->view->navigation = $navigation;
-		}
+		}*/
 		$this->view->tree = $tree;
 		$this->initModule();
 	}
