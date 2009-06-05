@@ -78,6 +78,11 @@ Zend_Registry::set('config_db', array('type' => 'PDO_SQLITE', 'dbname' => JIMW_R
 if (!JIMW_DEBUG_MODE) {
 	$cache = Zend_Cache::factory('Core', 'File', array('automatic_serialization' => true), array('cache_dir' => JIMW_REP_CACHE.'db'));
 	Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
+	// getting a Zend_Cache_Frontend_Page object
+	$cache = Zend_Cache::factory('Page', 'File', array('lifetime' => 7200), array('cache_dir' => JIMW_REP_CACHE . 'html'));
+	
+	$cache->start();
+	Zend_Registry::set('cache', $cache);
 }
 Jimw_Debug::initDebug(JIMW_DEBUG_MODE);
 
