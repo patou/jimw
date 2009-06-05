@@ -21,7 +21,7 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
         $this->siteTable = new Jimw_Site_Site();
         $this->domainTable = new Jimw_Site_Domain();
     }
-    public function url (array $urlOptions = array(), $name = null, $reset = false)
+    public function url (array $urlOptions = array(), $name = null, $reset = false, $fullurl = false)
     {
         $ctrl = Zend_Controller_Front::getInstance();
         $router = $ctrl->getRouter();
@@ -42,14 +42,13 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
         $route = $router->getRoute($name);
         $this->request = $ctrl->getRequest();
         // Build the url
-        $url = $this->buildUrl($urlOptions);
+        $url = $this->buildUrl($urlOptions, $fullurl);
         $url .= ltrim($route->assemble($urlOptions, $reset), '/');
-
-
+        
         return $url;
     }
 
-    private function buildUrl($urlOptions = array()) {
+    private function buildUrl($urlOptions = array(), $fullurl) {
         if (defined('JIMW_NO_REWRITE_URL')) {
             $basePath = $this->request->getBasePath();
             $baseUrl = substr($this->request->getBaseUrl(), strlen($basePath));
@@ -76,6 +75,9 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
                     }
                 }
             }
+        }
+        if ($fullurl == true && strpos($url, "http://") === false) {
+            $url = $domainUrl . $url;
         }
         if (! empty($domain->path))
             $url .= $domain->path . '/';
