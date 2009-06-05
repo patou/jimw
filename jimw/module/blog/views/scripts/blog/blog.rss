@@ -8,7 +8,7 @@ foreach ($this->messages as $message) {
 	$result = $tree->find($message->tree_parentid)->current();
 	$date = new Zend_Date($message->date,Zend_Date::ISO_8601);
 	$entries[] = array('title' => encode($message->title),
-						'link' => $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'alias' => $result->alias, 'format' => 'phtml', 'mid' => $message->id), 'format'),
+						'link' => $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'alias' => $result->alias, 'format' => 'phtml', 'mid' => $message->id), 'format', true, true),
 						'description' => encode(' '.$this->teaser(preg_replace('/<.*?>/', '', (empty($message->header)?$message->content:$message->header)), 500)),
 						'content' => encode($message->content),
 						'category' => array(array('term' =>$result->alias)),
@@ -18,7 +18,7 @@ foreach ($this->messages as $message) {
 $builder = array('title' => encode($this->tree->pagetitle),
 			'charset' => 'UTF-8',
 			'generator' => 'Jimw',
-			 'link' => $this->url(array('alias' => $this->tree->alias, 'format' => 'rss'), 'alias'),
+			 'link' => $this->url(array('alias' => $this->tree->alias, 'format' => 'rss'), 'alias', true, true),
 			 'entries' => $entries);
 
 $rss = Zend_Feed::importArray($builder, 'rss');
