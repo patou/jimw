@@ -51,7 +51,6 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 				$navigation->addPage($p);
 			}
 			Zend_Registry::set('Zend_Navigation', $navigation);
-			//Jimw_Debug::dump($navigation);
 			$this->view->navigation = $navigation;
 		}
 		$this->view->tree = $tree;
