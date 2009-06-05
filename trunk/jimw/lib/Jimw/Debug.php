@@ -144,7 +144,7 @@ class Jimw_Debug extends Zend_Debug
         } else {
             $output .= '</div></div>' . "\n";
         }
-        if ($echo) {
+        if ($echo && self::$active) {
             self::$output .= $output;
         }
         if ($log)

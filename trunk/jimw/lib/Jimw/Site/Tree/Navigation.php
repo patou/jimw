@@ -35,10 +35,12 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
 	}
 	
 	protected function addChildren($config) {
-		$children = $this->tree->getChildren();
-		foreach ($children as $child) {
-			$this->addPage(new Jimw_Site_Tree_Navigation($child, $config));
-		}
+	    if ($this->tree->hasChildren()) {
+    		$children = $this->tree->getChildren();
+    		foreach ($children as $child) {
+    			$this->addPage(new Jimw_Site_Tree_Navigation($child, $config));
+    		}
+	    }
 	}
 	
 	/**

@@ -20,6 +20,7 @@ class Links_LinksController extends Jimw_Module_Action_Alias
 		$tree = $treeFactory->find($tree->id)->current();
 		$tree->param->count += 1;
 		$tree->save ();
+		Zend_Registry::get('cache')->cancel();
 		$this->_redirect($tree->param->url);
 	}
 }
