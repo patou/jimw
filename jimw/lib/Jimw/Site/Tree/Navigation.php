@@ -34,6 +34,11 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
 		$this->addChildren($config);
 	}
 	
+	/**
+	 * Add all children of the page from the Tree
+	 * @param $config
+	 * @return unknown_type
+	 */
 	protected function addChildren($config) {
 	    if ($this->tree->hasChildren()) {
     		$children = $this->tree->getChildren();
@@ -161,6 +166,18 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
             array(
                 'tree'       => $this->tree->toArray()
             ));
+    }
+    
+    public function __get($name) {
+        if ($name == 'lastmod') {
+            $date = new Zend_Date($this->tree->tree_editiondate);
+            return $date->toString();
+        }
+        $value = parent::__get($name);
+        if ($value === null) {
+            $value = $this->tree->__get($name);
+        }
+        return $value;
     }
 }
 

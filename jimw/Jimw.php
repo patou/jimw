@@ -80,7 +80,7 @@ if (!JIMW_DEBUG_MODE) {
 	Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
 	// getting a Zend_Cache_Frontend_Page object
 	$cache = Zend_Cache::factory('Page', 'File', array('lifetime' => 7200), array('cache_dir' => JIMW_REP_CACHE . 'html'));
-	
+	$_GET['jimw.cache.page.hostname'] = $_SERVER['HTTP_HOST']; // For work with many host
 	$cache->start();
 	Zend_Registry::set('cache', $cache);
 }
