@@ -137,6 +137,10 @@ return array(
     'Insert successful' => 'Ajout réussi',
     'Move successful' => 'Déplacement réussi',
     'Save successful' => 'Enregistrement réussi',
+    
+    'View this page in PDF' => 'Voir au format PDF',
+    'Print this page' => 'Imprimer cette page',
+    'Article not found' => 'Article non trouvé',
 
     'Thank you to have submited this form' => 'Merci d\'avoir envoyé ce formulaire',
     'This article doesn\'t exist' => 'Cet article n\'existe pas',
