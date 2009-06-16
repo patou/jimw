@@ -2,18 +2,18 @@
 $this->headLink(array('rel' => 'stylesheet', 'type' => 'text/css', 'href'=> $this->path . '/stylesheets/indigo.css'));
 $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->path . '/javascripts/jimw.js');
 $this->headTitle()->prepend($this->request->getDomainName (). ' - Administration');
-if (JIMW_UTF8) $this->headMeta('text/html; charset=UTF8', 'content-type');
+if (JIMW_UTF8) $this->headMeta('text/html; charset=utf-8', 'Content-Type', 'http-equiv');
 if (isset($this->tree->menutitle))
     $this->headTitle()->append(' - ' . $this->tree->menutitle);
 echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 ?>
 <html>
 <head>
-<?php echo $this->headTitle(); ?>
-<?php echo $this->headMeta(); ?>
-<?php echo $this->headLink(); ?>
-<?php echo $this->headStyle(); ?>
-<?php echo $this->headScript(); ?>
+<?php echo $this->headTitle()."\n"; ?>
+<?php echo $this->headMeta()."\n"; ?>
+<?php echo $this->headLink()."\n"; ?>
+<?php echo $this->headStyle()."\n"; ?>
+<?php echo $this->headScript()."\n"; ?>
 </head>
 
 <body>

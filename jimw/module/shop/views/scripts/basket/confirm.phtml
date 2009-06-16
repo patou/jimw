@@ -14,6 +14,10 @@
 
 <p><b>Merci de conserver la référence de la transaction : <?php echo $this->orderid; ?></b></p>
 
+<?php $paymentmode = 'sogenactif'; ?>
+
+<?php if ($paymentmode == 'paypal'): ?>
+
 <p>Cliquez sur le bouton <b>Payer</b> ci-dessous pour procéder au paiement. Ensuite, sur la page qui va s'afficher, cliquez sur le lien <b>Continuer</b> en bas à gauche, qui se trouve en dessous de <b>Vous n'avez pas de compte PayPal ?</b></p>
 
 <input type="hidden" name="cmd" value="_xclick">
@@ -32,4 +36,35 @@
 <input type="image" src="https://www.paypal.com/fr_FR/FR/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="">
 <img alt="" border="0" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
 </form>
+
+<?php elseif ($paymentmode == 'sogenactif'): ?>
+
+<?php
+	$parm = "merchant_id=014213245611111";
+	$parm = "$parm merchant_country=fr";
+	$parm = "$parm amount=".(int)($sum*100);
+	$parm = "$parm transaction_id=".$this->orderid;
+	$parm = "$parm currency_code=978"; // EURO
+	$parm = "$parm pathfile=/home/sogenactif/param/pathfile";
+	$parm = "$parm normal_return_url=http://".$_SERVER['HTTP_HOST'].$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'response'));
+	$parm = "$parm cancel_return_url=http://".$_SERVER['HTTP_HOST'].$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'response'));
+	$parm = "$parm automatic_response_url=http://".$_SERVER['HTTP_HOST'].$this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'autoresponse'));
+	$path_bin = "/home/sogenactif/bin/request";
+	$result = exec("$path_bin $parm");
+	$tableau = explode ("!", "$result");
+	$code = $tableau[1];
+	$error = $tableau[2];
+	$message = $tableau[3];
+	
+  if (( $code == "" ) && ( $error == "" )) echo "Erreur : exécutable non trouvé ($path_bin)";
+	elseif ($code != 0) echo "Erreur : $error<br>";
+	else {
+		echo $message.'<br>';
+		echo $error; // Debug
+	}
+
+?>
+
+<?php endif; ?>
+
 <?php endif; ?>

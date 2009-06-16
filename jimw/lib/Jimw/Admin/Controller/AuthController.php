@@ -45,6 +45,12 @@ class AuthController extends Jimw_Admin_Action
                     // system. (Not the password though!)
                     $data = $authAdapter->getResultRowObject(null, 'password');
                     $auth->getStorage()->write($data);
+                    // store the current date as user last visit
+                    $usermodel = new Jimw_Site_User();
+                    $user = $usermodel->find($data->user_id)->current();
+										$user->lastvisit = new Zend_Db_Expr('NOW()');
+                    $user->save();
+                    // redirect
                     if (!empty($values['redirect']))  $this->_redirect($values['redirect'], array('prependBase'=>false));
                     else $this->_forward('index', 'index', 'default');
                     return;
