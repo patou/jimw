@@ -16,6 +16,9 @@ include_once(dirname(__FILE__) . '/../../blog/Controller/Model/BlogComment.php')
 include_once(dirname(__FILE__) . '/../../blog/Controller/Model/BlogCommentForm.php');
 class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 {
+	/* (non-PHPdoc)
+	 * @see Jimw_Module_Action_Alias#viewModule($alias)
+	 */
 	public function viewModule ($alias)
 	{
 		$request = $this->_request;

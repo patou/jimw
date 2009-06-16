@@ -35,16 +35,17 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 
 			<h1>Menu</h1>
 			<?php
+			/*
 				echo $this->menu('left', array('ulClassName' => 'sidemenu', 'currentClassName' => 'current',
-												'menuDepth' => 4));
-			/*echo $this->navigation()->menu()->renderMenu($this->navigation, array(
+												'menuDepth' => 4));*/
+			echo $this->navigation()->navigMenu()->renderMenu($this->navigation, array(
             'indent'           => ' ',
             'ulClass'          => 'sidemenu',
             'minDepth'         => 0,
             'maxDepth'         => 3,
-            'onlyActiveBranch' => true,
-            'renderParents'    => true
-        ));*/
+			//'onlyActiveBranch' => true,
+			'expandBranch'	   => true
+        ));
 			?>
 			<?php if ($this->getHelperPath('menuRSS')): ?>
 			<h1>Rss</h1>
@@ -58,7 +59,7 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 		</div>
 
 		<div id="main">
-		<?php /*echo $this->navigation()->breadcrumbs();*/ ?>
+		<?php echo $this->navigation()->breadcrumbs(); ?>
 
 		<?php echo $this->layout()->content; ?>
 
@@ -78,7 +79,8 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 
 	<div class="footer-right">
 		<p class="align-right">
-		<a href="/"><?php echo $this->_('Home'); ?></a>&nbsp;|&nbsp;
+		<a href="<?php echo $this->url(array(), 'format', true); ?>"><?php echo $this->_('Home'); ?></a>&nbsp;|&nbsp;
+		<a href="<?php echo $this->url(array(), 'sitemap.phtml', true); ?>"><?php echo $this->_('Site Map'); ?></a>&nbsp;|&nbsp;
 		</p>
 	</div>
 

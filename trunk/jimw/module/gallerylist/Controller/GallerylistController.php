@@ -47,7 +47,7 @@ class Gallerylist_GallerylistController extends Jimw_Module_Action_Alias
     			}
     		}
     		else
-    			exit ("$dir isn't a valid directory");
+    			throw new Jimw_Exception("$dir isn't a valid directory");
 
     	}
 		$this->view->galleries = $galleries;

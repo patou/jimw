@@ -22,6 +22,11 @@ class BlogCommentForm extends Jimw_Form
 	        	'label' => 'Your message',
                 'filters' => array('StringTrim', array('HtmlEntities', ENT_COMPAT, 'UTF-8')),
 				'required' => true)),
+        'capcha' => array('type' => 'captcha','options' => array( 
+            'label'      => 'Please enter the letters displayed below:', 
+            'required'   => true, 
+            'captcha'    => array('captcha' => 'Figlet', 'wordLen' => 6, 'timeout' => 300, 'height' => 100, 'width' => 300, 'fontSize' => 48) 
+            )),
         'submit' => array(
         	'type' => 'submit',
             'options' => array('required' => false, 'ignore' => true, 'label' => 'Send'))

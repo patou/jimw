@@ -18,7 +18,10 @@ class TreeController extends Jimw_Admin_Action
         /*else
             $this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages();*/
     }
-    
+    /**
+     * List all the page
+     *
+     */
     public function listAction ()
     {
         $tree = new Jimw_Site_Tree();
@@ -30,6 +33,10 @@ class TreeController extends Jimw_Admin_Action
         $this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages();
     }
     
+    /**
+     * Display the trash list of page
+     *
+     */
     public function trashAction ()
     {
         $tree = new Jimw_Site_Tree();
@@ -38,6 +45,10 @@ class TreeController extends Jimw_Admin_Action
         $this->render('list');
     }
     
+    /**
+     * Edit a page
+     *
+     */
     public function editAction ()
     {
         $req = $this->getRequest();
@@ -101,6 +112,11 @@ class TreeController extends Jimw_Admin_Action
             //$this->_forward('edit', 'manage', $result->module_path);
         }
     }
+    
+    /**
+     * Create a new page
+     *
+     */
     public function addAction ()
     {
         $req = $this->getRequest();
@@ -162,6 +178,10 @@ class TreeController extends Jimw_Admin_Action
             $this->render('form');
         }
     }
+    /**
+     * Delete a page : Move it to the trash or delete it from the database if the page are in the trash
+     *
+     */
     public function deleteAction ()
     {
         $id = $this->_request->id;
@@ -186,6 +206,10 @@ class TreeController extends Jimw_Admin_Action
         }
     }
     
+    /**
+     * Move out from the trash
+     *
+     */
 	public function restoreAction ()
     {
         $id = $this->_request->id;
@@ -202,6 +226,10 @@ class TreeController extends Jimw_Admin_Action
         $this->_forward('list');
     }
     
+    /**
+     * Publish a page
+     *
+     */
 	public function publishAction ()
     {
         $id = $this->_request->id;
@@ -218,6 +246,10 @@ class TreeController extends Jimw_Admin_Action
         $this->_forward('list');
     }
     
+    /**
+     * Archive a page (published but not visible in the menu)
+     *
+     */
 	public function archiveAction ()
     {
         $id = $this->_request->id;
@@ -233,53 +265,12 @@ class TreeController extends Jimw_Admin_Action
         $this->_helper->getHelper('FlashMessenger')->addMessage('Move to the trash');
         $this->_forward('list');
     }
-   /* public function saveAction ()
-    {
-        $req = $this->_request;
-        $id = $req->id;
-        $tree = new Jimw_Site_Tree();
-        $save = $tree->find($id)->current();
-        $save->id = $id;
-        $save->pagetitle = $req->pagetitle;
-        $save->menutitle = $req->menutitle;
-        $save->order = 0;
-        $save->parentid = $req->parentid;
-        $save->alias = $req->alias;
-        $save->description = $req->description;
-        $save->status = $req->status;
-        $save->save();
-        $this->_helper->getHelper('FlashMessenger')->addMessage('Save successful ' . $req->pagetitle);
-        $this->_forward('index');
-    }
-    public function insertAction ()
-    {
-        $req = $this->_request;
-        //Zend_Debug::dump($req);
-        $tree = new Jimw_Site_Tree();
-        $save = $tree->fetchNew();
-        $save->pagetitle = $req->pagetitle;
-        $save->menutitle = $req->menutitle;
-        $save->order = 0;
-        $save->parentid = $req->parentid;
-        $save->module_id = $req->getPost('module');
-        $site = Zend_Registry::get('site');
-        $save->site_id = $site->id;
-        $save->version = 0;
-        $save->status = 4;
-        $save->param = '';
-        $save->icon = '';
-        $save->image = '';
-        //$save->creationdate = '1900-01-01 00:00:00';
-        //$save->editiondate = '1900-01-01 00:00:00';
-        $save->alias = $req->alias;
-        $save->description = $req->description;
-        //Zend_Debug::dump($save);
-        $save->save();
-        $id = $save->id;
-        $this->_helper->getHelper('FlashMessenger')->addMessage('Insert successful ' . $req->pagetitle);
-        $this->_forward('edit', 'tree', 'default', array('id' => $id));
-        //$this->_forward('index');
-    }*/
+
+    /**
+     * Move the page up or down
+     * @param dir Can be "up" or "down" to give the direction of the move
+     *
+     */
     public function moveAction ()
     {
         $tree = new Jimw_Site_Tree();
@@ -300,6 +291,10 @@ class TreeController extends Jimw_Admin_Action
         $this->_forward('index');
     }
 
+    /**
+     * Display a popup to choose a name
+     *
+     */
     public function chooserAction()
     {
         if (isset($this->getRequest()->javascript_fct))
@@ -310,6 +305,10 @@ class TreeController extends Jimw_Admin_Action
         $this->render('chooser');
     }
 
+    /**
+     * Get a branch of tree
+     *
+     */
     public function getAction()
     {
         $id = $this->getRequest()->path;
@@ -318,6 +317,12 @@ class TreeController extends Jimw_Admin_Action
         $this->view->list_tree = $parentid;
     }
 
+    /**
+     * Add the configuration of the module in the tree edit form
+     *
+     * @param Jimw_Site_Tree_Row $tree
+     * @param Jimw_Form $form
+     */
     private function _addModuleConfig(Jimw_Site_Tree_Row $tree, Jimw_Form $form)
     {
         $module = $tree->findParentJimw_Site_Module();

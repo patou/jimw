@@ -46,8 +46,7 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 		if ($tree_root->count() > 0) {
 			$navigation = new Zend_Navigation();
 			foreach ($tree_root as $page) {
-				$p = new Jimw_Site_Tree_Navigation($page);
-				$p->setActive(true);
+				$p = new Jimw_Site_Tree_Navigation(array('tree' => $page));
 				$navigation->addPage($p);
 			}
 			Zend_Registry::set('Zend_Navigation', $navigation);

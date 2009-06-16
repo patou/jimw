@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Site_Tree_Row extends Jimw_Db_Row
+class Jimw_Site_Tree_Row extends Jimw_Db_Row implements RecursiveIterator, Countable 
 {
     protected $_paramsField = array('param');
     public function __construct (array $config = array ())
@@ -58,17 +58,97 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row
     {
         return $this->status == 4;
     }
+    
+    //
+    // RecursiveIterator implementation
+    //
+    
+    protected $_children = null;
+    
+    /**
+     * Returns current page
+     *
+     * Implements RecursiveIterator interface.
+     *
+     * @return Zend_Navigation_Page       current page or null
+     * @throws Zend_Navigation_Exception  if the index is invalid
+     */
+    public function current()
+    {
+        $this->getChildren();
+        return current($this->_index);
+    }
+
+    /**
+     * Returns hash code of current page
+     *
+     * Implements RecursiveIterator interface.
+     *
+     * @return string  hash code of current page
+     */
+    public function key()
+    {
+        $this->getChildren();
+        return key($this->_children);
+    }
+
+    /**
+     * Moves index pointer to next page in the container
+     *
+     * Implements RecursiveIterator interface.
+     *
+     * @return void
+     */
+    public function next()
+    {
+        $this->getChildren();
+        next($this->_children);
+    }
+
+    /**
+     * Sets index pointer to first page in the container
+     *
+     * Implements RecursiveIterator interface.
+     *
+     * @return void
+     */
+    public function rewind()
+    {
+        $this->getChildren();
+        reset($this->_children);
+    }
+
+    /**
+     * Checks if container index is valid
+     *
+     * Implements RecursiveIterator interface.
+     *
+     * @return bool
+     */
+    public function valid()
+    {
+        $this->getChildren();
+        return current($this->_children) !== false;
+    }
+    
     /**
      * Return the children tree node list
+     *
+     * Implements RecursiveIterator interface.
      *
      * @return Jimw_Db_Rowset
      */
     public function getChildren ()
     {
-        return $this->_table->getChildren($this->id);
+    	if ($this->_children == null) {
+        	$this->_children = $this->_table->getChildren($this->id);
+    	}
+    	return $this->_children;
     }
     /**
      * Return if the tree node has children
+     *
+     * Implements RecursiveIterator interface.
      *
      * @return boolean
      */
@@ -77,6 +157,21 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row
         //return $this->_table->hasChildren ($this->id);
         return $this->rgt - $this->lft > 1;
     }
+    
+    // Countable interface:
+
+    /**
+     * Returns number of pages in container
+     *
+     * Implements Countable interface.
+     *
+     * @return int  number of children in the tree
+     */
+    public function count()
+    {
+        return count($this->_children);
+    }
+    
     /**
      * Return the parent of the Tree node
      *
