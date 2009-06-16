@@ -28,22 +28,23 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
 	 */
 	private $tree;
 	
-	public function __construct(Jimw_Site_Tree_Row $tree, $config = null) {
+	/*public function __construct(Jimw_Site_Tree_Row $tree, $config = null) {
 		parent::__construct($config);
 		$this->tree = $tree;
 		$this->addChildren($config);
-	}
+	}*/
+	
 	
 	/**
 	 * Add all children of the page from the Tree
 	 * @param $config
 	 * @return unknown_type
 	 */
-	protected function addChildren($config) {
+	protected function addChildren() {
 	    if ($this->tree->hasChildren()) {
     		$children = $this->tree->getChildren();
     		foreach ($children as $child) {
-    			$this->addPage(new Jimw_Site_Tree_Navigation($child, $config));
+    			$this->addPage(new Jimw_Site_Tree_Navigation(array('tree' => $child)));
     		}
 	    }
 	}
@@ -151,6 +152,7 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
 	 */
 	public function setTree($tree) {
 		$this->tree = $tree;
+		$this->addChildren();
 	}
 	
 
@@ -168,16 +170,36 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
             ));
     }
     
+    /**
+     * Get a variable
+     *
+     * @param String $name the name of the parameter
+     * @return mixed
+     */
     public function __get($name) {
         if ($name == 'lastmod') {
-            $date = new Zend_Date($this->tree->tree_editiondate);
-            return $date->toString();
+            $date = new Zend_Date($this->tree->editiondate);
+            return $date->toString(Zend_Date::W3C);
         }
         $value = parent::__get($name);
         if ($value === null) {
             $value = $this->tree->__get($name);
         }
         return $value;
+    }
+    
+    public function __isset($name) {
+    	if ($name == 'lastmod' && isset($this->tree->editiondate))
+    		return true;
+    	if ($this->tree->__isset($name))
+    		return true;
+    	return parent::__isset($name);
+    }
+    
+    public function __call($method, array $arguments) {
+    	if (strpos($name, 'find') === 0)
+    		return parent::__call($method, $arguments);
+    	return call_user_func_array(array($this->tree,$method), $arguments);	
     }
 }
 

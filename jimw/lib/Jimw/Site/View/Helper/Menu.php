@@ -54,6 +54,7 @@ class Jimw_Site_View_Helper_Menu extends Zend_View_Helper_Abstract
      */
     public function menu ($name = '', $display = false)
     {
+    	Jimw_Debug::deprecated('$this->menu()', '$this->navigMenu()');
         $menu = $this->getMenu($name);
         if ($display === false) {
             return $menu;

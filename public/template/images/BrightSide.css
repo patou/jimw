@@ -253,11 +253,11 @@ form.searchform input.button {
 	margin:10px 0 10px 15px;
 	padding:0;		
 }
-#sidebar ul.sidemenu li {
+#sidebar ul.sidemenu li, #sidebar ul.sidemenu ul li {
 	margin-bottom:1px;
-	border: 1px solid #f2f2f2;
+	/*border: 1px solid #f2f2f2;*/
 }
-#sidebar ul.sidemenu a {
+#sidebar ul.sidemenu a, #sidebar ul.sidemenu ul a {
 	display:block;
 	font-weight:bold;
 	color: #333;
@@ -268,42 +268,19 @@ form.searchform input.button {
 	min-height:18px;
 }
 
-* html body #sidebar ul.sidemenu a { height: 18px; }
-
-#sidebar ul.sidemenu ul a:hover {
+#sidebar ul.sidemenu a:hover, #sidebar ul.sidemenu ul a:hover {
 	padding:2px 5px 2px 10px;
 	background: #f2f2f2;
 	color: #339900;
 	border-left:4px solid #9EC630;
 }
+
+* html body #sidebar ul.sidemenu a, * html body #sidebar ul.sidemenu ul a { height: 18px; }
 
 #sidebar ul.sidemenu ul {
 	list-style:none;
-	margin:10px 0 10px 15px;
+	margin:1px 0 1px 15px;
 	padding:0;		
-}
-#sidebar ul.sidemenu ul li {
-	margin-bottom:1px;
-	border: 1px solid #f2f2f2;
-}
-#sidebar ul.sidemenu ul a {
-	display:block;
-	font-weight:bold;
-	color: #333;
-	text-decoration:none;
-	padding:2px 5px 2px 10px;
-	background: #f2f2f2;
-	border-left:4px solid #CCC;
-	min-height:18px;
-}
-
-* html body #sidebar ul.sidemenu ul a { height: 18px; }
-
-#sidebar ul.sidemenu ul a:hover {
-	padding:2px 5px 2px 10px;
-	background: #f2f2f2;
-	color: #339900;
-	border-left:4px solid #9EC630;
 }
 
 /* rightbar */
@@ -428,4 +405,8 @@ form.searchform input.button {
 	text-align: center;
 	color: white;
 	background-color: green;
+}
+
+a.icon_pdf img, a.icon_print img, a:hover.icon_pdf img, a:hover.icon_print img {
+	border: 2px solid white;
 }

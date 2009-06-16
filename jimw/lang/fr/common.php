@@ -160,5 +160,11 @@ return array(
     'Gestion of all your system' => 'Gestion de votre sytème (modules)',
     'Powered by %s' => 'Propulsé par %s',
     'The page "%s" doesn\'t exist in this website' => 'La page "%s" n\'existe pas sur ce site',
-    'Welcome on your Jimw Administration' => 'Bienvenue dans votre espace d\'administration'
+    'Welcome on your Jimw Administration' => 'Bienvenue dans votre espace d\'administration',
+	//Captcha
+    'Please enter the letters displayed below:' => 'Merci d\'entrer les lettres affichés ci-dessous :',
+    'Empty captcha value' => 'Captcha vide',
+	'Captcha value is wrong' => 'La valeur du captcha est fausse',
+	'Captcha ID field is missing' => 'Le champ ID du captcha n\est pas présent',
+	'Site Map' => 'Carte du site'
 );

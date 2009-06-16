@@ -143,6 +143,10 @@ class Jimw_Db_Row extends Zend_Db_Table_Row
         }
         parent::__set($name, $value);
     }
+    
+    public function __isset($name) {
+    	return (in_array($name, $this->_paramsField) || parent::__isset($name));
+    }
 
     public function __sleep ()
     {
