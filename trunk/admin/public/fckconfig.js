@@ -108,35 +108,30 @@ FCKConfig.ToolbarSets["Default"] = [
 	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
 	'/',
 	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
-	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','CreateDiv'],
+	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-	['Link','Unlink'],
+	
 	['Image','Flash','YouTube','Table','Rule','SpecialChar','insertHtml'], 
-	['TextColor','BGColor'],
-	['-','About'],
 	'/',
-	['Style','FontFormat','FontName','FontSize']		// No comma for the last row.
+	['FontFormat','FontName','FontSize'],
+	['TextColor','BGColor'],
+	['Link','Unlink']
 ] ;
 
 FCKConfig.ToolbarSets["All"] = [
-	['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],
+	['Source','-','Save','NewPage','Preview','-','Templates','-','FitWindow','ShowBlocks'],	
 	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
 	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-	['FitWindow','ShowBlocks','-','About'],	
 	'/',
 	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
 	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','CreateDiv'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 	['Link','Unlink','Anchor'],
+	['TableInsertRowAfter','TableDeleteRows','TableInsertColumnAfter','TableDeleteColumns','TableInsertCellAfter','TableDeleteCells','TableMergeCells','TableHorizontalSplitCell','TableCellProp'],	
 	'/',
-	['Style','FontFormat','FontName','FontSize'],
-	['Image','Flash','YouTube','imgmapPopup','Table','Rule','Smiley','SpecialChar','PageBreak','insertHtml'], 
+	['FontFormat','FontName','FontSize'],
 	['TextColor','BGColor'],
-	['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'],
-	['TableInsertRowAfter','TableDeleteRows','TableInsertColumnAfter','TableDeleteColumns','TableInsertCellAfter','TableDeleteCells','TableMergeCells','TableHorizontalSplitCell','TableCellProp']
-	
-	
-			// No comma for the last row.
+	['Image','Flash','YouTube','imgmapPopup','Table','Rule','Smiley','SpecialChar','PageBreak','insertHtml']
 ] ;
 
 FCKConfig.ToolbarSets["Basic"] = [

@@ -4,7 +4,7 @@ CREATE TABLE "{PREFIX}menuitem" ( "menuitem_id" INTEGER NOT NULL PRIMARY KEY, "m
 
 CREATE TABLE "{PREFIX}module" ( "module_id" INTEGER NOT NULL PRIMARY KEY, "module_name" varchar(32) NOT NULL default '' , "module_path" varchar(32) NOT NULL default '' , "module_author" varchar(64) NOT NULL default '' , "module_version" varchar(16) NOT NULL default '' , "module_comment" varchar(255) NOT NULL default '' );
 
-CREATE TABLE "{PREFIX}moduleconfig" ( "module_config_id" INTEGER NOT NULL PRIMARY KEY, "module_id" int(11) default '0' , "site_id" INT(11) NOT NULL , "module_config" text NOT NULL );
+CREATE TABLE "{PREFIX}moduleconfig" ( "moduleconfig_id" INTEGER NOT NULL PRIMARY KEY, "module_id" int(11) default '0' , "site_id" INT(11) NOT NULL , "moduleconfig_config" text NOT NULL );
 
 CREATE TABLE "{PREFIX}path" ( "path_id" INTEGER NOT NULL PRIMARY KEY, "site_id" int(11) default '0' , "path_protocol" varchar(8) NOT NULL , "path_name" varchar(255) NOT NULL , "path_subdomain" varchar(255) NOT NULL , "path_port" varchar(32) NOT NULL , "path_path" varchar(255) NOT NULL , "path_status" tinyint(4) NOT NULL default '0' );
 
@@ -16,6 +16,6 @@ CREATE TABLE "{PREFIX}siteperm" ( "siteperm_id" INTEGER NOT NULL PRIMARY KEY, "s
 
 CREATE TABLE "{PREFIX}tree" ( "tree_id" INTEGER NOT NULL PRIMARY KEY, "tree_parentid" int(11) NOT NULL default '0' , "tree_lft" int(11) NOT NULL , "tree_rgt" int(11) NOT NULL , "tree_order" int(11) NOT NULL default '0' , "site_id" int(11) default '0' , "module_id" int(11) default '0' , "module_path" VARCHAR(32) NOT NULL, "tree_pagetitle" varchar(255) NOT NULL default '' , "tree_menutitle" varchar(32) NOT NULL default '' , "tree_icon" varchar(127) NOT NULL default '' , "tree_image" varchar(127) NOT NULL default '' , "tree_alias" varchar(255) NOT NULL default '' , "tree_description" mediumtext NOT NULL , "user_id" int(11) default '0' , "tree_status" tinyint(4) NOT NULL default '0' , "tree_version" int(11) NOT NULL default '0' , "tree_type" tinyint(4) NOT NULL default '0' , "tree_param" tinytext NOT NULL , "tree_creationdate" datetime NOT NULL default '1900-01-01 00:00:00' , "tree_editiondate" datetime NOT NULL default '1900-01-01 00:00:00' );
 
-CREATE TABLE "{PREFIX}user" ( "user_id" INTEGER NOT NULL PRIMARY KEY, "user_login" varchar(32) NOT NULL default '' , "user_password" varchar(32) NOT NULL default '' , "user_status" tinyint(4) NOT NULL default '0' , "user_lastname" varchar(32) NOT NULL default '' , "user_firstname" varchar(32) NOT NULL default '' , "user_email" varchar(32) NOT NULL default '' , "user_creationdate" datetime NOT NULL default '1900-01-01 00:00:00' , "user_lastvisit" datetime NOT NULL default '1900-01-01 00:00:00' );
+CREATE TABLE "{PREFIX}user" ( "user_id" INTEGER NOT NULL PRIMARY KEY, "user_login" varchar(32) NOT NULL default '' , "user_password" varchar(32) NOT NULL default '' , "user_status" tinyint(4) NOT NULL default '0' , "user_lastname" varchar(32) NOT NULL default '' , "user_firstname" varchar(32) NOT NULL default '' , "user_email" varchar(32) NOT NULL default '' , "user_creationdate" datetime NOT NULL default '1900-01-01 00:00:00' , "user_lastvisit" datetime NOT NULL default '1900-01-01 00:00:00' , "user_information" text NOT NULL);
 
 CREATE TABLE "{PREFIX}usergroup" ( "usergroup_id" INTEGER NOT NULL PRIMARY KEY, "group_id" int(10) NOT NULL , "user_id" int(10) NOT NULL );
