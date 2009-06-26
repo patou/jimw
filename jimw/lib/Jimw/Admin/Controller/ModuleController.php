@@ -85,7 +85,7 @@ class ModuleController extends Jimw_Admin_Action
         }
         else {
             $form->addSubmit();
-            $config = $module->config;
+            $config = $module->config->toArray();
             if (config != null) {
                 $form->populate($config);
             }
