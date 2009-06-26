@@ -27,6 +27,7 @@ class Jimw_Site_Module_Row extends Jimw_Db_Row
                 $fetch = $mconftable->fetchNew();
                 $fetch->site_id = $site->id;
                 $fetch->module_id = $this->id;
+                $fetch->config = array();
                 $fetch->save();
             }
             $this->_config = $fetch;

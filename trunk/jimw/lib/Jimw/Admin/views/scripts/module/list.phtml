@@ -25,7 +25,7 @@ echo $this->_('Comment');?></th>
 			<th style="width: 40px"><?php
 echo $this->_('Version');?></th>
 			<th style="width: 40px" align="right"><?php
-echo $this->_('Activate');?></th>
+echo $this->_('Action');?></th>
 		</tr>
 	</thead>
 	<?php
@@ -50,12 +50,26 @@ foreach ($this->modules_list as $module):
     echo $this->escape($module['version']);
     ?></td>
 		<td align="right">
+		
 				<?php
     if ($module['activ']):
         ?>
+            <a
+            href="<?php
+        echo $this->url(array('controller' => 'module' , 'action' => 'config' , 'format' => 'phtml' , 'module_path' => $module['path']), 'format', true);
+        ?>">
+        <img width="16" height="18" border="0"
+            title="<?php
+        echo $this->_('Configuration')?>"
+            alt="<?php
+        echo $this->_('Configuration')?>" class="folder"
+            src="<?php
+        echo $this->path;
+        ?>/images/icons/plugin_gear.png" />
+        </a>
 				<a
 			href="<?php
-        echo $this->url(array('controller' => 'module' , 'action' => 'disable' , 'format' => 'phtml' , 'id' => $module['id']), 'format', true);
+        echo $this->url(array('controller' => 'module' , 'action' => 'disable' , 'format' => 'phtml' , 'module_path' => $module['path']), 'format', true);
         ?>"
 			onclick="return confirm('<?php
         echo $this->escape($this->_('Do you really want to disable this module ? If some page work with this module, they did\'nt work'));

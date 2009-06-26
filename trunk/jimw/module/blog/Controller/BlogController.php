@@ -21,7 +21,10 @@ class Blog_BlogController extends Jimw_Module_Action_Alias
 		$request = $this->getRequest();
 		$tree = $request->getTree();
 		$messages = new BlogMessage();
-		$result = Zend_Paginator::factory($messages->select()->where('tree_parentid = ?', $tree->id)->order('blogmessage_date DESC'));
+		$result = Zend_Paginator::factory($messages->select()
+		        ->where('tree_parentid = ?', $tree->id)
+		        ->where('blogmessage_date <= NOW()')
+		        ->order('blogmessage_date DESC'));
 
 		// initialisation des valeurs par défaut
 		$result->setPageRange(10);

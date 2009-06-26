@@ -28,7 +28,7 @@ class ModuleController extends Jimw_Admin_Action
         $modules = new Jimw_Site_Module();
         $modules_list = $modules->fetchAll();
         foreach ($modules_list as $module) {
-            $list[$module->path] = array('path' => $module->path , 'id' => $module->id , 'name' => $module->name , 'version' => $module->version , 'author' => $module->author , 'comment' => $module->comment , 'activ' => true);
+            $list[$module->path] = array('path' => $module->path , 'name' => $module->name , 'version' => $module->version , 'author' => $module->author , 'comment' => $module->comment , 'activ' => true);
         }
         $dir = new DirectoryIterator(JIMW_REP_MODULE);
         if ($dir->valid()) {
@@ -42,19 +42,58 @@ class ModuleController extends Jimw_Admin_Action
         ksort($list);
         $this->view->modules_list = $list;
     }
+
     public function disableAction ()
     {
         $modules = new Jimw_Site_Module();
         $trees = new Jimw_Site_Tree();
-        $module = $modules->find($this->_request->id)->current();
-        $list = $trees->fetchAll($trees->select()->where('module_path = ?', $module->path));
+        $module_path = $this->getRequest()->module_path;
+        $module = $modules->fetchRow($modules->select()->where('module_path = ?', $module_path));
+        if ($module == null) {
+            throw new Jimw_Admin_Exception('This module didn\'t exist');
+        }
+        $list = $trees->fetchAll($trees->select()->where('module_path = ?', $module_path));
         if (count($list) == 0)
-            $module->delete();
+        $module->delete();
         else {
             $this->_helper->getHelper('FlashMessenger')->addMessage($this->_('This module is used by page, you must delete all page to desactivate this module'));
         }
         $this->_forward('list');
     }
+
+    public function configAction ()
+    {
+        $modules = new Jimw_Site_Module();
+        $trees = new Jimw_Site_Tree();
+        $request = $this->getRequest();
+        $module_path = $request->module_path;
+        $module = $modules->fetchRow($modules->select()->where('module_path = ?', $module_path));
+        if ($module == null) {
+            throw new Jimw_Admin_Exception('This module didn\'t exist');
+        }
+        if (!isset($module->xml->configuration)) {
+            $this->_helper->getHelper('FlashMessenger')->addMessage($this->_('This module hasn\'t configuration'));
+            $this->_forward('list');
+            return;
+        }
+        $form = new Jimw_Form($module->xml->configuration);
+        if ($request->isPost() && $form->isValid($request->getPost())) {
+            $module->config = $form->getValues();
+            $module->save ();
+            $this->_helper->getHelper('FlashMessenger')->addMessage($this->_('Save configuration successful'));
+            $this->_forward('list');
+        }
+        else {
+            $form->addSubmit();
+            $config = $module->config;
+            if (config != null) {
+                $form->populate($config);
+            }
+            $this->view->form = $form;
+            $this->render('form');
+        }
+    }
+
     public function enableAction ()
     {
         $modules = new Jimw_Site_Module();

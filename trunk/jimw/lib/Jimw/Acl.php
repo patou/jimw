@@ -53,7 +53,7 @@ class Jimw_Acl extends Zend_Acl
 
 	public function buildRessourceList() {
         $list = $this->getRessourcelist();
-        Jimw_Debug::dump($list);
+        //Jimw_Debug::dump($list);
         foreach ($list as $ressource => $permissions) {
             $res = new Zend_Acl_Resource($ressource);
             if (!$this->has($res)) {

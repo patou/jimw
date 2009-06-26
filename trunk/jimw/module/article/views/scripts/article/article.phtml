@@ -2,8 +2,8 @@
 
 <? if (!empty($this->article)): ?>
 <div id="article-toolbar" style="float: right;">
-<a href="<?php echo $this->url(array('alias' => $this->tree->alias, 'format' => 'pdf'), 'alias', false); ?>" class="icon_pdf"><img src="<?php echo JIMW_URL_PUBLIC_COMMON_PATH ?>/pdf.png" id="article-pdf" alt="" title="<?php echo $this->_('View this page in PDF'); ?>" align="middle" border="0" /></a>
-<a href="<?php echo $this->url(array('alias' => $this->tree->alias, 'format' => 'print'), 'alias', false); ?>" class="icon_print"><img src="<?php echo JIMW_URL_PUBLIC_COMMON_PATH ?>/print.png" id="article-print" alt="" title="<?php echo $this->_('Print this page'); ?>" align="middle" border="0" /></a>
+<a href="<?php echo $this->url(array('alias' => $this->tree->alias, 'format' => 'pdf'), 'alias', false); ?>" class="icon_pdf"><img src="<?php echo $this->common("pdf.png");?>" id="article-pdf" alt="" title="<?php echo $this->_('View this page in PDF'); ?>" align="middle" border="0" /></a>
+<a href="<?php echo $this->url(array('alias' => $this->tree->alias, 'format' => 'print'), 'alias', false); ?>" class="icon_print"><img src="<?php echo $this->common("print.png");?>" id="article-print" alt="" title="<?php echo $this->_('Print this page'); ?>" align="middle" border="0" /></a>
 </div>
 <?php echo $this->protectMail($this->bbCode($this->aliasLink($this->article->content))); ?>
 <? else: ?>

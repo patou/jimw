@@ -73,22 +73,20 @@ if (isset ($jimw_config_db))
 Zend_Registry::set('config_db', $jimw_config_db);
 else
 Zend_Registry::set('config_db', array('type' => 'PDO_SQLITE', 'dbname' => JIMW_REP . 'config/config.db'));
-
+//Session
+Zend_Session::start();
+$session = new Zend_Session_Namespace('Jimw');
 
 if (!JIMW_DEBUG_MODE) {
 	$cache = Zend_Cache::factory('Core', 'File', array('automatic_serialization' => true), array('cache_dir' => JIMW_REP_CACHE.'db'));
 	Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
-	// getting a Zend_Cache_Frontend_Page object
+// geting a Zend_Cache_Frontend_Page object
 	$cache = Zend_Cache::factory('Page', 'File', array('lifetime' => 7200), array('cache_dir' => JIMW_REP_CACHE . 'html'));
 	$_GET['jimw.cache.page.hostname'] = $_SERVER['HTTP_HOST']; // For work with many host
 	$cache->start();
 	Zend_Registry::set('cache', $cache);
 }
 Jimw_Debug::initDebug(JIMW_DEBUG_MODE);
-
-//Session
-Zend_Session::start();
-$session = new Zend_Session_Namespace('Jimw');
 // Call the Global Controler
 try {
 	$controler = new Jimw_Global_Controller();

@@ -13,16 +13,16 @@ class Jimw_Site_User extends Jimw_Db_Table
 {
     protected $_name = 'user';
     protected $_dependentTables = array('Jimw_Site_Usergroup');
+    protected $_paramsField = array('information');
+    
     public function insert (array $data)
     {
         if (empty($data['user_creationdate'])) {
-            $data['user_creationdate'] = new Zend_Db_Expr('NOW()');
+            $data['user_creationdate'] = $this->getFormatedDate(Zend_Date::now());
         }
         if (empty($data['user_lastvisit'])) {
-            $data['user_lastvisit'] = '1900-01-01 00:00:00';
+            $data['user_lastvisit'] = $this->getFormatedDate(new Zend_Date(0));
         }
-        /*unset($data['tree_lft']);
-		unset($data['tree_rgt']);*/
         return parent::insert($data);
     }
 }

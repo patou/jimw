@@ -18,14 +18,14 @@ class IndexController extends Jimw_Module_Action
         $treeFactory = new Jimw_Site_Tree();
         $tree = $treeFactory->findBySite($site);
         if (! $tree) {
-            throw new Jimw_Site_Exception_SiteTreeNotFound($site->tree_id);
+            throw new Jimw_Site_Exception_SiteTreeNotFound();
         }
         Jimw_Site_Tree::setCurrent($tree->id);
         $request->setTree($tree);
         $request->setPageAlias($tree->alias);
         $module = $tree->module_path;
         $request->setParam('site_path', $tree->site->path);
-        Jimw_Debug::display('IndexController:' . $module . '/' . $tree->alias);
+        //Jimw_Debug::display('IndexController:' . $module . '/' . $tree->alias);
         $this->_forward($tree->alias, $module, $module);
     }
 }

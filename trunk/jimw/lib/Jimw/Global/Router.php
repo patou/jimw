@@ -62,13 +62,21 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
         $db = Zend_Db::factory($jimw_config_db['type'], $jimw_config_db);
         Zend_Registry::set('db_global', $db);
         $domains = new Jimw_Site_Domain();
-        $select = $domains->select()->where('domain_name = ?', $request->getDomainName())->where('domain_port = ?', $request->getDomainPort())->where('domain_protocol = ?', $request->getDomainProtocol())->where('domain_subdomain = ?', $request->getSubDomain())->order('domain_path DESC');
+        $select = $domains->select()
+            ->where('domain_name = ?', $request->getDomainName())
+            ->where('domain_port = ?', $request->getDomainPort())
+            ->where('domain_protocol = ?', $request->getDomainProtocol())
+            ->where('domain_subdomain = ?', $request->getSubDomain())
+            ->order('domain_path DESC')
+            ->order('domain_id DESC');
         $domain_list = $domains->fetchAll($select);
-        $uri = trim($request->getRequestUri(), '/');
-        $uri = substr($uri, strlen($request->getBaseUrl()));
+        $uri = trim($request->getPathInfo(), '/');//
+            //trim($request->getRequestUri(), '/');
+        //$uri = substr($uri, strlen($request->getBaseUrl()));
         //Jimw_Debug::display($uri);
         foreach ($domain_list as $domain) {
             $path = trim($domain->path, '/');
+            
             //Jimw_Debug::display($path);
             if (empty($path) || strpos($uri, $path) === 0) {
                 $databases = new Jimw_Global_Database();
@@ -83,6 +91,7 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
                     }
                     $this->testConnection($database->current());
                     $site = $domain->findParentJimw_Site_Site();
+                    //Jimw_Debug::dump($site);
                     Zend_Registry::set('current_domain', $domain);
                     Zend_Registry::set('site', $site);
                     Zend_Registry::set('site_path', $site->path);

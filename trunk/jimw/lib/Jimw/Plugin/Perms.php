@@ -9,7 +9,7 @@ class Jimw_Plugin_Perms extends Zend_Controller_Plugin_Abstract
     public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request) {
         $auth = new Jimw_Acl();
         $auth->init();
-        Jimw_Debug::dump($auth);
+        //Jimw_Debug::dump($auth);
         Zend_Registry::set('Zend_Acl', $auth);
         $this->auth = $auth;
     }
