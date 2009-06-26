@@ -12,6 +12,9 @@
 
 abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstract
 {
+    protected $_site_path;
+    protected $_site_template;
+    
 	public function init() {
 		$request = $this->getRequest ();
 		$tree = $request->getTree ();
@@ -33,6 +36,8 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 		$module = $request->getModuleName();
 		$this->view->addScriptPath($site_template . $module);
 		$this->view->addScriptPath($site_path);
+		$this->_site_path = $site_path;
+		$this->_site_template = $site_template;
 		$this->view->title = '';
 		if (!empty($tree)) {
 			$this->view->title = $tree->pagetitle;
@@ -53,7 +58,30 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 			$this->view->navigation = $navigation;
 		}
 		$this->view->tree = $tree;
+		$favicon = $this->getFavicon();
+		$this->view->headLink(array('rel' => 'icon', 'type' => $favicon['type'], 'href' => $favicon['url']));
 		$this->initModule();
+	}
+	
+	public function getFavicon() {
+	    $favicon_rep = array(trim(JIMW_REP_PUBLIC_COMMON, '/') => JIMW_URL_PUBLIC_COMMON_PATH
+	        , $this->_site_template => $this->view->path    
+	        , $this->_site_path => $this->view->path_public);
+	    $favicon_ext = array('ico' => 'image/x-icon', 'png' => 'image/png');
+	    define('FAVICON_NAME', '/favicon.');
+	    $favicon = '';
+	    $favicon_type = '';
+	    foreach ($favicon_rep as $rep => $url) {
+	        foreach ($favicon_ext as $ext => $type) {
+	            if (file_exists($rep . FAVICON_NAME . $ext)) {
+	                $favicon = $url . FAVICON_NAME . $ext;
+	                $favicon_rep = $rep . FAVICON_NAME . $ext;
+	                $favicon_type = $type;
+	            }
+	        }	        
+	    }
+	    if ($favicon)
+	        return array('type' => $favicon_type, 'url'=> $favicon, 'file' => $favicon_rep);
 	}
 
 	/**

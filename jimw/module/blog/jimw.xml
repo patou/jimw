@@ -3,40 +3,53 @@
 	<!-- Hierarchie of file : 
 	* Admin
 	** Controller
+	*** ManageControler.php (this controller must contain the edit and delete action witch are display behind the tree forms)
 	** views
-	*** helpers
+	*** helpers (These helpers can be access by all admin script)
 	*** scripts
-	** plugins
+	** plugins (All admin plugins are automatically loaded)
 	* Controller
 	* views
-	** helpers
+	** helpers (These helpers can be access by all script)
 	** scripts
-	** common
-	* plugins
-	* lang
+	** common (Put all files you want to have in the common directory, use the helper common() to access it)
+	* plugins (All plugins are automatically loaded)
+	* lang (put language in php files in these directory)
 	** fr
 	** en
 	* install
 	** sql
 	*** mysql
-	**** 000-name.sql
+	**** 000-name.sql (migration files)
 	**** uninstall.sql
 	*** sqlite
 	**** 000-name.sql
 	**** uninstall.sql
-	* jimw.xml
-	* icon.png
+	* jimw.xml (this configuration file)
+	* icon.png (icon to display in the administration)
 	-->
 	<name>Jimw Blog</name><!-- Name of the module -->
 	<comment>Jimw Blog</comment><!-- A small comment for the module -->
 	<version>0.9</version><!-- Version of the module -->
 	<author>Simon Leprince</author><!-- Name of the author -->
-	<icon>icon.png</icon><!-- Icon of the module -->
+	<icon>icon.png</icon><!-- Icon of the module (not works now) -->
 	<cache_enabled></cache_enabled>
 	<search_enabled></search_enabled>
-	<config>
+	<configuration>
 		<!-- Configuration form -->
-	</config>
+		<elements>
+            <comment>
+                <type>checkbox</type>
+                <options><label>Activer les commentaires</label></options>
+            </comment>
+            <nbMessageByPage>
+                <type>text</type>
+                <options>
+                    <label>Nombre de message par page</label>                   
+                </options>
+            </nbMessageByPage>
+        </elements>
+	</configuration>
 	<controllers><!-- List of controller can be used by a tree -->
 		<blog><!-- Name of the controller -->
 			<name>Blog</name><!-- Readable name -->
@@ -49,8 +62,7 @@
 					<nbMessageByPage>
 						<type>text</type>
 						<options>
-							<label>Nombre de message par page</label>
-							
+							<label>Nombre de message par page</label>					
 						</options>
 					</nbMessageByPage>
 				</elements>

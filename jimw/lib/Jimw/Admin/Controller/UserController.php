@@ -101,6 +101,7 @@ class UserController extends Jimw_Admin_Action
             $save->lastname = $values['user_lastname'];
             $save->status = 0;
             $save->email = $values['user_email'];
+            $save->information = array();
             $save->save();
             $usergroups = new Jimw_Site_Usergroup();
             foreach ($values['usergroup'] as $group_id) {
@@ -114,7 +115,7 @@ class UserController extends Jimw_Admin_Action
         }
         else
         {
-            $form->populate($save->toArray());
+            //$form->populate($save->toArray());
             $form->addSubmit('Add');
             $this->view->form = $form;
             $this->render('form');

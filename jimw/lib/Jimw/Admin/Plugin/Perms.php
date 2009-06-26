@@ -10,7 +10,7 @@ class Jimw_Admin_Plugin_Perms extends Zend_Controller_Plugin_Abstract
         try {
             $auth = new Jimw_Acl();
             $auth->init();
-            Jimw_Debug::dump($auth);
+            //Jimw_Debug::dump($auth);
             Zend_Registry::set('Zend_Acl', $auth);
             $this->auth = $auth;
         }

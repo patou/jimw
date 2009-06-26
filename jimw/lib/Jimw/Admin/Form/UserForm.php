@@ -43,7 +43,7 @@ class Jimw_Admin_Form_UserForm extends Jimw_Form
 		        'type' => 'usergroup' ,
 		        'options' => array(
 			        'label' => 'Groups' ,
-			        'required' => true))
+			        'required' => false))
 		));
 	}
 }

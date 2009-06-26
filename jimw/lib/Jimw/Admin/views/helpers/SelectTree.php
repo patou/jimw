@@ -3,6 +3,7 @@ class Jimw_Admin_View_Helper_SelectTree extends Zend_View_Helper_FormElement
 {
     public function selectTree ($name, $value = null, $attribs = null)
     {
+        Jimw_Debug::deprecated("helper::selectTree()", "form::Tree()");
         $tree = new Jimw_Site_Tree();
         $session = new Zend_Session_Namespace('Admin');
         if (isset($session->site) && isset($session->site->tree_id))

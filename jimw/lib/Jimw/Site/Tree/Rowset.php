@@ -9,7 +9,7 @@
  * @license    http://www.jimw.fr
  * @version    $Id$
  */
-class Jimw_Site_Tree_Rowset extends Zend_Db_Table_Rowset
+class Jimw_Site_Tree_Rowset extends Zend_Db_Table_Rowset implements RecursiveIterator
 {
     /**
      * Add new rows data in the end of the actual row
@@ -32,5 +32,34 @@ class Jimw_Site_Tree_Rowset extends Zend_Db_Table_Rowset
         if ($row instanceof Jimw_Db_Row)
             $row = $row->toArray();
         array_push($this->_data, $row);
+    }
+    
+   /**
+     *
+     * Implements RecursiveIterator interface.
+     *
+     * @return bool  whether container has any pages
+     */
+    public function hasChildren()
+    {
+        if ($this->valid() === false) {
+            return false; 
+        }
+        return ($this->current()->hasChildren());
+    }
+
+    /**
+     * Returns the child container.
+     *
+     * Implements RecursiveIterator interface.
+     *
+     * @return Jimw_Site_Tree_Rowset|null
+     */
+    public function getChildren()
+    {
+        if ($this->valid() === false) {
+            return false; 
+        }
+        return ($this->current()->getChildren());
     }
 }

@@ -5,7 +5,13 @@ class MessageForm extends Jimw_Form
     {
         return array('elements' => array(
         'blogmessage_id' => 'hidden',
-        'tree_parentid' => 'hidden',
+        'tree_parentid' => array(
+            'type' => 'Tree' ,//'hidden',
+            'options' => array(
+                'label' => 'Parent' ,
+                'required' => true,
+                'filterModule' => 'blog',
+                'allowRoot' => false)),
         'blogmessage_date' => array(
 	        'type' => 'text' ,
 	        'options' => array(

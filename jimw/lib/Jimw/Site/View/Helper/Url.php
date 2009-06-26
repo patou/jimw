@@ -61,17 +61,19 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
         $domainUrl = rtrim($domain->toUrl('', false), '/');
         $aliasKey = $this->getView()->getRequest()->getAliasKey();
         if (isset($urlOptions[$aliasKey])) {
-            $tree = $this->treeTable->findAlias($urlOptions[$aliasKey]);
-            if (count($tree)) {
-                $site_id = $tree->current()->site_id;
+            $tree = $this->treeTable->findAlias($urlOptions[$aliasKey])->current();
+            if ($tree != null) {
+                $site_id = $tree->site_id;
                 if ($site_id != $site->id) {
                     if ($new_site = $this->siteTable->findCache($site_id)->current()) {
                         $new_domain = $this->domainTable->findCache($new_site->domain_id)->current();
-                        $new_domain_url = rtrim($new_domain->toUrl('', false), '/');
-                        if ($new_domain && $new_domain_url != $domainUrl) {
-                            $url = $new_domain_url . $url;
+                        if ($new_domain) {
+                            $new_domain_url = rtrim($new_domain->toUrl('', false), '/');
+                            if ($new_domain_url != $domainUrl) {
+                                $url = $new_domain_url . $url;
+                            }
+                            $domain = $new_domain;
                         }
-                        $domain = $new_domain;
                     }
                 }
             }

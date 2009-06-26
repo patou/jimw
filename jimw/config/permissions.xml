@@ -26,8 +26,10 @@
 	</admin>
 	<admin_system>
 		<inherit>admin</inherit>
+		<all>
 		<label>System Administration</label>
 		<default>deny</default>
+		</all>
 	</admin_system>
 	<admin_file>
 		<inherit>admin</inherit>

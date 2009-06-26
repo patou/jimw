@@ -6,6 +6,7 @@ class Jimw_Admin_Plugin_Site extends Zend_Controller_Plugin_Abstract
 {
     public function preDispatch (Zend_Controller_Request_Abstract $request)
     {
+        /*
         //Jimw_Debug::dump($request);
         $session = new Zend_Session_Namespace('Admin');
         // If the param site is set, change the session site.
@@ -15,6 +16,6 @@ class Jimw_Admin_Plugin_Site extends Zend_Controller_Plugin_Abstract
         }
         if (! isset($session->site)) {
             $session->site = Zend_Registry::get('site');
-        }
+        }*/
     }
 }

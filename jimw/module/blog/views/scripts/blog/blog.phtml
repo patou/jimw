@@ -5,8 +5,8 @@
         $form = clone $this->form;
         $form->populate(array('blogmessage_id' => $message->id))
      ?>
-          <a name="<?php echo $message->title ?>"></a>
-          <h3><?php echo $message->title ?></h3>
+          <a name="<?php echo $message->id ?>"></a>
+          <h3><a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'format' => 'phtml', 'alias' => $this->tree->alias, 'mid' => $message->id), 'format') ?>" class="readmore"><?php echo $message->title ?></a></h3>
 
           <?php if (!empty($message->header)): ?>
             <p><?php echo $message->header; ?></p>
