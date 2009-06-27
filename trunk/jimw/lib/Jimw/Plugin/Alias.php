@@ -25,12 +25,11 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract
             $request->setTree($result);
             $request->setParam('site_path', $result->site->path);
             $module = $result->module_path;
-            if ($request->getModuleName() == 'default')
+            if ($request->getModuleName() == 'default' && $request->getControllerName() == 'index' && $request->getActionName() == 'index') {
                 $request->setModuleName($module);
-            if ($request->getControllerName() == 'index')
                 $request->setControllerName($module);
-            if ($request->getActionName() == 'index')
                 $request->setActionName($alias);
+            }
         }
     }
 }

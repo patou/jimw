@@ -157,9 +157,7 @@ echo $message . '<br />'; ?>
 					?>
 					<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'archive', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
 					<img src="<?php echo $path ?>/images/icons/page_white_zip.png" width="16" height="16" alt="<?php echo $this->_('Archive'); ?>" title="<?php echo $this->_('Archive'); ?>" border="0" class="absmiddle" /></a>
-					<?php endif;
-						if ($tree->status != Jimw_Site_Tree::PUBLISHED):
-					?>
+					<?php elseif ($tree->status != Jimw_Site_Tree::PUBLISHED):	?>
 					<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'publish', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
 					<img src="<?php echo $path ?>/images/icons/page_white_medal.png" width="16" height="16" alt="<?php echo $this->_('Publish'); ?>" title="<?php echo $this->_('Publish'); ?>" border="0" class="absmiddle" /></a>
 					<?php endif; ?>

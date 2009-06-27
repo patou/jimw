@@ -82,7 +82,7 @@ return array(
     'No' => 'Non',
     'No files match the specified filter' => 'Aucun fichier ne correspond au filtre demandé',
     'Open' => 'Ouvrir',
-    'Other sites' => 'Autres sites',
+    'Others sites' => 'Autres sites',
     'Page not found' => 'Page inexistante',
     'Pages' => 'Pages',
     'Parent' => 'Parent',

@@ -53,9 +53,14 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
     {
         $this->_expanded = $expanded;
     }
+    /**
+     * Return if this tree is visible
+     *
+     * @return boolean
+     */
     public function isVisible ()
     {
-        return $this->status == 4;
+        return $this->status == Jimw_Site_Tree::PUBLISHED;
     }
     /**
      * Return the children tree node list
