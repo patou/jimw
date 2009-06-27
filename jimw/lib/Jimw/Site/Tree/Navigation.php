@@ -61,7 +61,7 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
 
         if (null === self::$_urlHelper) {
             self::$_urlHelper =
-                Zend_Controller_Action_HelperBroker::getStaticHelper('Url');
+                new Jimw_Site_View_Helper_Url();            
         }
 
         $params = array('alias' => $this->tree->alias);

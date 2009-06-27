@@ -59,7 +59,7 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
         $site = Zend_Registry::get('site');
         $domain = Zend_Registry::get('current_domain');
         $domainUrl = rtrim($domain->toUrl('', false), '/');
-        $aliasKey = $this->getView()->getRequest()->getAliasKey();
+        $aliasKey = $this->request->getAliasKey();
         if (isset($urlOptions[$aliasKey])) {
             $tree = $this->treeTable->findAlias($urlOptions[$aliasKey])->current();
             if ($tree != null) {
