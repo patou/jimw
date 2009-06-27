@@ -79,7 +79,8 @@ class Jimw_Site_Route_Alias extends Jimw_Site_Route_Module
         } else {
             $url .= self::URI_DELIMITER;
         }
-        while (($tree = $tree->getParent()->current()) !== null) {
+        $site_id = $tree->site_id;
+        while (($tree = $tree->getParent()->current()) !== null && $tree->site_id == $site_id) {
             $url = $tree->alias . self::URI_DELIMITER . $url;
         }
         return $url;
