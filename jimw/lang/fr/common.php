@@ -21,6 +21,7 @@ return array(
     'Confirm password' => 'Confirmer le mot de passe',
     'Content' => 'Contenu',
     'Cancel' => 'Annuler',
+	'Close' => 'Fermer',
     'Database' => 'Base de données',
     'Databases' => 'Bases de données',
     'Default page' => 'Page par défaut',
