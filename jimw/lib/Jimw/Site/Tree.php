@@ -71,7 +71,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table
     private function _loadTree ()
     {
         if (self::$_children === null || self::$_nodes === null || self::$_nodesAlias === null) {
-            $select = $this->select()->order(array('tree_lft' , 'tree_alias'))->where('tree_status >= 0');
+            $select = $this->select()->order(array('tree_lft' , 'tree_alias'));//->where('tree_status >= 0');
             $result = $this->_fetch($select);
             //ZF1.0 : $result = $this->_fetch(null, array('tree_lft', 'tree_alias'));
             if ($result === false) {
@@ -205,7 +205,10 @@ class Jimw_Site_Tree extends Jimw_Db_Table
      */
     public function findByAliasWithModuleAndSite ($alias)
     {
-        $select = $this->select()->where('tree_alias = ?', $alias)->where('tree_status = ?', 4)->order(array('tree_version DESC'));
+        $select = $this->select()
+        	->where('tree_alias = ?', $alias)
+        	//->where('tree_status = ?', 4)
+        	->order(array('tree_version DESC'));
         $list = $this->_fetch($select);
         if ($list) {
             $list = $list[0];

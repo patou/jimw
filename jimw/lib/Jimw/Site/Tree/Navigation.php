@@ -111,7 +111,7 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
 	 */
 	public function getVisible($recursive) {
 		//if (parent::getVisible($recursive))
-			return $this->tree->status == Jimw_Site_Tree::PUBLISHED;
+			return $this->tree->isVisible();
 		return false;
 	}
 	
