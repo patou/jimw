@@ -88,11 +88,18 @@ class SiteController extends Jimw_Admin_Action
             $save->save();
             $id = $save->id;
             $trees = new Jimw_Site_Tree();
-            $tree = $trees->find($site->tree_id);
+            $domainTable = new Jimw_Site_Domain();
+            $domain = $domainTable->findCache($save->domain_id)->current();
+            if ($domain != null) {
+            	$domain->site_id = $id;
+            	$domain->save();
+            }
+            $tree = $trees->find($save->tree_id)->current();
+            Jimw_Debug::dump($save);
+            Jimw_Debug::dump($tree);
             $where = null;
-            if ($tree && count($tree)) {
-                $tree = $tree->current();
-                $where = array('site_id = '.$tree->site_id);
+            if ($tree) {
+                $where = array('site_id = ?' => $tree->site_id);
             }
             else {
                 $tree = 0;

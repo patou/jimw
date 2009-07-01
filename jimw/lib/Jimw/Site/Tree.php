@@ -384,7 +384,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table
         if ($where instanceof Zend_Db_Select) {
             return $where->where(($col ? $col : 'tree_lft') . ' >= ?', $lft)->where(($col ? $col : 'tree_rgt') . ' <= ?', $rgt);
         }
-        $where_array = array($this->_db->quoteInto($this->_db->quoteIdentifier(($col) ? $col : 'tree_lft', true) . ' >= ?', $lft) , $this->_db->quoteInto($this->_db->quoteIdentifier(($col) ? $col : 'tree_rgt', true) . ' <= ?', $rgt));
+        $where_array = array($this->_db->quoteIdentifier(($col) ? $col : 'tree_lft', true) . ' >= ?' => $lft , $this->_db->quoteIdentifier(($col) ? $col : 'tree_rgt', true) . ' <= ?' => $rgt);
         if (empty($where)) {
             return $where_array;
         } elseif (is_array($where)) {
@@ -443,6 +443,7 @@ class Jimw_Site_Tree extends Jimw_Db_Table
      */
     public function update_old (array $data, $where)
     {
+    	self::_clearTree();
         return parent::update($data, $where);
     }
 
