@@ -1,8 +1,12 @@
 <?php
 class Jimw_Form_Filter_Alias extends Zend_Filter_Alnum
 {
+    protected static $_meansEnglishAlphabet = true;
+    
     public function filter($value)
     {
+        if ($value == '/')
+            return $value;
         $whiteSpace = $this->allowWhiteSpace ? '\s' : '';
         if (!self::$_unicodeEnabled) {
             // POSIX named classes are not supported, use alternative a-zA-Z0-9 match
