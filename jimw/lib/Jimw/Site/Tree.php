@@ -207,7 +207,6 @@ class Jimw_Site_Tree extends Jimw_Db_Table
     {
         $select = $this->select()
         	->where('tree_alias = ?', $alias)
-        	//->where('tree_status = ?', 4)
         	->order(array('tree_version DESC'));
         $list = $this->_fetch($select);
         if ($list) {

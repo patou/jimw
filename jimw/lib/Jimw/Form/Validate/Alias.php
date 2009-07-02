@@ -26,10 +26,15 @@ class Jimw_Form_Validate_Alias extends Zend_Validate_Alnum
     }
     public function isValid($value, $context = null)
     {
+        /*if ($value == "/")
+            return $value;*/
         if (parent::isValid($value, $context) && is_array($context) && isset($context['tree_id'])) {
             $tree = new Jimw_Site_Tree();
             $id = $context['tree_id'];
-            $select = $tree->select()->where('tree_alias = ?', $value);
+            $site = Zend_Registry::get('site');
+            $select = $tree->select()
+                ->where('tree_alias = ?', $value);
+                //->where('site_id = ?', $site->id);
             if (!empty($id))
                 $select->where('tree_id <> ?', $id);
             $row = $tree->fetchAll($select);

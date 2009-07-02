@@ -63,46 +63,86 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
         Zend_Registry::set('db_global', $db);
         $domains = new Jimw_Site_Domain();
         $select = $domains->select()
-            ->where('domain_name = ?', $request->getDomainName())
-            ->where('domain_port = ?', $request->getDomainPort())
-            ->where('domain_protocol = ?', $request->getDomainProtocol())
-            ->where('domain_subdomain = ?', $request->getSubDomain())
-            ->order('domain_path DESC')
-            ->order('domain_id DESC');
-        $domain_list = $domains->fetchAll($select);
-        $uri = trim($request->getPathInfo(), '/');//
+        ->where('domain_name = ?', $request->getDomainName())
+        ->where('domain_port = ?', $request->getDomainPort())
+        ->where('domain_protocol = ?', $request->getDomainProtocol())
+        ->where('domain_subdomain = ?', $request->getSubDomain())
+        ->order('domain_path DESC')
+        ->order('domain_id DESC');
+        $search_wildcard = array('domain_protocol', 'domain_subdomain', 'domain_domain');
+        do {
+            $domain_list = $domains->fetchAll($select);
+            $uri = trim($request->getPathInfo(), '/');//
             //trim($request->getRequestUri(), '/');
-        //$uri = substr($uri, strlen($request->getBaseUrl()));
-        //Jimw_Debug::display($uri);
-        foreach ($domain_list as $domain) {
-            $path = trim($domain->path, '/');
-            
-            //Jimw_Debug::display($path);
-            if (empty($path) || strpos($uri, $path) === 0) {
-                $databases = new Jimw_Global_Database();
-                $database = $databases->find($domain->database_id);
-                if (count($database)) {
-                    $pathInfo = (! empty($path)) ? substr($uri, strlen('/' . $path)) : $uri;
-                    //Jimw_Debug::display($pathInfo);
-                    if ($pathInfo !== false) {
-                        $request->setPathInfo($pathInfo);
-                    } else {
-                        $request->setPathInfo('/');
+            //$uri = substr($uri, strlen($request->getBaseUrl()));
+            //Jimw_Debug::display($uri);
+            foreach ($domain_list as $domain) {
+                $path = trim($domain->path, '/');
+
+                //Jimw_Debug::display($path);
+                if (empty($path) || strpos($uri, $path) === 0) {
+                    $databases = new Jimw_Global_Database();
+                    $database = $databases->find($domain->database_id);
+                    if (count($database)) {
+                        $pathInfo = (! empty($path)) ? substr($uri, strlen('/' . $path)) : $uri;
+                        //Jimw_Debug::display($pathInfo);
+                        if ($pathInfo !== false) {
+                            $request->setPathInfo($pathInfo);
+                        } else {
+                            $request->setPathInfo('/');
+                        }
+                        $this->testConnection($database->current());
+                        $site = $domain->findParentJimw_Site_Site();
+                        //Jimw_Debug::dump($site);
+                        Zend_Registry::set('current_domain', $domain);
+                        Zend_Registry::set('site', $site);
+                        Zend_Registry::set('site_path', $site->path);
+                        $request->setParam('site_path', $site->path);
+                        return $request;
                     }
-                    $this->testConnection($database->current());
-                    $site = $domain->findParentJimw_Site_Site();
-                    //Jimw_Debug::dump($site);
-                    Zend_Registry::set('current_domain', $domain);
-                    Zend_Registry::set('site', $site);
-                    Zend_Registry::set('site_path', $site->path);
-                    $request->setParam('site_path', $site->path);
-                    return $request;
                 }
             }
-        }
-        throw new Jimw_Global_Exception('Unknown website', 404);
+            $select = $domains->select();
+            switch (array_shift($search_wildcard)) {
+                case 'domain_protocol': // If the protocol isn't http, search with http
+                    if ($request->getDomainProtocol() != 'http') {
+                        $select->where('domain_name = ?', $request->getDomainName())
+                        ->where('domain_port = ?', $request->getDomainPort())
+                        ->where('domain_protocol = ?', 'http')
+                        ->where('domain_subdomain = ?', $request->getSubDomain())
+                        ->order('domain_path DESC')
+                        ->order('domain_id DESC');
+                        break;
+                    }
+                    array_shift($search_wildcard);
+                case 'domain_subdomain': // If the sub domain isn't empty search with wildcard subdomain
+                    if ($request->getSubDomain() != '') {
+                        $select->where('domain_name = ?', $request->getDomainName())
+                        ->where('domain_port = ?', $request->getDomainPort())
+                        ->where('domain_protocol = ?', $request->getDomainProtocol())
+                        ->where('domain_subdomain = ?', '*')
+                        ->order('domain_path DESC')
+                        ->order('domain_id DESC');
+                        break;
+                    }
+                    array_shift($search_wildcard);
+                case 'domain_domain': // if the domain isn't empty, search with wildcard domain
+                    if ($request->getDomainName() != '') {
+                        $select->where('domain_name = ?', '*')
+                        ->where('domain_port = ?', $request->getDomainPort())
+                        ->where('domain_protocol = ?', $request->getDomainProtocol())
+                        ->order('domain_path DESC')
+                        ->order('domain_id DESC');
+                        break;
+                    }
+                    array_shift($search_wildcard);
+                default: // Else, we definitively not found the website
+                    throw new Jimw_Global_Exception('Unknown website', 404);
+            }
+        } while (true);
+
     }
     public function assemble ($userParams, $name = null, $reset = false, $encode = true)
     {//@TODO
-}
+    }
 }
