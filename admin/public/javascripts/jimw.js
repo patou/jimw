@@ -22,6 +22,8 @@ function openWindow(url, width, height, options) {
 }
 
 function cleanString(chaine) {
+  if (chaine == "/")
+	  return chaine;
   temp = chaine.toLowerCase().replace(/[àâäàã]/gi,"a");
   temp = temp.replace(/[éèêë€]/gi,"e");
   temp = temp.replace(/[ìïî]/gi,"i");
@@ -42,5 +44,4 @@ function fillAlias(value, form) {
   if (form.tree_alias && form.tree_alias.value == "") {
   		form.tree_alias.value = cleanString(value);
   }
-  return temp
 }
