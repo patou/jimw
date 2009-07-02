@@ -21,7 +21,7 @@ return array(
     'Confirm password' => 'Confirmer le mot de passe',
     'Content' => 'Contenu',
     'Cancel' => 'Annuler',
-	'Close' => 'Fermer',
+    'Close' => 'Fermer',
     'Database' => 'Base de données',
     'Databases' => 'Bases de données',
     'Default page' => 'Page par défaut',
@@ -85,6 +85,7 @@ return array(
     'Others sites' => 'Autres sites',
     'Page not found' => 'Page inexistante',
     'Pages' => 'Pages',
+    'Page title' => 'Titre de la page',
     'Parent' => 'Parent',
     'Password' => 'Mot de passe',
     'Prev' => 'Précédent',
@@ -102,10 +103,9 @@ return array(
     'Select directory' => 'Sélectionnez un répertoire',
     'Select picture' => 'Sélectionner une image',
     'Select thumbnail' => 'Sélectionner la miniature',
-//    'Site' => 'Site',
-//    'Sites' => 'Sites',
     'Size' => 'Taille',
-    'Sort by:' => 'Trier par :',
+    'Sort by:' => 'Trier par&nbsp;:',
+    'Status' => 'Statut',
     'Submit' => 'Envoyer',
     'Subscribe' => 'S\'inscrire',
     'System' => 'Système',
@@ -156,7 +156,6 @@ return array(
     'The provided passwords are differents.' => 'Le mot de passe doit être identique à sa confirmation.',
     'This user already exists.' => 'Ce nom d\'utilisateur existe déjà.',
     'Registration successful.' => 'Inscription effectuée avec succès !',
-    'The alias is the URL, use only alphanumeric characters.' => 'L\'alias sera utilisé pour construire l\'URL de la page, utilisez simplement des caractères alphanumériques sans accents',
 
     'Do you really want to delete this document ?' => 'Voulez-vous vraiment supprimer ce document ?',
     'Do you really want to delete this file ?' => 'Voulez-vous vraiment supprimer ce fichier ?',
@@ -167,9 +166,9 @@ return array(
     'The page "%s" doesn\'t exist in this website' => 'La page "%s" n\'existe pas sur ce site',
     'Welcome on your Jimw Administration' => 'Bienvenue dans votre espace d\'administration',
 	//Captcha
-    'Please enter the letters displayed below:' => 'Merci d\'entrer les lettres affichés ci-dessous :',
+    'Please enter the letters displayed below:' => 'Merci d\'entrer les lettres affichées ci-dessous&nbsp;:',
     'Empty captcha value' => 'Captcha vide',
-	'Captcha value is wrong' => 'La valeur du captcha est fausse',
-	'Captcha ID field is missing' => 'Le champ ID du captcha n\est pas présent',
-	'Site Map' => 'Carte du site'
+    'Captcha value is wrong' => 'La valeur du captcha est fausse',
+    'Captcha ID field is missing' => 'Le champ ID du captcha n\est pas présent',
+    'Site map' => 'Plan du site'
 );
