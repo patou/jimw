@@ -55,13 +55,13 @@ class Jimw_Admin_Form_TreeForm extends Jimw_Form
         'tree_pagetitle' => array(
             'type' => 'text' ,
             'options' => array(
-                'label' => 'Title' ,
+                'label' => 'Page title' ,
                 'required' => true,
                 'onblur' => 'fillAlias(this.value, this.form)')) ,
         'tree_menutitle' => array(
             'type' => 'text' ,
             'options' => array(
-                'label' => 'Menu Title' ,
+                'label' => 'Menu title' ,
                 'required' => true,
                 'onblur' => 'fillAlias(this.value, this.form)')) ,
         'tree_alias' => array(
@@ -71,7 +71,7 @@ class Jimw_Admin_Form_TreeForm extends Jimw_Form
                 'required' => true ,
             	'validators' => array(
             		'Alias'),
-                'description' => 'The alias is the url, use just alphanumeric charactere',
+                'description' => 'The alias is used to build the address, use only alphanumeric characters.',
                 'onblur' => 'fillAlias(this.value, this.form)',
                 'onkeyup' => 'var v= cleanString(this.value); if (v != this.value) this.value = v;')) ,
         'tree_image' => array(

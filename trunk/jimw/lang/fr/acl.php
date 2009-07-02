@@ -15,5 +15,5 @@ return array(
     'Access to the administration' => 'Accéder à l\'administration',
     'System administration' => 'Administration du système',
     'File administration' => 'Administration des fichiers',
-    "You don't have permission to access this section of the site" => "Vous n'avez pas la permission d'accéder à cette partie du site"
+    'You don\'t have permission to access this section of the site' => 'Vous n\'avez pas la permission d\'accéder à cette partie du site'
 );
