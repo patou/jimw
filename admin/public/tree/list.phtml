@@ -49,6 +49,10 @@ echo $message . '<br />'; ?>
 			if ($tree->lft == $lft && $tree->rgt == $rgt)
 				$isClosed = true;
 		}
+		if (isset($request->closeAll) && $tree->hasChildren()) {
+            $closed[$tree->lft] = $tree->rgt;
+            $isClosed = true;
+        }
 		if ($isClosedChildren)
 			continue;
 		if (isset($request->close) && $request->close == $tree->id) {
@@ -58,10 +62,6 @@ echo $message . '<br />'; ?>
 		if (isset($request->open) && $request->open == $tree->id) {
 			unset($closed[$tree->lft]);
 			$isClosed = false;
-		}
-		if (isset($request->closeAll) && $tree->hasChildren()) {
-			$closed[$tree->lft] = $tree->rgt;
-			$isClosed = true;
 		}
 		$prof = $list->getDepth();
 		$parent = $tree->getParent()->current();
