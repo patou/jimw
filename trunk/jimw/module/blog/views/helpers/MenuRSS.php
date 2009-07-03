@@ -58,7 +58,7 @@ class Blog_View_Helper_MenuRSS extends Zend_View_Helper_Abstract
             if (! empty($class)) {
                 $class = ' class="' . $class . '"';
             }
-            $html .= '<a href="' . $this->view->url(array('alias' => $menuitem->alias , 'format' => 'rss'), 'alias', true) . '"' . $class . '>' . $menuitem->menutitle . '</a></li>';
+            $html .= '<a href="' . $this->view->url(array('alias' => $menuitem->alias , 'format' => 'rss'), 'alias', true, true) . '"' . $class . '>' . $menuitem->menutitle . '</a></li>';
         }
         $html .= '</ul>';
         return $html;
