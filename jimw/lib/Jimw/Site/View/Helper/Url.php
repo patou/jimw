@@ -60,16 +60,16 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
         $domain = Zend_Registry::get('current_domain');
         $domainUrl = rtrim($domain->toUrl('', false), '/');
         $aliasKey = $this->request->getAliasKey();
-        if (isset($urlOptions[$aliasKey])) {
+        if (isset($urlOptions[$aliasKey])) { // If the alias is know, search the Domain via the site_id tree
             $tree = $this->treeTable->findAlias($urlOptions[$aliasKey])->current();
             if ($tree != null) {
                 $site_id = $tree->site_id;
-                if ($site_id != $site->id) {
+                if ($site_id != $site->id) { // If the site isn't the current site search the domain
                     if ($new_site = $this->siteTable->findCache($site_id)->current()) {
                         $new_domain = $this->domainTable->findCache($new_site->domain_id)->current();
                         if ($new_domain) {
                             $new_domain_url = rtrim($new_domain->toUrl('', false), '/');
-                            if ($new_domain_url != $domainUrl) {
+                            if ($new_domain_url != $domainUrl) { // If the url id different than the current domain
                                 $url = $new_domain_url . $url;
                             }
                             $domain = $new_domain;
@@ -79,10 +79,15 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
             }
         }
         if ($fullurl == true && strpos($url, "http://") === false) {
-            $url = $domainUrl . $url;
+            if (strpos($domainUrl, '*') !== false) { // If it's a catch all domain get the default domain site (a domain site can't have a catch all)
+                $url = $site->findParentJimw_Site_Domain()->toUrl($url, false);
+            }
+            else {                       
+                $url = $domainUrl . $url;
+            }
         }
         if (! empty($domain->path))
-            $url .= $domain->path . '/';
+            $url .= trim($domain->path, '/') . '/';
         return $url;
     }
 }
