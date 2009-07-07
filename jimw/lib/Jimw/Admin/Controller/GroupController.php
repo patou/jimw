@@ -74,8 +74,6 @@ class GroupController extends Jimw_Admin_Action
                     $array['group_parents'][] = $key;
             }
             $element->removeMultiOption(array_search($group->name, $options));
-            Jimw_Debug::dump($array);
-            Jimw_Debug::dump($options);
             $form->populate($array);
             $form->addSubmit('Save');
 	        $this->view->group = $group;

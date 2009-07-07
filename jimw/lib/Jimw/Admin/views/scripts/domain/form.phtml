@@ -7,55 +7,7 @@ echo $this->_('Domain')?>" class="folder" border="0"
 echo $this->path;
 ?>/images/icons/world.png" />&nbsp;<?php
 echo $this->_('Domain')?></h1>
-<form
-	action="<?php
-echo $this->url(array('controller' => 'domain' , 'action' => $this->form_type , 'format' => 'phtml'), 'format', true);
-?>"
-	method="post"><input type="hidden" name="id" value="<?=$this->id?>">
-<input type="hidden" name="sub" value="1">
-<table border="0" width="90%">
-<?
-if (! empty($this->id)) :
-    ?>
-<tr>
-		<td class="t01"><?php
-    echo $this->_('Id');
-    ?> :</td>
-		<td class="t01"><?=$this->id?></td>
-	</tr>
-
-<? endif;
-?>
-<tr>
-		<td class="t01"><?=$this->formLabel('protocol', $this->_('Protocol'));?> :</td>
-		<td><?=$this->formText('protocol', $this->domain->protocol);?></td>
-	</tr>
-	<tr>
-		<td class="t01"><?=$this->formLabel('subdomain', $this->_('Subdomain'));?> :</td>
-		<td><?=$this->formText('subdomain', $this->domain->subdomain);?></td>
-	</tr>
-	<tr>
-		<td class="t01"><?=$this->formLabel('name', $this->_('DomainName'));?> :</td>
-		<td><?=$this->formText('name', $this->domain->name);?></td>
-	</tr>
-	<tr>
-		<td class="t01"><?=$this->formLabel('port', $this->_('Port'));?> :</td>
-		<td><?=$this->formText('port', $this->domain->port);?>
-</td>
-	</tr>
-	<tr>
-		<td class="t01"><?=$this->formLabel('path', $this->_('Path'));?> : </td>
-		<td><?=$this->formText('path', $this->domain->path);?></td>
-	</tr>
-	<tr>
-		<td class="t01"><?=$this->formLabel('status', $this->_('Status'));?> : </td>
-		<td><?=$this->escape($this->domain->status);?></td>
-	</tr>
-	<tr>
-		<td colspan="2" align="center"><?=$this->formSubmit('btn', $this->_(ucfirst($this->form_type)));?></td>
-	</tr>
-</table>
-</form>
+<?php echo $this->form; ?>
 <br />
 <p class="t01" style="font-size: 12px;"><a
 	href="<?=$this->url(array('controller' => 'domain' , 'action' => 'list' , 'format' => 'phtml'), 'format', true);?>">

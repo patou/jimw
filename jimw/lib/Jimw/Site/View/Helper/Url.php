@@ -21,7 +21,18 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
         $this->siteTable = new Jimw_Site_Site();
         $this->domainTable = new Jimw_Site_Domain();
     }
-    public function url (array $urlOptions = array(), $name = null, $reset = false, $fullurl = false)
+    
+    /**
+     * Format an url
+     *
+     * @param array $urlOptions All options and variable to display
+     * @param string $name the Root name
+     * @param boolean $reset Set to <b>True</b> to not use this variable
+     * @param boolean $fullurl Set to <b>true</b> to do fullurl
+     * @param string $appendBasePath Append to the base path (ie : admin, install)
+     * @return string The formated url
+     */
+    public function url (array $urlOptions = array(), $name = null, $reset = false, $fullurl = false, $appendBasePath = '')
     {
         $ctrl = Zend_Controller_Front::getInstance();
         $router = $ctrl->getRouter();
@@ -31,30 +42,34 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
             } catch (Zend_Controller_Router_Exception $e) {
                 if ($router->hasRoute('default')) {
                     $name = 'default';
-                } else
+                } else {
                     if ($router->hasRoute('get')) {
                         $name = 'default';
                     } else {
                         Jimw_Debug::display_exception($e);
                     }
+                }
             }
         }
         $route = $router->getRoute($name);
         $this->request = $ctrl->getRequest();
         // Build the url
-        $url = $this->buildUrl($urlOptions, $fullurl);
+        $url = $this->buildUrl($urlOptions, $fullurl, $appendBasePath);
         $url .= ltrim($route->assemble($urlOptions, $reset), '/');
         
         return $url;
     }
 
-    private function buildUrl($urlOptions = array(), $fullurl) {
+    private function buildUrl($urlOptions = array(), $fullurl, $appendBasePath = '') {
         if (defined('JIMW_NO_REWRITE_URL')) {
             $basePath = $this->request->getBasePath();
             $baseUrl = substr($this->request->getBaseUrl(), strlen($basePath));
             $url = rtrim($basePath, '/') . '/?' . ltrim($baseUrl, '/');
         } else {
             $url = rtrim($this->request->getBaseUrl(), '/') . '/';
+        }
+        if (!empty($appendBasePath)) {
+            $url .= trim($appendBasePath, '/') . '/';
         }
         $site = Zend_Registry::get('site');
         $domain = Zend_Registry::get('current_domain');
@@ -68,7 +83,7 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
                     if ($new_site = $this->siteTable->findCache($site_id)->current()) {
                         $new_domain = $this->domainTable->findCache($new_site->domain_id)->current();
                         if ($new_domain) {
-                            $new_domain_url = rtrim($new_domain->toUrl('', false), '/');
+                            $new_domain_url = rtrim($new_domain->toUrl(false), '/');
                             if ($new_domain_url != $domainUrl) { // If the url id different than the current domain
                                 $url = $new_domain_url . $url;
                             }
@@ -80,7 +95,7 @@ class Jimw_Site_View_Helper_Url extends Zym_View_Helper_Abstract
         }
         if ($fullurl == true && strpos($url, "http://") === false) {
             if (strpos($domainUrl, '*') !== false) { // If it's a catch all domain get the default domain site (a domain site can't have a catch all)
-                $url = $site->findParentJimw_Site_Domain()->toUrl($url, false);
+                $url = trim($site->findParentJimw_Site_Domain()->toUrl(false), '/');
             }
             else {                       
                 $url = $domainUrl . $url;

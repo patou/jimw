@@ -22,6 +22,10 @@ class DomainController extends Jimw_Admin_Action
     {
         $this->_forward('list');
     }
+    /**
+     * List all domain of the current site
+     *
+     */
     public function listAction ()
     {
         $domains = new Jimw_Site_Domain();
@@ -29,35 +33,38 @@ class DomainController extends Jimw_Admin_Action
         $site = Zend_Registry::get('site');
         $this->view->domains_list = $domains->fetchAll($domains->select()->where('database_id = ?', $database->id)->where('site_id = ?', $site->id));
     }
-    public function editAction ()
-    {
-        $id = $this->_request->getParam('id');
-        $domains = new Jimw_Site_Domain();
-        $result = $domains->find($id);
-        if (! count($result)) {
-            Jimw_Debug::dump($result);
-            throw new Jimw_Admin_Exception("The domain $id doesn't exist");
-        }
-        $result = $result->current();
-        $this->view->domain = $result;
-        $this->view->form_type = 'save';
-        $this->view->id = $id;
-        $this->render('form');
-    }
+    /**
+     * Add a new domain
+     *
+     */
+    
     public function addAction ()
     {
-        $req = $this->_request;
-        $domains = new Jimw_Site_Domain();
-        $domain = $domains->fetchNew();
-        $domain->name = $req->getDomainName();
-        $domain->protocol = 'http';
-        $domain->port = '80';
-        $domain->subdomain = 'www';
-        $domain->path = $req->getBaseUrl();
-        $this->view->domain = $domain;
-        $this->view->form_type = 'insert';
-        $this->view->id = '';
-        $this->render('form');
+        $req = $this->getRequest();
+        $domainTable = new Jimw_Site_Domain();
+        $form = new Jimw_Admin_Form_DomainForm();
+        if ($req->isPost() && $form->isValid($req->getPost())) {
+            $values = $form->getValues();
+            $save = $domainTable->createFromUrl($values['domain']);
+            $site = Zend_Registry::get('site');
+	        $database = Zend_Registry::get('database');
+	        $save->site_id = $site->id;
+	        $save->database_id = $database->id;
+	        $save->status = 0;
+	        if ($values['domain_catch_domain']) {
+	            $save->subdomain = '*';
+	        }
+	        if ($values['domain_catch_all']) {
+	            $save->name = '*';
+	        }
+	        $save->save();
+            $this->_helper->getHelper('FlashMessenger')->addMessage('Add successful domain');
+            $this->_forward('list');
+        } else {
+            $form->addSubmit('Add');
+            $this->view->form = $form;
+            $this->render('form');
+        }
     }
     public function saveAction ()
     {

@@ -104,7 +104,7 @@ return array(
     'Select picture' => 'Sélectionner une image',
     'Select thumbnail' => 'Sélectionner la miniature',
     'Size' => 'Taille',
-    'Sort by:' => 'Trier par&nbsp;:',
+    'Sort by:' => 'Trier par :',
     'Status' => 'Statut',
     'Submit' => 'Envoyer',
     'Subscribe' => 'S\'inscrire',
@@ -138,7 +138,7 @@ return array(
     'Insert successful' => 'Ajout réussi',
     'Move successful' => 'Déplacement réussi',
     'Save successful' => 'Enregistrement réussi',
-    
+
     'View this page in PDF' => 'Voir au format PDF',
     'Print this page' => 'Imprimer cette page',
     'Article not found' => 'Article non trouvé',
@@ -166,7 +166,7 @@ return array(
     'The page "%s" doesn\'t exist in this website' => 'La page "%s" n\'existe pas sur ce site',
     'Welcome on your Jimw Administration' => 'Bienvenue dans votre espace d\'administration',
 	//Captcha
-    'Please enter the letters displayed below:' => 'Merci d\'entrer les lettres affichées ci-dessous&nbsp;:',
+    'Please enter the letters displayed below:' => 'Merci d\'entrer les lettres affichées ci-dessous :',
     'Empty captcha value' => 'Captcha vide',
     'Captcha value is wrong' => 'La valeur du captcha est fausse',
     'Captcha ID field is missing' => 'Le champ ID du captcha n\est pas présent',

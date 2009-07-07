@@ -30,17 +30,24 @@ class Jimw_Site_Domain extends Jimw_Db_Table
         return $this->fetchRow($select);
     }
     protected static $_listCache = null;
-
-    protected function _getCacheList() {
+    protected function _getCacheList ()
+    {
         if (self::$_listCache === null) {
             $list = $this->fetchAll();
             foreach ($list as $item) {
-                self::$_listCache[$item->id] =  $item;
+                self::$_listCache[$item->id] = $item;
             }
         }
     }
-
-    public function findCache() {
+    /**
+     * Find with a cache
+     *
+     * @param  mixed $key The value(s) of the primary keys.
+     * @return Jimw_Db_Rowset Row(s) matching the criteria.
+     * @throws Zend_Db_Table_Exception
+     */
+    public function findCache ()
+    {
         $args = func_get_args();
         $this->_getCacheList();
         $list = array();
@@ -53,8 +60,13 @@ class Jimw_Site_Domain extends Jimw_Db_Table
         Zend_Loader::loadClass($this->_rowsetClass);
         return new $this->_rowsetClass($data);
     }
-
-    public function fetchAllCache() {
+    /**
+     * Fetches all rows from cache
+     *
+     * @return Zend_Db_Table_Rowset_Abstract The row results per the Zend_Db_Adapter fetch mode.
+     */
+    public function fetchAllCache ()
+    {
         $this->_getCacheList();
         $list = array();
         foreach (self::$_listCache as $item) {
@@ -64,34 +76,37 @@ class Jimw_Site_Domain extends Jimw_Db_Table
         Zend_Loader::loadClass($this->_rowsetClass);
         return new $this->_rowsetClass($data);
     }
-
-    public function clearCache() {
+    /**
+     * Clear the cache
+     *
+     */
+    public function clearCache ()
+    {
         //unset($this->_listCache);
         self::$_listCache = null;
     }
     /**
-     * Static method to get the Domain Url from a specific site
-     * Use a cache and load all domain in the first call of the method
-     * @deprecated
-     * @param int $site_id The Site id
-     * @return string
+     * create a new Jimw_Site_Row from an url
+     *
+     * @param String $url
+     * @return Jimw_Site_Domain_Row
      */
-    public static function toUrl ($site_id, $alias = '')
+    public function createFromUrl (String $url)
     {
-        Jimw_Debug::deprecated('Jimw_Site_Domain::toUrl', 'Jimw_Site_Domain_Row::toUrl()');
-        /*if (self::$_cacheDomain === null) {
-            $self = new self();
-            $database = Zend_Registry::get('database')->id;
-            $rowSet = $self->fetchAll(array('domain_status = ?' => 1 , 'database_id = ?' => $database));
-            $dom = array();
-            foreach ($rowSet as $row) {
-                $dom[$row->site_id] = $row->__toString();
-            }
-            self::$_cacheDomain = $dom;
+        $domain = $this->fetchNew();
+        $url = Zend_Uri::factory($url);
+        $host = $url->getHost();
+        $tab_name = explode('.', $host);
+        if (count($tab_name) >= 3) {
+            $domain->subdomain = $tab_name[0];
+            $domain->name = implode('.', array_slice($tab_name, 1));
+        } else {
+            $domain->subdomain = '';
+            $domain->name = $host;
         }
-        if (! empty($alias))
-            return self::$_cacheDomain[$site_id] . $alias . '/';
-        else
-            return self::$_cacheDomain[$site_id];*/
+        $domain->port = is_int($port = $url->getPort()) ? $port : 80;
+        $domain->protocol = $url->getScheme();
+        $domain->path = trim($url->getPath(), '/');
+        return $domain;
     }
 }

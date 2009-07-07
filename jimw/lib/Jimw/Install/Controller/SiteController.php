@@ -55,23 +55,10 @@ class SiteController extends Jimw_Install_Action
                 $base->type = $database['type'];
                 $base->prefix = $database['prefix'];
                 $base->save();
-                $url = Zend_Uri::factory($val['url']);
                 $domains = new Jimw_Site_Domain();
-                $domain = $domains->fetchNew();
+                $domain = $domains->createFromUrl($url);
                 $domain->site_id = 1;
                 $domain->database_id = $base->id;
-                $host = $url->getHost();
-                $tab_name = explode(".", $host);
-                if (count($tab_name) >= 3) {
-                    $domain->subdomain = $tab_name[0];
-                    $domain->name = implode(".", array_slice($tab_name, 1));
-                } else {
-                    $domain->subdomain = "";
-                    $domain->name = $host;
-                }
-                $domain->port = is_int($port = $url->getPort()) ? $port : 80;
-                $domain->protocol = $url->getScheme();
-                $domain->path = trim($url->getPath(), '/');
                 $domain->status = 1;
                 $update = new Jimw_Db_Update($db, $database['prefix']);
                 ob_start();
