@@ -15,7 +15,7 @@ class Jimw_Plugin_Alias extends Zend_Controller_Plugin_Abstract
     public function routeShutdown (Zend_Controller_Request_Abstract $request)
     {
         $alias = $request->getPageAlias();
-        if (! empty($alias)) {
+        if (!empty($alias)) {
             $tree = new Jimw_Site_Tree();
             $result = $tree->findByAliasWithModuleAndSite($alias);
             if (! $result) {

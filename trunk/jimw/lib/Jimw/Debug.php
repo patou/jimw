@@ -35,7 +35,7 @@ class Jimw_Debug extends Zend_Debug
     		mkdir($file);
     	$f = fopen($file . date("Y-m-d") . ".log", "a");
     	if ($f) {
-	    	fwrite($f, date(DATE_ISO8601) . ":\n");
+	    	fwrite($f, date(DATE_ISO8601) . ": ");
 	    	fwrite($f, self::$output_log);
 	    	fclose($f);
     	}

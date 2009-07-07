@@ -21,6 +21,7 @@ echo $this->_('Action')?></th>
 		</tr>
 	</thead>
 	<?php
+	
 foreach ($this->domains_list as $domain) :
     ?>
 		<tr>
@@ -38,33 +39,24 @@ foreach ($this->domains_list as $domain) :
     echo $this->escape($domain->findParentJimw_Site_Site()->name);
     ?>
 			</td>
-		<td align="right"><a
-			href="<?php
-    echo $this->url(array('controller' => 'domain' , 'action' => 'edit' , 'format' => 'phtml' , 'id' => $domain->id), 'format', true);
-    ?>">
-		<img width="16" height="18" border="0"
-			title="<?php
-    echo $this->_('Edit')?>"
-			alt="<?php
-    echo $this->_('Edit')?>" class="folder"
-			src="<?php
-    echo $this->path;
-    ?>/images/icons/world_edit.png" /> </a>
-		<a
-			href="<?php
-    echo $this->url(array('controller' => 'domain' , 'action' => 'delete' , 'format' => 'phtml' , 'id' => $domain->id), 'format', true);
-    ?>"
-			onclick="return confirm('<?php
-    echo $this->escape($this->_('Do you really want to delete this Domain ?'));
-    ?>');">
-		<img width="16" height="18" border="0"
-			title="<?php
-    echo $this->_('Delete')?>"
-			alt="<?php
-    echo $this->_('Delete')?>" class="folder"
-			src="<?php
-    echo $this->path;
-    ?>/images/icons/world_delete.png" /> </a>
+		<td align="right">
+		<?php if ($domain->status != 1): ?>
+			<a
+				href="<?php
+	    echo $this->url(array('controller' => 'domain' , 'action' => 'delete' , 'format' => 'phtml' , 'id' => $domain->id), 'format', true);
+	    ?>"
+				onclick="return confirm('<?php
+	    echo $this->escape($this->_('Do you really want to delete this Domain from this site ?'));
+	    ?>');">
+			<img width="16" height="18" border="0"
+				title="<?php
+	    echo $this->_('Delete')?>"
+				alt="<?php
+	    echo $this->_('Delete')?>" class="folder"
+				src="<?php
+	    echo $this->path;
+	    ?>/images/icons/world_delete.png" /> </a>
+    <?php endif; ?>
 		</td>
 	</tr>
 	<?php

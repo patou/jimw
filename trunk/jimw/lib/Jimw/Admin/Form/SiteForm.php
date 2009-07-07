@@ -17,8 +17,8 @@ class Jimw_Admin_Form_SiteForm extends Jimw_Form
 			        'label' => 'Default page' ,
 			        'required' => true ,
 			        'allowRoot' => false)) ,
-	        'domain_id' => array(
-		        'type' => 'Domain' ,
+	        'domain' => array(
+		        'type' => 'text' ,
 		        'options' => array(
 			        'label' => 'Domain' ,
 			        'required' => true)) ,
@@ -32,10 +32,6 @@ class Jimw_Admin_Form_SiteForm extends Jimw_Form
 		        'options' => array(
 			        'label' => 'Name' ,
 			        'required' => true)) ,
-	        'site_access' => array(
-		        'type' => 'text' ,
-		        'options' => array(
-		        	'label' => 'Access')) ,
 	        'site_path' => array(
 		        'type' => 'text' ,
 		        'options' => array(

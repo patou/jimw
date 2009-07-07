@@ -17,14 +17,19 @@ class Jimw_Site_Domain_Row extends Jimw_Db_Row
      */
     public function toUrl ($alias = '', $with_path = true)
     {
+        if (is_bool($alias)) {
+            $with_path = $alias;
+            $alias = '';
+        }
         $link = '';
         $link .= $this->protocol ? $this->protocol : 'http';
         $link .= '://';
         if (! empty($this->subdomain))
             $link .= $this->subdomain . '.';
         $link .= $this->name . '/';
-        if (! empty($this->path) && $with_path)
+        if (! empty($this->path) && $with_path) {
             $link .= trim($this->path . '/', '/');
+        }
         return $link . (! empty($alias) ? '/' . $alias : '');
     }
     /**

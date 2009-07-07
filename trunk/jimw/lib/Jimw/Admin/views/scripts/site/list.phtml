@@ -29,6 +29,7 @@ echo $this->_('Action')?></th>
 		</tr>
 	</thead>
 	<?php
+	$current_site = Zend_Registry::get('site');
 foreach ($this->sites_list as $site) :
     ?>
 		<tr>
@@ -80,7 +81,9 @@ foreach ($this->sites_list as $site) :
 			src="<?php
     echo $this->path;
     ?>/images/icons/application_edit.png" />
-		</a> <a
+		</a>
+		<?php if ($site->access != 1 && $site->id != $current_site->id): ?>
+		 <a
 			href="<?php
     echo $this->url(array('controller' => 'site' , 'action' => 'delete' , 'format' => 'phtml' , 'id' => $site->id), 'format', true);
     ?>"
@@ -95,7 +98,9 @@ foreach ($this->sites_list as $site) :
 			src="<?php
     echo $this->path;
     ?>/images/icons/application_delete.png" />
-		</a></td>
+		</a>
+		<?php endif; ?>
+		</td>
 	</tr>
 	<?php
 endforeach;

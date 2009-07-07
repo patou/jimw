@@ -28,12 +28,20 @@ class SiteController extends Jimw_Admin_Action
         $this->_forward('list');
     }
 
+    /**
+     * List all site
+     *
+     */
     public function listAction ()
     {
         $sites = new Jimw_Site_Site();
         $this->view->sites_list = $sites->fetchAll();
     }
 
+    /**
+     * Edit site
+     *
+     */
     public function editAction ()
     {
         $req = $this->getRequest();
@@ -47,15 +55,26 @@ class SiteController extends Jimw_Admin_Action
             throw new Jimw_Admin_Exception($this->_("This site doesn't exist"));
         }
         $save = $result->current();
+        $domainTable = new Jimw_Site_Domain();
+        $current_domain = $domainTable->find($save->domain_id)->current();
         $form = new Jimw_Admin_Form_SiteForm();
         $form->getElement('default_tree_id')->setSiteId($id);
         $form->getElement('tree_id')->setAttrib('disable', true)->setRequired(false);
         if ($req->isPost() && $form->isValid($req->getPost())) {
             $values = $form->getValues();
             $save->default_tree_id = $values['default_tree_id'];
-            $save->domain_id = $values['domain_id'];
-            $save->access = $values['site_access'];
             $save->name = $values['site_name'];
+            if (!empty($values['domain']) && ($current_domain->__toString() != $values['domain'])) {
+	            $domain = $domainTable->createFromUrl($values['domain']);
+	            $database = Zend_Registry::get('database');
+		        $domain->site_id = $id;
+		        $domain->database_id = $database->id;
+		        $domain->status = 1;
+	            $domain->save();
+	            $domainTable->clearCache();
+	            $save->domain_id = $domain->id;
+	            $current_domain->delete();
+            }
             $save->path = trim($values['site_path'], '/');
             $save->template = trim($values['site_template'], '/');
             $save->save();
@@ -63,6 +82,7 @@ class SiteController extends Jimw_Admin_Action
             $this->_forward('index');
         } else {
             $form->populate($save->toArray());
+            $form->populate(array('domain' => $current_domain->__toString()));
             $form->addSubmit('Edit');
             $this->view->form = $form;
             $this->render('form');
@@ -80,8 +100,8 @@ class SiteController extends Jimw_Admin_Action
             $save = $sites->fetchNew();
             $save->tree_id = $values['tree_id'];
             $save->default_tree_id = $values['tree_id'];
-            $save->domain_id = $values['domain_id'];
-            $save->access = $values['site_access'];
+            //$save->domain_id = $values['domain_id'];
+            $save->access = 1;
             $save->name = $values['site_name'];
             $save->path = trim($values['site_path'], '/');
             $save->template = trim($values['site_template'], '/');
@@ -89,14 +109,15 @@ class SiteController extends Jimw_Admin_Action
             $id = $save->id;
             $trees = new Jimw_Site_Tree();
             $domainTable = new Jimw_Site_Domain();
-            $domain = $domainTable->findCache($save->domain_id)->current();
-            if ($domain != null) {
-            	$domain->site_id = $id;
-            	$domain->save();
-            }
+            $domain = $domainTable->createFromUrl($values['domain']);
+            $database = Zend_Registry::get('database');
+	        $domain->site_id = $id;
+	        $domain->database_id = $database->id;
+	        $domain->status = 1;
+            $domain->save();
+            $save->domain_id = $domain->id;
+            $save->save();
             $tree = $trees->find($save->tree_id)->current();
-            Jimw_Debug::dump($save);
-            Jimw_Debug::dump($tree);
             $where = null;
             if ($tree) {
                 $where = array('site_id = ?' => $tree->site_id);
@@ -113,38 +134,7 @@ class SiteController extends Jimw_Admin_Action
             $this->render('form');
         }
     }
-    /*
-	public function saveAction () {
-		$req = $this->_request;
-		$id = $req->id;
 
-		$sites = new Jimw_Site_Site();
-		$form = new Jimw_Admin_Form_Site();
-		if ($req->isPost() && $form->isValid($req->getPost())) {
-		    $save = $tree->find($id)->current();
-		    $save->id = $id;
-		    $save->tree_id = $req->tree_id;
-		    $save->access = $req->access;
-		    $save->name = $req->name;
-		    $save->path = $req->path;
-		    $save->save ();
-		}
-		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ' . $save->id);
-		$this->_forward('index');
-	}
-
-	public function insertAction () {
-		$req = $this->_request;
-		$tree = new Jimw_Site_Site();
-		$save = $tree->fetchNew();
-		$save->tree_id = $req->tree_id;
-		$save->access = $req->access;
-		$save->name = $req->name;
-		$save->path = $req->path;
-		$save->save ();
-		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ' . $save->id);
-		$this->_forward('index');
-	}*/
     public function deleteAction ()
     {
         $id = $this->_request->id;
@@ -153,8 +143,15 @@ class SiteController extends Jimw_Admin_Action
         if (! count($site)) {
             throw new Jimw_Admin_Exception("The site $id doesn't exist");
         }
+        if ($site->access == 1) {
+            throw new Jimw_Admin_Exception("You can't delete the principal site (use the install administration instead)");
+        }
+        $current_site = Zend_Registry::get('site');
+        if ($site->id == $current_site->id) {
+            throw new Jimw_Admin_Exception("You can't delete the current site");
+        }
         $site = $site->current();
-        $url = $site->id;
+        $id = $site->id;
         $trees = new Jimw_Site_Tree();
         $tree = $trees->find($site->tree_id);
         if ($tree != null && count($tree)) {
@@ -166,8 +163,11 @@ class SiteController extends Jimw_Admin_Action
             }
             $trees->updateAllChildren($tree, array('site_id' => $parent_id), array('site_id = '.$tree->site_id));
         }
+        $domainTable = new Jimw_Site_Domain();
+        $database = Zend_Registry::get('database');
+        $domainTable->delete(array('site_id = ?' => $id, 'database_id = ?' => $database->id));
         $site->delete();
-        $this->_helper->getHelper('FlashMessenger')->addMessage('Delete successful ' . $url);
+        $this->_helper->getHelper('FlashMessenger')->addMessage('Delete successful');
         $this->_forward('list');
     }
 }
