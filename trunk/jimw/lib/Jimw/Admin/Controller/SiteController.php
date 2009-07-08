@@ -154,12 +154,15 @@ class SiteController extends Jimw_Admin_Action
         $id = $site->id;
         $trees = new Jimw_Site_Tree();
         $tree = $trees->find($site->tree_id);
-        if ($tree != null && count($tree)) {
+        if (count($tree) == 1) {
             $tree = $tree->current();
             $parent = $tree->getParent();
             $parent_id = 0;
             if ($parent != null && count($parent)) {
                 $parent_id = $parent->current()->site_id;
+            }
+            else {
+                throw new Jimw_Admin_Exception("You can't delete the principal site (use the install administration instead)");
             }
             $trees->updateAllChildren($tree, array('site_id' => $parent_id), array('site_id = '.$tree->site_id));
         }
