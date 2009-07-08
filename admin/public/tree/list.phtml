@@ -41,8 +41,10 @@ echo $message . '<br />'; ?>
     if (isset($request->expandAll)) {
 		$closed = array();
 	}
+	$counter = 0;
+	$count = count($this->list_tree);
 	foreach ($list as $tree):
-    	$isClosed = false;
+	    $isClosed = false;
     	$isClosedChildren = false;
 		foreach ($closed as $lft => $rgt) {
 			if ($tree->lft > $lft && $tree->rgt < $rgt)
@@ -66,6 +68,9 @@ echo $message . '<br />'; ?>
 		}
 		$prof = $list->getDepth();
 		$parent = $tree->getParent()->current();
+		$isFirst = (($parent == null && $counter == 0) || $parent->lft + 1 == $tree->lft);
+		$isLast = (($parent != null && $parent->rgt - 1 == $tree->rgt) || ($parent == null && ++$counter == $count));
+		
 		?>
 		<?php if ($tree->status < 0): ?>
 			<tr class="tree_deleted">
@@ -83,7 +88,7 @@ echo $message . '<br />'; ?>
 		         while ($level_parent != null)
 		         {
 		         	 $level = $level_parent->getParent()->current();
-		         	 $out = '<img src="' . $path . '/images/icons/'.(($level == null || $level->rgt - 1 != $level_parent->rgt) ? 'elbow-line.png' : 'elbow-empty.gif').'" width="16" height="16" alt="" title="" border="0" class="absmiddle" />' . $out;
+		         	 $out = '<img src="' . $path . '/images/icons/'.(!$isLast ? 'elbow-line.png' : 'elbow-empty.gif').'" width="16" height="16" alt="" title="" border="0" class="absmiddle" />' . $out;
 		             $level_parent = $level;
 		         }
 		         echo $out;
@@ -91,10 +96,10 @@ echo $message . '<br />'; ?>
 				<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'site' => $site->id), 'format', true); ?>" class="no_decoration"  title="<?php echo $this->_('View site'); ?>">
 				<?php 
 				if ($tree->hasChildren()) {
-				 	echo '<img src="' . $path . '/images/icons/'.(($parent->rgt - 1 != $tree->rgt) ? 'elbow-plus' : 'elbow-end-plus').'.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />';
+				 	echo '<img src="' . $path . '/images/icons/'.(!$isLast ? 'elbow-plus' : 'elbow-end-plus').'.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />';
 				}
 				else {
-				 	echo '<img src="' . $path . '/images/icons/'.(($parent->rgt - 1 != $tree->rgt) ? 'elbow' : 'elbow-end').'.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />';
+				 	echo '<img src="' . $path . '/images/icons/'.(!$isLast ? 'elbow' : 'elbow-end').'.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />';
 				}
 		        ?>
 				<img src="<?php echo $path ?>/images/icons/world.png" width="16" height="16" alt="<?php echo $this->_('View site'); ?>" title="<?php echo $this->_('View site'); ?>" border="0" class="absmiddle" />
@@ -104,6 +109,34 @@ echo $message . '<br />'; ?>
 				</a>
 				</td>
 				<td align="right">
+				    <a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'edit', 'format' => 'phtml', 'id' => $site->id, 'site' => $site->id), 'format', true); ?>">
+                <img src="<?php echo $path ?>/images/icons/application_edit.png" width="16" height="16" alt="<?php echo $this->_('Edit site'); ?>" title="<?php echo $this->_('Edit page'); ?>" border="0" class="absmiddle" /></a>
+                <a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'delete', 'format' => 'phtml', 'id' => $site->id, 'site' => $site->id), 'format', true); ?>" onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this site ?')); ?>');">
+                <img src="<?php echo $path ?>/images/icons/application_delete.png" width="16" height="16" alt="<?php echo $this->_('Delete'); ?>" title="<?php echo $this->_('Delete'); ?>" border="0" class="absmiddle" /></a>
+                <?php 
+                    if (!$isBegin && $tree->status >= 0) {
+                ?>
+                    <a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+                    <img src="<?php echo $path ?>/images/icons/arrow_up.png" width="16" height="16" alt="<?php echo $this->_('Move Up'); ?>" title="<?php echo $this->_('Move Up'); ?>"  border="0" class="absmiddle" /></a>
+                <?php 
+                    }
+                    else {
+                ?>
+                    <img src="<?php echo $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
+                <?php 
+                    }
+                    if (!$isEnd && $tree->status >= 0) {
+                ?>
+                    <a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+                    <img src="<?php echo $path ?>/images/icons/arrow_down.png" width="16" height="16" alt="<?php echo $this->_('Move Down'); ?>" title="<?php echo $this->_('Move Down'); ?>"  border="0" class="absmiddle" /></a>
+                <?php 
+                    }
+                    else {
+                ?>
+                    <img src="<?php echo $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
+                <?php 
+                    }
+                ?>
 				</td>
 			</tr>
 		<?php else: ?>
@@ -117,7 +150,7 @@ echo $message . '<br />'; ?>
 		         while ($level_parent != null)
 		         {
 		         	 $level = $level_parent->getParent()->current();
-		             $out = '<img src="' . $path . '/images/icons/'.(($level == null || $level->rgt - 1 != $level_parent->rgt) ? 'elbow-line.png' : 'elbow-empty.gif').'" width="16" height="16" alt="" title="" border="0" class="absmiddle" />' . $out;
+		             $out = '<img src="' . $path . '/images/icons/'.(!$isLast ? 'elbow-line.png' : 'elbow-empty.gif').'" width="16" height="16" alt="" title="" border="0" class="absmiddle" />' . $out;
 		             $level_parent = $level;
 		         }
 		         echo $out;
@@ -125,19 +158,19 @@ echo $message . '<br />'; ?>
 				 	if ($isClosed):
 						?>
 						<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'open' => $tree->id), 'format', true); ?>" class="no_decoration"  title="<?php echo $this->_('Open'); ?>">
-						<img src="<?php echo $path; ?>/images/icons/<?php echo (($parent->rgt - 1 != $tree->rgt) ? 'elbow-plus' : 'elbow-end-plus') ?>.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />
+						<img src="<?php echo $path; ?>/images/icons/<?php echo (!$isLast ? 'elbow-plus' : 'elbow-end-plus') ?>.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />
 						</a>
 						<?php
 					else:
 						?>
 						<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'close' => $tree->id), 'format', true); ?>" class="no_decoration"  title="<?php echo $this->_('Close'); ?>">
-						<img src="<?php echo $path; ?>/images/icons/<?php echo (($parent->rgt - 1 != $tree->rgt) ? 'elbow-minus' : 'elbow-end-minus') ?>.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />
+						<img src="<?php echo $path; ?>/images/icons/<?php echo (!$isLast ? 'elbow-minus' : 'elbow-end-minus') ?>.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />
 						</a>
 						<?php
 					endif;
 				 }
 				 else {
-				 	echo '<img src="' . $path . '/images/icons/'.(($parent->rgt - 1 != $tree->rgt) ? 'elbow' : 'elbow-end').'.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />';
+				 	echo '<img src="' . $path . '/images/icons/'.(!$isLast ? 'elbow' : 'elbow-end').'.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />';
 				 }
 				 
 				?>
@@ -173,7 +206,7 @@ echo $message . '<br />'; ?>
 				<img src="<?php echo $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="<?php echo $this->_('Delete'); ?>" title="<?php echo $this->_('Delete'); ?>" border="0" class="absmiddle" /></a>
 				<?php 
 				    endif;
-					if ($parent->lft + 1 != $tree->lft && $tree->status >= 0) {
+					if (!$isFirst && $tree->status >= 0) {
 				?>
 					<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
 					<img src="<?php echo $path ?>/images/icons/arrow_up.png" width="16" height="16" alt="<?php echo $this->_('Move Up'); ?>" title="<?php echo $this->_('Move Up'); ?>"  border="0" class="absmiddle" /></a>
@@ -184,7 +217,7 @@ echo $message . '<br />'; ?>
 					<img src="<?php echo $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
 				<?php 
 					}
-					if ($parent != null && $parent->rgt - 1 != $tree->rgt && $tree->status >= 0) {
+					if (!$isLast && $tree->status >= 0) {
 				?>
 					<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
 					<img src="<?php echo $path ?>/images/icons/arrow_down.png" width="16" height="16" alt="<?php echo $this->_('Move Down'); ?>" title="<?php echo $this->_('Move Down'); ?>"  border="0" class="absmiddle" /></a>

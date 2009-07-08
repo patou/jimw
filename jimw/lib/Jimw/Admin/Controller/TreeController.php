@@ -288,7 +288,7 @@ class TreeController extends Jimw_Admin_Action
         else
             throw new Jimw_Admin_Exception('Illegal move');
         $this->_helper->getHelper('FlashMessenger')->addMessage('Move successful ' . $save->pagetitle);
-        $this->_forward('index');
+        $this->_forward('index','tree', 'module', array('expandAll' => 1)); // When move some page, there are a problem who appear
     }
 
     /**
