@@ -23,6 +23,7 @@ abstract class Jimw_Admin_Action extends Zym_Controller_Action_Abstract
         $this->view->site = $site;
         $this->view->request = $request;
         $this->view->path = $request->getBaseUrl() . '/public';
+        $this->view->path_common = str_replace('/admin', JIMW_URL_PUBLIC_COMMON_PATH, $request->getBaseUrl());
         $this->view->tree = $tree;
         $this->view->flashmessenger = $this->_helper->getHelper('FlashMessenger')->getCurrentMessages();
         $this->initModule();

@@ -48,20 +48,22 @@ class Jimw_View_Helper_FormRichtext extends Zend_View_Helper_FormTextarea
       setlinkrichtext<?php echo $id ?> = function(node) {
       	if (node) {
 			var oEditor = FCKeditorAPI.GetInstance('<?php echo $name ?>');
-			oEditor.InsertHtml( '<a href="'+node.url+'">'+node.text+'</a>' );
+			var text = node.name ? node.name : node.text;
+			oEditor.InsertHtml( ' <a href="'+node.url+'">'+text+'</a> ' );
 		}
       }
       openlinkrichtext<?php echo $id ?> = function(url) {
-			openWindow("<?php echo $this->view->url(array('controller' => 'tree', 'action' => 'chooser', 'format' => 'ajax', 'javascript_fct' => 'setlinkrichtext'.$id), 'format', true) ?>", 400, 300);
+			openWindow("<?php echo $this->view->url(array('controller' => 'tree', 'action' => 'chooser', 'format' => 'ajax', 'javascript_fct' => 'setlinkrichtext'.$id, 'namefield' => true), 'format', true) ?>", 400, 450);
       }
-      setfilerichtext<?php echo $id ?> = function(url) {
+      setfilerichtext<?php echo $id ?> = function(url, name) {
       	if (url.length > 0) {
 			var oEditor = FCKeditorAPI.GetInstance('<?php echo $name ?>');
-			oEditor.InsertHtml( '<a href="'+url+'">'+url+'</a>' );
+			var text = name ? name : url;
+			oEditor.InsertHtml( ' <a href="'+url+'">'+text+'</a> ' );
 		}
       }
       openfilerichtext<?php echo $id ?> = function(url) {
-			openWindow("<?php echo $this->view->url(array('controller' => 'file', 'action' => 'chooser', 'format' => 'ajax', 'javascript_fct' => 'setfilerichtext'.$id), 'format', true) ?>", 800, 600);
+			openWindow("<?php echo $this->view->url(array('controller' => 'file', 'action' => 'chooser', 'format' => 'ajax', 'javascript_fct' => 'setfilerichtext'.$id, 'namefield' => true), 'format', true) ?>", 800, 600);
       }
         <?php
         $this->view->headScript()->captureEnd();

@@ -118,7 +118,7 @@ ImageChooser.prototype = {
 					}, this);
 		    
 			var cfg = {
-				//renderTo: document.body,
+				renderTo: document.body,
 		    	title: lang.title,
 		    	id: 'img-chooser-dlg',
 		    	layout: 'border',
@@ -150,77 +150,8 @@ ImageChooser.prototype = {
 					id: 'img-chooser-view',
 					region: 'center',
 					autoScroll: true,
-					items: this.view,
-                    tbar:[{
-						xtype: 'button',
-						id: 'return_root',
-                    	text: lang.root,
-						listeners: {
-							'click': {
-								scope: this,
-								fn: function() { this.loadPath(default_path);}
-							}
-						}
-                    },{
-                    	xtype: 'tbtext',
-                    	text: lang.filter
-                    },{
-                    	xtype: 'textfield',
-                    	id: 'filter',
-                    	selectOnFocus: true,
-                    	width: 100,
-                    	listeners: {
-                    		'render': {fn:function(){
-						    	Ext.getCmp('filter').getEl().on('keyup', function(){
-						    		this.filter();
-						    	}, this, {buffer:500});
-                    		}, scope:this}
-                    	}
-                    }, ' ', '-', {
-                    	xtype: 'tbtext',
-                    	text: lang.sortBy
-                    }, {
-                    	id: 'sortSelect',
-                    	xtype: 'combo',
-				        typeAhead: true,
-				        triggerAction: 'all',
-				        width: 100,
-				        editable: false,
-				        mode: 'local',
-				        displayField: 'desc',
-				        valueField: 'name',
-				        lazyInit: false,
-				        value: 'name',
-				        store: new Ext.data.SimpleStore({
-					        fields: ['name', 'desc'],
-					        data : [['name', lang.name],['size', lang.fileSize],['lastChange', lang.lastModified]]
-					    }),
-					    listeners: {
-							'select': {fn:this.sortImages, scope:this}
-					    }
-				    },' ','-',{
-						xtype: 'button',
-						id: 'upload',
-           				text: lang.Upload,
-           				iconCls: 'icon-upload',
-           				listeners: {
-							'click': {
-								scope: this,
-								fn: function() { this.uploadFile();}
-							}
-						}
-                    },{
-						xtype: 'button',
-						id: 'upload',
-           				text: lang.Newdir,
-           				iconCls: 'icon-newdir',
-           				listeners: {
-							'click': {
-								scope: this,
-								fn: function() { this.newdirFile();}
-							}
-						}
-                    }]
+					items: this.view
+                    
 				},{
 					id: 'img-detail-panel',
 					region: 'east',
@@ -229,6 +160,76 @@ ImageChooser.prototype = {
 					minWidth: 150,
 					maxWidth: 250
 				}],
+				tbar:[{
+					xtype: 'button',
+					id: 'return_root',
+                	text: lang.root,
+					listeners: {
+						'click': {
+							scope: this,
+							fn: function() { this.loadPath(default_path);}
+						}
+					}
+                },{
+                	xtype: 'tbtext',
+                	text: lang.filter
+                },{
+                	xtype: 'textfield',
+                	id: 'filter',
+                	selectOnFocus: true,
+                	width: 100,
+                	listeners: {
+                		'render': {fn:function(){
+					    	Ext.getCmp('filter').getEl().on('keyup', function(){
+					    		this.filter();
+					    	}, this, {buffer:500});
+                		}, scope:this}
+                	}
+                }, ' ', '-', {
+                	xtype: 'tbtext',
+                	text: lang.sortBy
+                }, {
+                	id: 'sortSelect',
+                	xtype: 'combo',
+			        typeAhead: true,
+			        triggerAction: 'all',
+			        width: 100,
+			        editable: false,
+			        mode: 'local',
+			        displayField: 'desc',
+			        valueField: 'name',
+			        lazyInit: false,
+			        value: 'name',
+			        store: new Ext.data.SimpleStore({
+				        fields: ['name', 'desc'],
+				        data : [['name', lang.name],['size', lang.fileSize],['lastChange', lang.lastModified]]
+				    }),
+				    listeners: {
+						'select': {fn:this.sortImages, scope:this}
+				    }
+			    },' ','-',{
+					xtype: 'button',
+					id: 'upload',
+       				text: lang.Upload,
+       				iconCls: 'icon-upload',
+       				listeners: {
+						'click': {
+							scope: this,
+							fn: function() { this.uploadFile();}
+						}
+					}
+                },{
+					xtype: 'button',
+					id: 'upload',
+       				text: lang.Newdir,
+       				iconCls: 'icon-newdir',
+       				listeners: {
+						'click': {
+							scope: this,
+							fn: function() { this.newdirFile();}
+						}
+					}
+                }],
 				buttons: [{
 					id: 'ok-btn-thumbnail',
 					text: lang.OKThumbnail,
@@ -250,15 +251,31 @@ ImageChooser.prototype = {
 					scope: this
 				}
 			};
+			if (this.config.namefield) {
+				this.namefield = new Ext.form.TextField();
+				this.namefield.on('specialkey', this.doCallbackEnter, this);
+				cfg.bbar = new Ext.Toolbar({
+			    width: '100%',
+			    height: 'auto',
+			    items: [
+					{
+						id:'img-label-name',
+						xtype: 'label',
+						width: '100%',
+						text: lang.labelName
+					},this.namefield
+			    ]
+				});
+			}
 			Ext.apply(cfg, this.config);
 		    this.win = new Ext.Window(cfg);
 			this.win.on('close', this.cancel, this);
 		}
-		
 		this.loadPath('/');
-	    this.win.show(el);
+		this.win.toggleMaximize();
+		this.win.show(el);
 		this.win.setPosition(0, 0);
-		this.win.fitContainer();
+		//this.win.fitContainer();
 		this.callback = callback;
 		this.animateTarget = el;
 	},
@@ -278,8 +295,8 @@ ImageChooser.prototype = {
 				'<tpl for=".">',
 					'',
 					'<div class="thumb-wrap" id="{name}">',
-					'<div class="thumb {iconCls}"><img class="x-view-thumb-icon" src="{thumbnail}"></div>',
-					'</div>',
+					'<div class="thumb {iconCls}"><img class="x-view-thumb-icon" src="{thumbnail}" title="{name}" width="64"></div>',
+					'<span>{shortName}</span></div>',
 					'<div class="details-info">',
 					'<b>', lang.name,'</b>',
 					'<span>{name}</span>',
@@ -300,6 +317,9 @@ ImageChooser.prototype = {
 			selNode = selNode[0];
 			Ext.getCmp('ok-btn').enable();
 			var data = this.lookup[selNode.id];
+			if (this.namefield) {
+				this.namefield.setValue(data.name);
+			}
 			if (data.thumb.length > 0)
 				Ext.getCmp('ok-btn-thumbnail').show();
 			else
@@ -350,14 +370,23 @@ ImageChooser.prototype = {
 			this.loadPath(data.path);
 	},
 	
+	doCallbackEnter : function(field, e){
+		var selNode = this.view.getSelectedNodes()[0];
+		var data = this.lookup[selNode.id];
+		if (data.iconCls != 'folder' && e.getKey() == Ext.EventObject.ENTER)
+			this.doCallback();
+    },
+	
 	doCallback : function(){
         var selNode = this.view.getSelectedNodes()[0];
 		var callback = this.callback;
 		var lookup = this.lookup;
+		var name = this.namefield ? this.namefield.getValue() : '';
 		this.win.hide(this.animateTarget, function(){
-            if(selNode && callback){
+            if (selNode && callback){
 				var data = lookup[selNode.id];
-				callback(data.url);
+				name = name ? name : data.name;
+				callback(data.url, name);
 			}
 		});
     },
@@ -366,11 +395,13 @@ ImageChooser.prototype = {
         var selNode = this.view.getSelectedNodes()[0];
 		var callback = this.callback;
 		var lookup = this.lookup;
+		var name = this.namefield ? this.namefield.getValue() : '';
 		this.win.hide(this.animateTarget, function(){
-            if(selNode && callback){
+            if (selNode && callback){
 				var data = lookup[selNode.id];
+				name = name ? name : data.name;
 				if (data.thumb.length > 0)
-					callback(data.thumb);
+					callback(data.thumb, name);
 			}
 		});
     },

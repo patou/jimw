@@ -9,48 +9,45 @@
 echo $this->request->getDomainName();
 ?> - Administration</title>
 <link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/javascripts/extjs/resources/css/ext-all.css">
+	href="<?php echo $this->path?>/javascripts/extjs/resources/css/ext-all.css">
 <link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/stylesheets/uploadform.css">
+	href="<?php echo $this->path?>/stylesheets/uploadform.css">
 <link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/stylesheets/icons.css">
+	href="<?php echo $this->path?>/stylesheets/icons.css">
 <link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/stylesheets/filetree.css">
-<link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/stylesheets/filetype.css">
-<link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/stylesheets/filechooser.css">
+	href="<?php echo $this->path?>/stylesheets/filechooser.css">
 
 <link rel="shortcut icon"
-	href="<?=$this->path?>/images/icons/page_white_stack.png"
+	href="<?php echo $this->path?>/images/icons/page_white_stack.png"
 	type="image/png">
 <script type="text/javascript">
-		var path = "<?=rtrim($this->path, '/')?>";
+		var path = "<?php echo rtrim($this->path, '/')?>";
 		var default_path = "/";
 		var uploadUrl = "<?php echo $this->url(array('controller' => 'file', 'action' => 'upload', 'format' => 'ajax'), 'format', true); ?>";
 		var newdirUrl = "<?php echo $this->url(array('controller' => 'file', 'action' => 'newdir', 'format' => 'ajax'), 'format', true); ?>";
-		var basename = "<?=rtrim($this->url(array(), 'default', true), '/');?>";
+		var basename = "<?php echo rtrim($this->url(array(), 'default', true), '/');?>";
 		var lang = {
-			emptyText: "<?=$this->_('No files match the specified filter');?>",
-			title: "<?=$this->_('Choose a File');?>",
-			folderTitle: "<?=$this->_('Folders');?>",
-			filter: "<?=$this->_('Filter:');?>",
-			sortBy: "<?=$this->_('Sort By:');?>",
-			name: "<?=$this->_('Name');?>",
-			fileSize: "<?=$this->_('File Size');?>",
-			size: "<?=$this->_('Size');?>",
-			lastModified: "<?=$this->_('Last Modified');?>",
-			OK: "<?=$this->_('Select file');?>",
-			OKThumbnail: "<?=$this->_('Select thumbnail');?>",
-			cancel: "<?=$this->_('Cancel');?>",
-			errorLoading: "<?=$this->_('Error loading file.');?>",
-			root: "<?=$this->_('root');?>",
-			dateFormat: "<?=$this->_('m/d/Y g:i a')?>",
-			Upload: "<?=$this->_('Upload'); ?>",
-			Newdir: "<?=$this->_('New Directory'); ?>",
-			successNewdirText: "<?=$this->_('Create new directory successful'); ?>",
-			errorNewdirText: "<?=$this->_('Error to create new directory'); ?>",
-			newdirText: "<?=$this->_('New directory'); ?>"
+			emptyText: "<?php echo $this->_('No files match the specified filter');?>",
+			title: "<?php echo $this->_('Choose a File');?>",
+			folderTitle: "<?php echo $this->_('Folders');?>",
+			filter: "<?php echo $this->_('Filter:');?>",
+			sortBy: "<?php echo $this->_('Sort By:');?>",
+			name: "<?php echo $this->_('Name');?>",
+			fileSize: "<?php echo $this->_('File Size');?>",
+			size: "<?php echo $this->_('Size');?>",
+			lastModified: "<?php echo $this->_('Last Modified');?>",
+			OK: "<?php echo $this->_('Select file');?>",
+			OKThumbnail: "<?php echo $this->_('Select thumbnail');?>",
+			cancel: "<?php echo $this->_('Cancel');?>",
+			errorLoading: "<?php echo $this->_('Error loading file.');?>",
+			root: "<?php echo $this->_('root');?>",
+			dateFormat: "<?php echo $this->_('m/d/Y g:i a')?>",
+			Upload: "<?php echo $this->_('Upload'); ?>",
+			Newdir: "<?php echo $this->_('New directory'); ?>",
+			successNewdirText: "<?php echo $this->_('Create new directory successful'); ?>",
+			errorNewdirText: "<?php echo $this->_('Error to create new directory'); ?>",
+			newdirText: "<?php echo $this->_('New directory'); ?>",
+			labelName: "<?php echo $this->_('Name: ');?>"
 		};
 	</script>
 <style type="text/css">
@@ -101,38 +98,33 @@ echo $this->request->getDomainName();
 </head>
 
 <body>
-<div id="loading-mask" style=""></div>
-<div id="loading">
-<div class="loading-indicator"><img
-	src="<?=$this->path?>/javascripts/extjs/resources/images/default/shared/blue-loading.gif"
-	width="32" height="32" style="margin-right: 8px;" align="absmiddle" /><?=$this->_('Loading...');?></div>
-</div>
 <script type="text/javascript"
-	src="<?=$this->path?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
+	src="<?php echo $this->path?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
 <script type="text/javascript"
-	src="<?=$this->path?>/javascripts/extjs/ext-all<?=(JIMW_DEBUG_MODE) ? '-debug' : ''?>.js"></script>
+	src="<?php echo $this->path?>/javascripts/extjs/ext-all<?php echo (JIMW_DEBUG_MODE) ? '-debug' : ''?>.js"></script>
 <script type="text/javascript"
-	src="<?=$this->path?>/javascripts/Ext.ux.form.BrowseButton.js"></script>
+	src="<?php echo $this->path?>/javascripts/Ext.ux.form.BrowseButton.js"></script>
 <script type="text/javascript"
-	src="<?=$this->path?>/javascripts/Ext.ux.FileUploader.js"></script>
+	src="<?php echo $this->path?>/javascripts/Ext.ux.FileUploader.js"></script>
 <script type="text/javascript"
-	src="<?=$this->path?>/javascripts/Ext.ux.UploadPanel.js"></script>
+	src="<?php echo $this->path?>/javascripts/Ext.ux.UploadPanel.js"></script>
 <script type="text/javascript"
-	src="<?=$this->path?>/javascripts/filechooser.js"></script>
-<div id="chooser-dlg" style="width: 100%; height: 100%"></div>
+	src="<?php echo $this->path?>/javascripts/filechooser.js"></script>
 <script type="text/javascript">
     Ext.onReady(function() {
-    var imageChooser = new ImageChooser({});
-	imageChooser.show(document.body, function (url)
+    var imageChooser = new ImageChooser({<?php if ($this->request->namefield) echo 'namefield: true'?>});
+    //Ext.get('loading').remove();
+    //Ext.get('loading-mask').fadeOut({remove:true});
+	imageChooser.show(document.body, function (url, name)
 	{
-		window.top.opener.<?php echo isset($this->javascript_fct) ? $this->javascript_fct : 'SetUrl'; ?>( encodeURI( url ) ) ;
+		window.top.opener.<?php echo isset($this->javascript_fct) ? $this->javascript_fct .'( encodeURI( url ) , name)': 'SetUrl( encodeURI( url ) )'; ?> ;
 		window.top.close() ;
 		window.top.opener.focus() ;
 	});
-    Ext.get('loading').remove();
-    Ext.get('loading-mask').fadeOut({remove:true});
+    
 	});
     </script>
+
 </body>
 </html>
 

@@ -42,6 +42,7 @@ class Gallery_GalleryController extends Jimw_Module_Action_Alias
 			throw new Jimw_Exception("$dir isn't a valid directory");
 		$this->view->photos = $photos;
 		$this->view->photos_path = $dir;
+		$this->view->can_download = $tree->param->can_download;
 		$this->render('gallery');
 	}
 }

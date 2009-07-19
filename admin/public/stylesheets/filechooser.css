@@ -41,7 +41,15 @@
 #img-chooser-view .thumb img{ 
     height: 60px; 
     width: 80px; 
+}
+#img-detail-panel .thumb{ 
+    background: transparent; 
+    padding: 3px; 
 } 
+#img-detail-panel .thumb img{ 
+    height: 60px; 
+    width: 80px; 
+}
 #img-chooser-view .thumb-wrap{ 
     float: left; 
     margin: 4px; 

@@ -11,7 +11,7 @@ function openWindow(url, width, height, options) {
 	var iLeft = (screen.width - width) / 2;
 	var iTop  = (screen.heigth - height) / 2;
 
-	var sOptions = "toolbar=no,status=no,resizable=yes,dependent=yes,scrollbars=yes" ;
+	var sOptions = "menubar=no,location=no,directories=no,toolbar=no,status=no,resizable=no,dependent=yes,scrollbars=auto" ;
 	sOptions += ",width=" + width ;
 	sOptions += ",height=" + height ;
 	sOptions += ",left=" + iLeft ;

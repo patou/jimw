@@ -590,10 +590,14 @@ Rged.prototype =  {
                         }
                         // answer is yes
                         else {
-                               this.rename(this.path + newname, sel.get('path'));
+                        	if (!newname[0] != '/')
+                        		newname = '/' + newname;
+                            this.rename(this.path + newname, sel.get('path'));
                         }
                 }
                 , this
+                , false
+                , sel.get('name')
         );
     },
 

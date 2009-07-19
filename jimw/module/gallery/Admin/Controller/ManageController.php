@@ -12,29 +12,76 @@
 class Gallery_ManageController extends Jimw_Admin_Action
 {
 	public function editAction () {
-		$id = $this->_request->id;
-		$treeFactory = new Jimw_Site_Tree();
-		$result = $treeFactory->find($id);
-		if (!count($result)) {
-			throw new Jimw_Admin_Exception();
+	    $request = $this->getRequest();
+	    /** @var $tree Jimw_Site_Tree_Row */
+	    $tree = $request->tree;
+	    $rep = trim($tree->getParam('dir'), '/');
+	    $dir = rtrim($tree->findParentJimw_Site_Site()->path, '/') . '/' . $rep;
+	    $path = JIMW_ROOT . $dir;
+		$base_path = str_replace('/admin', JIMW_URL_PUBLIC_PATH, $request->getBaseUrl()) . '/' . $rep . '/';
+		if (is_dir($path)) {
+			if ($dh = opendir($path)) {
+				while (($img = readdir($dh)) !== false) {
+					if ($img != '.' && $img != '..' && !is_dir($path . '/' . $img)) {
+					    $image = new Jimw_Image($path . '/' . $img, $base_path);
+					    if ($image->hasThumbnails(true)) {
+					        $size = getimagesize($image->getThumbnailsFilename());
+							$photos[] = array ('url' => $image->getUrl(), 'title' => '', 'thumbnails' => $image->getThumbnailsUrl(), 'thumbnails_width' => $size[0], 'thumbnails_height' => $size[1], 'file' => $image->getFilename());
+						}
+					}
+				}
+				closedir($dh);
+			}
 		}
-		$tree = $result->current();
-		/* @var $tree Jimw_Site_Tree_Row */
-		$this->view->directory = $tree->param->dir;
+		//else
+			//throw new Jimw_Admin_Exception("$path isn't a valid directory");
+		$this->view->photos = $photos;
+		$this->view->photos_path = $path;
+		$this->view->dir = str_replace(JIMW_URL_PUBLIC_PATH, '', '/'. $dir);
+	}
+	
+	public function deletefileAction() {
+	    $request = $this->getRequest();
+	    if (!$request->isPost() || empty($request->dir)) {
+	        throw new Jimw_Admin_Exception('Action deleteFile error');
+	    }
+        
+        $dir = $request->dir;
+        $fm = $this->_helper->getHelper('FlashMessenger');
+        foreach ($request->files as $file) {
+            $image = new Jimw_Image($dir . '/' . $file, '');
+            unlink($image->getFile());
+            if ($image->hasThumbnails(false)) {
+        	    unlink($image->getThumbnailsFilename());
+            }
+        	$fm->addMessage('Delete successful ' . $file);
+        }
+        //$this->_redirect($this->view->url(array('action'=>'edit', 'controller' => 'tree', 'module' => 'default', 'id' => $request->tree_id), 'format', true), array('prependBase' => false));
+        $this->_forward ('index', 'tree', 'default', array('id' => $request->tree_id));
 	}
 
+    public function uploadfileAction ()
+    {
+        $request = $this->getRequest();
+	    if (!$request->isPost() || empty($request->path)) {
+	        throw new Jimw_Admin_Exception('Action deleteFile error');
+	    }
+        $path = $request->path;
+        $fm = $this->_helper->getHelper('FlashMessenger');
+        foreach ($_FILES as $id => $file) {
+            if (! isset($file['name'])) {
+                if ($file['error'] != UPLOAD_ERR_OK) {
+                   $fm->addMessage('Error to upload file ' . $file['name'] . ' ');
+                }
+            } else {
+                @move_uploaded_file($file['tmp_name'], $path . '/' . $file['name']);
+                $fm->addMessage('Upload successful ' . $file['name']);
+            }
+        }
+        $this->_forward ('index', 'tree', 'default', array('id' => $request->tree_id));
+    }
+	
 	public function saveAction () {
-		$id = $this->_request->id;
-		$treeFactory = new Jimw_Site_Tree();
-		$result = $treeFactory->find($id);
-		if (!count($result)) {
-			throw new Jimw_Admin_Exception();
-		}
-		$tree = $result->current();
-		/* @var $tree Jimw_Site_Tree_Row */
-		$tree->param->dir = trim($this->_request->directory, '/');
-		$tree->save();
-		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ');
 		$this->_forward ('index', 'tree', 'default', array('id' => $this->_request->id));
 	}
 }

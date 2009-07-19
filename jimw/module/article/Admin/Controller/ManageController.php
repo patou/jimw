@@ -13,15 +13,15 @@ include_once (dirname(__FILE__) . '/../../Controller/Model/Article.php');
 class Article_ManageController extends Jimw_Admin_Action
 {
 	public function editAction () {
-		$id = $this->_request->id;
-		$this->view->request = $this->_request;
+		$request = $this->getRequest();
+		$id = $request->id;
 		$article = new Article();
-		$result = $article->findByTree($this->view->id);
+		$result = $article->findByTree($id);
 		if (!$result) {
 			$new = $article->fetchNew();
 			$new->content = '';
 			$new->tree_id = $id;
-			$new->date = '1900-01-01 00:00:00';
+			$new->date = $article->getFormatedDate(new Zend_Date());
 			$new->status = 0;
 			$new->revisioninfo = '';
 			$new->save();
@@ -38,14 +38,14 @@ class Article_ManageController extends Jimw_Admin_Action
 		if (!$result) {
 			$new = $article->fetchNew();
 			$new->content = $this->_request->content;
-			$new->date = '1900-01-01 00:00:00';
+			$new->date = $article->getFormatedDate(new Zend_Date());
 			$new->tree_id = $id;
 			$new->status = 0;
 			$new->revisioninfo = '';
 			$new->save();
 		} else {
 			$result->content = $this->_request->content;
-			$result->date = '1900-01-01 00:00:00';
+			$result->date = $article->getFormatedDate(new Zend_Date());
 			$result->status = 0;
 			$result->revisioninfo = '';
 			$result->save ();

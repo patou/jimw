@@ -27,7 +27,7 @@ Chooser.prototype = {
 	},
 	show : function(el, url, callback){
 		if (!this.win){
-					
+			
 			this.treeloader = new Ext.tree.TreeLoader({
 				url: url//'?controller=file&action=get&cmd=get&format=ajax'
 				, requestMethod: 'post'
@@ -52,12 +52,15 @@ Chooser.prototype = {
 			
 			this.tree.on('click', function(node, e) {
 						this.node = node;
+						if (this.namefield) {
+							this.namefield.setValue(node.text);
+						}
 						this.loadPath(node.id);
 					}, this);
 			this.tree.on('dblclick', this.doCallback, this);
 		    
 			var cfg = {
-				//renderTo: document.body,
+				renderTo: document.body,
 		    	title: lang.title,
 		    	id: 'img-chooser-dlg',
 		    	xtype: 'panel',
@@ -65,13 +68,18 @@ Chooser.prototype = {
 				closable: true,
 				draggable: false,
 				expandOnShow: true,
-				resizable: false, 
+				resizable: false,
+				autoScroll: true,
+				width: '100%',
+				heigth: '100%',
+				
 				items:[{
 					id: 'img-tree-panel',
 					split: true,
-					autoScroll: true,
+					//autoScroll: true,
 	                cmargins: {top:2,bottom:2,right:2,left:2},
-	                fitToFrame: true,
+	                //fitToFrame: true,
+	                overflow:'auto',
 	                closable: false,
 	                items: this.tree
 					}],
@@ -90,16 +98,33 @@ Chooser.prototype = {
 					handler: this.cancel,
 					scope: this
 				}
+				
 			};
+			
+			if (this.config.namefield) {
+				this.namefield = new Ext.form.TextField();
+					cfg.bbar = new Ext.Toolbar({
+				    width: '100%',
+				    height: 'auto',
+				    items: [
+						{
+							id:'img-label-name',
+							xtype: 'label',
+							text: lang.labelName
+						},this.namefield
+				    ]
+				});
+			}
 			Ext.apply(cfg, this.config);
 		    this.win = new Ext.Window(cfg);
 			this.win.on('close', this.cancel, this);
 		}
 		
 		this.loadPath(default_path);
-	    this.win.show(el);
+		this.win.toggleMaximize();
+		this.win.show(el);
 		this.win.setPosition(0, 0);
-		this.win.fitContainer();
+		//this.win.fitContainer();
 		this.callback = callback;
 		this.animateTarget = el;
 	},
@@ -118,9 +143,12 @@ Chooser.prototype = {
 	doCallback : function(node, e){
         var selNode = this.tree.getSelectionModel().getSelectedNode();
         var callback = this.callback;
+        var name = this.namefield ? this.namefield.getValue() : '';
 		this.win.hide(this.animateTarget, function(){
             if (selNode.attributes && callback){
-				callback(selNode.attributes);
+            	var node = selNode.attributes;
+            	node.name = name;
+				callback(node);
 			}
 		});
     },

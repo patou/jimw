@@ -15,6 +15,12 @@
 							<label>Directory</label>							
 						</options>
 					</dir>
+					<can_download>
+						<type>checkbox</type>
+						<options>
+							<label>Can download file</label>							
+						</options>
+					</can_download>
 				</elements>
 			</params>
 		</gallery>

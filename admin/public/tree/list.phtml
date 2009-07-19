@@ -116,7 +116,7 @@ echo $message . '<br />'; ?>
                 <?php 
                     if (!$isBegin && $tree->status >= 0) {
                 ?>
-                    <a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+                    <a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>">
                     <img src="<?php echo $path ?>/images/icons/arrow_up.png" width="16" height="16" alt="<?php echo $this->_('Move Up'); ?>" title="<?php echo $this->_('Move Up'); ?>"  border="0" class="absmiddle" /></a>
                 <?php 
                     }
@@ -127,7 +127,7 @@ echo $message . '<br />'; ?>
                     }
                     if (!$isEnd && $tree->status >= 0) {
                 ?>
-                    <a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+                    <a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>">
                     <img src="<?php echo $path ?>/images/icons/arrow_down.png" width="16" height="16" alt="<?php echo $this->_('Move Down'); ?>" title="<?php echo $this->_('Move Down'); ?>"  border="0" class="absmiddle" /></a>
                 <?php 
                     }
