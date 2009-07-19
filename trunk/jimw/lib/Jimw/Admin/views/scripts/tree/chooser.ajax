@@ -9,24 +9,25 @@
 echo $this->request->getDomainName();
 ?> - Administration</title>
 <link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/javascripts/extjs/resources/css/ext-all.css">
+	href="<?php echo $this->path?>/javascripts/extjs/resources/css/ext-all.css">
 <link rel="stylesheet" type="text/css"
-	href="<?=$this->path?>/stylesheets/filechooser.css">
+	href="<?php echo $this->path?>/stylesheets/filechooser.css">
 
 <link rel="shortcut icon"
-	href="<?=$this->path?>/images/icons/page_white_stack.png"
+	href="<?php echo $this->path?>/images/icons/page_white_stack.png"
 	type="image/png">
 <script type="text/javascript">
-		var path = "<?=rtrim($this->path, '/')?>";
+		var path = "<?php echo rtrim($this->path, '/')?>";
 		var default_path = "<?php echo 0 ?>";
 		var url = "<?php echo $this->url(array('controller' => 'tree', 'action' => 'get', 'format' => 'ajax'), 'format', true); ?>";
-		var basename = "<?=rtrim($this->url(array(), 'default', true), '/');?>";
+		var basename = "<?php echo rtrim($this->url(array(), 'default', true), '/');?>";
 		var lang = {
-			title: "<?=$this->_('Select a page');?>",
-			SelectDirectory: "<?=$this->_('Select links');?>",
-			cancel: "<?=$this->_('Cancel');?>",
-			errorLoading: "<?=$this->_('Error loading file.');?>",
-			root: "<?=$this->_('root');?>"
+			title: "<?php echo $this->_('Select a page');?>",
+			SelectDirectory: "<?php echo $this->_('Select links');?>",
+			cancel: "<?php echo $this->_('Cancel');?>",
+			errorLoading: "<?php echo $this->_('Error loading file.');?>",
+			root: "<?php echo $this->_('root');?>",
+			labelName: "<?php echo $this->_('Name: ');?>"
 		};
 	</script>
 <style type="text/css">
@@ -80,26 +81,26 @@ echo $this->request->getDomainName();
 <div id="loading-mask" style=""></div>
 <div id="loading">
 <div class="loading-indicator"><img
-	src="<?=$this->path?>/javascripts/extjs/resources/images/default/shared/blue-loading.gif"
-	width="32" height="32" style="margin-right: 8px;" align="absmiddle" /><?=$this->_('Loading...');?></div>
+	src="<?php echo $this->path?>/javascripts/extjs/resources/images/default/shared/blue-loading.gif"
+	width="32" height="32" style="margin-right: 8px;" align="absmiddle" /><?php echo $this->_('Loading...');?></div>
 </div>
 <script type="text/javascript"
-	src="<?=$this->path?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
+	src="<?php echo $this->path?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
 <script type="text/javascript"
-	src="<?=$this->path?>/javascripts/extjs/ext-all<?=(JIMW_DEBUG_MODE) ? '-debug' : ''?>.js"></script>
+	src="<?php echo $this->path?>/javascripts/extjs/ext-all<?php echo (JIMW_DEBUG_MODE) ? '-debug' : ''?>.js"></script>
 <script type="text/javascript"
-	src="<?=$this->path?>/javascripts/chooser.js"></script>
+	src="<?php echo $this->path?>/javascripts/chooser.js"></script>
 <div id="chooser-dlg" style="width: 100%; height: 100%"></div>
 <script type="text/javascript">
     Ext.onReady(function() {
-    var choose = new Chooser({});
-	choose.show(document.body, url, function (node)
+    var choose = new Chooser({<?php if ($this->request->namefield) echo 'namefield: true'?>});
+    Ext.get('loading').remove();
+    choose.show(document.body, url, function (node)
 	{
 		window.top.opener.<?php echo isset($this->javascript_fct) ? $this->javascript_fct .'(node)': 'SetUrl(node.url)'; ?>;
 		window.top.close();
 		window.top.opener.focus();
 	});
-    Ext.get('loading').remove();
     Ext.get('loading-mask').fadeOut({remove:true});
 	});
     </script>

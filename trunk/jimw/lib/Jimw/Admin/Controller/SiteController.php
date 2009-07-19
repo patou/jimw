@@ -100,8 +100,7 @@ class SiteController extends Jimw_Admin_Action
             $save = $sites->fetchNew();
             $save->tree_id = $values['tree_id'];
             $save->default_tree_id = $values['tree_id'];
-            //$save->domain_id = $values['domain_id'];
-            $save->access = 1;
+            $save->access = ($values['tree_id'] == 0) ? 1 : 0;
             $save->name = $values['site_name'];
             $save->path = trim($values['site_path'], '/');
             $save->template = trim($values['site_template'], '/');

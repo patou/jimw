@@ -104,13 +104,13 @@ echo $this->request->getDomainName();
 <script type="text/javascript">
     Ext.onReady(function() {
     var choose = new Chooser({});
-	choose.show(document.body, url, function (node)
+	Ext.get('loading').remove();
+    choose.show(document.body, url, function (node)
 	{
 		window.top.opener.<?php echo isset($this->javascript_fct) ? $this->javascript_fct : 'SetUrl'; ?>( node );
 		window.top.close();
 		window.top.opener.focus();
 	});
-    Ext.get('loading').remove();
     Ext.get('loading-mask').fadeOut({remove:true});
 	});
     </script>

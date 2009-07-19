@@ -1,10 +1,73 @@
-<form action="<?php echo $this->url(array('module' => 'gallery', 'controller' => 'manage', 'action' => 'save', 'format' => 'phtml', 'id' => $this->id), 'format', true); ?>" method="post">
-<input type="hidden" name="id" value="<?= $this->id ?>">
-<table border="0" width="90%">
-<tr><td class="t01"><?php echo $this->_('Directory') ?> : </td><td><input type="text" name="directory" value="<?= $this->directory ?>"></td></tr>
-<tr><td colspan="2" align="center"><input type="submit" name="btn" value="<?php echo $this->_('Save') ?>"></td></tr>
-</table></form>
+<?= $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->path_common . '/mootools.v1.11.js'); ?>
+<?= $this->headScript()->captureStart(); ?>
+function select_all() {
+	$$('input.check').each( function(el) {
+		el.checked = true;
+	});
+}
+function unselect_all() {
+	$$('input.check').each( function(el) {
+		el.checked = false;
+	});
+}
+function invertselect() {
+	$$('input.check').each( function(el) {
+		el.checked = !el.checked;
+	});
+}
+<?= $this->headScript()->captureEnd(); ?>
+<?= $this->headStyle()->captureStart(); ?>
+#photo_image {
+    clear: both;
+    text-align: center;
+}
+<?= $this->headStyle()->captureEnd(); ?>
+<a href="<?php echo $this->url(array('module' => 'default',  'controller' => 'file', 'action' => 'index', 'format' => 'ajax'), 'format', true); ?>#<?php echo $this->dir ?>">
+<?php echo $this->_('Edit in the file editeur'); ?>
+</a>
+<form method="post" action="<?php echo $this->url(array('module' => 'gallery',  'controller' => 'manage', 'action' => 'deleteFile'), 'format', true); ?>">
+<div>
+<input type="hidden" name="dir" value="<?php echo $this->photos_path ?>" />
+<input type="hidden" name="tree_id" value="<?php echo $this->request->tree->id ?>" />
+<br />
+<?php
+	$i = 0;
+	foreach ($this->photos as $photo):
+?>
+<label>
+<input type="checkbox" name="files[]" value="<?php echo $photo['file']; ?>" class="check"/>
+<img src="<?php echo $photo['thumbnails']; ?>" width="<?php echo $photo['thumbnails_width']; ?>" height="<?php echo $photo['thumbnails_height']; ?>" title="<?php echo $photo['title']; ?>" alt="<?php echo $this->escape($photo['title']); ?>" class="no-border" />
+</label>
+<?php
+	endforeach;
+?>
 <br/>
+<a href="#" onclick="select_all(); return false;"><?php echo $this->_('All'); ?></a>
+<a href="#" onclick="unselect_all(); return false;"><?php echo $this->_('None'); ?></a>
+<a href="#" onclick="invertselect(); return false;"><?php echo $this->_('Invert'); ?></a>
+<input type="submit" value="<?= $this->_('Delete') ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete these photos ?')); ?>');" /></div>
+</form>
+
+<form
+	action="<?php
+    echo $this->url(array('module' => 'gallery', 'controller' => 'manage' , 'action' => 'uploadFile' , 'format' => 'phtml'), 'get', true);
+    ?>"
+	method="POST" enctype="multipart/form-data">
+	<input type="hidden" name="tree_id" value="<?php echo $this->request->tree->id ?>" />
+	<input type="hidden" name="path" value="<?php echo $this->photos_path; ?>">
+	<?php
+    echo $this->_('Upload Files')?>: <br/><input type="file" name="file1"
+	/> 
+	<br/><input type="file" name="file2"
+	/> 
+	<br/><input type="file" name="file3"
+	/> 
+	
+	<br/><input type="submit"
+	value="<?php
+    echo $this->_('Submit')?>" /></form>
+
+
 <p class="t01" style="font-size: 12px;">
 	<a href="<?= $this->request->getBaseUrl() ?>"><?php echo $this->_('Return') ?></a>
 </p>
