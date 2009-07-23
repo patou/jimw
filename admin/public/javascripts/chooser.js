@@ -55,6 +55,9 @@ Chooser.prototype = {
 						if (this.namefield) {
 							this.namefield.setValue(node.text);
 						}
+						if (this.newdirfield) {
+							this.newdirfield.setValue(node.id + "/");
+						}
 						this.loadPath(node.id);
 					}, this);
 			this.tree.on('dblclick', this.doCallback, this);
@@ -103,6 +106,11 @@ Chooser.prototype = {
 			
 			if (this.config.namefield) {
 				this.namefield = new Ext.form.TextField();
+				this.namefield.on('keyup', function (field, e) {
+					if (e.getKey() == Ext.EventObject.ENTER) {
+						this.doCallback();
+					}
+				}, this);
 					cfg.bbar = new Ext.Toolbar({
 				    width: '100%',
 				    height: 'auto',
@@ -112,6 +120,33 @@ Chooser.prototype = {
 							xtype: 'label',
 							text: lang.labelName
 						},this.namefield
+				    ]
+				});
+			}
+			if (this.config.createdir) {
+				this.newdirfield = new Ext.form.TextField();
+				this.newdirfield.on('keyup', function (field, e) {
+					if (e.getKey() == Ext.EventObject.ENTER) {
+						this.createDir();
+					}
+				}, this);
+					cfg.bbar = new Ext.Toolbar({
+				    width: '100%',
+				    height: 'auto',
+				    items: [
+						{
+							id:'img-label-name',
+							xtype: 'label',
+							text: lang.labelNewdir
+						}
+						,this.newdirfield
+						,{
+							xtype: 'button'
+							,text: lang.create
+							,iconCls: 'icon-newdir'
+							,handler: this.createDir
+							,scope: this
+						}
 				    ]
 				});
 			}
@@ -130,8 +165,7 @@ Chooser.prototype = {
 	},
 	
 	reset : function(){
-		if (this.win.rendered){
-		}
+		
 	},
 	
 	loadPath : function(path){
@@ -139,6 +173,37 @@ Chooser.prototype = {
 		this.reset();
 		this.tree.selectPath( default_path+'root' + path, 'text', function (success, node) { if (success) node.expand() });
 	},
+	
+	createDir: function() {
+		this.dir = this.newdirfield.getValue();
+		var options = {
+			 url: newdirUrl
+			,method: 'POST'
+			,scope: this
+			,callback: this.cmdCallbackNewdir
+			,params:{
+				 cmd:'newdir'
+				,dir:this.dir
+			}
+		};
+		Ext.Ajax.request(options);	
+	},
+	
+	cmdCallbackNewdir: function (options, bSuccess, response) {
+        var i, o, node;
+        var showMsg = true;
+        if (true === bSuccess) {
+            o = Ext.decode(response.responseText);
+            if (true === o.success) {
+                Ext.Msg.alert('OK', lang.successNewdirText);
+                var selNode = this.tree.getSelectionModel().getSelectedNode();
+                selNode.reload();
+                this.loadPath(this.dir);
+            } else {
+                    Ext.Msg.alert(lang.errorNewdirText, o.error);
+            }
+        }
+    },
 	
 	doCallback : function(node, e){
         var selNode = this.tree.getSelectionModel().getSelectedNode();

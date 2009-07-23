@@ -280,6 +280,9 @@
 .icon-edit { 
     background-image:url(../images/icons/edit.png) ! important; 
 } 
+.icon-newdir { 
+    background-image:url(../images/icons/folder_add.png) ! important; 
+} 
 
 /*  Icon Classes end */
 
