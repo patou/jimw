@@ -353,14 +353,14 @@ ImageChooser.prototype = {
 	    this.view.store.clearFilter();
 		this.view.select(0);
 	},
-	
+
 	loadPath : function(path){
 		this.path = path;
 		this.store.load({params : {path: path}});
 		this.reset();
 		this.tree.selectPath( default_path+'root' + path, 'text', function (success, node) { if (success) node.expand() });
-	},	
-	
+	},
+
 	onDblClick : function(){
 		var selNode = this.view.getSelectedNodes()[0];
 		var data = this.lookup[selNode.id];
