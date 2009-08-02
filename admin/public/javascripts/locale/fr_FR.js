@@ -375,6 +375,6 @@ if(Rged) {
         sizeText: 'Size',
         lastUpdatedText: 'Dernière modification',
         editText: 'Modifier',
-        successText: "l'opération c'est très bien déroulé."
+        successText: "l'opération s'est très bien déroulé."
     });
 }

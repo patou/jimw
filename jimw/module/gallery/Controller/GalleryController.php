@@ -40,6 +40,10 @@ class Gallery_GalleryController extends Jimw_Module_Action_Alias
 		}
 		else
 			throw new Jimw_Exception("$dir isn't a valid directory");
+		function picturesort($a, $b) {
+		    return ($a['file'] < $b['file']) ? -1 : 1;
+		}
+		usort($photos, picturesort);
 		$this->view->photos = $photos;
 		$this->view->photos_path = $dir;
 		$this->view->can_download = $tree->param->can_download;

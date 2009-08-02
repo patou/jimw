@@ -36,7 +36,10 @@ function invertselect() {
 ?>
 <label>
 <input type="checkbox" name="files[]" value="<?php echo $photo['file']; ?>" class="check"/>
-<img src="<?php echo $photo['thumbnails']; ?>" width="<?php echo $photo['thumbnails_width']; ?>" height="<?php echo $photo['thumbnails_height']; ?>" title="<?php echo $photo['title']; ?>" alt="<?php echo $this->escape($photo['title']); ?>" class="no-border" />
+<img src="<?php echo $photo['thumbnails']; ?>" width="<?php echo $photo['thumbnails_width']; ?>"
+  height="<?php echo $photo['thumbnails_height']; ?>"
+  title="<?php echo $this->escape($photo['file'] . ': ' . $photo['title']); ?>"
+  alt="<?php echo $this->escape($photo['file'] . ': ' . $photo['title']); ?>" class="no-border" />
 </label>
 <?php
 	endforeach;

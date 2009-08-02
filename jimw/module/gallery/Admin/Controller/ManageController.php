@@ -18,7 +18,7 @@ class Gallery_ManageController extends Jimw_Admin_Action
 	    $rep = trim($tree->getParam('dir'), '/');
 	    $dir = rtrim($tree->findParentJimw_Site_Site()->path, '/') . '/' . $rep;
 	    $path = JIMW_ROOT . $dir;
-		$base_path = str_replace('/admin', JIMW_URL_PUBLIC_PATH, $request->getBaseUrl()) . '/' . $rep . '/';
+		$base_path = str_replace('/admin', '', $request->getBaseUrl()) . '/' . $dir . '/';
 		if (is_dir($path)) {
 			if ($dh = opendir($path)) {
 				while (($img = readdir($dh)) !== false) {
@@ -35,6 +35,10 @@ class Gallery_ManageController extends Jimw_Admin_Action
 		}
 		//else
 			//throw new Jimw_Admin_Exception("$path isn't a valid directory");
+		function picturesort($a, $b) {
+		    return ($a['file'] < $b['file']) ? -1 : 1;
+		}
+		usort($photos, picturesort);
 		$this->view->photos = $photos;
 		$this->view->photos_path = $path;
 		$this->view->dir = str_replace(JIMW_URL_PUBLIC_PATH, '', '/'. $dir);
