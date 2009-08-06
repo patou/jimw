@@ -80,7 +80,7 @@ class Jimw_Install_Controller
         $view->addBasePath(JIMW_REP_LIB . 'Jimw/Install/views/', 'Jimw_Install_View');
         //$view->addHelperPath(JIMW_REP_LIB . 'Jimw/Admin/views/helpers', 'Jimw_Admin_View_Helper')
         $view->addScriptPath(JIMW_REP_INSTALL);
-        $view->setTranslate($this->initTranslate());
+        $view->translate()->setTranslator($this->initTranslate());
         $viewRenderer = new Jimw_Site_View_ViewRenderer();
         $viewRenderer->setView($view);
         Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);

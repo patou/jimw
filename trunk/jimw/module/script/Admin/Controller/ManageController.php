@@ -12,13 +12,13 @@
 class Script_ManageController extends Jimw_Admin_Action
 {
 	public function editAction () {
-		$id = $this->_request->id;
+		/*$id = $this->_request->id;
 		$treeFactory = new Jimw_Site_Tree();
 		$result = $treeFactory->find($id);
 		if (!count($result)) {
 			throw new Jimw_Admin_Exception();
 		}
-		$tree = $result->current();
+		/*$tree = $result->current();
 		/* @var $tree Jimw_Site_Tree_Row */
         /*$this->view->redirect_url =  $tree->getParam('url');
         $this->view->visited =  $tree->getParam('count', 0);
@@ -32,6 +32,7 @@ class Script_ManageController extends Jimw_Admin_Action
 	    $form->populate($tree->getParams());
 	    $form->setAction($this->view->url(array('controller' => 'manage', 'action' => 'save', 'module' => 'script')));
 	    $this->view->form = $form;*/
+		
 	}
 
 	public function saveAction () {
@@ -59,4 +60,3 @@ class Script_ManageController extends Jimw_Admin_Action
 		$this->_forward('index', 'tree', 'default', array('id' => $this->_request->id));
 	}
 }
-?>

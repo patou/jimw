@@ -23,6 +23,7 @@ class Article_ManageController extends Jimw_Admin_Action
 			$new->tree_id = $id;
 			$new->date = $article->getFormatedDate(new Zend_Date());
 			$new->status = 0;
+			$new->version = 0;
 			$new->revisioninfo = '';
 			$new->save();
 			$result = $new;
@@ -32,25 +33,21 @@ class Article_ManageController extends Jimw_Admin_Action
 	}
 
 	public function saveAction () {
-		$id = $this->_request->id;
-		$article = new Article();
-		$result = $article->findByTree($id);
-		if (!$result) {
-			$new = $article->fetchNew();
-			$new->content = $this->_request->content;
+	    $req = $this->getRequest();
+		$id = $req->id;
+		if ($req->isPost() && !empty($id)) {
+    		$article = new Article();
+    		$result = $article->findByTree($id);
+		    $new = $article->fetchNew();
+			$new->content = $req->content;
 			$new->date = $article->getFormatedDate(new Zend_Date());
 			$new->tree_id = $id;
 			$new->status = 0;
+			$new->version = isset($result->version) ? $result->version + 1 : 0;
 			$new->revisioninfo = '';
 			$new->save();
-		} else {
-			$result->content = $this->_request->content;
-			$result->date = $article->getFormatedDate(new Zend_Date());
-			$result->status = 0;
-			$result->revisioninfo = '';
-			$result->save ();
+    		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ');
 		}
-		$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful ');
 		$this->_forward('index', 'tree', 'default', array('id' => $id));
 	}
 

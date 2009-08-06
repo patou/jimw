@@ -1,6 +1,6 @@
 <?php
 // Configuration
-define('DEFAULT_VERSION', 1);
+define('DEFAULT_VERSION', 0);
 class Jimw_Db_Update
 {
     /** @var Zend_Db_Adapter_Abstract $db */
@@ -109,6 +109,8 @@ class Jimw_Db_Update
                     }
                 }
             }
+            if (file_exists($path . 'install.sql'))
+                $list[0] = $path . 'install.sql';
         } catch (Exception $e) {
             Jimw_Debug::display_exception($e);
         }
@@ -173,16 +175,28 @@ class Jimw_Db_Update
         $version = $cur_version;
         $result['currentVersion'] = $result['newVersion'] = $cur_version;
         $result['update'] = array();
-        for (; isset($list[$version]); $version ++) {
-            Jimw_Debug::display("Install version $version ... ");
+        if ($cur_version == 0 && !empty($list[$version])) {
+            Jimw_Debug::display("Install ... ");
             $result['update'][$version] = $this->install_sql($list[$version]);
             if (!$result['update'][$version]['success'])
             {
-                $result['newVersion'] = --$version;
-                if (!$this->update_version($module, $version))
-                    $result['newVersion'] = $cur_version;
+                $result['newVersion'] = 0;
                 $result['success'] = false;
                 return $result;
+            }
+        }
+        else {
+            for (; isset($list[$version]); $version ++) {
+                Jimw_Debug::display("Install version $version ... ");
+                $result['update'][$version] = $this->install_sql($list[$version]);
+                if (!$result['update'][$version]['success'])
+                {
+                    $result['newVersion'] = --$version;
+                    if (!$this->update_version($module, $version))
+                        $result['newVersion'] = $cur_version;
+                    $result['success'] = false;
+                    return $result;
+                }
             }
         }
         if ($version == $cur_version) {
