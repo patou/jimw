@@ -20,7 +20,7 @@ class Article extends Jimw_Db_Table
 	 * @return Jimw_Site_Tree_Rowset
 	 */
 	public function findByTree($id) {
-		return $this->fetchRow(array('tree_id = ?' => $id));
+		return $this->fetchRow($this->select()->where('tree_id = ?', $id)->order('article_version DESC')->limit(1));
 	}
 }
 ?>

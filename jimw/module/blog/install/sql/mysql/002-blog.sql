@@ -1,2 +1,2 @@
-ALTER TABLE `jimw_blogmessage` ADD `blogmessage_comment` BOOL NOT NULL DEFAULT '1';
+ALTER TABLE `{PREFIX}blogmessage` ADD `blogmessage_comment` BOOL NOT NULL DEFAULT '1';
 
