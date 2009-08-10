@@ -28,10 +28,11 @@ class Shop_DownloadController extends Jimw_Module_Action
 				$order = $orders->current();
 				if ($order->key == $request->key) {
 					if ($order->paid == '1') {
-						$this->view->music = $songmodel->find(explode(',', $order->musiclist));
-						$this->view->albummusic = $albummodel->find(explode(',', $order->albummusiclist));
-						$this->view->score = $songmodel->find(explode(',', $order->scorelist));
-						$this->view->albumscore = $albummodel->find(explode(',', $order->albumscorelist));
+						$content = unserialize($order->content);
+						$this->view->music = $songmodel->find(array_keys(@$content['music']));
+						$this->view->albummusic = $albummodel->find(array_keys(@$content['albummusic']));
+						$this->view->score = $songmodel->find(array_keys(@$content['score']));
+						$this->view->albumscore = $albummodel->find(array_keys(@$content['albumscore']));
 						$this->view->order = $order;
 						$this->render('list');
 					} else {
@@ -58,7 +59,11 @@ class Shop_DownloadController extends Jimw_Module_Action
 				$order = $orders->current();
 				$song = $songs->current();
 				if ($order->key == $request->key && $order->paid == '1') {
-					if (in_array($id, explode(',',$order->musiclist))) {
+					$content = unserialize($order->content);
+					if (isset($content['music'][$id])) {
+						$content['music'][$id] += 1;
+						$order->content = serialize($content);
+						$order->save();
 						$this->_helper->layout->disableLayout();
 						$this->view->file = $song->musicfile;
 					}
@@ -84,7 +89,11 @@ class Shop_DownloadController extends Jimw_Module_Action
 				$order = $orders->current();
 				$song = $songs->current();
 				if ($order->key == $request->key && $order->paid == '1') {
-					if (in_array($id, explode(',',$order->scorelist))) {
+					$content = unserialize($order->content);
+					if (isset($content['score'][$id])) {
+						$content['score'][$id] += 1;
+						$order->content = serialize($content);
+						$order->save();
 						$this->_helper->layout->disableLayout();
 						$this->view->file = $song->scorefile;
 					}
@@ -110,7 +119,11 @@ class Shop_DownloadController extends Jimw_Module_Action
 				$order = $orders->current();
 				$album = $albums->current();
 				if ($order->key == $request->key && $order->paid == '1') {
-					if (in_array($id, explode(',',$order->albummusiclist))) {
+					$content = unserialize($order->content);
+					if (isset($content['albummusic'][$id])) {
+						$content['albummusic'][$id] += 1;
+						$order->content = serialize($content);
+						$order->save();
 						$this->_helper->layout->disableLayout();
 						$this->view->file = $album->musicfile;
 					}
@@ -136,7 +149,11 @@ class Shop_DownloadController extends Jimw_Module_Action
 				$order = $orders->current();
 				$album = $albums->current();
 				if ($order->key == $request->key && $order->paid == '1') {
-					if (in_array($id, explode(',',$order->albumscorelist))) {
+					$content = unserialize($order->content);
+					if (isset($content['albumscore'][$id])) {
+						$content['albumscore'][$id] += 1;
+						$order->content = serialize($content);
+						$order->save();
 						$this->_helper->layout->disableLayout();
 						$this->view->file = $album->scorefile;
 					}

@@ -4,6 +4,13 @@
 <p>Votre commande est vide.</p>
 <?php else: ?>
 <?php $sum = 0; $readonly = true; ?>
+
+<?php if ($this->websalto): ?>
+<form method="post" action="<?php echo $this->url(array('module' => 'websalto', 'controller' => 'shop', 'action' => 'createmusicbasket'), 'format', true); ?>">
+<?php else: ?>
+
+<?php endif; ?>
+
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 <?php include_once('list.phtml'); ?>
 <p>Total : <b><?php echo $sum ?> &euro;</b></p>
@@ -13,8 +20,6 @@
 <p>Email : <?php echo $this->item->email; ?></p>
 
 <p><b>Merci de conserver la référence de la transaction : <?php echo $this->orderid; ?></b></p>
-
-<?php $paymentmode = 'sogenactif'; ?>
 
 <?php if ($paymentmode == 'paypal'): ?>
 

@@ -15,6 +15,11 @@ include_once('Model/ShopSong.php');
 include_once('Model/ShopSongOrder.php');
 class Shop_BasketController extends Jimw_Module_Action
 {
+	public function preDispatch() {
+		parent::preDispatch();
+		$this->view->paymentmode = 'sogenactif';
+		$this->view->websalto = true;
+	}
 	public function addAction() {
 	  $basket = new Zend_Session_Namespace('Basket');
 		$request = $this->getRequest();
@@ -147,7 +152,9 @@ class Shop_BasketController extends Jimw_Module_Action
 		$request = $this->getRequest();
 		if (!isset($request->name) || $request->name == '' ||
 		    !isset($request->firstname) || $request->firstname == '' ||
-			  !isset($request->email) || $request->email == '') $this->render('buy');
+		    !isset($request->email) || $request->email == '') $this->render('buy');
+		elseif ($this->view->websalto)
+			$this->_forward('createdownloadbasket', 'websalto');
 		else {
 			$sum = 0;
 			foreach ($this->view->music as $song) $sum += $song->musicprice;

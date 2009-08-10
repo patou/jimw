@@ -7,6 +7,10 @@
 <form method="post" action="<?php echo $this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'buy'), 'format', true); ?>">
 <?php include_once('list.phtml'); ?>
 <p>Total : <b><?php echo $sum ?> &euro;</b></p>
-<input type="submit" value="Acheter en ligne" />
+<?php if ($this->websalto): ?>
+<input type="submit" value="Confirmer votre commande" />
+<?php else: ?>
+<input type="submit" value="Confirmer et payer en ligne" />
+<?php endif; ?>
 </form>
 <?php endif; ?>

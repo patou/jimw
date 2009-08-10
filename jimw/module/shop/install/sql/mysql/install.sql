@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}shopalbum` (
 `shopalbum_scorefile` VARCHAR( 128 ) NOT NULL ,
 `shopalbum_musicprice` DECIMAL( 5, 2 ) NOT NULL ,
 `shopalbum_scoreprice` DECIMAL( 5, 2 ) NOT NULL ,
+`shopalbum_musicref` VARCHAR(30) NOT NULL ,
+`shopalbum_scoreref` VARCHAR(30) NOT NULL ,
 INDEX ( `tree_id` )
 );
 
@@ -21,12 +23,15 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}shopsong` (
 `shopsong_artist` VARCHAR( 64 ) NOT NULL ,
 `shopsong_editor` VARCHAR( 64 ) NOT NULL ,
 `shopsong_year` CHAR( 4 ) NOT NULL ,
+`shopsong_lyrics` TEXT NOT NULL ,
 `shopsong_musicfile` VARCHAR( 128 ) NOT NULL ,
 `shopsong_musicpreview` VARCHAR( 128 ) NOT NULL ,
 `shopsong_musicprice` DECIMAL( 5, 2 ) NOT NULL ,
+`shopsong_musicref` VARCHAR(30) NOT NULL ,
 `shopsong_scorefile` VARCHAR( 128 ) NOT NULL ,
 `shopsong_scorepreview` VARCHAR( 128 ) NOT NULL ,
 `shopsong_scoreprice` DECIMAL( 5, 2 ) NOT NULL ,
+`shopsong_scoreref` VARCHAR(30) NOT NULL , 
 INDEX ( `shopalbum_id` )
 );
 
@@ -36,10 +41,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}shopsongorder` (
 `shopsongorder_firstname` varchar(255) NOT NULL default '',
 `shopsongorder_email` varchar(255) NOT NULL default '',
 `shopsongorder_date` datetime NOT NULL default '0000-00-00 00:00:00',
-`shopsongorder_albummusiclist` TEXT NOT NULL,
-`shopsongorder_albumscorelist` TEXT NOT NULL,
-`shopsongorder_musiclist` text NOT NULL,
-`shopsongorder_scorelist` text NOT NULL,
+`shopsongorder_content` TEXT NOT NULL,
 `shopsongorder_price` decimal(7,2) NOT NULL default '0.00',
 `shopsongorder_paid` char(1) NOT NULL default '',
 `shopsongorder_key` varchar(32) NOT NULL default ''
