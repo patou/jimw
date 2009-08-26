@@ -15,6 +15,7 @@ class Jimw_Install_SiteCreateForm extends Zend_Form
         $database->addElement($database_type, 'type');
         $database_dbname = new Zend_Form_Element_Text('dbname');
         $database_dbname->setLabel('Name of database')->setRequired(true);
+        $database_dbname->setDescription("The database must exist");
         $database->addElement($database_dbname, 'dbname');
         $database_host = new Zend_Form_Element_Text('host');
         $database_host->setLabel('Hostname');
@@ -38,7 +39,27 @@ class Jimw_Install_SiteCreateForm extends Zend_Form
         $option_title = new Zend_Form_Element_Text('title');
         $option_title->setLabel('Title');
         $this->addElement($option_title, 'title');
-        $this->addDisplayGroup(array('url' , 'title'), 'options', array('legend' => 'Other configuration'));
+        $option_path = new Zend_Form_Element_Text('path');
+        $option_path->setLabel('Path');
+        $option_path->setDescription('Enter the public repository for this website. If the directory didn\'t exist, it will be created');
+        $option_path->setValue(ltrim(JIMW_URL_PUBLIC_PATH, '/'));
+        $option_path->addValidator(new Jimw_Form_Validate_Directory(JIMW_ROOT, true));
+        $this->addElement($option_path, 'path');
+        $option_template = new Zend_Form_Element_Select('template');
+        $option_template->setLabel('Template');
+        $option_template->setDescription('Enter the public repository for this website');
+        $option_template->addValidator(new Jimw_Form_Validate_Directory(JIMW_ROOT, false));
+        $templates = array();
+        $dir_iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(JIMW_REP_PUBLIC),RecursiveIteratorIterator::SELF_FIRST);
+        foreach ($dir_iterator as $dir) {
+            if ($dir->isDir() && file_exists($dir->getPathname() . '/layout.phtml')) {
+                $path = trim(str_replace('\\', '/', $dir->getPathname()), '../');
+                $templates[$path] = trim(str_replace('\\', '/', $dir->getPathname()), '../'); 
+            }
+        }
+        $option_template->setMultiOptions($templates);
+        $this->addElement($option_template, 'template');
+        $this->addDisplayGroup(array('url' , 'title', 'path', 'template'), 'options', array('legend' => 'Other configuration'));
         //------------------------- Admin user configuration
         $user = new Zend_Form_SubForm();
         $user_login = new Zend_Form_Element_Text('login');
