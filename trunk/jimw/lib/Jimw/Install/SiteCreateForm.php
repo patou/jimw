@@ -45,18 +45,11 @@ class Jimw_Install_SiteCreateForm extends Zend_Form
         $option_path->setValue(ltrim(JIMW_URL_PUBLIC_PATH, '/'));
         $option_path->addValidator(new Jimw_Form_Validate_Directory(JIMW_ROOT, true));
         $this->addElement($option_path, 'path');
-        $option_template = new Zend_Form_Element_Select('template');
+        $option_template = new Zend_Form_Element_Template('template');
         $option_template->setLabel('Template');
         $option_template->setDescription('Enter the public repository for this website');
         $option_template->addValidator(new Jimw_Form_Validate_Directory(JIMW_ROOT, false));
-        $templates = array();
-        $dir_iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(JIMW_REP_PUBLIC),RecursiveIteratorIterator::SELF_FIRST);
-        foreach ($dir_iterator as $dir) {
-            if ($dir->isDir() && file_exists($dir->getPathname() . '/layout.phtml')) {
-                $path = trim(str_replace('\\', '/', $dir->getPathname()), '../');
-                $templates[$path] = trim(str_replace('\\', '/', $dir->getPathname()), '../'); 
-            }
-        }
+        
         $option_template->setMultiOptions($templates);
         $this->addElement($option_template, 'template');
         $this->addDisplayGroup(array('url' , 'title', 'path', 'template'), 'options', array('legend' => 'Other configuration'));
