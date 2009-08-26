@@ -25,9 +25,11 @@ foreach ($this->list as $domain) :
     echo $this->escape($domain->id);
     ?></td>
 		<td>
-		<a href="<?php echo $this->url(); ?>">
+		<a href="<?php 
+		$url = $domain->__toString();
+		echo rtrim($url, '/') . '/admin'; ?>">
 			<?php
-    echo $this->escape($domain->__toString());
+    echo $this->escape($url);
     ?></a>
 			</td>
 	</tr>

@@ -25,7 +25,7 @@ class SiteController extends Jimw_Install_Action
         $prefix = !empty($jimw_config_db['prefix']) ? $jimw_config_db['prefix'] . '_' : '';
         $this->view->list = $db->fetchAll($db->select()->from($prefix.'database'));*/
         $domains = new Jimw_Site_Domain();
-        $this->view->list = $domains->fetchAll();
+        $this->view->list = $domains->fetchAll($domains->select()->where('domain_status = ?', 1));
     }
 
     public function createAction ()
@@ -98,8 +98,8 @@ class SiteController extends Jimw_Install_Action
                     $sites = new Jimw_Site_Site();
                     $site = $sites->fetchNew();
                     $site->name = $val['title'];
-                    $site->path = trim(JIMW_REP_PUBLIC, './');
-                    $site->template = $site->path . '/template';
+                    $site->path = $val['path'];
+                    $site->template = $val['template'];
                     $site->tree_id = 0;
                     $site->domain_id = $domain->id;
                     $site->default_tree_id = $tree->id;

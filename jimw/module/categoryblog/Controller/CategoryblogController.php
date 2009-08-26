@@ -32,6 +32,7 @@ class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 		            ->join(array('t' => $trees->getRealTableName()),'t.tree_id = b.tree_parentid', array())
 		            ->where('t.tree_status = ?', Jimw_Site_Tree::PUBLISHED)
 		            ->where('t.module_path = ?', 'blog')
+		            ->where('b.blogmessage_date <= NOW()')
 		            ->order('b.blogmessage_date DESC')
 		            ->limit($tree->getParam('number', 10));
 		if (count($parent)) {
@@ -61,4 +62,3 @@ class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 		$this->render('blog/blog', null, true);
 	}
 }
-?>

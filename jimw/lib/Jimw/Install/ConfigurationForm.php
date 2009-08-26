@@ -15,6 +15,7 @@ class Jimw_Install_ConfigurationForm extends Zend_Form
         $database->addElement($database_type, 'type');
         $database_dbname = new Zend_Form_Element_Text('dbname');
         $database_dbname->setLabel('Name of database')->setRequired(true);
+        $database_dbname->setDescription("The database must exist");
         $database->addElement($database_dbname, 'dbname');
         $database_host = new Zend_Form_Element_Text('host');
         $database_host->setLabel('Hostname');
