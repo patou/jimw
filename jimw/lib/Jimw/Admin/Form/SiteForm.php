@@ -36,11 +36,17 @@ class Jimw_Admin_Form_SiteForm extends Jimw_Form
 		        'type' => 'text' ,
 		        'options' => array(
 			        'label' => 'Path' ,
-			        'required' => true)) ,
+			        'required' => true,
+                    'value' => ltrim(JIMW_URL_PUBLIC_PATH, '/').'/',
+                    'validators' => array(
+            			 new Jimw_Form_Validate_Directory(JIMW_ROOT, true)))) ,
 	        'site_template' => array(
-		        'type' => 'text' ,
+		        'type' => 'Template' ,
 		        'options' => array(
-		        	'label' => 'Template'))));
+		        	'label' => 'Template',
+                    'validators' => array(
+            			new Jimw_Form_Validate_Directory(JIMW_ROOT, true))
+        ))));
     }
 }
 ?>
