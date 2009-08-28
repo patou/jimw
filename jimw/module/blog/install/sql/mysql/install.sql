@@ -5,8 +5,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}blogcomment` (
   `blogcomment_username` varchar(127) NOT NULL default '',
   `blogcomment_content` text NOT NULL,
   `blogcomment_date` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`blogcomment_id`),
-  KEY `blogmessage_id` (`blogmessage_id`)
+  PRIMARY KEY  (`blogcomment_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `{PREFIX}blogmessage` (
@@ -19,7 +18,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}blogmessage` (
   `blogmessage_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `user_id` int(11) NOT NULL default '0',
   `blogmessage_comment` BOOL NOT NULL DEFAULT '1'
-  PRIMARY KEY  (`blogmessage_id`),
-  KEY `tree_parentid` (`tree_parentid`)
+  PRIMARY KEY  (`blogmessage_id`)
 );
 
