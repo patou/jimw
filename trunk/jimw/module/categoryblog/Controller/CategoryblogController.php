@@ -25,7 +25,8 @@ class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 		$tree = $request->getTree();
 		$parent = $tree->getParam('tree', $tree->id);
 		$trees = new Jimw_Site_Tree();
-		$parent = $trees->find($parent);
+		if ($parent)
+		    $parent = $trees->find($parent);
 		$blogMessage = new BlogMessage();
 
 		$select = $blogMessage->select()->from(array('b' => $blogMessage->getRealTableName()), '*')
