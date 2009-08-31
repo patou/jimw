@@ -23,7 +23,7 @@ class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 	{
 		$request = $this->_request;
 		$tree = $request->getTree();
-		$parent = $tree->getParam('tree', $tree->id);
+		$parent = $tree->param->tree;
 		$trees = new Jimw_Site_Tree();
 		if ($parent)
 		    $parent = $trees->find($parent);
@@ -36,7 +36,7 @@ class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 		            ->where('b.blogmessage_date <= NOW()')
 		            ->order('b.blogmessage_date DESC')
 		            ->limit($tree->getParam('number', 10));
-		if (count($parent)) {
+		if ($parent && count($parent)) {
 		    $parent = $parent->current();
 		    $select->where('t.tree_lft >= ?', $parent->lft)
 		           ->where('t.tree_rgt <= ? ', $parent->rgt);
