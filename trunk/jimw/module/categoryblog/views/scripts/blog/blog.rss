@@ -7,8 +7,7 @@ $tree = new Jimw_Site_Tree();
 foreach ($this->messages as $message) {
 	$date = new Zend_Date($message->date,Zend_Date::ISO_8601);
     $entries[] = array('title' => encode($message->title),
-                        'link' => 
-                        $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'format' => 'phtml', 'alias' => $message->tree_alias, 'mid' => $message->id), 'format')
+                        'link' => $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'format' => 'phtml', 'alias' => $message->tree_alias, 'mid' => $message->id), 'format'),
                         'description' => encode(' '.$this->teaser(preg_replace('/<.*?>/', '', (empty($message->header)?$message->content:$message->header)), 500)),
                         'content' => encode($message->content),
                         'category' => array(array('term' =>$message->tree_menutitle)),
