@@ -18,5 +18,6 @@
             'Header' => 'Introduction',
             'If you specified an header, it will be display on the first page without the content' => 'Si vous spécifiez une introduction, c\'est celle ci qui sera affiché en première page',
             'Enter the date with the format YYYY-MM-DD hh:mm:ss' => 'Entrez la date au format AAAA-MM-JJ hh:mm:ss',
-            'If you want to do a link to an another page on your website' => 'Si vous voulez faire un liens vers une autre page de votre site'
+            'If you want to do a link to an another page on your website' => 'Si vous voulez faire un liens vers une autre page de votre site',
+            'In' => 'Dans'
     );

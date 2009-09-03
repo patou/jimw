@@ -15,7 +15,7 @@
             <p><?php echo $message->content; ?></p>
          <?php endif; ?>
          <p class="post-footer align-right">
-                <?php echo $this->_('In'), '&nbsp;'; ?><a href="<?php echo $this->url(array('format' => 'phtml', 'alias' => $message->tree_alias), 'alias') ?>" class="readmore"><?php echo $messagetree->tree_menutitle; ?></a>
+                <?php echo $this->_('In'), '&nbsp;'; ?><a href="<?php echo $this->url(array('format' => 'phtml', 'alias' => $message->tree_alias), 'alias') ?>" class="readmore"><?php echo $message->tree_menutitle; ?></a>
          
           	    <?php if (!empty($message->header)): ?><a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'format' => 'phtml', 'alias' => $message->tree_alias, 'mid' => $message->id), 'format') ?>" class="readmore"><?php echo $this->_('Read more...'); ?></a><?php endif; ?>
           	    <?php if (!empty($message->tree_id)):
