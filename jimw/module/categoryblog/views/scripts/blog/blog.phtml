@@ -3,7 +3,7 @@
     <?php foreach ($this->messages as $message):
         $comments = $message->getFirstComments(10);
         $form = clone $this->form;
-        $form->setAction($this->view->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $message->tree_alias), 'format'));
+        $form->setAction($this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $message->tree_alias), 'format'));
         $form->populate(array('blogmessage_id' => $message->id))
      ?>
           <a name="<?php echo $message->id ?>"></a>
