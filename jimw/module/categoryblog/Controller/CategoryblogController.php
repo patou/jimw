@@ -30,7 +30,8 @@ class Categoryblog_CategoryblogController extends Jimw_Module_Action_Alias
 		$blogMessage = new BlogMessage();
 
 		$select = $blogMessage->select()->from(array('b' => $blogMessage->getRealTableName()), '*')
-		            ->join(array('t' => $trees->getRealTableName()),'t.tree_id = b.tree_parentid', array())
+		            ->join(array('t' => $trees->getRealTableName()),'t.tree_id = b.tree_parentid', array('t.tree_alias', 't.tree_menutitle'))
+		            ->setIntegrityCheck(false)
 		            ->where('t.tree_status = ?', Jimw_Site_Tree::PUBLISHED)
 		            ->where('t.module_path = ?', 'blog')
 		            ->where('b.blogmessage_date <= NOW()')
