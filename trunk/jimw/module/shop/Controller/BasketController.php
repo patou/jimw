@@ -60,35 +60,35 @@ class Shop_BasketController extends Jimw_Module_Action
 				}
 			}
 		}
-		$this->_redirect($this->view->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'show'), 'format', true));
+		$this->_redirect($this->view->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'index'), 'format', true));
 	}
 	
 	public function deletescoreAction() {
 		$basket = new Zend_Session_Namespace('Basket');
 		$request = $this->getRequest();
 		if (isset($basket->score[$request->id])) unset ($basket->score[$request->id]);
-		$this->_redirect($this->view->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'show'), 'format', true));
+		$this->_redirect($this->view->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'index'), 'format', true));
 	}
 	
 	public function deletealbumscoreAction() {
 		$basket = new Zend_Session_Namespace('Basket');
 		$request = $this->getRequest();
 		if (isset($basket->albumscore[$request->id])) unset ($basket->albumscore[$request->id]);
-		$this->_redirect($this->view->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'show'), 'format', true));
+		$this->_redirect($this->view->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'index'), 'format', true));
 	}
 	
 	public function deletemusicAction() {
 		$basket = new Zend_Session_Namespace('Basket');
 		$request = $this->getRequest();
 		if (isset($basket->music[$request->id])) unset ($basket->music[$request->id]);
-		$this->_redirect($this->view->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'show'), 'format', true));
+		$this->_redirect($this->view->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'index'), 'format', true));
 	}
 	
 	public function deletealbummusicAction() {
 		$basket = new Zend_Session_Namespace('Basket');
 		$request = $this->getRequest();
 		if (isset($basket->albummusic[$request->id])) unset ($basket->albummusic[$request->id]);
-		$this->_redirect($this->view->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'show'), 'format', true));
+		$this->_redirect($this->view->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'index'), 'format', true));
 	}
 	
 	private function _list() {
@@ -122,9 +122,9 @@ class Shop_BasketController extends Jimw_Module_Action
 		$this->view->albumscore = $albumscore;
 	}
 	
-	public function showAction() {
+	public function indexAction() {
 		$this->_list();
-		$this->render();
+		$this->render('show');
 	}
 
 	public function buyAction() {
