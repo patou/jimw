@@ -91,6 +91,7 @@ class Shop_DownloadController extends Jimw_Module_Action
 				if ($order->key == $request->key && $order->paid == '1') {
 					$content = unserialize($order->content);
 					if (isset($content['score'][$id])) {
+					  print_r($content);
 						$content['score'][$id] += 1;
 						$order->content = serialize($content);
 						$order->save();
