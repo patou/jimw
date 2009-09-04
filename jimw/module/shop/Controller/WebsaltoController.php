@@ -108,10 +108,6 @@ class Shop_WebsaltoController extends Jimw_Module_Action
 				$item->paid = '0';
 				$item->key = $basketid;
 				$id = $item->save();
-				//$id = Jimw_Db_Table::getDefaultAdapter()->lastInsertId();
-				//$this->view->item = $item;
-				//$this->view->orderid = $id;
-				//$this->render();
 
 				$page = file_get_contents('http://office.mej.fr:8080/scripts/mgrqcgi.exe?APPNAME=WEB_SALTO&PRGNAME=Continuer_Ouvrage&ARGUMENTS=-N'.$basketid.',-AFin,-A');
 				if (preg_match('/NAME=DATA VALUE="([a-zA-Z0-9]+)"/', $page, $matches)) {
