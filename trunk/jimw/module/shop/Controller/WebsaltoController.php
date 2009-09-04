@@ -124,7 +124,10 @@ class Shop_WebsaltoController extends Jimw_Module_Action
 	}
 	
 	public function downloadAction() {
-		$basketid = (int)$this->getRequest()->basketid;
+		$temp = $this->getRequest()->basketid;
+		if (preg_match('/^\d+-WEB-(\d+)$/', $temp, $matches)) $basketid = $matches[1];
+		else $basketid = (int)$temp;
+		$name = $this->getRequest()->name;
 		$page = file_get_contents('http://office.mej.fr:8081/websalto/basket_content.php?basket_id='.$basketid);
 		if ($page != '') {
 			// La référence existe
@@ -135,14 +138,22 @@ class Shop_WebsaltoController extends Jimw_Module_Action
 			$order = $ordermodel->fetchRow($ordermodel->select()->where('shopsongorder_key = ?', $basketid));
 			if ($order) {
 				// Commande trouvée
-				if ($xmlarticles['paid'] == '1')
+				if ($xmlarticles['paid'] == '1') {
 					$order->paid = '1';
+					$order->save();
+				}
+				// Saisie du nom de famille
+				if (strtolower($order->name) != strtolower($name)) {
+					$this->view->basketid = $basketid;
+					$this->render('entername');
+				} else {
+					$this->_forward('list', 'download', null, array('id' => $order->id, 'key' => $order->key));
+				}
 				//$content = array();
-				if (count(unserialize($order->content)) == 0) {
+				/*if (count(unserialize($order->content)) == 0) {
 					// Articles pas encore référencés
 				}
-				$order->save();
-				$this->_forward('list', 'download', null, array('id' => $order->id, 'key' => $order->key));
+				$order->save();*/
 			} else {
 				$this->render('notfound');
 			}
