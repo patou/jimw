@@ -265,6 +265,11 @@
 <p>Prénom : <input type="text" name="firstname" maxlength="30" /></p>
 <?php endif; ?>
 <p>Email : <input type="text" name="email" /><small> (pour recevoir les partitions)</small></p>
+<p>Mode de paiement : 
+  <input type="radio" name="paymentmode" value="CB" id="CB" /> <label for="CB"><img src="<?php echo $this->path; ?>/shop/cb.gif" border="0" /></label>
+  &nbsp; <input type="radio" name="paymentmode" value="VISA" id="VISA" checked="checked" /> <label for="VISA"><img src="<?php echo $this->path; ?>/shop/visa.gif" border="0" /></label>
+  &nbsp; <input type="radio" name="paymentmode" value="MASTERCARD" id="MASTERCARD" /> <label for="MASTERCARD"><img src="<?php echo $this->path; ?>/shop/mastercard.gif" border="0" /></label>
+</p>
 <input type="submit" value="Confirmer et payer en ligne" />
 </form>
 <?php endif; ?>

@@ -4,7 +4,7 @@
 <p>Votre panier est vide.</p>
 <?php else: ?>
 <?php $sum = 0; $readonly = false; ?>
-<form method="post" action="<?php echo $this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'buy'), 'format', true); ?>">
+<form method="get" action="<?php echo $this->url(array('module' => 'shop', 'controller' => 'basket', 'action' => 'buy'), 'format', true); ?>">
 <?php include_once('list.phtml'); ?>
 <p>Total : <b><?php echo $sum ?> &euro;</b></p>
 <?php if ($this->websalto): ?>
