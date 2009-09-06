@@ -41,30 +41,59 @@ abstract class Jimw_Admin_Action extends Zym_Controller_Action_Abstract
      * @param string $local
      * @return string
      */
-    public function _($messageId)
+    protected function _ ($messageId)
     {
         $options = func_get_args();
-        return call_user_func_array(array($this->view->translate(), 'translate'), $options);
+        return call_user_func_array(array($this->view->translate() , 'translate'), $options);
     }
-
+    /**
+     * Get the ACL
+     * @return Jimw_Acl
+     */
+    protected function getAcl ()
+    {
+        if ($this->_auth == null) {
+            $this->_auth = Zend_Registry::get('Zend_Acl');
+        }
+        return $this->_auth;
+    }
     /**
      * Check if the current user is allowed to access to this ressource and privilege
      *
      */
-    public function isRoleAllowed($resource = null, $privilege = null) {
-        if ($this->_auth == null) {
-            $this->_auth = Zend_Registry::get('Zend_Acl');
-        }
-        return ($this->_auth != null) ? $this->_auth->isRoleAllowed($resource, $privilege) : false;
+    protected function isRoleAllowed ($resource = null, $privilege = null)
+    {
+        $acl = $this->getAcl();
+        return ($acl != null) ? $acl->isRoleAllowed($resource, $privilege) : false;
     }
     /**
      * @var Jimw_Acl
      */
     protected $_auth = null;
-
-    public function checkRoleAllowed($resource = null, $privilege = null) {
-        if (!$this->isRoleAllowed($resource, $privilege)) {
+    /**
+     * Check if the ressource is allowed for the given privilege
+     * @param $resource
+     * @param $privilege
+     * @throw Jimw_Acl_Exception if the role isn't allowed
+     * @return void
+     */
+    protected function checkRoleAllowed ($resource = null, $privilege = null)
+    {
+        if (! $this->isRoleAllowed($resource, $privilege)) {
             throw new Jimw_Acl_Exception();
         }
+    }
+    /**
+     * 
+     * @return array
+     */
+    protected function getUser ()
+    {
+        $auth = Zend_Auth::getInstance();
+        if ($auth->hasIdentity()) {
+            $identity = $auth->getIdentity();
+            return $identity;
+        }
+        return null;        
     }
 }

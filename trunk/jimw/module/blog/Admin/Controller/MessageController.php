@@ -132,6 +132,8 @@ class Blog_MessageController extends Jimw_Admin_Action
 			$message->comment = $values['blogmessage_comment'];
 			$message->date = $values['blogmessage_date'];
 			$message->tree_id = $values['tree_id'];
+			$user = $this->getUser();
+			$message->user_id = $user->user_id;
 			$message->save ();
 			$this->_helper->getHelper('FlashMessenger')->addMessage ('Save successful');
 			$this->_redirect($this->view->url(array('action'=>'edit', 'controller' => 'tree', 'module' => 'default', 'id' => $message->tree_parentid), 'format', true), array('prependBase' => false));
