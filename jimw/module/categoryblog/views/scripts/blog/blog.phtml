@@ -15,6 +15,14 @@
             <p><?php echo $message->content; ?></p>
          <?php endif; ?>
          <p class="post-footer align-right">
+                <?php
+          	    if (!empty($message->user_id)) {
+          	        $users = $user_table->find($message->user_id);
+          	        if (count($users)) {
+          	            $user = $users->current();
+          	            echo $this->_('By'), '&nbsp;', $user->firstname, ' ', $user->lastname;
+          	        } 
+          	    }?>
                 <?php echo $this->_('In'), '&nbsp;'; ?><a href="<?php echo $this->url(array('format' => 'phtml', 'alias' => $message->tree_alias), 'alias') ?>" class="readmore"><?php echo $message->tree_menutitle; ?></a>
          
           	    <?php if (!empty($message->header)): ?><a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'format' => 'phtml', 'alias' => $message->tree_alias, 'mid' => $message->id), 'format') ?>" class="readmore"><?php echo $this->_('Read more...'); ?></a><?php endif; ?>

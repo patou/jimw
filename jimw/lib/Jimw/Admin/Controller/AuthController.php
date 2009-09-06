@@ -33,7 +33,7 @@ class AuthController extends Jimw_Admin_Action
                 $authAdapter->setCredentialColumn('user_password');
                 //$authAdapter->setCredentialTreatment('MD5(?)');
                 // Set the input credential values to authenticate against
-                Jimw_Debug::dump($values);
+                //Jimw_Debug::dump($values);
                 $md5 = md5($values['password']);
                 $authAdapter->setIdentity($values['login']);
                 $authAdapter->setCredential($md5);

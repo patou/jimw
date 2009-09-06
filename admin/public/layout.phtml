@@ -35,7 +35,7 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 		<?php
         if ($this->hasAuth()) {
     		$auth = Zend_Auth::getInstance();
-    		$user = $auth->getStorage()->read();
+    		$user = $auth->getIdentity();
     		echo $this->_('Hello'), ' ', $user->user_firstname, ' ', $user->user_lastname;
         }
 		 ?>&nbsp;<a href="<?php echo $this->url(array('controller' => 'auth', 'action' => 'logout', 'format' => 'phtml'), 'format', true) ?>"><?php echo $this->_('Logout'); ?></a></div>
