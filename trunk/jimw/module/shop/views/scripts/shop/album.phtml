@@ -46,8 +46,11 @@ foreach ($this->albums as $album) {
   
   foreach ($songs as $song) {
     // Song title
-    echo "<tr><td>".$song->title;
-    if ($song->artist != '') echo " (".$song->artist.")";
+    echo "<tr><td style=\"line-height: 100%;\">".$song->title;
+    //if ($song->artist != '') echo " (".$song->artist.")";
+    if ($song->artist != '' || $song->editor != '') {
+      echo '<br /><span style="font-size: 0.8em; color: #BBB;">&nbsp; &nbsp; '.$song->artist.($song->editor == '' ? '' : ' &copy; '.$song->editor).'</span>';
+    }
     echo "</td><td>";
     // Music checkbox
     if ($song->musicprice > 0) {
