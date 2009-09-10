@@ -1,6 +1,8 @@
 <?php echo (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
 <?php if (count($this->messages) > 0): ?>
-    <?php foreach ($this->messages as $message):
+    <?php 
+    $user_table = new Jimw_Site_User();
+    foreach ($this->messages as $message):
         $comments = $message->getFirstComments(10);
         $form = clone $this->form;
         $form->setAction($this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $message->tree_alias), 'format'));

@@ -1,7 +1,8 @@
 <?php echo (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
 <?php if (count($this->messages) > 0): ?>
-    <?php foreach ($this->messages as $message):
-        $user_table = new Jimw_Site_User();
+    <?php 
+    $user_table = new Jimw_Site_User();
+    foreach ($this->messages as $message):
         $comments = $message->getFirstComments(10);
         $form = clone $this->form;
         $form->populate(array('blogmessage_id' => $message->id))
