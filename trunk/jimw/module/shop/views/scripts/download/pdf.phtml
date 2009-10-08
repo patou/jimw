@@ -1,0 +1,34 @@
+<?php
+$file = $this->site->path.'/shop/'.$this->file;
+
+if ($this->file != NULL) {
+  if (file_exists($file)) {
+    $tempfile = JIMW_REP_CACHE.'jimw/temp.png';
+    $tab = explode('/', $this->file);
+    $filename = @$tab[count($tab)-1];
+    $pdf = Zend_Pdf::load($file);
+    $text = 'Cette partition est la propriété exclusive de '.$this->order->firstname.' '.$this->order->name.' ('.$this->order->email.')';
+    $img = imagecreatetruecolor(17, 800);
+    imagefill($img, 0, 0, imagecolorallocate($img, 255, 255, 255));
+    imagestringup($img, 3, 2, 795, utf8_decode($text), imagecolorallocate($img, 0, 0, 0));
+    imagetruecolortopalette($img, false, 2);
+    imagepng($img, $tempfile);
+    imagedestroy($img);
+    $pdfimage = Zend_Pdf_Image::imageWithPath($tempfile);
+    foreach ($pdf->pages as $page) {
+      $page->drawImage($pdfimage, 20, 40, 37, 940);
+      //$page->setFont(Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_COURIER_BOLD), 10);
+      //$page->drawText($text, 30, 820, 'UTF-8');
+    }
+    unlink('temp.png');
+    $content = $pdf->render();
+    header ('Content-Type: application/pdf');
+    header ('Content-Length: '.strlen($content));
+    header ('Content-Disposition: attachment; filename='.$filename);
+    echo $content;
+  } else {
+    echo '<h2>Erreur</h2>';
+    echo '<p>Fichier introuvable. Veuillez contacter le responsable de la boutique.</p>';
+  }
+}
+?>
