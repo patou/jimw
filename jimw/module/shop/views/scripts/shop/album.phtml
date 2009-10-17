@@ -33,8 +33,8 @@ foreach ($this->albums as $album) {
   echo "<td><h2>".$album->title."</h2>\n";
   echo "<h4>Artiste : ".$album->artist."<br />".
        "Editeur : ".$album->editor."<br />".
-       "Année : ".$album->year."</h4>".
-       "<br style=\"clear: both\" /></td><td>";
+       "Année : ".$album->year."</h4>";
+  echo "<br />".$this->tree->description."</td><td>";
   
   if ($album->musicprice > 0) {
     echo "<img src=\"".$this->path."/shop/albummusic.png\" alt=\"Fichiers MP3\" title=\"Fichiers MP3\" /> ";
