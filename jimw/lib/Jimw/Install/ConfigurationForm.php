@@ -1,5 +1,5 @@
 <?php
-class Jimw_Install_ConfigurationForm extends Zend_Form
+class Jimw_Install_ConfigurationForm extends Jimw_Form
 {
     public function __construct ($option = null)
     {

@@ -1,5 +1,5 @@
 <?php
-class Jimw_Install_SiteCreateForm extends Zend_Form
+class Jimw_Install_SiteCreateForm extends Jimw_Form
 {
     public function __construct ($option = null)
     {
@@ -45,7 +45,7 @@ class Jimw_Install_SiteCreateForm extends Zend_Form
         $option_path->setValue(ltrim(JIMW_URL_PUBLIC_PATH, '/'));
         $option_path->addValidator(new Jimw_Form_Validate_Directory(JIMW_ROOT, true));
         $this->addElement($option_path, 'path');
-        $option_template = new Zend_Form_Element_Template('template');
+        $option_template = new Jimw_Form_Element_Template('template');
         $option_template->setLabel('Template');
         $option_template->setDescription('Enter the public repository for this website');
         $option_template->addValidator(new Jimw_Form_Validate_Directory(JIMW_ROOT, false));
