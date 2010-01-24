@@ -73,6 +73,10 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
         return $this->_hrefCache = $url;
 	}
 	
+	public function getAlias() {
+	     return $this->getTree()->alias;   
+	}
+	
 	/**
 	 * @see Zend_Navigation_Page::getActive()
 	 *
@@ -197,7 +201,7 @@ class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
     }
     
     public function __call($method, array $arguments) {
-    	if (strpos($name, 'find') === 0)
+    	if (strpos($name, 'find') === false)
     		return parent::__call($method, $arguments);
     	return call_user_func_array(array($this->tree,$method), $arguments);	
     }
