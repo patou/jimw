@@ -13,20 +13,32 @@ echo $message . '<br />'; ?>
     $item = 0;
     $list = new RecursiveIteratorIterator($this->list_tree, RecursiveIteratorIterator::SELF_FIRST);
 ?>
-<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
-<img src="<?php echo $this->path ?>/images/icons/page_white_add.png" border="0" class="absmiddle" />
-<?php echo $this->_('Add new page') ?></a> &nbsp;
-<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'closeAll' => 1), 'format', true); ?>" title="<?php echo $this->_('Collapse all'); ?>">
-<img src="<?php echo $this->path ?>/images/icons/collapse-all.gif" border="0" class="absmiddle" />
-<?php echo $this->_('Collapse all'); ?></a> &nbsp;
-<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'expandAll' => 1), 'format', true); ?>" title="<?php echo $this->_('Expand all'); ?>">
-<img src="<?php echo $this->path ?>/images/icons/expand-all.gif" border="0" class="absmiddle" />
+<a
+	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
+<img src="<?php echo $this->path ?>/images/icons/page_white_add.png"
+	border="0" class="absmiddle" />
+<?php echo $this->_('Add new page') ?></a> &nbsp; <a
+	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'closeAll' => 1), 'format', true); ?>"
+	title="<?php echo $this->_('Collapse all'); ?>"> <img
+	src="<?php echo $this->path ?>/images/icons/collapse-all.gif"
+	border="0" class="absmiddle" />
+<?php echo $this->_('Collapse all'); ?></a> &nbsp; <a
+	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'expandAll' => 1), 'format', true); ?>"
+	title="<?php echo $this->_('Expand all'); ?>"> <img
+	src="<?php echo $this->path ?>/images/icons/expand-all.gif" border="0"
+	class="absmiddle" />
 <?php echo $this->_('Expand all'); ?></a>
 <table width="100%" cellspacing="0" cellpadding="0" class="list">
-<thead>
-<tr><th width="20px"><img src="<?php echo $this->path ?>/images/icons/page_white_stack.png" border="0" class="absmiddle" /></th><th width="80%"><?php echo $this->_('Pages') ?></th><th align="right"><?php echo $this->_('Action') ?></th>
-</thead>
-<tbody>
+	<thead>
+		<tr>
+			<th width="20px"><img
+				src="<?php echo $this->path ?>/images/icons/page_white_stack.png"
+				border="0" class="absmiddle" /></th>
+			<th width="80%"><?php echo $this->_('Pages') ?></th>
+			<th align="right"><?php echo $this->_('Action') ?></th>
+	
+	</thead>
+	<tbody>
 <?php
 	$path = $this->path;
     $baseurl = $this->request->getBaseUrl();
@@ -72,16 +84,15 @@ echo $message . '<br />'; ?>
 		$isLast = (($parent != null && $parent->rgt - 1 == $tree->rgt) || ($parent == null && ++$counter == $count));
 		
 		?>
-		<?php if ($tree->status < 0): ?>
-			<tr class="tree_deleted">
-		<?php elseif ($this->site->id != $tree->site_id):
+		
+		<?php if ($this->site->id != $tree->site_id):
 			$closed[$tree->lft] = $tree->rgt;
 			$site = $tree->findParentJimw_Site_Site();
 			$url = $this->url(array('site' => $site->id));
 		?>
-			<tr class="tree_not_site">
-				<td><a href="#" onclick="return false;" title="<?php echo $this->_($statuslist[$tree->status]) ?>" style="color: <?php echo $colorlist[$tree->status] ?>; text-decoration: none;"><?php echo $tree->id?></a></td>
-				<td style="padding-left: 0px;">
+			<tr class="<?php echo ($tree->status < 0) ? "tree_deleted" : "tree_not_site" ?>">
+			<td><a href="#" onclick="return false;" title="<?php echo $this->_($statuslist[$tree->status]) ?>" style="color: <?php echo $colorlist[$tree->status] ?>; text-decoration: none;"><?php echo $tree->id?></a></td>
+			<td style="padding-left: 0px;">
 				<?php  
 				 $out = '';
 				 $level_parent = $parent;
@@ -93,7 +104,9 @@ echo $message . '<br />'; ?>
 		         }
 		         echo $out;
 				?>
-				<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'site' => $site->id), 'format', true); ?>" class="no_decoration"  title="<?php echo $this->_('View site'); ?>">
+				<a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'site' => $site->id), 'format', true); ?>"
+				class="no_decoration" title="<?php echo $this->_('View site'); ?>">
 				<?php 
 				if ($tree->hasChildren()) {
 				 	echo '<img src="' . $path . '/images/icons/'.(!$isLast ? 'elbow-plus' : 'elbow-end-plus').'.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />';
@@ -102,48 +115,67 @@ echo $message . '<br />'; ?>
 				 	echo '<img src="' . $path . '/images/icons/'.(!$isLast ? 'elbow' : 'elbow-end').'.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />';
 				}
 		        ?>
-				<img src="<?php echo $path ?>/images/icons/world.png" width="16" height="16" alt="<?php echo $this->_('View site'); ?>" title="<?php echo $this->_('View site'); ?>" border="0" class="absmiddle" />
+				<img src="<?php echo $path ?>/images/icons/world.png" width="16"
+				height="16" alt="<?php echo $this->_('View site'); ?>"
+				title="<?php echo $this->_('View site'); ?>" border="0"
+				class="absmiddle" />
 				<?php 
 					echo $site->name;
 				?>
-				</a>
-				</td>
-				<td align="right">
-				    <a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'edit', 'format' => 'phtml', 'id' => $site->id, 'site' => $site->id), 'format', true); ?>">
-                <img src="<?php echo $path ?>/images/icons/application_edit.png" width="16" height="16" alt="<?php echo $this->_('Edit site'); ?>" title="<?php echo $this->_('Edit page'); ?>" border="0" class="absmiddle" /></a>
-                <a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'delete', 'format' => 'phtml', 'id' => $site->id, 'site' => $site->id), 'format', true); ?>" onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this site ?')); ?>');">
-                <img src="<?php echo $path ?>/images/icons/application_delete.png" width="16" height="16" alt="<?php echo $this->_('Delete'); ?>" title="<?php echo $this->_('Delete'); ?>" border="0" class="absmiddle" /></a>
+				</a></td>
+			<td align="right"><a
+				href="<?php echo $this->url(array('controller' => 'site', 'action' => 'edit', 'format' => 'phtml', 'id' => $site->id, 'site' => $site->id), 'format', true); ?>">
+			<img src="<?php echo $path ?>/images/icons/application_edit.png"
+				width="16" height="16" alt="<?php echo $this->_('Edit site'); ?>"
+				title="<?php echo $this->_('Edit page'); ?>" border="0"
+				class="absmiddle" /></a> <a
+				href="<?php echo $this->url(array('controller' => 'site', 'action' => 'delete', 'format' => 'phtml', 'id' => $site->id, 'site' => $site->id), 'format', true); ?>"
+				onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this site ?')); ?>');">
+			<img src="<?php echo $path ?>/images/icons/application_delete.png"
+				width="16" height="16" alt="<?php echo $this->_('Delete'); ?>"
+				title="<?php echo $this->_('Delete'); ?>" border="0"
+				class="absmiddle" /></a>
                 <?php 
                     if (!$isBegin && $tree->status >= 0) {
                 ?>
-                    <a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>">
-                    <img src="<?php echo $path ?>/images/icons/arrow_up.png" width="16" height="16" alt="<?php echo $this->_('Move Up'); ?>" title="<?php echo $this->_('Move Up'); ?>"  border="0" class="absmiddle" /></a>
+                    <a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>">
+			<img src="<?php echo $path ?>/images/icons/arrow_up.png" width="16"
+				height="16" alt="<?php echo $this->_('Move Up'); ?>"
+				title="<?php echo $this->_('Move Up'); ?>" border="0"
+				class="absmiddle" /></a>
                 <?php 
                     }
                     else {
                 ?>
-                    <img src="<?php echo $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
+                    <img src="<?php echo $path ?>/images/px1.gif"
+				width="16" height="1" alt="" border="0" class="absmiddle" />
                 <?php 
                     }
                     if (!$isEnd && $tree->status >= 0) {
                 ?>
-                    <a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>">
-                    <img src="<?php echo $path ?>/images/icons/arrow_down.png" width="16" height="16" alt="<?php echo $this->_('Move Down'); ?>" title="<?php echo $this->_('Move Down'); ?>"  border="0" class="absmiddle" /></a>
+                    <a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'format' => 'phtml', 'id' => $tree->id), 'format', true); ?>">
+			<img src="<?php echo $path ?>/images/icons/arrow_down.png" width="16"
+				height="16" alt="<?php echo $this->_('Move Down'); ?>"
+				title="<?php echo $this->_('Move Down'); ?>" border="0"
+				class="absmiddle" /></a>
                 <?php 
                     }
                     else {
                 ?>
-                    <img src="<?php echo $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
+                    <img src="<?php echo $path ?>/images/px1.gif"
+				width="16" height="1" alt="" border="0" class="absmiddle" />
                 <?php 
                     }
                 ?>
 				</td>
-			</tr>
+		</tr>
 		<?php else: ?>
 			<tr class="tree_site">
-		
-			 <td><a href="#" onclick="return false;" title="<?php echo $this->_($statuslist[$tree->status]) ?>" style="color: <?php echo $colorlist[$tree->status] ?>; text-decoration: none;"><?php echo $tree->id?></a></td>
-				<td>
+
+			<td><a href="#" onclick="return false;" title="<?php echo $this->_($statuslist[$tree->status]) ?>" style="color: <?php echo $colorlist[$tree->status] ?>; text-decoration: none;"><?php echo $tree->id?></a></td>
+			<td>
 				<?php  
 				 $level_parent = $parent;
 				 $out = '';
@@ -157,15 +189,21 @@ echo $message . '<br />'; ?>
 		         if ($tree->hasChildren()) {
 				 	if ($isClosed):
 						?>
-						<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'open' => $tree->id), 'format', true); ?>" class="no_decoration"  title="<?php echo $this->_('Open'); ?>">
-						<img src="<?php echo $path; ?>/images/icons/<?php echo (!$isLast ? 'elbow-plus' : 'elbow-end-plus') ?>.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />
-						</a>
+						<a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'open' => $tree->id), 'format', true); ?>"
+				class="no_decoration" title="<?php echo $this->_('Open'); ?>"> <img
+				src="<?php echo $path; ?>/images/icons/<?php echo (!$isLast ? 'elbow-plus' : 'elbow-end-plus') ?>.png"
+				width="16" height="16" alt="" title="" border="0" class="absmiddle" />
+			</a>
 						<?php
 					else:
 						?>
-						<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'close' => $tree->id), 'format', true); ?>" class="no_decoration"  title="<?php echo $this->_('Close'); ?>">
-						<img src="<?php echo $path; ?>/images/icons/<?php echo (!$isLast ? 'elbow-minus' : 'elbow-end-minus') ?>.png" width="16" height="16" alt="" title="" border="0" class="absmiddle" />
-						</a>
+						<a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'close' => $tree->id), 'format', true); ?>"
+				class="no_decoration" title="<?php echo $this->_('Close'); ?>"> <img
+				src="<?php echo $path; ?>/images/icons/<?php echo (!$isLast ? 'elbow-minus' : 'elbow-end-minus') ?>.png"
+				width="16" height="16" alt="" title="" border="0" class="absmiddle" />
+			</a>
 						<?php
 					endif;
 				 }
@@ -175,62 +213,105 @@ echo $message . '<br />'; ?>
 				 
 				?>
 				<?php echo $this->moduleIcon($tree->module_path); ?>
-				<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'edit', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>" class="no_decoration"  title="<?php echo $this->_('Edit page'); ?>"><?php echo $tree->menutitle?></a>
-				&nbsp;(<a href="<?php echo $this->url(array('alias' => $tree->alias, 'site' => $tree->site_id), 'alias', true, false); ?>" target="_new" class="no_decoration external" title="<?php echo $this->_('View live page'); ?>"><?php echo $tree->alias?></a>
+				<a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'edit', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>"
+				class="no_decoration" title="<?php echo $this->_('Edit page'); ?>"><?php echo $tree->menutitle?></a>
+			&nbsp;(<a
+				href="<?php echo $this->url(array('alias' => $tree->alias, 'site' => $tree->site_id), 'alias', true, false); ?>"
+				target="_new" class="no_decoration external"
+				title="<?php echo $this->_('View live page'); ?>"><?php echo $tree->alias?></a>
 				<?php echo ((JIMW_DEBUG_MODE) ? $tree->lft .' : '. $tree->rgt. ' = '.$tree->site_id : '' )?>
 				)
 				<?php if ($this->site->default_tree_id == $tree->id): ?>
-				<img src="<?php echo $path ?>/images/icons/page_white_star.png" width="16" height="16" alt="<?php echo $this->_('Default page'); ?>" title="<?php echo $this->_('Default page'); ?>" border="0" class="absmiddle" />
+				<img src="<?php echo $path ?>/images/icons/page_white_star.png"
+				width="16" height="16" alt="<?php echo $this->_('Default page'); ?>"
+				title="<?php echo $this->_('Default page'); ?>" border="0"
+				class="absmiddle" />
 				<?php endif; ?>
 				</td>
-				<td align="right"><a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'edit', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
-				<img src="<?php echo $path ?>/images/icons/page_white_edit.png" width="16" height="16" alt="<?php echo $this->_('Edit page'); ?>" title="<?php echo $this->_('Edit page'); ?>" border="0" class="absmiddle" /></a>
+			<td align="right"><a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'edit', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+			<img src="<?php echo $path ?>/images/icons/page_white_edit.png"
+				width="16" height="16" alt="<?php echo $this->_('Edit page'); ?>"
+				title="<?php echo $this->_('Edit page'); ?>" border="0"
+				class="absmiddle" /></a>
 				<?php 
 					if ($tree->status >= 0):
 						if ($tree->status != Jimw_Site_Tree::ARCHIVED):
 					?>
-					<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'archive', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
-					<img src="<?php echo $path ?>/images/icons/page_white_zip.png" width="16" height="16" alt="<?php echo $this->_('Archive'); ?>" title="<?php echo $this->_('Archive'); ?>" border="0" class="absmiddle" /></a>
+					<a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'archive', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+			<img src="<?php echo $path ?>/images/icons/page_white_zip.png"
+				width="16" height="16" alt="<?php echo $this->_('Archive'); ?>"
+				title="<?php echo $this->_('Archive'); ?>" border="0"
+				class="absmiddle" /></a>
 					<?php elseif ($tree->status != Jimw_Site_Tree::PUBLISHED):	?>
-					<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'publish', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
-					<img src="<?php echo $path ?>/images/icons/page_white_medal.png" width="16" height="16" alt="<?php echo $this->_('Publish'); ?>" title="<?php echo $this->_('Publish'); ?>" border="0" class="absmiddle" /></a>
+					<a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'publish', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+			<img src="<?php echo $path ?>/images/icons/page_white_medal.png"
+				width="16" height="16" alt="<?php echo $this->_('Publish'); ?>"
+				title="<?php echo $this->_('Publish'); ?>" border="0"
+				class="absmiddle" /></a>
 					<?php endif; ?>
-				<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>" onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to move this Page to the trash ?')); ?>');">
-				<img src="<?php echo $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="<?php echo $this->_('Delete'); ?>" title="<?php echo $this->_('Delete'); ?>" border="0" class="absmiddle" /></a>
+				<a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>"
+				onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to move this Page to the trash ?')); ?>');">
+			<img src="<?php echo $path ?>/images/icons/page_white_delete.png"
+				width="16" height="16" alt="<?php echo $this->_('Delete'); ?>"
+				title="<?php echo $this->_('Delete'); ?>" border="0"
+				class="absmiddle" /></a>
 				<?php 
 				    else:
 			    ?>
-				<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'restore', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
-				<img src="<?php echo $path ?>/images/icons/page_white_go.png" width="16" height="16" alt="<?php echo $this->_('Restore'); ?>" title="<?php echo $this->_('Restore'); ?>" border="0" class="absmiddle" /></a>
-				<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>" onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Page ?')); ?>');">
-				<img src="<?php echo $path ?>/images/icons/page_white_delete.png" width="16" height="16" alt="<?php echo $this->_('Delete'); ?>" title="<?php echo $this->_('Delete'); ?>" border="0" class="absmiddle" /></a>
+				<a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'restore', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+			<img src="<?php echo $path ?>/images/icons/page_white_go.png"
+				width="16" height="16" alt="<?php echo $this->_('Restore'); ?>"
+				title="<?php echo $this->_('Restore'); ?>" border="0"
+				class="absmiddle" /></a> <a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'delete', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>"
+				onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete this Page ?')); ?>');">
+			<img src="<?php echo $path ?>/images/icons/page_white_delete.png"
+				width="16" height="16" alt="<?php echo $this->_('Delete'); ?>"
+				title="<?php echo $this->_('Delete'); ?>" border="0"
+				class="absmiddle" /></a>
 				<?php 
 				    endif;
 					if (!$isFirst && $tree->status >= 0) {
 				?>
-					<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
-					<img src="<?php echo $path ?>/images/icons/arrow_up.png" width="16" height="16" alt="<?php echo $this->_('Move Up'); ?>" title="<?php echo $this->_('Move Up'); ?>"  border="0" class="absmiddle" /></a>
+					<a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'up', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+			<img src="<?php echo $path ?>/images/icons/arrow_up.png" width="16"
+				height="16" alt="<?php echo $this->_('Move Up'); ?>"
+				title="<?php echo $this->_('Move Up'); ?>" border="0"
+				class="absmiddle" /></a>
 				<?php 
 					}
 					else {
 				?>
-					<img src="<?php echo $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
+					<img src="<?php echo $path ?>/images/px1.gif" width="16" height="1"
+				alt="" border="0" class="absmiddle" />
 				<?php 
 					}
 					if (!$isLast && $tree->status >= 0) {
 				?>
-					<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
-					<img src="<?php echo $path ?>/images/icons/arrow_down.png" width="16" height="16" alt="<?php echo $this->_('Move Down'); ?>" title="<?php echo $this->_('Move Down'); ?>"  border="0" class="absmiddle" /></a>
+					<a
+				href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'move', 'dir' => 'down', 'format' => 'phtml', 'id' => $tree->id, 'site' => $tree->site_id), 'format', true); ?>">
+			<img src="<?php echo $path ?>/images/icons/arrow_down.png" width="16"
+				height="16" alt="<?php echo $this->_('Move Down'); ?>"
+				title="<?php echo $this->_('Move Down'); ?>" border="0"
+				class="absmiddle" /></a>
 				<?php 
 					}
 					else {
 				?>
-					<img src="<?php echo $path ?>/images/px1.gif" width="16" height="1" alt="" border="0" class="absmiddle" />
+					<img src="<?php echo $path ?>/images/px1.gif" width="16" height="1"
+				alt="" border="0" class="absmiddle" />
 				<?php 
 					}
 				?>
 				</td>
-			</tr>
+		</tr>
 			<?php  endif; ?>
 		
 		<?php 
@@ -242,10 +323,19 @@ echo $message . '<br />'; ?>
 </table>
 <hr />
 <br />
-<p class="t01"><a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>"><img src="<?php echo $this->path ?>/images/icons/page_white_add.png" border="0" class="absmiddle" /><?php echo $this->_('Add new page') ?></a>&nbsp;&nbsp;
+<p class="t01"><a
+	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>"><img
+	src="<?php echo $this->path ?>/images/icons/page_white_add.png"
+	border="0" class="absmiddle" /><?php echo $this->_('Add new page') ?></a>&nbsp;&nbsp;
 <?php if ($this->getRequest()->getActionName() == 'trash'): ?>
-<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>"><img src="<?php echo $this->path ?>/images/icons/page_white_stack.png" border="0" class="absmiddle" /><?php echo $this->_('Pages') ?></a>
+<a
+	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>"><img
+	src="<?php echo $this->path ?>/images/icons/page_white_stack.png"
+	border="0" class="absmiddle" /><?php echo $this->_('Pages') ?></a>
 <?php else: ?>
-<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'trash', 'format' => 'phtml'), 'format', true); ?>"><img src="<?php echo $this->path ?>/images/icons/bin.png" border="0" class="absmiddle" /><?php echo $this->_('Trash') ?></a>
+<a
+	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'trash', 'format' => 'phtml'), 'format', true); ?>"><img
+	src="<?php echo $this->path ?>/images/icons/bin.png" border="0"
+	class="absmiddle" /><?php echo $this->_('Trash') ?></a>
 <?php endif; ?>
 </p>
