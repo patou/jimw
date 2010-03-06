@@ -109,6 +109,7 @@ return array(
     'Submit' => 'Envoyer',
     'Subscribe' => 'S\'inscrire',
     'System' => 'Système',
+    'Text' => 'Texte',
     'Title' => 'Titre',
     'Trash' => 'Corbeille',
     'Upload' => 'Envoyer un fichier',
