@@ -25,7 +25,7 @@ class Form_FormController extends Jimw_Module_Action_Alias
 		    else
 		        $config = new Zend_Config_Xml($form_file);
 
-		    Jimw_Debug::dump($config->toArray());
+		    //Jimw_Debug::dump($config->toArray());
 		}
 		else {
 		    //Default contact form
@@ -62,7 +62,11 @@ class Form_FormController extends Jimw_Module_Action_Alias
 	    $email = $tree->param->get('email', false);
 	    if ($email) {
 	        $mail = new Zend_Mail();
-	        $content = $this->view->partial($tree->param->get('email_text', 'form/mail.phtml'), null, $form->getValues());
+	        $email_text = $tree->param->get('email_text', 'form/mail.phtml');
+	        if (empty(trim($email_text))) {
+	        	$email_text = 'form/mail.phtml';
+	        }
+	        $content = $this->view->partial($email_text, null, $form->getValues());
 	        $pos = strpos($content, "\n");
 	        $subject = substr($content, 0, $pos);
 	        $content = substr($content, $pos);
