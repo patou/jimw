@@ -62,8 +62,8 @@ class Form_FormController extends Jimw_Module_Action_Alias
 	    $email = $tree->param->get('email', false);
 	    if ($email) {
 	        $mail = new Zend_Mail();
-	        $email_text = $tree->param->get('email_text', 'form/mail.phtml');
-	        if (empty(trim($email_text))) {
+	        $email_text = trim($tree->param->get('email_text', 'form/mail.phtml'));
+	        if (empty($email_text)) {
 	        	$email_text = 'form/mail.phtml';
 	        }
 	        $content = $this->view->partial($email_text, null, $form->getValues());
