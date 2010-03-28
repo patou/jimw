@@ -136,7 +136,7 @@ class Jimw_Site_Route_Module extends Zend_Controller_Router_Route_Module
         unset($params[$this->_extKey]);
         foreach ($params as $key => $value) {
             $url .= self::URI_DELIMITER . $key;
-            $url .= self::URI_DELIMITER . $value;
+            $url .= self::URI_DELIMITER . trim($value, self::URI_DELIMITER);
         }
         if (! empty($url) || $action !== $this->_defaults[$this->_actionKey]) {
             $url = self::URI_DELIMITER . $action . $url;
