@@ -15,6 +15,22 @@ include_once('Model/ShopSong.php');
 include_once('Model/ShopSongOrder.php');
 class Shop_DownloadController extends Jimw_Module_Action
 {
+	private static $tabext = array(
+	  'bz2' => 'application/x-bzip2',
+	  'chm' => 'application/vnd.ms-htmlhelp',
+	  'doc' => 'application/msword',
+	  'eps' => 'application/postscript',
+	  'jpg' => 'image/jpeg',
+	  'mid' => 'audio/midi',
+	  'mp3' => 'audio/mpeg',
+	  'ogg' => 'application/ogg',
+	  'pdf' => 'application/pdf',
+	  'pps' => 'application/vnd.ms-powerpoint',
+	  'ppt' => 'application/vnd.ms-powerpoint',
+	  'ps' => 'application/postscript',
+	  'rtf' => 'application/rtf',
+	  'zip' => 'application/zip');
+	
 	public function listAction() {
 		$ordermodel = new ShopSongOrder();
 		$albummodel = new ShopAlbum();
@@ -64,14 +80,16 @@ class Shop_DownloadController extends Jimw_Module_Action
 						$content['music'][$id] += 1;
 						$order->content = serialize($content);
 						$order->save();
-						$this->_helper->layout->disableLayout();
+						/*$this->_helper->layout->disableLayout();
 						$this->view->file = $song->musicfile;
-						$this->view->order = $order;
+						$this->view->order = $order;*/
+            if (!$this->renderfile($song->musicfile, $order))
+              $this->render('filenotfound');
 					}
 				}
 			}
 		}
-		$this->render('file');
+		//$this->render('file');
 	}
 
 	public function scoreAction() {
@@ -126,14 +144,16 @@ class Shop_DownloadController extends Jimw_Module_Action
 						$content['albummusic'][$id] += 1;
 						$order->content = serialize($content);
 						$order->save();
-						$this->_helper->layout->disableLayout();
+						/*$this->_helper->layout->disableLayout();
 						$this->view->file = $album->musicfile;
-						$this->view->order = $order;
+						$this->view->order = $order;*/
+            if (!$this->renderfile($album->musicfile, $order))
+              $this->render('filenotfound');
 					}
 				}
 			}
 		}
-		$this->render('file');
+		//$this->render('file');
 	}
 
 	public function albumscoreAction() {
@@ -165,6 +185,28 @@ class Shop_DownloadController extends Jimw_Module_Action
 			}
 		}
 		$this->render('pdf');
+	}
+
+	private function renderFile($filepath, $order) {
+		$file = $this->view->site->path.'/shop/'.$filepath;
+    $this->_helper->layout->disableLayout();
+    $this->_helper->viewRenderer->setNoRender();
+    if (file_exists($file)) {
+      $tab = explode('/', $filepath);
+      $filename = @$tab[count($tab)-1];
+      $tab = explode('.', $filename);
+      $ext = @$tab[count($tab)-1];
+      if (isset(self::$tabext[$ext])) {
+        header ('Content-Type: '.self::$tabext[$ext]);
+      } else {
+        header ('Content-Type: application/octet-stream');
+      }
+      header ('Content-Length: '.filesize($file));
+      header ('Content-Disposition: attachment; filename='.$filename);
+      readfile($file);
+      return true;
+    }
+    return false;
 	}
 
 }
