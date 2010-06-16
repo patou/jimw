@@ -108,7 +108,7 @@ class TreeController extends Jimw_Admin_Action
         $this->view->id = $id;
         $this->render('form');
         if ($result->status >= 0) {
-            $this->_helper->actionStack('edit', 'manage', $result->module_path, array('tree' => $result, 'id' => $id));
+            $this->_helper->actionStack('edit', 'manage', $result->module_path, array('tree' => $result, 'id' => $id, 'alias' => $result->alias));
             //$this->_forward('edit', 'manage', $result->module_path);
         }
     }
@@ -196,7 +196,7 @@ class TreeController extends Jimw_Admin_Action
             $result->delete();
             //TODO Delete the arborescence !
             $this->_helper->getHelper('FlashMessenger')->addMessage('Delete successful');
-            $this->_forward('delete', 'manage', $module_path);
+            $this->_forward('delete', 'manage', $module_path, array('tree' => $result, 'id' => $id, 'alias' => $tree->alias));
         }
         else {
             $result->status = Jimw_Site_Tree::DELETED;
