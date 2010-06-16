@@ -76,6 +76,7 @@ class Jimw_Admin_Controller extends Jimw_Controller
             if (file_exists($path .  '/lang')) { //Add Lang file
                 $this->translate->addTranslation($path . '/lang');
             }
+            Zend_Loader_Autoloader::getInstance()->registerNamespace($name.'_');
         }
     }
 
