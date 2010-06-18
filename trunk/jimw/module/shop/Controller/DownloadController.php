@@ -132,6 +132,7 @@ class Shop_DownloadController extends Jimw_Module_Action
 
 		$id = (int)$request->id;
 		$orderid = (int)$request->orderid;
+		$part = (int)$request->part;
 		if ($id > 0 && $orderid > 0) {
 			$orders = $ordermodel->find($orderid);
 			$albums = $albummodel->find($id);
@@ -144,11 +145,11 @@ class Shop_DownloadController extends Jimw_Module_Action
 						$content['albummusic'][$id] += 1;
 						$order->content = serialize($content);
 						$order->save();
-						/*$this->_helper->layout->disableLayout();
-						$this->view->file = $album->musicfile;
-						$this->view->order = $order;*/
-            if (!$this->renderfile($album->musicfile, $order))
-              $this->render('filenotfound');
+						$parts = explode('|',$album->musicfile);
+						$file = @$parts[$part];
+						if ($file == '' || !$this->renderfile($file, $order)) {
+							$this->render('filenotfound');
+						}
 					}
 				}
 			}
@@ -203,11 +204,18 @@ class Shop_DownloadController extends Jimw_Module_Action
       }
       header ('Content-Length: '.filesize($file));
       header ('Content-Disposition: attachment; filename='.$filename);
-      readfile($file);
+      if ($f = fopen($file, 'rb')) do {
+        //set_time_limit(0);
+        echo fread($f, 1024*1024);
+        //flush();
+        //ob_flush();
+      } while (!feof($f));
+      fclose($f);
+      //readfile($file);
       return true;
     }
     return false;
-	}
+  }
 
 }
 ?>
