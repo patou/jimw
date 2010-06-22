@@ -12,11 +12,12 @@ foreach ($this->albummusic as $album) {
 	$parts = explode('|', $album->musicfile);
 	if (count($parts) > 1) {
 		for ($i=0; $i<count($parts); $i++) {
-			echo " <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'download', 'action' => 'albummusic', 'orderid' => $this->order->id, 'key' => $this->order->key, 'id' => $album->id, 'part' => $i), 'format', true)."\">[Télécharger partie ".($i+1)."]</a><br />";
+			echo " <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'download', 'action' => 'albummusic', 'orderid' => $this->order->id, 'key' => $this->order->key, 'id' => $album->id, 'part' => $i), 'format', true)."\">[Télécharger partie ".($i+1)."]</a>";
 		}
 	} else {
-		echo " <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'download', 'action' => 'albummusic', 'orderid' => $this->order->id, 'key' => $this->order->key, 'id' => $album->id), 'format', true)."\">[Télécharger]</a><br />";
+		echo " <a href=\"".$this->url(array('module' => 'shop', 'controller' => 'download', 'action' => 'albummusic', 'orderid' => $this->order->id, 'key' => $this->order->key, 'id' => $album->id), 'format', true)."\">[Télécharger]</a>";
 	}
+	echo '<br />';
 }
 foreach ($this->music as $song) {
   echo "<img src=\"".$this->path."/shop/music.png\" alt=\"Fichier MP3\" title=\"Fichier MP3\" /> ";
