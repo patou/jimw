@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jimwModule>
+	<name>JIMW iframe</name>
+	<comment>Show a page into another</comment>
+	<version>1.0</version>
+	<author>Simon Leprince</author>
+	<icon>icon.png</icon><!-- Icon of the module (not works now) -->
+	<controllers><!-- List of controller can be used by a tree -->
+		<iframe><!-- Name of the controller -->
+			<name>iframe</name><!-- Readable name -->
+			<params><!-- Param form -->
+				<elements>
+					<url>
+						<type>text</type>
+						<options>
+							<label>Url</label>							
+						</options>
+					</url>
+					<width>
+						<type>text</type>
+						<options>
+							<label>Width</label>							
+						</options>
+					</width>
+					<height>
+						<type>text</type>
+						<options>
+							<label>Height</label>							
+						</options>
+					</height>
+				</elements>
+			</params>
+		</iframe>
+	</controllers>
+</jimwModule>
