@@ -10,6 +10,9 @@ class Jimw_Form_SubForm extends Zend_Form_SubForm
             ->addElementPrefixPath('Jimw_Form_Validate', 'Jimw/Form/Validate', 'validate')
             ->addElementPrefixPath('Jimw_Form_Filter', 'Jimw/Form/Filter', 'filter')
             ->addDisplayGroupPrefixPath('Jimw_Form_Decorator', 'Jimw/Form/Decorator');
+        $this->addDecorator('FormElements')
+                 ->addDecorator('HtmlTag', array('tag' => 'dl'))
+                 ->addDecorator('Fieldset');
         parent::__construct($config);
     }
 }

@@ -295,6 +295,27 @@ dd {
 	padding-left: 6px;
 }
 
+fieldset {
+	padding: 0px;
+	margin: 0px;
+	border: none;
+	clear: left;
+}
+
+fieldset legend{
+	font-weight: bold;
+}
+
+input, select {
+	min-width: 200px;
+}
+
+input[type="submit"], input[type="button"] {
+	padding: 2px 5px;
+	min-width: 0px;
+}
+
+
 .hint {
 	display: none;
 	position: absolute;
@@ -306,11 +327,12 @@ dd {
 	background: #ffc url(pointer.gif) no-repeat -100px -100px;
 }
 
-label.required {
-	text-decoration: underline;
-	background-image: url("/images/form_field_required.png");
-	background-repeat: no-repeat;
-	background-position: right top;
+.jimw-label-required-suffix {
+	color: red;
+}
+
+.jimw-element-error {
+	border-color: red;
 }
 
 .errors {
