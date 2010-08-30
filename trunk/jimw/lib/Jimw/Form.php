@@ -35,8 +35,33 @@ class Jimw_Form extends Zend_Form
             ->addElementPrefixPath('Jimw_Form_Validate', 'Jimw/Form/Validate', 'validate')
             ->addElementPrefixPath('Jimw_Form_Filter', 'Jimw/Form/Filter', 'filter')
             ->addDisplayGroupPrefixPath('Jimw_Form_Decorator', 'Jimw/Form/Decorator')
-            ->setMethod('POST');
+            ->setMethod('POST')
+            ->setDefaultDisplayGroupClass('Jimw_Form_DisplayGroup');
         parent::__construct($form);
+    }
+    
+    /**
+     * Render form
+     * 
+     * @param  Zend_View_Interface $view 
+     * @return string
+     */
+    public function render(Zend_View_Interface $view = null)
+    {
+       foreach ($this->getElements() as $element) {
+           /** @var Zend_Form_Element element */
+            $labelDecorator = $element->getDecorator('Label');
+            if ($labelDecorator) {
+                $labelDecorator->setRequiredSuffix('&nbsp;:&nbsp;<span class="jimw-label-required-suffix">*</span>')
+                               ->setOptionalSuffix('&nbsp;:&nbsp;')
+                               ->setOption('escape', false);
+                
+            }
+            if ($element->hasErrors()) {
+                $element->setAttrib('class', ($element->getAttrib('class') != null)?$element->getAttrib('class') . ' jimw-element-error': 'jimw-element-error');
+            }
+       }
+       return parent::render($view);
     }
 
     /**
@@ -50,7 +75,7 @@ class Jimw_Form extends Zend_Form
 
     public function addSubmit ($type = 'submit')
     {
-        $this->addElement('submit', 'Jimw_Form_Submit', array('label' => ucfirst($type), 'ignore' => true));
+        $this->addElement('submit', 'Jimw_Form_Submit', array('label' => ucfirst($type), 'ignore' => true, 'order' => 999));
     }
 }
 ?>

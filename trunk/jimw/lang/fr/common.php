@@ -10,7 +10,7 @@ return array(
     'Add new page' => 'Ajouter une nouvelle page',
     'Add picture' => 'Ajouter une image',
     'Add file' => 'Ajouter un fichier',
-    'Add link' => 'Ajouter un lien',
+    'Add link' => 'Ajouter un lien vers une page',
     'Alias' => 'Alias',
     'Author' => 'Auteur',
     'Authors' => 'Auteurs',
