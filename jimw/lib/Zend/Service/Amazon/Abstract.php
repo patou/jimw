@@ -15,11 +15,14 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Amazon
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Abstract.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
 
+/**
+ * @see Zend_Service_Abstract
+ */
 require_once 'Zend/Service/Abstract.php';
 
 /**
@@ -29,7 +32,7 @@ require_once 'Zend/Service/Abstract.php';
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Amazon
- * @copyright  Copyright (c) 22005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Service_Amazon_Abstract extends Zend_Service_Abstract
@@ -54,6 +57,7 @@ abstract class Zend_Service_Amazon_Abstract extends Zend_Service_Abstract
      */
     protected $_accessKey;
 
+
     /**
      * Set the keys to use when accessing SQS.
      *
@@ -68,7 +72,7 @@ abstract class Zend_Service_Amazon_Abstract extends Zend_Service_Abstract
     }
 
     /**
-     * Create Amazon Sqs client.
+     * Create Amazon client.
      *
      * @param  string $access_key       Override the default Access Key
      * @param  string $secret_key       Override the default Secret Key
@@ -82,6 +86,7 @@ abstract class Zend_Service_Amazon_Abstract extends Zend_Service_Abstract
         if(!$secretKey) {
             $secretKey = self::$_defaultSecretKey;
         }
+
         if(!$accessKey || !$secretKey) {
             require_once 'Zend/Service/Amazon/Exception.php';
             throw new Zend_Service_Amazon_Exception("AWS keys were not supplied");
@@ -89,6 +94,8 @@ abstract class Zend_Service_Amazon_Abstract extends Zend_Service_Abstract
         $this->_accessKey = $accessKey;
         $this->_secretKey = $secretKey;
     }
+
+
 
     /**
      * Method to fetch the Access Key
