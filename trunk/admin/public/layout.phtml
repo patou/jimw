@@ -1,11 +1,17 @@
 <?php
+//Add Stylesheets
 $this->headLink(array('rel' => 'stylesheet', 'type' => 'text/css', 'href'=> $this->path . '/stylesheets/jimw.css'));
 $this->headLink(array('rel' => 'stylesheet', 'type' => 'text/css', 'href'=> $this->path . '/stylesheets/indigo.css'));
+//Add Jimw's JavaScript script
 $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->path . '/javascripts/jimw.js');
+//Set the title of the page
 $this->headTitle()->prepend($this->request->getDomainName (). ' - Administration');
-if (JIMW_UTF8) $this->headMeta('text/html; charset=utf-8', 'Content-Type', 'http-equiv');
+//Set the title of the webpage
 if (isset($this->tree->menutitle))
     $this->headTitle()->append(' - ' . $this->tree->menutitle);
+//If use UTF-8, add the header UTF-8 TODO Put this in a global config
+if (JIMW_UTF8) $this->headMeta('text/html; charset=utf-8', 'Content-Type', 'http-equiv');
+$this->jQuery()->enable(); // Enable JQuery integration
 echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 ?>
 <html>
@@ -14,6 +20,7 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 <?php echo $this->headMeta()."\n"; ?>
 <?php echo $this->headLink()."\n"; ?>
 <?php echo $this->headStyle()."\n"; ?>
+<?php echo $this->jQuery(); ?>
 <?php echo $this->headScript()."\n"; ?>
 </head>
 

@@ -1,5 +1,14 @@
 <?php
-/** * Jimw_Controler * * @author	    Patou * @category   Jimw_Core * @package    Jimw * @copyright  Copyright (c) 2006-2007 jimw.fr * @license    http://www.jimw.fr * @version    $Id$ */
+/**
+ * Jimw_Controler
+ *
+ * @author	    Patou
+ * @category   Jimw_Core
+ * @package    Jimw
+ * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @license    http://www.jimw.fr
+ * @version    $Id$
+ */
 class Jimw_Controller
 {
     /**
@@ -84,6 +93,7 @@ class Jimw_Controller
         $view->addHelperPath(JIMW_REP_LIB . 'Zym/View/Helper', 'Zym_View_Helper');
         $view->addFilterPath(JIMW_REP_LIB . 'Zym/View/Filter', 'Zym_View_Filter');
         $view->addHelperPath(JIMW_REP_LIB . 'Jimw/view/helpers', 'Jimw_View_Helper');
+        $view->addHelperPath(JIMW_REP_LIB . 'ZendX/JQuery/View/Helper', 'ZendX_JQuery_View_Helper');
         $this->initTranslate();
         //$view->setTranslate();
         Zend_Paginator::setDefaultScrollingStyle('Sliding');

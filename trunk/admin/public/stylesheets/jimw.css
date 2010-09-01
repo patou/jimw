@@ -7,3 +7,76 @@ a.external {
     background:transparent url(../images/icons/external.png) no-repeat scroll right center;
     padding:0 13px 0 0;
 }
+
+.jimw-icon {
+    background-position: left center;
+    background-repeat: no-repeat;
+    padding: 2px;
+    padding-left: 18px;
+    height: 20px;
+}
+
+input.jimw-btn-icon {
+    background-position: left center;
+    background-repeat: no-repeat;
+    padding-left: 18px ! important;
+}
+
+.icon-add {
+    background-image:url(../images/icons/add.png) ! important;
+}
+
+.icon-delete {
+    background-image:url(../images/icons/delete.png) ! important;
+}
+
+.icon-page-white-add {
+    background-image:url(../images/icons/page_white_add.png) ! important;
+}
+
+.icon-page-white-stack {
+    background-image:url(../images/icons/page_white_stack.png) ! important;
+}
+
+.icon-bin {
+    background-image:url(../images/icons/bin.png) ! important;
+}
+
+.icon-user-add {
+    background-image:url(../images/icons/user_add.png) ! important;
+}
+
+.icon-application-add {
+    background-image:url(../images/icons/application_add.png) ! important;
+}
+
+.icon-group-add {
+    background-image:url(../images/icons/group_add.png) ! important;
+}
+
+.icon-domain-add {
+    background-image:url(../images/icons/world_add.png) ! important;
+}
+
+.icon-collapse-all {
+    background-image:url(../images/icons/collapse-all.gif) ! important;
+}
+
+.icon-expand-all {
+    background-image:url(../images/icons/expand-all.gif) ! important;
+}
+
+.icon-expand-all {
+    background-image:url(../images/icons/expand-all.gif) ! important;
+}
+
+.icon-arrow_undo {
+    background-image:url(../images/icons/arrow_undo.png) ! important;
+}
+
+.jimw-return {
+    background-position: left center;
+    background-repeat: no-repeat;
+    padding-left: 18px;
+    background-image:url(../images/icons/arrow_undo.png) ! important;
+}

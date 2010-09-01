@@ -1,5 +1,5 @@
 <form action="<?php echo $this->url(array('module' => 'article', 'controller' => 'manage', 'action' => 'save', 'format' => 'phtml', 'id' => $this->id), 'format', true); ?>" method="post">
-<input type="hidden" name="id" value="<?= $this->id ?>">
+<input type="hidden" name="id" value="<?php echo $this->id ?>">
 <table border="0" width="90%">
 <tr><td class="t01"><?php echo $this->_('Content') ?> : </td><td>
 <?php echo $this->formRichtext('content', $this->content, array('editor' => array( 'toolbarSet' => 'All', 'width' => 800, 'height' => 500))); ?></td></tr>
@@ -7,5 +7,5 @@
 </table></form>
 <br/>
 <p class="t01" style="font-size: 12px;">
-	<a href="<?= $this->request->getBaseUrl() ?>"><?php echo $this->_('Return') ?></a>
+	<a href="<?php echo $this->request->getBaseUrl() ?>" class="jimw-return"><?php echo $this->_('Return') ?></a>
 </p>

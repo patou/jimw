@@ -85,7 +85,7 @@ function size($val){
 	<br />
 <?php else:
 	if (!$this->files['success']) { echo '<font color="red">', $this->files['error'], '</font>'; } ?>
-	<br /><a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'format' => 'phtml', 'path' => '/' . trim($this->file_path_up, '/')), 'get', true); ?>"><?php echo $this->_('Return') ?></a>
+	<br /><a href="<?php echo $this->url(array('controller' => 'file', 'action' => 'list', 'format' => 'phtml', 'path' => '/' . trim($this->file_path_up, '/')), 'get', true); ?>" class="jimw-return"><?php echo $this->_('Return') ?></a>
 	<br />
 
 <?php endif;?>

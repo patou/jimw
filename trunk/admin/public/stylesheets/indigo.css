@@ -310,11 +310,14 @@ input, select {
 	min-width: 200px;
 }
 
-input[type="submit"], input[type="button"] {
+input[type="submit"], input[type="button"], input[type="reset"] {
 	padding: 2px 5px;
 	min-width: 0px;
 }
 
+input[type="radio"], input[type="checkbox"] {
+	min-width: 0px;
+}
 
 .hint {
 	display: none;
@@ -333,6 +336,7 @@ input[type="submit"], input[type="button"] {
 
 .jimw-element-error {
 	border-color: red;
+	border-style: inset;
 }
 
 .errors {

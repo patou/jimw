@@ -14,19 +14,13 @@ echo $message . '<br />'; ?>
     $list = new RecursiveIteratorIterator($this->list_tree, RecursiveIteratorIterator::SELF_FIRST);
 ?>
 <a
-	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
-<img src="<?php echo $this->path ?>/images/icons/page_white_add.png"
-	border="0" class="absmiddle" />
+	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>" class="jimw-icon icon-page-white-add">
 <?php echo $this->_('Add new page') ?></a> &nbsp; <a
 	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'closeAll' => 1), 'format', true); ?>"
-	title="<?php echo $this->_('Collapse all'); ?>"> <img
-	src="<?php echo $this->path ?>/images/icons/collapse-all.gif"
-	border="0" class="absmiddle" />
+	title="<?php echo $this->_('Collapse all'); ?>" class="jimw-icon icon-collapse-all">
 <?php echo $this->_('Collapse all'); ?></a> &nbsp; <a
 	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml', 'expandAll' => 1), 'format', true); ?>"
-	title="<?php echo $this->_('Expand all'); ?>"> <img
-	src="<?php echo $this->path ?>/images/icons/expand-all.gif" border="0"
-	class="absmiddle" />
+	title="<?php echo $this->_('Expand all'); ?>" class="jimw-icon icon-expand-all">
 <?php echo $this->_('Expand all'); ?></a>
 <table width="100%" cellspacing="0" cellpadding="0" class="list">
 	<thead>
@@ -323,19 +317,17 @@ echo $message . '<br />'; ?>
 </table>
 <hr />
 <br />
-<p class="t01"><a
-	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>"><img
-	src="<?php echo $this->path ?>/images/icons/page_white_add.png"
-	border="0" class="absmiddle" /><?php echo $this->_('Add new page') ?></a>&nbsp;&nbsp;
+<p class="t01">
+    <a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>" class="jimw-icon icon-page-white-add">
+        <?php echo $this->_('Add new page') ?>
+    </a>&nbsp;&nbsp;
 <?php if ($this->getRequest()->getActionName() == 'trash'): ?>
-<a
-	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>"><img
-	src="<?php echo $this->path ?>/images/icons/page_white_stack.png"
-	border="0" class="absmiddle" /><?php echo $this->_('Pages') ?></a>
+<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>" class="jimw-icon icon-page-white-stack">
+    <?php echo $this->_('Pages') ?>
+</a>
 <?php else: ?>
-<a
-	href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'trash', 'format' => 'phtml'), 'format', true); ?>"><img
-	src="<?php echo $this->path ?>/images/icons/bin.png" border="0"
-	class="absmiddle" /><?php echo $this->_('Trash') ?></a>
+<a href="<?php echo $this->url(array('controller' => 'tree', 'action' => 'trash', 'format' => 'phtml'), 'format', true); ?>" class="jimw-icon icon-bin">
+    <?php echo $this->_('Trash') ?>
+</a>
 <?php endif; ?>
 </p>

@@ -106,8 +106,8 @@ foreach ($this->modules_list as $module):
 endforeach;
 ?>
 	</table>
-<a
-	href="<?php
+<a href="<?php
 echo $this->url(array('controller' => 'system'), 'format', true);
-?>"><?php
-echo $this->_('Return'); ?></a>
+?>" class="jimw-return">
+    <?php echo $this->_('Return'); ?>
+</a>

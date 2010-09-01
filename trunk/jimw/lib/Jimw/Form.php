@@ -60,6 +60,7 @@ class Jimw_Form extends Zend_Form
             if ($element->hasErrors()) {
                 $element->setAttrib('class', ($element->getAttrib('class') != null)?$element->getAttrib('class') . ' jimw-element-error': 'jimw-element-error');
             }
+            $element->addFilter('StringTrim');
        }
        return parent::render($view);
     }

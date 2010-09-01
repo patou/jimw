@@ -107,32 +107,14 @@ endforeach;
 ?>
 	</table>
 <br />
-<a
-	href="<?php
+<a href="<?php
 echo $this->url(array('controller' => 'site' , 'action' => 'add' , 'format' => 'phtml'), 'format', true);
-?>">
-<img width="16" height="16" border="0"
-	title="<?php
-echo $this->_('Add')?>"
-	alt="<?php
-echo $this->_('Add')?>" class="folder"
-	src="<?php
-echo $this->path;
-?>/images/icons/application_add.png" />&nbsp;<?php
-echo $this->_('Add');
-?></a>
+?>" class="jimw-icon icon-application-add">
+    <?php echo $this->_('Add'); ?>
+</a>
 <hr />
-<a
-	href="<?php
+<a href="<?php
 echo $this->url(array('controller' => 'system'), 'format', true);
-?>">
-<img width="16" height="16" border="0"
-	title="<?php
-echo $this->_('Return')?>"
-	alt="<?php
-echo $this->_('Return')?>" class="folder"
-	src="<?php
-echo $this->path;
-?>/images/icons/arrow_redo.png" /><?php
-echo $this->_('Return');
-?></a>
+?>" class="jimw-return">
+    <?php echo $this->_('Return'); ?>
+</a>

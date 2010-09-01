@@ -11,16 +11,8 @@ echo $this->_('Update Database')?></h1>
 <?php
 echo $this->content;
 ?>
-<a
-	href="<?php
+<a href="<?php
 echo $this->url(array('controller' => 'system'), 'format', true);
-?>">
-<img width="16" height="16" border="0"
-	title="<?php
-echo $this->_('Return')?>"
-	alt="<?php
-echo $this->_('Return')?>" class="folder"
-	src="<?php
-echo $this->path;
-?>/images/icons/arrow_undo.png" />&nbsp;<?php
-echo $this->_('Return'); ?></a>
+?>" class="jimw-return">
+    <?php echo $this->_('Return'); ?>
+</a>
