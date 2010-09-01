@@ -12,15 +12,8 @@ echo $this->_('Module configuration')?></h1>
 <p style="font-size: 12px;"><a
 	href="<?php
 echo $this->url(array('controller' => 'module' , 'action' => 'list' , 'format' => 'phtml'), 'format', true);
-?>">
-<img width="16" height="16" border="0"
-	title="<?php
-echo $this->_('Return')?>"
-	alt="<?php
-echo $this->_('Return')?>" class="folder"
-	src="<?php
-echo $this->path;
-?>/images/icons/arrow_undo.png" />&nbsp;<?php
+?>" class="jimw-return">
+<?php
 echo $this->_('Return');
 ?></a>
 </p>

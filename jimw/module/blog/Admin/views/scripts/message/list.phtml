@@ -38,4 +38,4 @@ echo $this->messages_list; //Print the pagination control
 <br />
 <a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'add', 'tree_parentid' => $this->tree_parentid, 'format' => 'phtml'), 'format', true); ?>"><?php echo $this->_('Add'); ?></a>
 <hr />
-<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'list'), 'format', true); ?>"><?php echo $this->_('Return'); ?></a>
+<a href="<?php echo $this->url(array('module' => 'default', 'controller' => 'tree', 'action' => 'list'), 'format', true); ?>" class="jimw-return"><?php echo $this->_('Return'); ?></a>

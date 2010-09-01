@@ -9,14 +9,7 @@ echo $this->path;
 echo $this->_('Domain')?></h1>
 <?php echo $this->form; ?>
 <br />
-<p class="t01" style="font-size: 12px;"><a
-	href="<?=$this->url(array('controller' => 'domain' , 'action' => 'list' , 'format' => 'phtml'), 'format', true);?>">
-<img width="16" height="16" border="0"
-	title="<?php
-echo $this->_('Return')?>"
-	alt="<?php
-echo $this->_('Return')?>" class="folder"
-	src="<?php
-echo $this->path;
-?>/images/icons/arrow_undo.png" />&nbsp;<?php echo $this->_('Return'); ?></a>
+<p class="t01" style="font-size: 12px;">
+    <a href="<?=$this->url(array('controller' => 'domain' , 'action' => 'list' , 'format' => 'phtml'), 'format', true);?>" class="jimw-return">
+<?php echo $this->_('Return'); ?></a>
 </p>

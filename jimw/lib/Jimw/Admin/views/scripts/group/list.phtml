@@ -102,32 +102,16 @@ endforeach;
 ?>
 	</table>
 <br />
-<a
-	href="<?php
+<a href="<?php
 echo $this->url(array('controller' => 'group' , 'action' => 'add' , 'format' => 'phtml'), 'format', true);
-?>">
-<img width="16" height="16" border="0"
-	title="<?php
-echo $this->_('Add')?>"
-	alt="<?php
-echo $this->_('Add')?>" class="folder"
-	src="<?php
-echo $this->path;
-?>/images/icons/group_add.png" />&nbsp;<?php
-echo $this->_('Add');
-?></a>
+?>" class="jimw-icon icon-group-add">
+    <?php echo $this->_('Add'); ?>
+</a>
 <hr />
 <a
 	href="<?php
 echo $this->url(array('controller' => 'user'), 'format', true);
-?>">
-<img width="16" height="16" border="0"
-	title="<?php
-echo $this->_('Return')?>"
-	alt="<?php
-echo $this->_('Return')?>" class="folder"
-	src="<?php
-echo $this->path;
-?>/images/icons/arrow_undo.png" />&nbsp;<?php
+?>" class="jimw-return">
+<?php
 echo $this->_('Return');
 ?></a>

@@ -1,17 +1,16 @@
-<?= $this->headScript(Zend_View_Helper_HeadScript::FILE, $this->path_common . '/mootools.v1.11.js'); ?>
 <?= $this->headScript()->captureStart(); ?>
 function select_all() {
-	$$('input.check').each( function(el) {
+	$('input.check').each( function(index,el) {
 		el.checked = true;
 	});
 }
 function unselect_all() {
-	$$('input.check').each( function(el) {
+	$('input.check').each( function(index, el) {
 		el.checked = false;
 	});
 }
 function invertselect() {
-	$$('input.check').each( function(el) {
+	$('input.check').each( function(index, el) {
 		el.checked = !el.checked;
 	});
 }
@@ -48,7 +47,7 @@ function invertselect() {
 <a href="#" onclick="select_all(); return false;"><?php echo $this->_('All'); ?></a>
 <a href="#" onclick="unselect_all(); return false;"><?php echo $this->_('None'); ?></a>
 <a href="#" onclick="invertselect(); return false;"><?php echo $this->_('Invert'); ?></a>
-<input type="submit" value="<?= $this->_('Delete') ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete these photos ?')); ?>');" /></div>
+<input type="submit" value="<?= $this->_('Delete') ?>"  onclick="return confirm('<?php echo $this->escape($this->_('Do you really want to delete these photos ?')); ?>');" class="jimw-btn-icon icon-delete" /></div>
 </form>
 
 <form
@@ -72,5 +71,5 @@ function invertselect() {
 
 
 <p class="t01" style="font-size: 12px;">
-	<a href="<?= $this->request->getBaseUrl() ?>"><?php echo $this->_('Return') ?></a>
+	<a href="<?= $this->request->getBaseUrl() ?>" class="jimw-return"><?php echo $this->_('Return') ?></a>
 </p>
