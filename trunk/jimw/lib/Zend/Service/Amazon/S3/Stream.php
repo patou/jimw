@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Amazon_S3
- * @copyright  Copyright (c) 2005-2008, Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: S3.php 9786 2008-06-24 23:50:25Z jplock $
+ * @version    $Id: Stream.php 22623 2010-07-18 00:43:57Z torio $
  */
 
 /**
@@ -31,7 +31,7 @@ require_once 'Zend/Service/Amazon/S3.php';
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Amazon_S3
- * @copyright  Copyright (c) 2005-2008, Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_Amazon_S3_Stream
@@ -113,7 +113,7 @@ class Zend_Service_Amazon_S3_Stream
     {
         $url = parse_url($path);
         if ($url['host']) {
-            return $url['path'] ? $url['host'].'/'.$url['path'] : $url['host'];
+            return !empty($url['path']) ? $url['host'].$url['path'] : $url['host'];
         }
 
         return '';
@@ -175,6 +175,10 @@ class Zend_Service_Amazon_S3_Stream
     /**
      * Read from the stream
      *
+     * http://bugs.php.net/21641 - stream_read() is always passed PHP's 
+     * internal read buffer size (8192) no matter what is passed as $count 
+     * parameter to fread(). 
+     *
      * @param  integer $count
      * @return string
      */
@@ -182,6 +186,11 @@ class Zend_Service_Amazon_S3_Stream
     {
         if (!$this->_objectName) {
             return false;
+        }
+
+        // make sure that count doesn't exceed object size
+        if ($count + $this->_position > $this->_objectSize) {
+            $count = $this->_objectSize - $this->_position;
         }
 
         $range_start = $this->_position;
@@ -194,12 +203,12 @@ class Zend_Service_Amazon_S3_Stream
         if (($this->_position == 0) || (($range_end > strlen($this->_objectBuffer)) && ($range_end <= $this->_objectSize))) {
 
             $headers = array(
-                'Range' => "$range_start-$range_end"
+                'Range' => "bytes=$range_start-$range_end"
             );
 
             $response = $this->_s3->_makeRequest('GET', $this->_objectName, null, $headers);
 
-            if ($response->getStatus() == 200) {
+            if ($response->getStatus() == 206) { // 206 Partial Content
                 $this->_objectBuffer .= $response->getBody();
             }
         }
@@ -319,7 +328,7 @@ class Zend_Service_Amazon_S3_Stream
         $stat = array();
         $stat['dev'] = 0;
         $stat['ino'] = 0;
-        $stat['mode'] = 0;
+        $stat['mode'] = 0777;
         $stat['nlink'] = 0;
         $stat['uid'] = 0;
         $stat['gid'] = 0;
@@ -331,7 +340,13 @@ class Zend_Service_Amazon_S3_Stream
         $stat['blksize'] = 0;
         $stat['blocks'] = 0;
 
-        $info = $this->_s3->getInfo($this->_objectName);
+    if(($slash = strchr($this->_objectName, '/')) === false || $slash == strlen($this->_objectName)-1) {
+        /* bucket */
+        $stat['mode'] |= 040000;
+    } else {
+        $stat['mode'] |= 0100000;
+    }
+           $info = $this->_s3->getInfo($this->_objectName);
         if (!empty($info)) {
             $stat['size']  = $info['size'];
             $stat['atime'] = time();
@@ -404,8 +419,8 @@ class Zend_Service_Amazon_S3_Stream
             $this->_bucketList = $this->_getS3Client($path)->getBuckets();
         }
         else {
-            $url = parse_url($path);
-            $this->_bucketList = $this->_getS3Client($path)->getObjectsByBucket($url["host"]);
+            $host = parse_url($path, PHP_URL_HOST);
+            $this->_bucketList = $this->_getS3Client($path)->getObjectsByBucket($host);
         }
 
         return ($this->_bucketList !== false);
@@ -423,7 +438,7 @@ class Zend_Service_Amazon_S3_Stream
         $stat = array();
         $stat['dev'] = 0;
         $stat['ino'] = 0;
-        $stat['mode'] = 0;
+        $stat['mode'] = 0777;
         $stat['nlink'] = 0;
         $stat['uid'] = 0;
         $stat['gid'] = 0;
@@ -435,7 +450,15 @@ class Zend_Service_Amazon_S3_Stream
         $stat['blksize'] = 0;
         $stat['blocks'] = 0;
 
-        $info = $this->_getS3Client($path)->getInfo($this->_getNamePart($path));
+    $name = $this->_getNamePart($path);
+    if(($slash = strchr($name, '/')) === false || $slash == strlen($name)-1) {
+        /* bucket */
+        $stat['mode'] |= 040000;
+    } else {
+        $stat['mode'] |= 0100000;
+    }
+           $info = $this->_getS3Client($path)->getInfo($name);
+
         if (!empty($info)) {
             $stat['size']  = $info['size'];
             $stat['atime'] = time();
