@@ -14,7 +14,7 @@
  *
  * @category   Zend
  * @package    Zend_Form
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -27,14 +27,14 @@ require_once 'Zend/Form/Element/Xhtml.php';
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: File.php 14956 2009-04-17 08:32:58Z thomas $
+ * @version    $Id: File.php 22372 2010-06-04 20:17:58Z thomas $
  */
 class Zend_Form_Element_File extends Zend_Form_Element_Xhtml
 {
     /**
-     * @const string Plugin loader type
+     * Plugin loader type
      */
     const TRANSFER_ADAPTER = 'TRANSFER_ADAPTER';
 
@@ -76,17 +76,18 @@ class Zend_Form_Element_File extends Zend_Form_Element_Xhtml
     public function loadDefaultDecorators()
     {
         if ($this->loadDefaultDecoratorsIsDisabled()) {
-            return;
+            return $this;
         }
 
         $decorators = $this->getDecorators();
         if (empty($decorators)) {
             $this->addDecorator('File')
                  ->addDecorator('Errors')
-                 ->addDecorator('Description')
+                 ->addDecorator('Description', array('tag' => 'p', 'class' => 'description'))
                  ->addDecorator('HtmlTag', array('tag' => 'dd'))
                  ->addDecorator('Label', array('tag' => 'dt'));
         }
+        return $this;
     }
 
     /**
@@ -428,13 +429,8 @@ class Zend_Form_Element_File extends Zend_Form_Element_Xhtml
             $adapter->setOptions(array('ignoreNoFile' => true), $this->getName());
         } else {
             $adapter->setOptions(array('ignoreNoFile' => false), $this->getName());
-            if ($this->autoInsertNotEmptyValidator() and
-                   !$this->getValidator('NotEmpty'))
-            {
-                $validators = $this->getValidators();
-                $notEmpty   = array('validator' => 'NotEmpty', 'breakChainOnFailure' => true);
-                array_unshift($validators, $notEmpty);
-                $this->setValidators($validators);
+            if ($this->autoInsertNotEmptyValidator() && !$this->getValidator('NotEmpty')) {
+                $this->addValidator = array('validator' => 'NotEmpty', 'breakChainOnFailure' => true);
             }
         }
 
@@ -589,15 +585,10 @@ class Zend_Form_Element_File extends Zend_Form_Element_Xhtml
     {
         if (self::$_maxFileSize < 0) {
             $ini = $this->_convertIniToInteger(trim(ini_get('post_max_size')));
-            $mem = $this->_convertIniToInteger(trim(ini_get('memory_limit')));
             $max = $this->_convertIniToInteger(trim(ini_get('upload_max_filesize')));
-            $min = max($ini, $mem, $max);
+            $min = max($ini, $max);
             if ($ini > 0) {
                 $min = min($min, $ini);
-            }
-
-            if ($mem > 0) {
-                $min = min($min, $mem);
             }
 
             if ($max > 0) {
@@ -619,22 +610,16 @@ class Zend_Form_Element_File extends Zend_Form_Element_Xhtml
     public function setMaxFileSize($size)
     {
         $ini = $this->_convertIniToInteger(trim(ini_get('post_max_size')));
-        $mem = $this->_convertIniToInteger(trim(ini_get('memory_limit')));
         $max = $this->_convertIniToInteger(trim(ini_get('upload_max_filesize')));
 
         if (($max > -1) && ($size > $max)) {
-            trigger_error("Your 'upload_max_filesize' config setting allows only $max. You set $size.", E_USER_NOTICE);
+            trigger_error("Your 'upload_max_filesize' config setting limits the maximum filesize to '$max'. You tried to set '$size'.", E_USER_NOTICE);
             $size = $max;
         }
 
         if (($ini > -1) && ($size > $ini)) {
-            trigger_error("Your 'post_max_size' config setting allows only $ini. You set $size.", E_USER_NOTICE);
+            trigger_error("Your 'post_max_size' config setting limits the maximum filesize to '$ini'. You tried to set '$size'.", E_USER_NOTICE);
             $size = $ini;
-        }
-
-        if (($mem > -1) && ($size > $mem)) {
-            trigger_error("Your 'memory_limit' config setting allows only $mem. You set $size.", E_USER_NOTICE);
-            $size = $mem;
         }
 
         self::$_maxFileSize = $size;
@@ -758,8 +743,17 @@ class Zend_Form_Element_File extends Zend_Form_Element_Xhtml
      */
     public function getTranslator()
     {
-        $adapter = $this->getTransferAdapter();
-        return $adapter->getTranslator();
+        if ($this->translatorIsDisabled()) {
+            return null;
+        }
+
+        $translator = $this->getTransferAdapter()->getTranslator();
+        if (null === $translator) {
+            require_once 'Zend/Form.php';
+            return Zend_Form::getDefaultTranslator();
+        }
+
+        return $translator;
     }
 
     /**
