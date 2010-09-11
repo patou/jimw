@@ -11,7 +11,15 @@ echo $this->_('page')?></h1>
 foreach ($this->flashmessenger as $message)
     echo $message . '<br />';
 ?>
-<?=$this->form;?>
+<?php
+ $this->accordionPane('tree_accordion', $this->form->render(), array('title' => 'Information générale'));
+ $active = 0;
+ if (isset($this->edit_form)) {
+     $this->accordionPane('tree_accordion', $this->edit_form, array('title' => 'Module ' . $this->tree->module_path));
+     $active = 1;
+ }
+ echo $this->accordionContainer('tree_accordion', array('active' => $active, 'fillSpace' => true));
+?>
 <br style="clear: both;" />
 <p class="t01" style="font-size: 12px;">
 <a href="<?php
@@ -20,3 +28,4 @@ echo $this->url(array('controller' => 'tree' , 'action' => 'list' , 'format' => 
     <?php echo $this->_('Return'); ?>
 </a>
 </p>
+<?php ?>
