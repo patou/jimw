@@ -106,11 +106,12 @@ class TreeController extends Jimw_Admin_Action
         $this->view->tree = $result;
         $this->view->form = $form;
         $this->view->id = $id;
-        $this->render('form');
         if ($result->status >= 0) {
-            $this->_helper->actionStack('edit', 'manage', $result->module_path, array('tree' => $result, 'id' => $id, 'alias' => $result->alias));
+            //$this->_helper->actionStack('edit', 'manage', $result->module_path, array('tree' => $result, 'id' => $id, 'alias' => $result->alias));
+            $this->view->edit_form = $this->view->action('edit', 'manage', $result->module_path, array('tree' => $result, 'id' => $id, 'alias' => $result->alias));
             //$this->_forward('edit', 'manage', $result->module_path);
         }
+        $this->render('form');
     }
     
     /**
