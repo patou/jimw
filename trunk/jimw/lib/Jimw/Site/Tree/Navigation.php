@@ -1,6 +1,6 @@
 <?php
 
-require_once ('jimw/lib/Zend/Navigation/Page.php');
+require_once ('Zend/Navigation/Page.php');
 
 class Jimw_Site_Tree_Navigation extends Zend_Navigation_Page {
 	/**
