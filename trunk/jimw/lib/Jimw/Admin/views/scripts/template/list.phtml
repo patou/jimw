@@ -1,0 +1,92 @@
+
+<h1><img width="16" height="18" border="0"
+	title="<?php
+echo $this->_('Template');?>"
+	alt="<?php
+echo $this->_('Template');?>" class="folder" border="0"
+	src="<?php
+echo $this->path;
+?>/images/icons/layout.png" />&nbsp;<?php
+echo $this->_('Template');?></h1>
+<?php
+foreach ($this->flashmessenger as $message)
+    echo $message . '<br />';
+?>
+<table cellpadding="0" cellspacing="0" class="list">
+	<thead>
+		<tr>
+			<th style="width: 180px"><?php
+echo $this->_('Preview');?></th>
+			<th style="width: 150px"><?php
+echo $this->_('Name');?></th>
+			<th style="width: 150px"><?php
+echo $this->_('Author');?></th>
+			<th style="width: 40%"><?php
+echo $this->_('Comment');?></th>
+			<th style="width: 20px"><?php
+echo $this->_('Version');?></th>
+			<th style="width: 40px" align="right"><?php
+echo $this->_('Action');?></th>
+		</tr>
+	</thead>
+	<?php
+foreach ($this->templates_list as $template):
+    ?>
+		<tr style="vertical-align: top;">
+		<td height="150px" width="150px">
+                    <iframe src="<?php echo $this->url(array(), 'format', true, false) . '?_template_path_=' . urlencode($template['path']); ?>" title="<?php echo $this->_('Preview the template'); ?>" class="jimw-template-preview">
+                    </iframe>
+                    <div class="jimw-template-overiframe"></div>
+		</td>
+		<td>
+                    <a href="<?php echo $this->url(array(), 'format', true, false) . '?_template_path_=' . urlencode($template['path']); ?>" title="<?php echo $this->_('Preview the template'); ?>" target="_blank">
+			<?php
+    echo $this->escape($template['name']);
+    ?></a>
+			</td>
+		<td><?php
+                if (isset($template['url'])) {
+                    echo '<a href="', $this->escape($template['url']), '" target="_blank">', $this->escape($template['author']), '</a>';
+                }
+                else {
+                    echo $this->escape($template['author']);
+                }
+    ?></td>
+		<td><?php
+    echo $template['comment'];
+    ?></td>
+		<td><?php
+    echo $this->escape($template['version']);
+    ?></td>
+		<td align="right">
+		
+				<?php
+    if ($template['configuration']):
+        ?>
+            <a
+            href="<?php
+        echo $this->url(array('controller' => 'module' , 'action' => 'config' , 'format' => 'phtml' , 'template_path' => $template['path']), 'format', true);
+        ?>">
+        <img width="16" height="18" border="0"
+            title="<?php
+        echo $this->_('Configuration')?>"
+            alt="<?php
+        echo $this->_('Configuration')?>" class="folder"
+            src="<?php
+        echo $this->path;
+        ?>/images/icons/layout_edit.png" />
+        </a>
+    <?php
+    endif;
+    ?>
+        	</td>
+	</tr>
+	<?php
+endforeach;
+?>
+	</table>
+<a href="<?php
+echo $this->url(array('controller' => 'system'), 'format', true);
+?>" class="jimw-return">
+    <?php echo $this->_('Return'); ?>
+</a>

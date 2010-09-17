@@ -74,6 +74,7 @@ echo $this->doctype(Zend_View_Helper_Doctype::XHTML1_STRICT);
 		case 'domain':
 		case 'site':
 		case 'database':
+                case 'template':
 			echo $this->render('system/menu.phtml');
 			break;
 		case 'user':
