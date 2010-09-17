@@ -80,3 +80,25 @@ input.jimw-btn-icon {
     padding-left: 18px;
     background-image:url(../images/icons/arrow_undo.png) ! important;
 }
+
+iframe.jimw-template-preview {
+    -moz-transform:scale(0.2);
+    -webkit-transform:scale(0.2);
+    -moz-transform-origin:top left;
+    -webkit-transform-origin:top left;
+    width: 840px;
+    height:645px;
+    border: 5px solid lightgrey;
+    margin: 3px;
+    overflow-x:hidden;
+    position:absolute;
+    background:white;
+}
+
+.jimw-template-overiframe {
+     width:169px;
+     height:129px;
+     position:absolute;
+     z-index:1;
+     margin-top:-133px;
+}

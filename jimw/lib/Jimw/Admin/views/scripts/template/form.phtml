@@ -1,0 +1,19 @@
+<h1><img width="16" height="16" border="0"
+	title="<?php
+echo $this->_('Module configuration')?>"
+	alt="<?php
+echo $this->_('Module configuration')?>" class="folder" border="0"
+	src="<?php
+echo $this->path;
+?>/images/icons/plugin.png" />&nbsp;<?php
+echo $this->_('Module configuration')?></h1>
+<?=$this->form;?>
+<br style="clear: both;" />
+<p style="font-size: 12px;"><a
+	href="<?php
+echo $this->url(array('controller' => 'module' , 'action' => 'list' , 'format' => 'phtml'), 'format', true);
+?>" class="jimw-return">
+<?php
+echo $this->_('Return');
+?></a>
+</p>

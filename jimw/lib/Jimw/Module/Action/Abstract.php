@@ -25,6 +25,11 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 		if (empty($site_template)) {
 		    $site_template = $site_path . '/template';
 		}
+                //Preview for template adminisatration
+                //Pretect to role admin ??? FIXME
+                if (isset($_GET['_template_path_'])) {
+                    $site_template = $_GET['_template_path_'];
+                }
 		$this->view->path = $request->getBaseUrl () . '/' . $site_template;
 		$this->view->path_public = $request->getBaseUrl () . '/' . $site_path;
 		$this->view->path_common = $request->getBaseUrl () . JIMW_URL_PUBLIC_COMMON_PATH;
@@ -59,15 +64,19 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 		}
 		$this->view->tree = $tree;
 		$favicon = $this->getFavicon();
-		$this->view->headLink(array('rel' => 'icon', 'type' => $favicon['type'], 'href' => $favicon['url']));
+                if ($favicon) {
+                    $this->view->headLink(array('rel' => 'icon', 'type' => $favicon['type'], 'href' => $favicon['url']));
+                }
 		$this->initModule();
 	}
 	
 	public function getFavicon() {
-	    $favicon_rep = array(trim(JIMW_REP_PUBLIC_COMMON, '/') => JIMW_URL_PUBLIC_COMMON_PATH
+	    $favicon_rep = array(
+	        $this->_site_path => $this->view->path_public
 	        , $this->_site_template => $this->view->path    
-	        , $this->_site_path => $this->view->path_public);
-	    $favicon_ext = array('ico' => 'image/x-icon', 'png' => 'image/png');
+                , trim(JIMW_REP_PUBLIC_COMMON, '/') => JIMW_URL_PUBLIC_COMMON_PATH
+                    );
+	    $favicon_ext = array('png' => 'image/png', 'ico' => 'image/x-icon');
 	    define('FAVICON_NAME', '/favicon.');
 	    $favicon = '';
 	    $favicon_type = '';
@@ -77,11 +86,11 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
 	                $favicon = $url . FAVICON_NAME . $ext;
 	                $favicon_rep = $rep . FAVICON_NAME . $ext;
 	                $favicon_type = $type;
+                        return array('type' => $favicon_type, 'url'=> $favicon, 'file' => $favicon_rep);
 	            }
-	        }	        
+                }
 	    }
-	    if ($favicon)
-	        return array('type' => $favicon_type, 'url'=> $favicon, 'file' => $favicon_rep);
+	    return null;
 	}
 
 	/**

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : jimw.xml
+    Created on : September 16, 2010, 11:17 AM
+    Author     : desaintsteban.p
+    Description:
+        Description file of a template in the CMS Jimw (http://www.jimw.fr)
+-->
+
+<jimwTemplate>
+    <name>Default template</name> <!-- Name of the template -->
+    <comment><![CDATA[
+    Default template of Jimw adapted from the template <a href="http://www.styleshout.com/templates/preview/BrightSide11/index.html">"Bright Side of Life"</a> created by the website styleshout]]>
+    </comment> <!-- Long description of the template -->
+    <version>1.0</version> <!-- Version of the template -->
+    <author>Styleshout</author> <!-- Creator of the template -->
+    <url>http://www.styleshout.com</url>
+    <preview>true</preview> <!-- Url of the image for preview -->
+    <configuration> <!-- Configuration of the template, Zend_Form format -->
+        <elements>
+            <title>
+                <type>title</type>
+                <options>
+                    <label>Title of the site</label>
+                </options>
+            </title>
+        </elements>
+    </configuration>
+</jimwTemplate>

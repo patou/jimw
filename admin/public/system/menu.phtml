@@ -25,6 +25,11 @@
 				<li><a href="<?php echo $this->url(array('controller' => 'site', 'action' => 'add', 'format' => 'phtml'), 'format', true); ?>">
 				<img width="16" height="16" border="0" title="<?php echo $this->_('Add') ?>" alt="<?php echo $this->_('Add') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/application_add.png"/>&nbsp;<? echo $this->_('Add'); ?></a></li>
 			</ul>
+                        <h1><? echo $this->_('Template'); ?></h1>
+			<ul>
+				<li><a href="<?php echo $this->url(array('controller' => 'template', 'action' => 'list', 'format' => 'phtml'), 'format', true); ?>">
+				<img width="16" height="16" border="0" title="<?php echo $this->_('List') ?>" alt="<?php echo $this->_('List') ?>" class="folder" src="<?php echo $this->path; ?>/images/icons/layout.png"/>&nbsp;<? echo $this->_('List'); ?></a></li>
+			</ul>
 			<!--
 			<h1><? echo $this->_('Database'); ?></h1>
 			<ul>
