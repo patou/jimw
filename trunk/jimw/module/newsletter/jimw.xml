@@ -28,41 +28,43 @@
 	* jimw.xml (this configuration file)
 	* icon.png (icon to display in the administration)
 	-->
-	<name>Jimw Newsletter</name>
-	<comment>Jimw Newsletter</comment>
-	<version>1.0</version>
-	<author>Patrice De Saint Steban</author>
-	<configuration>
+    <name>Jimw Newsletter</name>
+    <comment>Jimw Newsletter</comment>
+    <version>1.0</version>
+    <author>Patrice De Saint Steban</author>
+    <configuration>
 		<!-- Configuration form -->
-		<elements>
+        <elements>
         </elements>
-	</configuration>
-	<controllers><!-- List of controller can be used by a tree -->
-		<newsletter><!-- Name of the controller -->
-			<name>Newsletter</name><!-- Readable name -->
-                        <action>newletter</action>
-                        <controller>newletter</controller>
-			<params><!-- Param form -->
-				<elements>
-					<sucess_text>
-						<type>richtext</type>
-						<options>
-							<label>Text display on the inscription of the newsletter</label>
-							<rows>3</rows>
-							<cols>30</cols>
-							<editor>
-								<width>400</width>
-								<height>200</height>
-								<toolbarSet>Basic</toolbarSet>
-							</editor>
-						</options>
-					</sucess_text>
-					<mail_template>
-						<type>text</type>
-						<options><label>Template file for the inscription mail</label></options>
-					</mail_template>
-				</elements>
-			</params>
-		</newsletter>
-	</controllers>
+    </configuration>
+    <controllers><!-- List of controller can be used by a tree -->
+        <newsletter><!-- Name of the controller -->
+            <name>Newsletter</name><!-- Readable name -->
+            <action>newletter</action>
+            <controller>newletter</controller>
+            <params><!-- Param form -->
+                <elements>
+                    <sucess_text>
+                        <type>richtext</type>
+                        <options>
+                            <label>Text display on the inscription of the newsletter</label>
+                            <rows>3</rows>
+                            <cols>30</cols>
+                            <editor>
+                                <width>400</width>
+                                <height>200</height>
+                                <toolbarSet>Basic</toolbarSet>
+                            </editor>
+                        </options>
+                    </sucess_text>
+                    <mail_template>
+                        <type>text</type>
+                        <options>
+                            <label>Template file for the inscription mail</label>
+                        </options>
+                    </mail_template>
+                </elements>
+            </params>
+        </newsletter>
+    </controllers>
 </jimwModule>

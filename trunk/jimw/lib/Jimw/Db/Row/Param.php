@@ -108,7 +108,7 @@ class Jimw_Db_Row_Param implements ArrayAccess, Countable, Iterator
      */
     public function __get ($name)
     {
-        return $this->_row->getParam($name, $this->_param);
+        return $this->_row->getParam($name, false, $this->_param);
     }
     /**
      * Set a specific value of the param table

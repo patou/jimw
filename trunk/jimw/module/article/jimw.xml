@@ -1,7 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jimwModule>
-<name>Jimw Article</name>
-<comment>Jimw Article</comment>
-<version>1.0</version>
-<author>Patrice De Saint Steban</author>
+    <name>Jimw Article</name>
+    <comment>Jimw Article</comment>
+    <version>1.0</version>
+    <author>Patrice De Saint Steban</author>
+    <configuration>
+		<!-- Configuration form -->
+        <elements>
+            <pdf>
+                <type>checkbox</type>
+                <options>
+                <value>true</value>
+                    <label>Enable the PDF button</label>
+                </options>
+            </pdf>
+            <print>
+                <type>checkbox</type>
+                <options>
+                <value>true</value>
+                    <label>Enable the Print button</label>
+                </options>
+            </print>
+            <protect_email>
+                <type>checkbox</type>
+                <options>
+                <value>false</value>
+                    <label>Enable the email protection</label>
+                </options>
+            </protect_email>
+        </elements>
+    </configuration>
 </jimwModule>

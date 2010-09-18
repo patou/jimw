@@ -20,7 +20,7 @@ class Jimw_Db_Row extends Zend_Db_Table_Row
         if (empty($this->_paramsField))
         {
             $table = $this->getTable();
-            if (isset($table))
+            if (isset($table) && $table instanceof Jimw_Db_Table)
                 $this->_paramsField = $table->getParamsField();
         }
     }

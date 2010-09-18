@@ -11,6 +11,11 @@
  */
 class Jimw_Site_Tree_Row extends Jimw_Db_Row {
     protected $_paramsField = array('param');
+    protected $_module = null;
+    protected $_active = false;
+    protected $_expanded = false;
+    protected $_children = null;
+    
     public function __construct (array $config = array ())
     {
         //if (!is_array($config))
@@ -25,30 +30,40 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
         }
         parent::__construct($config);
     }
+
+    /**
+     * If the current Row is the current page
+     * @return boolean
+     */
+    public function getActive ()
+    {
+        return $this->_active;
+    }
+    
     /**
      * Set if the current Row is the current page
      *
      * @var boolean
      */
-    protected $_active = false;
-    public function getActive ()
-    {
-        return $this->_active;
-    }
     public function setActive ($active)
     {
         $this->_active = $active;
     }
+    
+    /**
+     * If the current page is the current page or his children
+     * @return boolean 
+     */
+    public function getExpanded ()
+    {
+        return $this->_expanded;
+    }
+
     /**
      * Set if the current Page is the curent page or his children
      *
      * @var boolean
      */
-    protected $_expanded = false;
-    public function getExpanded ()
-    {
-        return $this->_expanded;
-    }
     public function setExpanded ($expanded)
     {
         $this->_expanded = $expanded;
@@ -152,7 +167,6 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
      *
      * @return Jimw_Db_Rowset
      */
-    protected $_children = null;
     private function _getChildren ()
     {
         if ($this->_children == null) {
@@ -161,6 +175,34 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
         //Jimw_Debug::dump($this->_children);
         //return $this->_children;
         return null;
+    }
+
+    
+
+    /**
+     * Return the module Row from the tree, use the module_path to load the module
+     * @return Jimw_Site_Module_Row The module
+     */
+    public function getModule() {
+        if (!$this->_module) {
+            $moduletable = new Jimw_Site_Module();
+            $this->_module = $moduletable->fetchRow($moduletable->select()->where('module_path = ?', $this->__get('module_path')));
+        }
+        return $this->_module;
+    }
+
+    /**
+     * Return the column
+     * If the name is "module", return the associated module
+     * @param string $name
+     * @return mixed
+     * @see Zend_Db_Table_Row_Abstract#__get()
+     */
+    public function __get($name) {
+        if ($name == 'module') {
+            return $this->getModule();
+        }
+        return parent::__get($name);
     }
 }
 ?>

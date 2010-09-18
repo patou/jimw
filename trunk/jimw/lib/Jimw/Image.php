@@ -1,4 +1,14 @@
 <?php
+/**
+ * JIMW
+ *
+ * @author     Patou
+ * @category   Jimw_Core
+ * @package    Jimw
+ * @copyright  Copyright (c) 2006-2007 jimw.fr
+ * @license    http://www.jimw.fr
+ * @version    $Id: Image.php 253 2008-11-30 22:34:54Z patou.de.saint.steban $
+ */
 if (! defined('JIMW_IMAGE_THUMBNAIL'))
     define('JIMW_IMAGE_THUMBNAIL', 'thumbnails/');
 if (! defined('JIMW_IMAGE_THUMBNAIL_MAXWIDTH'))
@@ -177,4 +187,3 @@ class Jimw_Image
         return array(intval($current_width * $ratio) , intval($current_height * $ratio));
     }
 }
-?>
