@@ -186,7 +186,10 @@ class Jimw_Site_Tree_Row extends Jimw_Db_Row {
     public function getModule() {
         if (!$this->_module) {
             $moduletable = new Jimw_Site_Module();
-            $this->_module = $moduletable->fetchRow($moduletable->select()->where('module_path = ?', $this->__get('module_path')));
+            $module_path = $this->__get('module_path');
+            if ($module_path) {
+                $this->_module = $moduletable->fetchRow($moduletable->select()->where('module_path = ?', $module_path));
+            }
         }
         return $this->_module;
     }
