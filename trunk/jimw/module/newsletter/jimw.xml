@@ -40,6 +40,8 @@
 	<controllers><!-- List of controller can be used by a tree -->
 		<newsletter><!-- Name of the controller -->
 			<name>Newsletter</name><!-- Readable name -->
+                        <action>newletter</action>
+                        <controller>newletter</controller>
 			<params><!-- Param form -->
 				<elements>
 					<sucess_text>

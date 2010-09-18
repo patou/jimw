@@ -18,7 +18,7 @@ foreach ($this->flashmessenger as $message)
      $this->accordionPane('tree_accordion', $this->edit_form, array('title' => 'Module ' . $this->tree->module_path));
      $active = 1;
  }
- echo $this->accordionContainer('tree_accordion', array('active' => $active, 'fillSpace' => true));
+ echo $this->accordionContainer('tree_accordion', array('active' => $active, 'autoHeight' => true));
 ?>
 <br style="clear: both;" />
 <p class="t01" style="font-size: 12px;">
