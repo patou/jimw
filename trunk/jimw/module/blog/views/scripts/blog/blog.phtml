@@ -16,14 +16,15 @@
             <p><?php echo $message->content; ?></p>
          <?php endif; ?>
          <p class="post-footer align-right">
-          	    <?php
-          	    if (!empty($message->user_id)) {
+                    <?php
+          	    if ($this->module->config->display_author && !empty($message->user_id)) {
           	        $users = $user_table->find($message->user_id);
           	        if (count($users)) {
           	            $user = $users->current();
-          	            echo $this->_('By'), '&nbsp;', $user->firstname, ' ', $user->lastname;
-          	        } 
-          	    }?>
+          	            echo $this->_('By %s', $user->firstname . ' ' . $user->lastname);
+          	        }
+          	    }
+                    ?>
                 <?php if (!empty($message->header)): ?>
                 	<a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'format' => 'phtml', 'alias' => $this->tree->alias, 'mid' => $message->id), 'format') ?>" class="readmore"><?php echo $this->_('Read more...'); ?></a>
                 <?php endif; ?>
@@ -40,7 +41,9 @@
             <a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'comment', 'action' => 'add', 'format' => 'phtml', 'alias' => $this->tree->alias, 'blogmessage_id' => $message->id), 'format'); ?>" onclick="javascript:el = document.getElementById('addcomment<?php echo $message->id ?>'); el.style.display=(el.style.display=='none') ? 'block':'none'; return false;" class="comments"><?php echo $this->_('Add comment'); ?></a>
           <?php endif; ?>
         <?php endif; ?>
-          <span class="date"><?php echo $this->date($message->date); ?></span>
+            <?php if ($this->module->config->display_date): ?>
+            <span class="date"><?php echo $this->date($message->date, Zend_Date::DATE_MEDIUM); ?></span>
+            <?php endif; ?>
          </p>
         <?php if ($this->tree->param->comment && $message->comment): ?>
          <?php if (count($comments) > 0): ?>
