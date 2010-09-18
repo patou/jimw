@@ -41,10 +41,24 @@
             <comment>
                 <type>checkbox</type>
                 <options>
-                <value>true</value>
+                    <value>true</value>
                     <label>Enable comments</label>
                 </options>
             </comment>
+            <display_author>
+                <type>checkbox</type>
+                <options>
+                    <value>true</value>
+                    <label>Display author</label>
+                </options>
+            </display_author>
+            <display_date>
+                <type>checkbox</type>
+                <options>
+                    <value>true</value>
+                    <label>Display date</label>
+                </options>
+            </display_date>
             <nbMessageByPage>
                 <type>text</type>
                 <options>

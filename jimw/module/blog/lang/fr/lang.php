@@ -21,8 +21,11 @@ return array(
     'Enter the date with the format YYYY-MM-DD hh:mm:ss' => 'Entrez la date au format AAAA-MM-JJ hh:mm:ss',
     'If you want to do a link to an another page on your website' => 'Si vous voulez faire un liens vers une autre page de votre site',
     'In' => 'Dans',
-    'By' => 'Par',
+    'By %s' => 'Par %s',
     'Number of display message by page' => 'Nombre de message par page',
-    'Enable comments' => 'Activer les commentaires'
+    'Enable comments' => 'Activer les commentaires',
+    'Display author' => 'Afficher l\'auteur du message',
+    'Display date' => 'Afficher la date du message',
+    'Display sharing toolbar' => 'Afficher la barre pour partager les messages'
 
 );
