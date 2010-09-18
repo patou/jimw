@@ -28,45 +28,51 @@
 	* jimw.xml (this configuration file)
 	* icon.png (icon to display in the administration)
 	-->
-	<name>Jimw Blog</name><!-- Name of the module -->
-	<comment>Jimw Blog</comment><!-- A small comment for the module -->
-	<version>0.9</version><!-- Version of the module -->
-	<author>Simon Leprince</author><!-- Name of the author -->
-	<icon>icon.png</icon><!-- Icon of the module (not works now) -->
-	<cache_enabled></cache_enabled>
-	<search_enabled></search_enabled>
-	<configuration>
+    <name>Jimw Blog</name><!-- Name of the module -->
+    <comment>Jimw Blog</comment><!-- A small comment for the module -->
+    <version>0.9</version><!-- Version of the module -->
+    <author>Simon Leprince</author><!-- Name of the author -->
+    <icon>icon.png</icon><!-- Icon of the module (not works now) -->
+    <cache_enabled></cache_enabled>
+    <search_enabled></search_enabled>
+    <configuration>
 		<!-- Configuration form -->
-		<elements>
+        <elements>
             <comment>
                 <type>checkbox</type>
-                <options><label>Activer les commentaires</label></options>
+                <options>
+                    <label>Activer les commentaires</label>
+                </options>
             </comment>
             <nbMessageByPage>
                 <type>text</type>
                 <options>
-                    <label>Nombre de message par page</label>                   
+                    <label>Nombre de message par page</label>
                 </options>
             </nbMessageByPage>
         </elements>
-	</configuration>
-	<controllers><!-- List of controller can be used by a tree -->
-		<blog><!-- Name of the controller -->
-			<name>Blog</name><!-- Readable name -->
-			<params><!-- Param form -->
-				<elements>
-					<comment>
-						<type>checkbox</type>
-						<options><label>Activer les commentaires</label></options>
-					</comment>
-					<nbMessageByPage>
-						<type>text</type>
-						<options>
-							<label>Nombre de message par page</label>					
-						</options>
-					</nbMessageByPage>
-				</elements>
-			</params>
-		</blog>
-	</controllers>
+    </configuration>
+    <controllers><!-- List of controller can be used by a tree -->
+        <blog><!-- Name of the controller -->
+            <name>Blog</name><!-- Readable name -->
+            <action>list</action>
+            <controler>message</controler>
+            <params><!-- Param form -->
+                <elements>
+                    <comment>
+                        <type>checkbox</type>
+                        <options>
+                            <label>Activer les commentaires</label>
+                        </options>
+                    </comment>
+                    <nbMessageByPage>
+                        <type>text</type>
+                        <options>
+                            <label>Nombre de message par page</label>
+                        </options>
+                    </nbMessageByPage>
+                </elements>
+            </params>
+        </blog>
+    </controllers>
 </jimwModule>

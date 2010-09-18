@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jimwModule>
-<name>MEJ blog MP3</name>
-<comment>MEJ blog MP3</comment>
-<version>0.1</version>
-<author>Simon Leprince</author>
+    <name>MEJ blog MP3</name>
+    <comment>MEJ blog MP3</comment>
+    <version>0.1</version>
+    <author>Simon Leprince</author>
+    <controllers><!-- List of controller can be used by a tree -->
+        <mejblogmp3><!-- Name of the controller -->
+            <name>Blog</name><!-- Readable name -->
+            <action>list</action>
+            <controler>message</controler>
+        </mejblogmp3>
+    </controllers>
 </jimwModule>
