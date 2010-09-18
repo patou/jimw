@@ -41,13 +41,15 @@
             <comment>
                 <type>checkbox</type>
                 <options>
-                    <label>Activer les commentaires</label>
+                <value>true</value>
+                    <label>Enable comments</label>
                 </options>
             </comment>
             <nbMessageByPage>
                 <type>text</type>
                 <options>
-                    <label>Nombre de message par page</label>
+                    <value>10</value>
+                    <label>Number of display message by page</label>
                 </options>
             </nbMessageByPage>
         </elements>
@@ -56,21 +58,16 @@
         <blog><!-- Name of the controller -->
             <name>Blog</name><!-- Readable name -->
             <action>list</action>
-            <controler>message</controler>
+            <controller>message</controller>
             <params><!-- Param form -->
                 <elements>
                     <comment>
                         <type>checkbox</type>
                         <options>
-                            <label>Activer les commentaires</label>
+                            <value>true</value>
+                            <label>Enable comments</label>
                         </options>
                     </comment>
-                    <nbMessageByPage>
-                        <type>text</type>
-                        <options>
-                            <label>Nombre de message par page</label>
-                        </options>
-                    </nbMessageByPage>
                 </elements>
             </params>
         </blog>

@@ -8,7 +8,7 @@
         <shop><!-- Name of the controller -->
             <name>Shop</name><!-- Readable name -->
             <action>list</action>
-            <controler>album</controler>
+            <controller>album</controller>
         </shop>
     </controllers>
 </jimwModule>

@@ -26,8 +26,8 @@ class Jimw_Site_View_Helper_AliasLink extends Zend_View_Helper_Abstract
         $url = $this->view->url(array('alias' => $matches[1][$i]), 'alias', true);
         $result = str_replace($matches[0][$i], '<a href="'.$url.'" class="alias">'.$page->pagetitle.'</a>', $result);
       } else {
-        $result = str_replace($matches[0][$i], '<a href="#" class="alias">???</a>', $result);
-			}
+        //$result = str_replace($matches[0][$i], '<a href="#" class="alias">???</a>', $result);
+      }
     }
 
     // With text

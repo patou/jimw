@@ -1,11 +1,26 @@
-<?= (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
+<?php echo (!empty($this->tree->description)) ? '<p>' . $this->tree->description . '</p>' : ''; ?>
 
-<? if (!empty($this->article)): ?>
-<div id="article-toolbar" style="float: right;">
-<a href="<?php echo $this->url(array('alias' => $this->tree->alias, 'format' => 'pdf'), 'alias', false); ?>" class="icon_pdf"><img src="<?php echo $this->common("pdf.png");?>" id="article-pdf" alt="" title="<?php echo $this->_('View this page in PDF'); ?>" align="middle" border="0" /></a>
-<a href="<?php echo $this->url(array('alias' => $this->tree->alias, 'format' => 'print'), 'alias', false); ?>" class="icon_print"><img src="<?php echo $this->common("print.png");?>" id="article-print" alt="" title="<?php echo $this->_('Print this page'); ?>" align="middle" border="0" /></a>
-</div>
-<?php echo $this->protectMail($this->bbCode($this->aliasLink($this->article->content))); ?>
+<?php if (!empty($this->article)): ?>
+
+<?php
+    Jimw_Debug::dump($this->module->config->pdf);
+if ($this->module->config->pdf || $this->module->config->print): ?>
+        <div id="article-toolbar" style="float: right;">
+    <?php if ($this->module->config->pdf): ?>
+            <a href="<?php echo $this->url(array('alias' => $this->tree->alias, 'format' => 'pdf'), 'alias', false); ?>" class="icon_pdf"><img src="<?php echo $this->common("pdf.png"); ?>" id="article-pdf" alt="" title="<?php echo $this->_('View this page in PDF'); ?>" align="middle" border="0" /></a>
+    <?php endif; ?>
+    <?php if ($this->module->config->print): ?>
+            <a href="<?php echo $this->url(array('alias' => $this->tree->alias, 'format' => 'print'), 'alias', false); ?>" class="icon_print"><img src="<?php echo $this->common("print.png"); ?>" id="article-print" alt="" title="<?php echo $this->_('Print this page'); ?>" align="middle" border="0" /></a>
+    <?php endif; ?>
+        </div>
+<?php endif; ?>
+<?php
+                $content = $this->bbCode($this->aliasLink($this->article->content));
+                if ($this->module->config->protect_email) {
+                    $content = $this->protectMail($content);
+                }
+                echo $content;
+?>
 <? else: ?>
-<p><?php echo $this->_('Article not found'); ?></p>
+                    <p><?php echo $this->_('Article not found'); ?></p>
 <? endif; ?>

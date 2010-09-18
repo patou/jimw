@@ -22,9 +22,9 @@ class Jimw_Version
     /** @var int Minor version number */
     public $minor_version = 0;
     /** @var int Developer version number */
-    public $dev_version = 'Alpha 1';
+    public $dev_version = 'Alpha 3';
     /** @var int Revision version number */
-    public $revision = '$Revision: $';
+    public $revision = '$Revision$';
     /**
      * Return a long string of the version
      *
@@ -50,7 +50,7 @@ class Jimw_Version
      */
     public function getCopyright ()
     {
-        return 'Copyright (C) 2008 ' . $this->company . '. All rights reserved.';
+        return 'Copyright (C) ' . date('Y') . ' ' . $this->company . '. All rights reserved.';
     }
     /**
      * Return the php version

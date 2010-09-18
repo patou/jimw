@@ -6,9 +6,9 @@
     <author>Simon Leprince</author>
     <controllers><!-- List of controller can be used by a tree -->
         <mejblogmp3><!-- Name of the controller -->
-            <name>Blog</name><!-- Readable name -->
+            <name>MEJ Blog MP3</name><!-- Readable name -->
             <action>list</action>
-            <controler>message</controler>
+            <controller>message</controller>
         </mejblogmp3>
     </controllers>
 </jimwModule>

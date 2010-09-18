@@ -53,64 +53,64 @@ class TreeController extends Jimw_Admin_Action {
         $id = $req->getParam('id');
         if (empty($id))
             $id = $req->getParam('tree_id');
-        $tree = new Jimw_Site_Tree();
+        $treetable = new Jimw_Site_Tree();
         $form = new Jimw_Admin_Form_TreeForm();
         $form->getElement('module_path')->setAttrib('disable', true)->setRequired(false);
-        $result = $tree->fetchAll($tree->select()->where('tree_id = ?', $id));
-        if (!count($result)) {
+        $tree = $treetable->fetchAll($treetable->select()->where('tree_id = ?', $id));
+        if (!count($tree)) {
             throw new Jimw_Admin_Exception("The tree $id doesn't exist");
         }
-        $result = $result->current();
-        $module = $result->findParentJimw_Site_Module();
+        $tree = $tree->current();
+        $module = $tree->getModule();
         $this->_addModuleConfig($module, $form);
         if ($req->isPost() && $form->isValid($req->getPost())) {
             $values = $form->getValues();
-            $result->pagetitle = $values['tree_pagetitle'];
-            $result->menutitle = $values['tree_menutitle'];
-            $result->parentid = $values['tree_parentid'];
-            $result->version++;
-            $result->status = $values['tree_status'];
-            $result->alias = $values['tree_alias'];
-            $result->image = $values['tree_image'];
+            $tree->pagetitle = $values['tree_pagetitle'];
+            $tree->menutitle = $values['tree_menutitle'];
+            $tree->parentid = $values['tree_parentid'];
+            $tree->version++;
+            $tree->status = $values['tree_status'];
+            $tree->alias = $values['tree_alias'];
+            $tree->image = $values['tree_image'];
             //$result->icon = $values['tree_icon'];
-            $result->description = $values['tree_description'];
+            $tree->description = $values['tree_description'];
             if (empty($values['tree_parentid'])) { // If the parent tree is the root
                 $site = Zend_Registry::get('site');
-                if ($result->id != $site->tree_id) { //If the node isn't the site tree root node
-                    $result->parentid = $site->tree_id;
-                    $result->site_id = $site->id;
+                if ($tree->id != $site->tree_id) { //If the node isn't the site tree root node
+                    $tree->parentid = $site->tree_id;
+                    $tree->site_id = $site->id;
                 }
             }
-            $parent = $tree->find($values['tree_parentid']);
+            $parent = $treetable->find($values['tree_parentid']);
             if (isset($parent) && count($parent)) {
-                $result->site_id = $parent->current()->site_id;
+                $tree->site_id = $parent->current()->site_id;
             }
             if (JIMW_DEBUG_MODE) {
-                $result->creationdate = $values['tree_creationdate'];
-                $result->editiondate = $values['tree_editiondate'];
+                $tree->creationdate = $values['tree_creationdate'];
+                $tree->editiondate = $values['tree_editiondate'];
                 //$result->param = $values['tree_param'];
                 //$result->site_id = $values['site_id'];
             }
             //Zend_Debug::dump($save);
             if (!empty($values['tree_param'])) {
-                $result->param = $values['tree_param'];
+                $tree->param = $values['tree_param'];
             }
-            $result->save();
-            $id = $result->id;
+            $tree->save();
+            $id = $tree->id;
             $this->_helper->getHelper('FlashMessenger')->addMessage('Save successful ' . $req->tree_pagetitle);
         } else {
-            $form->populate($result->toArray());
+            $form->populate($tree->toArray());
         }
         $form->addSubmit('Save');
-        $this->view->tree = $result;
+        $this->view->tree = $tree;
         $this->view->form = $form;
         $this->view->id = $id;
-        if ($result->status >= 0) {
+        if ($tree->status >= 0) {
             $action = (isset($module->xml->controllers->{$module->path}->action)) ? $module->xml->controllers->{$module->path}->action : 'edit';
-            $controller = (isset($module->xml->controllers->{$module->path}->controler)) ? $module->xml->controllers->{$module->path}->controler : 'manage';
+            $controller = (isset($module->xml->controllers->{$module->path}->controller)) ? $module->xml->controllers->{$module->path}->controller : 'manage';
             Jimw_Debug::display($action . ':' . $controller);
             //$this->_helper->actionStack('edit', 'manage', $result->module_path, array('tree' => $result, 'id' => $id, 'alias' => $result->alias));
-            $this->view->edit_form = $this->view->action($action, $controller, $result->module_path, array('tree' => $result, 'id' => $id, 'alias' => $result->alias));
+            $this->view->edit_form = $this->view->action($action, $controller, $tree->module_path, array('tree' => $tree, 'id' => $id, 'alias' => $tree->alias));
             //$this->_forward('edit', 'manage', $result->module_path);
         }
         $this->render('form');
@@ -141,7 +141,7 @@ class TreeController extends Jimw_Admin_Action {
             $save->param = '';
             $save->icon = '';
             $save->image = '';
-            $save->param = array();
+            $save->param = $this->_loadDefaultParam($req->module_path);
             if (JIMW_DEBUG_MODE) {
                 $save->creationdate = $values['tree_creationdate'];
                 $save->editiondate = $values['tree_editiondate'];
@@ -150,7 +150,7 @@ class TreeController extends Jimw_Admin_Action {
             }
             //Zend_Debug::dump($save);
             $save->save();
-            Jimw_Debug::dump($save);
+//            Jimw_Debug::dump($save);
             $id = $save->id;
             //$save = $tree->find($id)->current();
             $save->parentid = $values['tree_parentid'];
@@ -326,6 +326,21 @@ class TreeController extends Jimw_Admin_Action {
         }
     }
 
+
+    public function _loadDefaultParam($moduleName) {
+        $moduletable = new Jimw_Site_Module();
+        $module = $moduletable->fetchRow($moduletable->select()->where('module_path = ?', $moduleName));
+        $config = array();
+//        Jimw_Debug::dump($module);
+        if (isset($module->xml->controllers->{$moduleName}->params->elements)) {
+            foreach ($module->xml->controllers->{$moduleName}->params->elements as $name => $element) {
+                if (isset($element->options->value)) {
+                    $config[$name] = $element->options->value;
+                }
+            }
+        }
+        return $config;
+    }
 }
 
 ?>

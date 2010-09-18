@@ -27,7 +27,7 @@ class Jimw_Site_Module_Row extends Jimw_Db_Row
                 $fetch = $mconftable->fetchNew();
                 $fetch->site_id = $site->id;
                 $fetch->module_id = $this->id;
-                $fetch->config = array();
+                $fetch->config = $this->_loadDefaultConfiguration();
                 $fetch->save();
             }
             $this->_config = $fetch;
@@ -40,13 +40,28 @@ class Jimw_Site_Module_Row extends Jimw_Db_Row
         }
     }
 
+    public function _loadDefaultConfiguration() {
+        $this->_loadXMLConfiguration();
+        $config = array();
+        if (isset($this->_xml->configuration->elements)) {
+            foreach ($this->_xml->configuration->elements as $name => $element) {
+                if (isset($element->options->value)) {
+                    $config[$name] = $element->options->value;
+                }
+            }
+        }
+        return $config;
+    }
+
     public function _loadXMLConfiguration() {
         if ($this->_xml === null) {
             $dir = JIMW_REP_MODULE . $this->path . '/jimw.xml';
-            if (file_exists($dir) && is_readable($dir))
+            if (file_exists($dir) && is_readable($dir)) {
                 $this->_xml = new Zend_Config_Xml($dir);
-            else
+            }
+            else {
                 throw new Jimw_Exception('This module didn\'t have a configuration file !');
+            }
         }
     }
 
