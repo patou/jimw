@@ -56,6 +56,7 @@ CREATE TABLE `{PREFIX}tree` (
   `tree_icon` varchar(127) NOT NULL DEFAULT '',
   `tree_image` varchar(127) NOT NULL DEFAULT '',
   `tree_alias` varchar(255) NOT NULL DEFAULT '',
+  `tree_controller` varchar(255) NOT NULL DEFAULT '',
   `tree_description` mediumtext,
   `user_id` int(11) DEFAULT '0',
   `tree_status` tinyint(4) NOT NULL DEFAULT '0',
@@ -83,6 +84,13 @@ CREATE TABLE `{PREFIX}usergroup` (
   `group_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`group_id`,`user_id`)
+);
+CREATE TABLE IF NOT EXISTS `{PREFIX}template` (
+`template_id` INTEGER AUTO_INCREMENT PRIMARY KEY,
+`site_id` INTEGER DEFAULT '0',
+`template_path` VARCHAR (255)  NOT NULL DEFAULT '',
+`template_config` MEDIUMTEXT,
+KEY `template_path` (`template_path`)
 );
 INSERT INTO `{PREFIX}group` (`group_id`, `group_name`, `group_type`, `group_parents`) VALUES(1, 'Guests', 1, NULL);
 INSERT INTO `{PREFIX}group` (`group_id`, `group_name`, `group_type`, `group_parents`) VALUES(2, 'Members', 1, NULL);

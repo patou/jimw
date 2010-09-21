@@ -1,2 +1,4 @@
 #Activate the Rewrite Engine (you must have the rewrite_mode enabled)
-RewriteEngine off
+<IfModule mod_rewrite.c>
+    RewriteEngine off
+</IfModule>

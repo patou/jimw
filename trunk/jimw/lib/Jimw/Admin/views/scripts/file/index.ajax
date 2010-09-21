@@ -84,7 +84,7 @@ echo $this->request->getDomainName();
 <script type="text/javascript"
     src="<?=$this->path?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
 <script type="text/javascript"
-    src="<?=$this->path?>/javascripts/extjs/ext-all<?=(JIMW_DEBUG_MODE) ? '-debug' : ''?>.js"></script>
+    src="<?=$this->path?>/javascripts/extjs/ext-all<?=(JIMW_DEBUG) ? '-debug' : ''?>.js"></script>
 
 <script type="text/javascript"
     src="<?=$this->path?>/javascripts/Ext.ux.form.BrowseButton.js"></script>

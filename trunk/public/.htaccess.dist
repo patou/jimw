@@ -1,3 +1,4 @@
 #Don't use rewrite engine in this repertory
-
-RewriteEngine off
+<IfModule mod_rewrite.c>
+    RewriteEngine off
+</IfModule>

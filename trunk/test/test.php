@@ -3,7 +3,7 @@ define('JIMW_REP', '../jimw/');
 
 include(JIMW_REP. 'config/global.php');
 
-define('JIMW_DEBUG_MODE', true);
+define('JIMW_DEBUG', true);
 // Autoload initialisation
 set_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
 require_once('Zend/Loader.php');

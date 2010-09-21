@@ -74,7 +74,7 @@ class Jimw_Controller
             $locale = new Zend_Locale(JIMW_LANG);
         }
         $options = array('scan' => Zend_Translate::LOCALE_DIRECTORY);
-        if (!JIMW_DEBUG_MODE)
+        if (!JIMW_DEBUG)
             $options['disableNotices'] = true; //Disable notices on production mode
         $trans = new Zend_Translate('array', JIMW_REP_LANG, null, $options);
         //if (!$trans->isAvailable($locale)) $locale = Zend_Locale::getDefault();
@@ -109,7 +109,7 @@ class Jimw_Controller
 
     public function initCache()
     {
-        if (!JIMW_DEBUG_MODE) { // Do not cache in debug mode
+        if (!JIMW_DEBUG) { // Do not cache in debug mode
             //TODO Do cache for everything (db, translate, page, module...)
         }
 

@@ -87,7 +87,7 @@ echo $this->request->getDomainName();
 <script type="text/javascript"
 	src="<?php echo $this->path?>/javascripts/extjs/adapter/ext/ext-base.js"></script>
 <script type="text/javascript"
-	src="<?php echo $this->path?>/javascripts/extjs/ext-all<?php echo (JIMW_DEBUG_MODE) ? '-debug' : ''?>.js"></script>
+	src="<?php echo $this->path?>/javascripts/extjs/ext-all<?php echo (JIMW_DEBUG) ? '-debug' : ''?>.js"></script>
 <script type="text/javascript"
 	src="<?php echo $this->path?>/javascripts/chooser.js"></script>
 <div id="chooser-dlg" style="width: 100%; height: 100%"></div>

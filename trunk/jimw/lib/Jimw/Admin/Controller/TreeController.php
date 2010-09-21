@@ -85,7 +85,7 @@ class TreeController extends Jimw_Admin_Action {
             if (isset($parent) && count($parent)) {
                 $tree->site_id = $parent->current()->site_id;
             }
-            if (JIMW_DEBUG_MODE) {
+            if (JIMW_DEBUG) {
                 $tree->creationdate = $values['tree_creationdate'];
                 $tree->editiondate = $values['tree_editiondate'];
                 //$result->param = $values['tree_param'];
@@ -142,7 +142,7 @@ class TreeController extends Jimw_Admin_Action {
             $save->icon = '';
             $save->image = '';
             $save->param = $this->_loadDefaultParam($req->module_path);
-            if (JIMW_DEBUG_MODE) {
+            if (JIMW_DEBUG) {
                 $save->creationdate = $values['tree_creationdate'];
                 $save->editiondate = $values['tree_editiondate'];
                 //$save->param = $values['tree_param'];

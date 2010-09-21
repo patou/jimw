@@ -214,7 +214,7 @@ echo $message . '<br />'; ?>
 				href="<?php echo $this->url(array('alias' => $tree->alias, 'site' => $tree->site_id), 'alias', true, false); ?>"
 				target="_new" class="no_decoration external"
 				title="<?php echo $this->_('View live page'); ?>"><?php echo $tree->alias?></a>
-				<?php echo ((JIMW_DEBUG_MODE) ? $tree->lft .' : '. $tree->rgt. ' = '.$tree->site_id : '' )?>
+				<?php echo ((JIMW_DEBUG) ? $tree->lft .' : '. $tree->rgt. ' = '.$tree->site_id : '' )?>
 				)
 				<?php if ($this->site->default_tree_id == $tree->id): ?>
 				<img src="<?php echo $path ?>/images/icons/page_white_star.png"

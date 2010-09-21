@@ -106,7 +106,7 @@ class Jimw_Install_Controller
     {
         global $jimw_config_db;
         try {
-            if (JIMW_DEBUG_MODE) {
+            if (JIMW_DEBUG) {
                 $jimw_config_db['profiler'] = true;
             }
             $db = Zend_Db::factory($jimw_config_db['type'], $jimw_config_db);
