@@ -21,7 +21,7 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
     private function testConnection (Jimw_Db_Row $param)
     {
         $db_param = array('dbname' => $param->name , 'host' => $param->server , 'username' => $param->user , 'password' => $param->pass);
-        if (JIMW_DEBUG_MODE) {
+        if (JIMW_DEBUG) {
             $db_param['profiler'] = true;
         }
         try {
@@ -56,7 +56,7 @@ class Jimw_Global_Router extends Zend_Controller_Router_Abstract
             throw new Zend_Controller_Router_Exception('Jimw_Global_Router requires a Jimw_Global_Request-based request object');
         }
         $jimw_config_db = Zend_Registry::get('config_db');
-        if (JIMW_DEBUG_MODE) {
+        if (JIMW_DEBUG) {
             $jimw_config_db['profiler'] = true;
         }
         $db = Zend_Db::factory($jimw_config_db['type'], $jimw_config_db);

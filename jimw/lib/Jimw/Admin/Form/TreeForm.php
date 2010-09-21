@@ -4,7 +4,7 @@ class Jimw_Admin_Form_TreeForm extends Jimw_Form
     public function __construct ($options = null)
     {
         parent::__construct($options);
-        if (JIMW_DEBUG_MODE) {
+        if (JIMW_DEBUG) {
             $this->addElements(array(
             'tree_lft' => array(
                 'type' => 'text' ,

@@ -29,6 +29,10 @@ class Blog_View_Helper_ListBlogMessage extends Zend_View_Helper_Abstract {
         $treetable = new Jimw_Site_Tree();
 
         $tree = $treetable->findAlias($tree_alias)->current();
+        if ($tree == null) {
+            Jimw_Debug::display("Alias $tree_alias did't exist");
+            return '';
+        }
 
         $list = $messagetable->fetchAll($messagetable->select()->where('tree_parentid = ?', $tree->id)
                                 ->where('blogmessage_date <= NOW()')

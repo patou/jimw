@@ -36,7 +36,7 @@ class SiteController extends Jimw_Install_Action
             $val = $form->getValues();
             Jimw_Debug::dump($val);
             $database = $val['database'];
-            if (JIMW_DEBUG_MODE)
+            if (JIMW_DEBUG)
                 $database['profiler'] = true;
             $db = Zend_Db::factory($database['type'], $database);
             try {

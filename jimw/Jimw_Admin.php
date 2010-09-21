@@ -60,22 +60,30 @@ else {
 	/** Lib directory */
 	if (!defined('JIMW_REP_LIB')) define('JIMW_REP_LIB', JIMW_REP . 'lib/');
 }
-if (! defined('JIMW_DEBUG_MODE'))
-    define('JIMW_DEBUG_MODE', false);
-else
+if (defined('JIMW_DEBUG_KEY') && $_GET['_debug_'] == JIMW_DEBUG_KEY) {
+    define('JIMW_DEBUG', true);
+} elseif (!defined('JIMW_DEBUG_MODE')) {
+    define('JIMW_DEBUG', false);
+}
+else {
+    define('JIMW_DEBUG', JIMW_DEBUG_MODE);
+}
+if (JIMW_DEBUG) {
     error_reporting(E_ALL | E_STRICT);
-    // Autoload initialisation
+}    // Autoload initialisation
 set_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP_MODULE . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
 /*require_once ('Zend/Loader.php');
 spl_autoload_register(array('Zend_Loader' , 'autoload'));*/
 require_once 'Zend/Loader/Autoloader.php';
 Zend_Loader_Autoloader::getInstance()->registerNamespace(array('Jimw_', 'Zym_'));
 date_default_timezone_set(JIMW_TIMEZONE);
-if (!JIMW_DEBUG_MODE) {
+if (!JIMW_DEBUG) {
 	$cache = Zend_Cache::factory('Core', 'File', array('automatic_serialization' => true), array('cache_dir' => JIMW_REP_CACHE.'db'));
 	Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
 }
-Jimw_Debug::initDebug();
+else {
+    Jimw_Debug::initDebug();
+}
 // Session
 Zend_Session::start();
 $session = new Zend_Session_Namespace('Admin');
@@ -108,4 +116,3 @@ catch (Exception $e) {
         Jimw_Debug::disactive();
 	}
 //}
-?>

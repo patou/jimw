@@ -113,7 +113,7 @@ class Jimw_Debug extends Zend_Debug
     {
         static $id = 0;
         $div_id = 'debug' . $id ++;
-        if (! JIMW_DEBUG_MODE) {
+        if (! JIMW_DEBUG) {
             $output = "\n<!--\n";
         } else {
             if (empty($title)) {
@@ -139,7 +139,7 @@ class Jimw_Debug extends Zend_Debug
         }
         $output .= $message . "\n";
         $output .= self::getTraceback();
-        if (! JIMW_DEBUG_MODE) {
+        if (! JIMW_DEBUG) {
             $output .= "\n-->\n";
         } else {
             $output .= '</div></div>' . "\n";
@@ -246,12 +246,12 @@ class Jimw_Debug extends Zend_Debug
         $fullTraceback = $call['file'] . ' on line ' . $call['line'];
         $call['file'] = self::cropScriptPath($call['file']);
         $traceback = '';
-        if (JIMW_DEBUG_MODE) {
+        if (JIMW_DEBUG) {
             $traceback = '<br /><acronym class="backtrace" title="' . $fullTraceback . '">';
         }
         $traceback .= $call['file'] . ' on line ';
         $traceback .= $call['line'];
-        if (JIMW_DEBUG_MODE) {
+        if (JIMW_DEBUG) {
             $traceback .= '</acronym>';
         }
         return $traceback;

@@ -1,9 +1,31 @@
 <?php
-	$jimw_config_db['dbname'] = 'jimw_global';
-	$jimw_config_db['host'] = 'localhost';
-	$jimw_config_db['type'] = 'PDO_MYSQL';
-	$jimw_config_db['username'] = 'root';
-	$jimw_config_db['password'] = '';
-	define('JIMW_DEBUG_MODE', false);
-	define('JIMW_LANG', 'fr');
-?>
+/**
+ * JIMW Config
+ *
+ * @author     Patou
+ * @category   Jimw_Core
+ * @package    Jimw
+ * @copyright  Copyright (c) 2006-2008 jimw.fr
+ * @license    http://www.jimw.fr
+ * @version    $Id: global.local.php.dist 253 2008-11-30 22:34:54Z patou.de.saint.steban $
+ */
+/*
+ * Copy this file to the global.local.php
+ * You can change all params, to set the global database of the application
+ */
+//Global database name
+$jimw_config_db['dbname'] = 'jimw_global';
+//The host of the database
+$jimw_config_db['host'] = 'localhost';
+//The type of the database adapter (PDO_MYSQL, SQLITE)
+$jimw_config_db['type'] = 'PDO_MYSQL';
+//The username of the database
+$jimw_config_db['username'] = 'root';
+//The password of the database
+$jimw_config_db['password'] = '';
+//Set to true for be in the DEBUG_MODE
+define('JIMW_DEBUG_MODE', false);
+//The lang of the Jimw ("en" or "fr")
+define('JIMW_LANG', 'fr');
+//Uncomment and set the key to allow to activate the debug mode by calling the page with the argument ?_debug_=42
+//define('JIMW_DEBUG_KEY', '42'); 

@@ -23,7 +23,7 @@
  * @copyright  Copyright (c) 2008 Zym. (http://www.zym-project.com/)
  * @license    http://www.zym-project.com/license    New BSD License
  */
-class Zym_View_Helper_IsRoleAllowed
+class Jimw_View_Helper_IsRoleAllowed
 {
     /**
      * ACL instance

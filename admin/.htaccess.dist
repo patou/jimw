@@ -1,6 +1,8 @@
 #Activate the Rewrite Engine (you must have the rewrite_mode enabled)
-RewriteEngine on
-RewriteBase /admin
-#Rewrite all url to the main index file
-# Change the main url file with the server configuration
-RewriteRule !(\.php|\.gif)$ /admin/index.php
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteBase /admin
+    #Rewrite all url to the main index file
+    # Change the main url file with the server configuration
+    RewriteRule !(\.php|\.gif)$ /admin/index.php
+</IfModule>

@@ -59,15 +59,22 @@ else {
 	/** Lib directory */
 	if (!defined('JIMW_REP_LIB')) define('JIMW_REP_LIB', JIMW_REP . 'lib/');
 }
-if (! defined('JIMW_DEBUG_MODE'))
-    define('JIMW_DEBUG_MODE', false);
-else
+if (defined('JIMW_DEBUG_KEY') && $_GET['_debug_'] == JIMW_DEBUG_KEY) {
+    define('JIMW_DEBUG', true);
+} elseif (!defined('JIMW_DEBUG_MODE')) {
+    define('JIMW_DEBUG', false);
+}
+else {
+    define('JIMW_DEBUG', JIMW_DEBUG_MODE);
+}
+if (JIMW_DEBUG) {
     error_reporting(E_ALL | E_STRICT);
-    // Autoload initialisation
+}
+// Autoload initialisation
 set_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
 require_once 'Zend/Loader/Autoloader.php';
 Zend_Loader_Autoloader::getInstance()->registerNamespace(array('Jimw_', 'Zym_'));
-if (JIMW_DEBUG_MODE) {
+if (JIMW_DEBUG) {
 	Jimw_Debug::initDebug();
 }
 // Session
@@ -89,7 +96,7 @@ try {
 catch (Exception $e) {
     Jimw_Debug::display_exception($e);
 }
-if (JIMW_DEBUG_MODE) {
+if (JIMW_DEBUG) {
 	$ext = (Zend_Registry::isRegistered('format')) ? Zend_Registry::get('format') : 'phtml';
 	if (!empty($ext) && $ext == 'phtml') {
 	    if (Zend_Registry::isRegistered('db')) {

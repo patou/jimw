@@ -31,7 +31,7 @@ class Jimw_Db_Update
         foreach ($databases as $database) {
             Jimw_Debug::display("-- Update database {$database['database_id']}--");
             $options = array('dbname' => $database['database_name'] , 'host' => $database['database_server'] , 'port' => $database['database_port'] , 'username' => $database['database_user'] , 'password' => $database['database_pass'] , 'type' => $database['database_type']);
-            if (JIMW_DEBUG_MODE) {
+            if (JIMW_DEBUG) {
                 $options['profiler'] = true;
             }
             $db = Zend_Db::factory($database['database_type'], $options);
@@ -135,7 +135,7 @@ class Jimw_Db_Update
             $result['sql'][$i]['query'] = $sql;
             if (! empty($sql)) {
                 try {
-                    if (JIMW_DEBUG_MODE)
+                    if (JIMW_DEBUG)
                         Jimw_Debug::display($sql);
                     $stm = $this->db->query($sql);
                     $result['sql'][$i]['result'] = $stm;
