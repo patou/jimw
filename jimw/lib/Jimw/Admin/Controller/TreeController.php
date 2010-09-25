@@ -317,7 +317,7 @@ class TreeController extends Jimw_Admin_Action {
      * @param Jimw_Site_Tree_Row $tree
      * @param Jimw_Form $form
      */
-    private function _addModuleConfig(Jimw_Site_Module $module, Jimw_Form $form) {
+    private function _addModuleConfig(Jimw_Site_Module_Row $module, Jimw_Form $form) {
         if ($module && isset($module->xml->controllers->{$module->path}->params)) {
             $params = $module->xml->controllers->{$module->path};
             $formModule = new Jimw_Form_SubForm($params->params);
