@@ -72,7 +72,7 @@ class Form_FormController extends Jimw_Module_Action_Alias {
             if (isset($tree->param['form_file']) && empty($tree->param['email_text'])) {
                 $text = "\n";
                 foreach ($values as $name => $value) {
-                    $text .= ucfirst($name) . ': ' . $value . "\n";
+                    $text .= ucfirst(str_replace('_', ' ', $name)) . ': ' . $value . "\n";
                 }
                 $values['contact'] = $text;
             }
