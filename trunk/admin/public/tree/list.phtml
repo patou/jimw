@@ -168,7 +168,7 @@ echo $message . '<br />'; ?>
 		<?php else: ?>
 			<tr class="tree_site">
 
-			<td><a href="#" onclick="return false;" title="<?php echo $this->_($statuslist[$tree->status]) ?>" style="color: <?php echo $colorlist[$tree->status] ?>; text-decoration: none;"><?php echo $tree->id?></a></td>
+			<td><a href="#" onclick="return false;" title="<?php echo $this->_($statuslist[$tree->status]); ?>" style="color: <?php echo $colorlist[$tree->status] ?>; text-decoration: none;"><?php echo $tree->id; ?></a></td>
 			<td>
 				<?php  
 				 $level_parent = $parent;

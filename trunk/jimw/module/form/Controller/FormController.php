@@ -61,7 +61,13 @@ class Form_FormController extends Jimw_Module_Action_Alias
 	    }
 	    $email = $tree->param->get('email', false);
 	    if ($email) {
-	        $mail = new Zend_Mail();
+                if (JIMW_UTF8) {
+                    $mail = new Zend_Mail('UTF-8');
+                }
+                else {
+                    $mail = new Zend_Mail();
+                }
+                
 	        $email_text = trim($tree->param->get('email_text', 'form/mail.phtml'));
 	        if (empty($email_text)) {
 	        	$email_text = 'form/mail.phtml';

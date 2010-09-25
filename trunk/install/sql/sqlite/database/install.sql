@@ -19,3 +19,4 @@ CREATE TABLE "{PREFIX}tree" ( "tree_id" INTEGER NOT NULL PRIMARY KEY, "tree_pare
 CREATE TABLE "{PREFIX}user" ( "user_id" INTEGER NOT NULL PRIMARY KEY, "user_login" varchar(32) NOT NULL default '' , "user_password" varchar(32) NOT NULL default '' , "user_status" tinyint(4) NOT NULL default '0' , "user_lastname" varchar(32) NOT NULL default '' , "user_firstname" varchar(32) NOT NULL default '' , "user_email" varchar(32) NOT NULL default '' , "user_creationdate" datetime NOT NULL default '1900-01-01 00:00:00' , "user_lastvisit" datetime NOT NULL default '1900-01-01 00:00:00' , "user_information" text NOT NULL);
 
 CREATE TABLE "{PREFIX}usergroup" ( "usergroup_id" INTEGER NOT NULL PRIMARY KEY, "group_id" int(10) NOT NULL , "user_id" int(10) NOT NULL );
+
