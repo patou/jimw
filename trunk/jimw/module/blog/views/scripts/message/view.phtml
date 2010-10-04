@@ -11,13 +11,6 @@
 <p><?php echo $message->header; ?></p>
 <?php endif; ?>
 <p><?php echo $message->content; ?></p>
-
-
-          <?php if (!empty($message->header)): ?>
-            <p><?php echo $message->header; ?></p>
-          <?php else: ?>
-            <p><?php echo $message->content; ?></p>
-         <?php endif; ?>
          <p class="post-footer align-right">
                     <?php
           	    if ($this->module->config->display_author && !empty($message->user_id)) {
