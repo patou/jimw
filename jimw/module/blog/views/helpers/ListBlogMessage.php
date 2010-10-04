@@ -41,8 +41,8 @@ class Blog_View_Helper_ListBlogMessage extends Zend_View_Helper_Abstract {
         $html = '<ul>';
         //$url = $this->url(array('alias' => $this->tree->alias, 'ext' => 'phtml'), 'alias', true);
         foreach ($list as $message) {
-            $result = $treetable->find($message->tree_parentid)->current();
-            $url = $this->view->url(array('alias' => $result->alias, 'format' => 'phtml'), 'format', true);
+            $tree = $treetable->find($message->tree_parentid)->current();
+            $url = $this->view->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'view', 'format' => 'phtml', 'alias' => $tree->alias, 'mid' => $message->id), 'format', true);
             $html .= '<li><a href="' . $url . '#' . $message->id . '">' . $message->title . '</a></li>';
         }
         $html .= '</ul>';
