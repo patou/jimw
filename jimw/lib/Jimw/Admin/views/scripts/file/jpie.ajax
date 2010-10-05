@@ -8,8 +8,9 @@
 </head>
 
 <body onload="loadJPIE('<?=$this->file;?>')">
+<?php echo $this->save; ?>
 <form name="form"
-	action="<?=$this->url(array('controller' => 'file' , 'action' => 'save' , 'format' => 'phtml'), 'format', true);?>"
+	action="<?=$this->url(array('controller' => 'file' , 'action' => 'edit' , 'format' => 'ajax'), 'format', true);?>"
 	method="post"><input type="hidden" name="filename"
 	value="<?=$this->filename;?>" /> <input type="hidden" name="file"
 	value="<?=$this->file;?>" /></form>

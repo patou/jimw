@@ -8,7 +8,7 @@
 </head>
 <body>
 <form name="form"
-	action="<?=$this->url(array('controller' => 'file' , 'action' => 'save' , 'format' => 'phtml'), 'format', true);?>"
+	action="<?=$this->url(array('controller' => 'file' , 'action' => 'edit' , 'format' => 'ajax'), 'format', true);?>"
 	method="post">
 <fieldset><input type="hidden" name="filename"
 	value="<?=$this->filename;?>" /> <textarea id="file"
