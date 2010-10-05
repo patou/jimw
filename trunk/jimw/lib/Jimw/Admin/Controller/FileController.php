@@ -222,7 +222,7 @@ class FileController extends Jimw_Admin_Action {
     }
 
     public function editAction() {
-        $filename = $this->get_dir($this->getRequest()->file);
+        $filename = $this->get_dir($this->getRequest()->filename);
         $ext = substr($this->get_ext($filename), 5);
         $editmode = $this->get_edit($filename);
         if (isset($this->getRequest()->file)) {
