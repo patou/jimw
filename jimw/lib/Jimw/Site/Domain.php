@@ -91,7 +91,7 @@ class Jimw_Site_Domain extends Jimw_Db_Table
      * @param String $url
      * @return Jimw_Site_Domain_Row
      */
-    public function createFromUrl (String $url)
+    public function createFromUrl ($url)
     {
         $domain = $this->fetchNew();
         $url = Zend_Uri::factory($url);
