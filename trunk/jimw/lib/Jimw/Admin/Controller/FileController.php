@@ -227,9 +227,6 @@ class FileController extends Jimw_Admin_Action {
         $editmode = $this->get_edit($filename);
         if (isset($this->getRequest()->file)) {
             if ($editmode == 'edit_area') {
-                $this->getHelper('Layout')->disableLayout();
-                $this->view->filename = $this->getRequest()->filename;
-                $filename = $this->get_dir($this->view->filename);
                 file_put_contents($filename, $this->getRequest()->file);
             } elseif ($editmode == 'jpie') {
                 $file = $this->getRequest()->file;
@@ -238,7 +235,7 @@ class FileController extends Jimw_Admin_Action {
             $this->view->save = "Successfull save the file";
         }
         if ($editmode == 'edit_area') {
-            $this->view->filename = $this->getRequest()->file;
+            $this->view->filename = $this->getRequest()->filename;
             $this->view->file = file_get_contents($filename);
             if (in_array($ext, array('html', 'htm', 'phtml', 'rhtml')))
                 $filetype = 'html';

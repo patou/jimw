@@ -77,6 +77,7 @@ if (JIMW_DEBUG) {
 }
 // Autoload initialisation
 set_include_path(JIMW_REP_LIB . PATH_SEPARATOR . JIMW_REP_MODULE . PATH_SEPARATOR . JIMW_REP . PATH_SEPARATOR . get_include_path());
+try {
 require_once 'Zend/Loader/Autoloader.php';
 Zend_Loader_Autoloader::getInstance()->registerNamespace(array('Jimw_', 'Zym_'));
 date_default_timezone_set(JIMW_TIMEZONE);
@@ -100,7 +101,6 @@ if (!JIMW_DEBUG) {
 }
 Jimw_Debug::initDebug(JIMW_DEBUG);
 // Call the Global Controler
-try {
     $controler = new Jimw_Global_Controller();
     $controler->run();
 } catch (Exception $e) {
