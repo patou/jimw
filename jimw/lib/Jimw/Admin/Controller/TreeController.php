@@ -133,7 +133,7 @@ class TreeController extends Jimw_Admin_Action {
             $save->status = $values['tree_status'];
             $save->alias = $values['tree_alias'];
             $save->image = $values['tree_image'];
-            $save->icon = $values['tree_icon'];
+            $save->icon = !empty ($values['tree_icon']) ? $values['tree_icon'] : '';
             $save->description = $values['tree_description'];
             $save->module_path = $req->module_path;
             $save->version = 0;

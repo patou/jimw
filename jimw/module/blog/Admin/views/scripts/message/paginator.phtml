@@ -7,14 +7,14 @@ Voir http://developer.yahoo.com/ypatterns/pattern.php?pattern=itempagination
 
 <!-- First page link -->
 <?php if (isset($this->previous)): ?>
-  <a href="<?php echo $this->url(array('page' => $this->first)); ?>">&lt;&lt; <?php echo $this->_('First'); ?></a> |
+  <a href="<?php echo $this->url(array('controller' => 'message', 'action' => 'list', 'module' => 'blog','page' => $this->first)); ?>">&lt;&lt; <?php echo $this->_('First'); ?></a> |
 <?php else: ?>
   <span class="disabled">&lt;&lt; <?php echo $this->_('First'); ?></span> |
 <?php endif; ?>
 
 <!-- Previous page link -->
 <?php if (isset($this->previous)): ?>
-  <a href="<?php echo $this->url(array('page' => $this->previous)); ?>">
+  <a href="<?php echo $this->url(array('controller' => 'message', 'action' => 'list', 'module' => 'blog','page' => $this->previous)); ?>">
     &lt; <?php echo $this->_('Previous'); ?>
   </a> |
 <?php else: ?>
@@ -24,7 +24,7 @@ Voir http://developer.yahoo.com/ypatterns/pattern.php?pattern=itempagination
 <!-- Numbered page links -->
 <?php foreach ($this->pagesInRange as $page): ?>
   <?php if ($page != $this->current): ?>
-    <a href="<?php echo $this->url(array('page' => $page)); ?>"><?php echo $page; ?></a> |
+    <a href="<?php echo $this->url(array('controller' => 'message', 'action' => 'list', 'module' => 'blog','page' => $page)); ?>"><?php echo $page; ?></a> |
   <?php else: ?>
     <?php echo $page; ?> |
   <?php endif; ?>
@@ -32,14 +32,14 @@ Voir http://developer.yahoo.com/ypatterns/pattern.php?pattern=itempagination
 
 <!-- Next page link -->
 <?php if (isset($this->next)): ?>
-  <a href="<?php echo $this->url(array('page' => $this->next)); ?>"><?php echo $this->_('Next'); ?> &gt;</a> |
+  <a href="<?php echo $this->url(array('controller' => 'message', 'action' => 'list', 'module' => 'blog','page' => $this->next)); ?>"><?php echo $this->_('Next'); ?> &gt;</a> |
 <?php else: ?>
   <span class="disabled"><?php echo $this->_('Next'); ?> &gt;</span> |
 <?php endif; ?>
 
 <!-- Last page link -->
 <?php if (isset($this->next)): ?>
-  <a href="<?php echo $this->url(array('page' => $this->last)); ?>"><?php echo $this->_('Last'); ?> &gt;&gt;</a>
+  <a href="<?php echo $this->url(array('controller' => 'message', 'action' => 'list', 'module' => 'blog','page' => $this->last)); ?>"><?php echo $this->_('Last'); ?> &gt;&gt;</a>
 <?php else: ?>
   <span class="disabled"><?php echo $this->_('Last'); ?> &gt;&gt;</span>
 <?php endif; ?>

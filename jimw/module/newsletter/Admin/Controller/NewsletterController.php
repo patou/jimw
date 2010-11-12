@@ -13,7 +13,7 @@
 class Newsletter_NewsletterController extends Jimw_Admin_Action
 {
 	public function newsletterAction () {
-		Jimw_Debug::dump($this->getRequest()->getParams());
+		//Jimw_Debug::dump($this->getRequest()->getParams());
 		$form = new newsletter_Admin_Form_NewsletterForm();
 		$req = $this->getRequest();
 		$form->setAction($this->view->url(array('action' => 'newsletter', 'module' => 'newsletter', 'controller' => 'newsletter', 'alias' => $req->getParam('alias'), 'id' => $req->getParam('id')), 'format', true));

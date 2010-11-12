@@ -74,7 +74,7 @@ echo $message . '<br />'; ?>
 		}
 		$prof = $list->getDepth();
 		$parent = $tree->getParent()->current();
-		$isFirst = (($parent == null && $counter == 0) || $parent->lft + 1 == $tree->lft);
+		$isFirst = (($parent == null && $counter == 0) || ($parent != null && $parent->lft + 1 == $tree->lft));
 		$isLast = (($parent != null && $parent->rgt - 1 == $tree->rgt) || ($parent == null && ++$counter == $count));
 		
 		?>

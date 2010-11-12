@@ -22,8 +22,8 @@ class Blog_MessageController extends Jimw_Admin_Action
 
 		// initialisation des valeurs par défaut
 		$result->setPageRange(10);
-		$result->setItemCountPerPage(10); //TODO $this->module->config->nbPerPage
-		$page = 1;
+		$result->setItemCountPerPage(1); //TODO $this->module->config->nbPerPage
+                $page = 1;
 		if (isset($request->page))
 		    $page = $request->page;
 		$result->setCurrentPageNumber($page);
@@ -42,8 +42,8 @@ class Blog_MessageController extends Jimw_Admin_Action
 		if (!$message)
 			throw new Jimw_Admin_Exception('Message doesn\'t exist');
 		if ($request->isPost() && $form->isValid($request->getPost())) {
-            $values = $form->getValues();
-            $message->header = $values['blogmessage_header'];
+                        $values = $form->getValues();
+                        $message->header = $values['blogmessage_header'];
 			$message->title = $values['blogmessage_title'];
 			$message->content = $values['blogmessage_content'];
 			$message->date = $values['blogmessage_date'];

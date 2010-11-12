@@ -82,6 +82,13 @@
                             <label>Enable comments</label>
                         </options>
                     </comment>
+                    <nbMessageByPage>
+                        <type>text</type>
+                        <options>
+                            <value></value>
+                            <label>Number of display message by page</label>
+                        </options>
+                    </nbMessageByPage>
                 </elements>
             </params>
         </blog>
