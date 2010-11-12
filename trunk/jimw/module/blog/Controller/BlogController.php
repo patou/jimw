@@ -28,7 +28,9 @@ class Blog_BlogController extends Jimw_Module_Action_Alias
 
 		// initialisation des valeurs par défaut
 		$result->setPageRange(10);
-		if (isset($tree->module->config->nbMessageByPage))
+                if (isset($tree->param->nbMessageByPage))
+		    $result->setItemCountPerPage($tree->param->nbMessageByPage);
+		elseif (isset($tree->module->config->nbMessageByPage))
 		    $result->setItemCountPerPage($tree->module->config->nbMessageByPage);
 		else
 		    $result->setItemCountPerPage(10);

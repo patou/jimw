@@ -64,7 +64,7 @@ else {
         define('JIMW_REP_CACHE', './cache/');
 }
 
-if (defined('JIMW_DEBUG_KEY') && $_GET['_debug_'] == JIMW_DEBUG_KEY) {
+if (defined('JIMW_DEBUG_KEY') && !empty($_GET['_debug_']) && $_GET['_debug_'] == JIMW_DEBUG_KEY) {
     define('JIMW_DEBUG', true);
 } elseif (!defined('JIMW_DEBUG_MODE')) {
     define('JIMW_DEBUG', false);

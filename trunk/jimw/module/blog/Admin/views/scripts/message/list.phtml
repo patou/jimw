@@ -33,8 +33,10 @@
 	<?php endforeach; ?>
 	</table>
 	<?php
-echo $this->messages_list; //Print the pagination control
-   ?>
+            echo $this->paginationControl($this->messages_list,
+                    'Sliding',
+                    'message/paginator.phtml'); //Print the pagination control
+        ?>
 <br />
 <a href="<?php echo $this->url(array('module' => 'blog', 'controller' => 'message', 'action' => 'add', 'tree_parentid' => $this->tree_parentid, 'format' => 'phtml'), 'format', true); ?>"><?php echo $this->_('Add'); ?></a>
 <hr />
