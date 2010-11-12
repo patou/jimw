@@ -22,7 +22,7 @@ class Blog_MessageController extends Jimw_Admin_Action
 
 		// initialisation des valeurs par défaut
 		$result->setPageRange(10);
-		$result->setItemCountPerPage(1); //TODO $this->module->config->nbPerPage
+		$result->setItemCountPerPage(20); //TODO $this->module->config->nbPerPage
                 $page = 1;
 		if (isset($request->page))
 		    $page = $request->page;
