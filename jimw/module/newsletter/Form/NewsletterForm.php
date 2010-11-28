@@ -1,7 +1,5 @@
 <?php
 
-require_once ('jimw\lib\Jimw\Form.php');
-
 class newsletter_Form_NewsletterForm extends Jimw_Form {
     protected function initForm ()
     {
