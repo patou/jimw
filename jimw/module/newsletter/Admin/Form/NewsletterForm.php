@@ -22,7 +22,7 @@ class newsletter_Admin_Form_NewsletterForm extends Jimw_Form {
                 			,'editor' => array(
                 				'width' => 800, 
                 				'height' => 500, 
-                				'toolbarSet' => 'All')
+                				'toolbarSet' => 'Full')
 		                    )
 		            )
 		            ,'send' => array(

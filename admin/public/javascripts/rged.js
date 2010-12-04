@@ -709,30 +709,35 @@ Rged.prototype =  {
 		Ext.Ajax.request(options);	
 	},
 	uploadFile: function() {
-		var winUpload = new Ext.Window({
-	         width:180
-			,minWidth:165
-	        ,id:'winUpload'
-	        ,height:220
-			,minHeight:200
-	//		,stateful:false
-	        ,layout:'fit'
-	        ,border:false
-	        ,closable:true
-	        ,title:'UploadPanel'
-			,iconCls:'icon-upload'
-			,items:[{
-				  xtype:'uploadpanel'
-				 ,buttonsAt:'tbar'
-				 ,id:'uppanel'
-				 ,url:this.tree.uploadUrl
-				 ,path:this.path
-				 ,maxFileSize:1048576
-	//			 ,enableProgress:false
-	//			 ,singleUpload:true
-			}]
-	    });
-	    winUpload.show.defer(500, winUpload);
+            var win = openWindow(uploadUrl +"?dir="+encodeURI(this.path), 550, 310);
+            var f = this;
+            win.onunload  = function () {
+                f.change_path(f.path);
+            };
+//		var winUpload = new Ext.Window({
+//	         width:180
+//			,minWidth:165
+//	        ,id:'winUpload'
+//	        ,height:220
+//			,minHeight:200
+//	//		,stateful:false
+//	        ,layout:'fit'
+//	        ,border:false
+//	        ,closable:true
+//	        ,title:'UploadPanel'
+//			,iconCls:'icon-upload'
+//			,items:[{
+//				  xtype:'uploadpanel'
+//				 ,buttonsAt:'tbar'
+//				 ,id:'uppanel'
+//				 ,url:this.tree.uploadUrl
+//				 ,path:this.path
+//				 ,maxFileSize:1048576
+//	//			 ,enableProgress:false
+//	//			 ,singleUpload:true
+//			}]
+//	    });
+//	    winUpload.show.defer(500, winUpload);
 	},
     downloadFile: function(sel) {
         //window.location = basename + '?controller=file&action=download&file=' + sel.get('path');

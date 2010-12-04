@@ -17,29 +17,31 @@ class Jimw_View_Helper_FormRichtext extends Zend_View_Helper_FormTextarea
      */
     public function formRichtext($name, $value = null, $attribs = null)
     {
-        $options = array('width' => 600, 'height' => 400, 'toolbarSet' => 'Default');
+        $options = array('width' => 600, 'height' => 400, 'toolbarSet' => 'Full');
         if (isset($attribs['editor'])) {
             $options = array_merge($options ,$attribs['editor']);
             unset($attribs['editor']);
         }
         $this->view->headScript(Zend_View_Helper_HeadScript::FILE, $this->view->path . '/javascripts/jimw.js');
-        $this->view->headScript(Zend_View_Helper_HeadScript::FILE, $this->view->path . '/fckeditor.js');
+        $this->view->headScript(Zend_View_Helper_HeadScript::FILE, $this->view->path . '/ckeditor/ckeditor.js');
         $this->view->headScript()->captureStart();
         $id = str_replace('-', '_',$this->_normalizeId($name));
         ?>
       addOnloadScript(function()
       {
-        var oFCKeditor = new FCKeditor('<?php echo $name ?>', <?php echo $options['width'] ?>, <?php echo $options['height'] ?>, '<?php echo $options['toolbarSet'] ?>') ;
-        oFCKeditor.BasePath = "<?php echo $this->view->path ?>/" ;
-        oFCKeditor.Config["LinkBrowserURL"] = '<?php echo $this->view->url(array('controller' => 'tree', 'action' => 'chooser', 'format' => 'ajax'), 'format', true) ?>';
-        oFCKeditor.Config["ImageBrowserURL"] = '<?php echo $this->view->url(array('controller' => 'file', 'action' => 'chooser', 'format' => 'ajax'), 'format', true) ?>';
-        oFCKeditor.Config["FlashBrowserURL"] = '<?php echo $this->view->url(array('controller' => 'file', 'action' => 'chooser', 'format' => 'ajax'), 'format', true) ?>';
-        oFCKeditor.ReplaceTextarea();
+        var oFCKeditor = CKEDITOR.replace( '<?php echo $name ?>', {
+        width: '<?php echo $options['width'] ?>',
+        height: '<?php echo $options['height'] ?>',
+        toolbar: '<?php echo $options['toolbarSet'] ?>',
+        filebrowserBrowseUrl : '<?php echo $this->view->url(array('controller' => 'file', 'action' => 'chooser', 'format' => 'ajax'), 'format', true) ?>',
+        filebrowserUploadUrl : '<?php echo $this->view->url(array('controller' => 'file', 'action' => 'upload2', 'format' => 'ajax'), 'format', true) ?>'
+        }) ;
+
       });
       setimagerichtext<?php echo $id ?> = function(url) {
       	if (url.length > 0) {
-			var oEditor = FCKeditorAPI.GetInstance('<?php echo $name ?>');
-			oEditor.InsertHtml( '<img src="'+url+'" />' );
+			var oEditor = CKEDITOR.instances.<?php echo $name ?>;
+			oEditor.insertHtml( '<img src="'+url+'" />' );
 		}
       }
       openimagerichtext<?php echo $id ?> = function(url) {
@@ -47,9 +49,9 @@ class Jimw_View_Helper_FormRichtext extends Zend_View_Helper_FormTextarea
       }
       setlinkrichtext<?php echo $id ?> = function(node) {
       	if (node) {
-			var oEditor = FCKeditorAPI.GetInstance('<?php echo $name ?>');
+			var oEditor = CKEDITOR.instances.<?php echo $name ?>;
 			var text = node.name ? node.name : node.text;
-			oEditor.InsertHtml( ' <a href="'+node.url+'">'+text+'</a> ' );
+			oEditor.insertHtml( ' <a href="'+node.url+'">'+text+'</a> ' );
 		}
       }
       openlinkrichtext<?php echo $id ?> = function(url) {
@@ -57,9 +59,9 @@ class Jimw_View_Helper_FormRichtext extends Zend_View_Helper_FormTextarea
       }
       setfilerichtext<?php echo $id ?> = function(url, name) {
       	if (url.length > 0) {
-			var oEditor = FCKeditorAPI.GetInstance('<?php echo $name ?>');
+			var oEditor = CKEDITOR.instances.<?php echo $name ?>;
 			var text = name ? name : url;
-			oEditor.InsertHtml( ' <a href="'+url+'">'+text+'</a> ' );
+			oEditor.insertHtml( ' <a href="'+url+'">'+text+'</a> ' );
 		}
       }
       openfilerichtext<?php echo $id ?> = function(url) {
