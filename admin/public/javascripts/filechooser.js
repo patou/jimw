@@ -411,7 +411,7 @@ ImageChooser.prototype = {
 	},
 	
 	uploadFile: function() {
-            var win = openWindow(uploadUrl +"?dir="+encodeURI(this.path), 550, 310);
+            var win = openWindow(uploadUrl +"?dir="+encodeURI(this.path), 550, 310, '', 'JIMWUploader');
             var f = this;
             win.onunload  = function () {
                 console.log('onclose upload');
