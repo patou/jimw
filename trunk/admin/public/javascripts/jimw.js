@@ -5,7 +5,7 @@ function addOnloadScript(fct) {
 		window.attachEvent('onload', fct);
 }
 
-function openWindow(url, width, height, options) {
+function openWindow(url, width, height, options, name) {
 	if (options == undefined)
 		options = '';
 	var iLeft = (screen.width - width) / 2;
@@ -18,7 +18,7 @@ function openWindow(url, width, height, options) {
 	sOptions += ",top=" + iTop ;
 	sOptions += options;
 
-	return window.open( url, 'JIMWBrowseWindow', sOptions ) ;
+	return window.open( url, name ? name : 'JIMWBrowseWindow', sOptions ) ;
 }
 
 function cleanString(chaine) {
