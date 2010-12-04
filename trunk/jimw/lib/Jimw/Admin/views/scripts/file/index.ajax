@@ -26,6 +26,7 @@ echo $this->request->getDomainName();
 <script type="text/javascript">
         var path = "<?=rtrim($this->path, '/')?>";
         var basename = "<?=rtrim($this->url(array(), 'default', true), '/');?>";
+        var uploadUrl = "<?php echo $this->url(array('controller' => 'file', 'action' => 'uploader', 'format' => 'phtml'), 'format', true); ?>";
     </script>
 <style type="text/css">
 .loading-indicator {
@@ -102,6 +103,8 @@ echo $this->request->getDomainName();
     src="<?=$this->path?>/javascripts/history.js"></script>
 <script type="text/javascript"
     src="<?=$this->path?>/javascripts/locale/fr_FR.js"></script>
+<script type="text/javascript"
+    src="<?=$this->path?>/javascripts/jimw.js"></script>
 <div id="menu"></div>
 <div id="tree"></div>
 <div id="grid"></div>

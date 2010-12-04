@@ -39,7 +39,7 @@ abstract class Jimw_Module_Action_Abstract extends Zym_Controller_Action_Abstrac
         $this->getHelper('Layout')->setViewSuffix($ext);
         $this->view->addScriptPath($site_template);
         $module = $request->getModuleName();
-        $this->view->addScriptPath($site_template . $module);
+        $this->view->addScriptPath($site_template .'/'. $module);
         $this->view->addScriptPath($site_path);
         $this->_site_path = $site_path;
         $this->_site_template = $site_template;

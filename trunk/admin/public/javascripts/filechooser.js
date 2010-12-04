@@ -411,31 +411,37 @@ ImageChooser.prototype = {
 	},
 	
 	uploadFile: function() {
-		var winUpload = new Ext.Window({
-	         width:180
-			,minWidth:165
-	        ,id:'winUpload'
-	        ,height:220
-			,minHeight:200
-	//		,stateful:false
-	        ,layout: 'fit'
-	        ,border: false
-	        ,closable: true
-	        ,title:'UploadPanel'
-			,iconCls:'icon-upload'
-			,items:[{
-				  xtype:'uploadpanel'
-				 ,buttonsAt:'tbar'
-				 ,id:'uppanel'
-				 ,url: uploadUrl
-				 ,path:this.path
-				 ,maxFileSize:1048576
-	//			 ,enableProgress:false
-	//			 ,singleUpload:true
-			}]
-	    });
-	    winUpload.show.defer(500, winUpload);
-	    winUpload.on('close', this.refresh, this);
+            var win = openWindow(uploadUrl +"?dir="+encodeURI(this.path), 550, 310);
+            var f = this;
+            win.onunload  = function () {
+                console.log('onclose upload');
+                f.refresh();
+            };
+//		var winUpload = new Ext.Window({
+//	         width:180
+//		,minWidth:165
+//	        ,id:'winUpload'
+//	        ,height:220
+//			,minHeight:200
+//	//		,stateful:false
+//	        ,layout: 'fit'
+//	        ,border: false
+//	        ,closable: true
+//	        ,title:'UploadPanel'
+//			,iconCls:'icon-upload'
+//			,items:[{
+//				  xtype:'uploadpanel'
+//				 ,buttonsAt:'tbar'
+//				 ,id:'uppanel'
+//				 ,url: uploadUrl
+//				 ,path:this.path
+//				 ,maxFileSize:1048576
+//	//			 ,enableProgress:false
+//	//			 ,singleUpload:true
+//			}]
+//	    });
+//	    winUpload.show.defer(500, winUpload);
+//	    winUpload.on('close', this.refresh, this);
 	},
 	newdirFile: function() {
 		// set focus to no button to avoid accidental deletions

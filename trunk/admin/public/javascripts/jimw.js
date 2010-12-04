@@ -18,7 +18,7 @@ function openWindow(url, width, height, options) {
 	sOptions += ",top=" + iTop ;
 	sOptions += options;
 
-	window.open( url, 'JIMWBrowseWindow', sOptions ) ;
+	return window.open( url, 'JIMWBrowseWindow', sOptions ) ;
 }
 
 function cleanString(chaine) {

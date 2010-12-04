@@ -23,7 +23,7 @@ echo $this->request->getDomainName();
 <script type="text/javascript">
 		var path = "<?php echo rtrim($this->path, '/')?>";
 		var default_path = "/";
-		var uploadUrl = "<?php echo $this->url(array('controller' => 'file', 'action' => 'upload', 'format' => 'ajax'), 'format', true); ?>";
+		var uploadUrl = "<?php echo $this->url(array('controller' => 'file', 'action' => 'uploader', 'format' => 'phtml'), 'format', true); ?>";
 		var newdirUrl = "<?php echo $this->url(array('controller' => 'file', 'action' => 'newdir', 'format' => 'ajax'), 'format', true); ?>";
 		var basename = "<?php echo rtrim($this->url(array(), 'default', true), '/');?>";
 		var lang = {
@@ -110,6 +110,8 @@ echo $this->request->getDomainName();
 	src="<?php echo $this->path?>/javascripts/Ext.ux.UploadPanel.js"></script>
 <script type="text/javascript"
 	src="<?php echo $this->path?>/javascripts/filechooser.js"></script>
+<script type="text/javascript"
+	src="<?php echo $this->path?>/javascripts/jimw.js"></script>
 <script type="text/javascript">
     Ext.onReady(function() {
     var imageChooser = new ImageChooser({<?php if ($this->request->namefield) echo 'namefield: true'?>});
@@ -117,7 +119,20 @@ echo $this->request->getDomainName();
     //Ext.get('loading-mask').fadeOut({remove:true});
 	imageChooser.show(document.body, function (url, name)
 	{
-		window.top.opener.<?php echo isset($this->javascript_fct) ? $this->javascript_fct .'( encodeURI( url ) , name)': 'SetUrl( encodeURI( url ) )'; ?> ;
+            <?php
+            // Optional: instance name (might be used to load specific configuration file or anything else)
+            $CKEditor = $_GET['CKEditor'] ;
+            if (!empty($_GET['CKEditorFuncNum'])) {
+                $funcNum = (integer)$_GET['CKEditorFuncNum'];
+
+                echo "window.opener.CKEDITOR.tools.callFunction($funcNum, encodeURI( url ));";
+            }
+            else {
+                //TODO Filter the javascript params
+                echo "window.top.opener.". (isset($this->javascript_fct) ? $this->javascript_fct .'( encodeURI( url ) , name);': 'SetUrl( encodeURI( url ) );');
+            }
+            ?>
+		
 		window.top.close() ;
 		window.top.opener.focus() ;
 	});
@@ -127,4 +142,3 @@ echo $this->request->getDomainName();
 
 </body>
 </html>
-
