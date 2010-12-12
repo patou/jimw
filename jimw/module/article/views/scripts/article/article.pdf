@@ -4,4 +4,4 @@ $pdf = new Jimw_Pdf();
 $response = Zend_Controller_Front::getInstance()->getResponse();
 $response->setHeader('Content-type', 'application/pdf; charset: UTF-8');
 $response->setHeader('Content-disposition', 'inline; filename='.$this->tree->alias.'.pdf');
-echo $pdf->render($this->tree->alias, $this->tree->menutitle, $this->tree->pagetitle, $this->article->content);
+$pdf->render($this->tree->alias, $this->tree->menutitle, $this->tree->pagetitle, $this->article->content);
