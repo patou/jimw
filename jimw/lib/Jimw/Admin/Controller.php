@@ -32,7 +32,7 @@ class Jimw_Admin_Controller extends Jimw_Controller
         $dir = new DirectoryIterator(JIMW_REP_LIB . 'Jimw/Admin/Plugin');
         if ($dir->valid()) {
             foreach ($dir as $plugin) {
-                if (! $dir->isDot() && ereg("^(.*)\.php$", $plugin, $plugin_info)) {
+                if (! $dir->isDot() && preg_match("/^(.*)\.php$/", $plugin, $plugin_info)) {
                     include_once (JIMW_REP_LIB . 'Jimw/Admin/Plugin/' . $plugin);
                     $class_name = "Jimw_Admin_Plugin_${plugin_info[1]}";
                     if (class_exists($class_name)) {
