@@ -90,6 +90,9 @@ else
 Zend_Session::start();
 $session = new Zend_Session_Namespace('Jimw');
 
+$cache = Zend_Cache::factory('Core', 'File', array('automatic_serialization' => true), array('cache_dir' => JIMW_REP_CACHE . 'jimw'));
+Zend_Locale::setCache($cache);
+
 if (!JIMW_DEBUG) {
     $cache = Zend_Cache::factory('Core', 'File', array('automatic_serialization' => true), array('cache_dir' => JIMW_REP_CACHE . 'db'));
     Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
