@@ -12,13 +12,13 @@ foreach ($this->flashmessenger as $message)
     echo $message . '<br />';
 ?>
 <?php
- $this->accordionPane('tree_accordion', $this->form->render(), array('title' => 'Information générale'));
+ $this->tabPane('tree_accordion', $this->form->render(), array('title' => 'Information générale'));
  $active = 0;
  if (isset($this->edit_form)) {
-     $this->accordionPane('tree_accordion', $this->edit_form, array('title' => 'Module ' . $this->tree->module_path));
+     $this->tabPane('tree_accordion', $this->edit_form, array('title' => 'Module ' . $this->tree->module_path));
      $active = 1;
  }
- echo $this->accordionContainer('tree_accordion', array('active' => $active, 'autoHeight' => true));
+ echo $this->tabContainer('tree_accordion', array('selected' => $active, 'autoHeight' => true));
 ?>
 <br style="clear: both;" />
 <p class="t01" style="font-size: 12px;">
